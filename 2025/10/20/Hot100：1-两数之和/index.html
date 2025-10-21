@@ -1,0 +1,493 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hot100：1.两数之和 | 好困的博客</title><meta name="author" content="好困3127"><meta name="copyright" content="好困3127"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="LeetCode Hot100 系列 - 两数之和问题的两种解法详解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hot100：1.两数之和">
+<meta property="og:url" content="https://haokun3127.github.io/blog/2025/10/20/Hot100%EF%BC%9A1-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/index.html">
+<meta property="og:site_name" content="好困的博客">
+<meta property="og:description" content="LeetCode Hot100 系列 - 两数之和问题的两种解法详解">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800">
+<meta property="article:published_time" content="2025-10-20T09:31:31.000Z">
+<meta property="article:modified_time" content="2025-10-21T10:53:23.592Z">
+<meta property="article:author" content="好困3127">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="LeetCode">
+<meta property="article:tag" content="Hot100">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Hot100：1.两数之和",
+  "url": "https://haokun3127.github.io/blog/2025/10/20/Hot100%EF%BC%9A1-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/",
+  "image": "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800",
+  "datePublished": "2025-10-20T09:31:31.000Z",
+  "dateModified": "2025-10-21T10:53:23.592Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "好困3127",
+      "url": "https://haokun3127.github.io/blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/blog/img/favicon.png"><link rel="canonical" href="https://haokun3127.github.io/blog/2025/10/20/Hot100%EF%BC%9A1-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/blog/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0f172a')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hot100：1.两数之和',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style>.recent-posts>.recent-post-item{width:100%!important;max-width:100%!important;margin-bottom:2rem!important;}.recent-posts{display:flex!important;flex-direction:column!important;}</style><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/blog/"><span class="site-name">好困的博客</span></a><a class="nav-page-title" href="/blog/"><span class="site-name">Hot100：1.两数之和</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Hot100：1.两数之和</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-10-20T09:31:31.000Z" title="发表于 2025-10-20 17:31:31">2025-10-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-21T10:53:23.592Z" title="更新于 2025-10-21 18:53:23">2025-10-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/blog/categories/%E7%AE%97%E6%B3%95/">算法</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>给定一个整数数组 <code>nums</code> 和一个整数目标值 <code>target</code>，请你在该数组中找出和为目标值 <code>target</code> 的那两个整数，并返回它们的数组下标。</p>
+<p><strong>要求：</strong></p>
+<ul>
+<li>你可以假设每种输入只会对应一个答案</li>
+<li>但是，数组中同一个元素在答案里不能重复出现</li>
+<li>你可以按任意顺序返回答案</li>
+</ul>
+<p><strong>示例：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [2,7,11,15], target = 9</span><br><span class="line">输出：[0,1]</span><br><span class="line">解释：因为 nums[0] + nums[1] == 9，返回 [0, 1]</span><br></pre></td></tr></table></figure>
+
+<h2 id="解法一：哈希表（推荐）"><a href="#解法一：哈希表（推荐）" class="headerlink" title="解法一：哈希表（推荐）"></a>解法一：哈希表（推荐）</h2><h3 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h3><p>使用哈希表可以将寻找 <code>target - x</code> 的时间复杂度从 O(N) 降低到 O(1)，这是最优的解法。</p>
+<p><strong>核心思想：</strong></p>
+<ol>
+<li>创建一个哈希表用于存储已遍历过的元素及其索引</li>
+<li>对于每一个元素 <code>x</code>，首先查询哈希表中是否存在 <code>target - x</code></li>
+<li>如果存在，说明找到了答案，返回两个索引</li>
+<li>如果不存在，将 <code>x</code> 和它的索引插入到哈希表中</li>
+<li>这样可以保证不会让元素和自己匹配</li>
+</ol>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> hot100;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TwoSum1</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 初始化数组 nums 和目标值 target</span></span><br><span class="line">        <span class="type">int</span>[] nums = &#123;<span class="number">2</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">15</span>&#125;;</span><br><span class="line">        <span class="type">int</span> <span class="variable">target</span> <span class="operator">=</span> <span class="number">22</span>;</span><br><span class="line">        <span class="comment">// 调用 twoSum1 方法，获取结果数组 res</span></span><br><span class="line">        <span class="type">int</span>[] res = twoSum1(nums, target);</span><br><span class="line">        <span class="comment">// 打印结果数组 res</span></span><br><span class="line">        System.out.println(<span class="string">&quot;[&quot;</span> + res[<span class="number">0</span>] + <span class="string">&quot;, &quot;</span> + res[<span class="number">1</span>] + <span class="string">&quot;]&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 方法一：哈希表</span></span><br><span class="line"><span class="comment">     * 思路及算法：使用哈希表将寻找 target - x 的时间复杂度从 O(N) 降低到 O(1)</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> nums   整数数组</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> target 目标值</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 包含两个整数下标的数组</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span>[] twoSum1(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        <span class="comment">// 初始化哈希表 map，用于存储数组元素和其下标</span></span><br><span class="line">        <span class="comment">// Key 为数组元素，Value 为数组元素的下标</span></span><br><span class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 遍历数组 nums</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="comment">// 判断哈希表 map 是否包含目标值 target 减去当前元素 nums[i] 的结果</span></span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(target - nums[i])) &#123;</span><br><span class="line">                <span class="comment">// 如果包含，则返回当前元素 nums[i] 的下标 i 和 </span></span><br><span class="line">                <span class="comment">// 目标值 target 减去当前元素 nums[i] 的结果的下标</span></span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[] &#123;map.get(target - nums[i]), i&#125;;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 如果不包含，则将当前元素 nums[i] 和其下标 i 放入哈希表 map 中</span></span><br><span class="line">                map.put(nums[i], i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 如果遍历完数组 nums 仍未找到符合条件的两个元素，则抛出异常</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;No two sum solution&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="执行过程示例"><a href="#执行过程示例" class="headerlink" title="执行过程示例"></a>执行过程示例</h3><p>以 <code>nums = [2, 7, 11, 15]</code>, <code>target = 9</code> 为例：</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>i</th>
+<th>nums[i]</th>
+<th>target - nums[i]</th>
+<th>map 中是否存在?</th>
+<th>map 内容</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>0</td>
+<td>2</td>
+<td>7</td>
+<td>❌</td>
+<td>{2: 0}</td>
+<td>将 (2, 0) 存入 map</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>7</td>
+<td>2</td>
+<td>✅</td>
+<td>{2: 0}</td>
+<td>找到答案！返回 [0, 1]</td>
+</tr>
+</tbody></table>
+<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><ul>
+<li><p><strong>时间复杂度：O(N)</strong></p>
+<ul>
+<li>其中 N 是数组中的元素数量</li>
+<li>对于每一个元素 x，我们可以 O(1) 地寻找 <code>target - x</code></li>
+<li>只需要遍历一次数组</li>
+</ul>
+</li>
+<li><p><strong>空间复杂度：O(N)</strong></p>
+<ul>
+<li>其中 N 是数组中的元素数量</li>
+<li>主要为哈希表的开销</li>
+<li>最坏情况下需要存储 N-1 个元素</li>
+</ul>
+</li>
+</ul>
+<h2 id="解法二：暴力枚举"><a href="#解法二：暴力枚举" class="headerlink" title="解法二：暴力枚举"></a>解法二：暴力枚举</h2><h3 id="思路分析-1"><a href="#思路分析-1" class="headerlink" title="思路分析"></a>思路分析</h3><p>最容易想到的方法是枚举数组中的每一个数 <code>x</code>，然后遍历整个数组寻找是否存在 <code>target - x</code>。</p>
+<p><strong>核心思想：</strong></p>
+<ol>
+<li>使用双层循环遍历所有可能的两数组合</li>
+<li>外层循环遍历第一个数 <code>nums[i]</code></li>
+<li>内层循环从 <code>i + 1</code> 开始遍历第二个数 <code>nums[j]</code></li>
+<li>判断 <code>nums[i] + nums[j]</code> 是否等于 <code>target</code></li>
+<li>如果相等，返回索引 <code>[i, j]</code></li>
+</ol>
+<p><strong>优化点：</strong></p>
+<ul>
+<li>内层循环从 <code>i + 1</code> 开始，避免重复匹配</li>
+<li>每个元素不能被使用两次</li>
+</ul>
+<h3 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> hot100;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TwoSum2</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 初始化数组 nums 和目标值 target</span></span><br><span class="line">        <span class="type">int</span>[] nums = &#123;<span class="number">2</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">15</span>&#125;;</span><br><span class="line">        <span class="type">int</span> <span class="variable">target</span> <span class="operator">=</span> <span class="number">13</span>;</span><br><span class="line">        <span class="comment">// 调用 twoSum2 方法，获取结果数组 res</span></span><br><span class="line">        <span class="type">int</span>[] res = twoSum2(nums, target);</span><br><span class="line">        <span class="comment">// 打印结果数组 res</span></span><br><span class="line">        System.out.println(<span class="string">&quot;[&quot;</span> + res[<span class="number">0</span>] + <span class="string">&quot;, &quot;</span> + res[<span class="number">1</span>] + <span class="string">&quot;]&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 方法二：暴力枚举</span></span><br><span class="line"><span class="comment">     * 思路及算法：枚举数组中的每一个数 x，寻找数组中是否存在 target - x</span></span><br><span class="line"><span class="comment">     * 注意：每一个位于 x 之前的元素都已经和 x 匹配过，因此不需要再进行匹配</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> nums   整数数组</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> target 目标值</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 包含两个整数下标的数组，如果没有找到则返回 null</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span>[] twoSum2(<span class="type">int</span>[] nums, <span class="type">int</span> target) &#123;</span><br><span class="line">        <span class="comment">// 初始化数组长度 n</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 遍历数组 nums</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            <span class="comment">// 遍历数组 nums 中当前元素 i 后面的元素</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + <span class="number">1</span>; j &lt; n; ++j) &#123;</span><br><span class="line">                <span class="comment">// 判断当前元素 i 和元素 j 的和是否等于目标值 target</span></span><br><span class="line">                <span class="keyword">if</span> (nums[i] + nums[j] == target) &#123;</span><br><span class="line">                    <span class="comment">// 如果等于目标值 target，则返回当前元素 i 和元素 j 的下标</span></span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, j&#125;;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 如果没有找到符合条件的两个元素，返回 null</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="执行过程示例-1"><a href="#执行过程示例-1" class="headerlink" title="执行过程示例"></a>执行过程示例</h3><p>以 <code>nums = [2, 7, 11, 15]</code>, <code>target = 13</code> 为例：</p>
+<table>
+<thead>
+<tr>
+<th>i</th>
+<th>j</th>
+<th>nums[i]</th>
+<th>nums[j]</th>
+<th>nums[i] + nums[j]</th>
+<th>是否等于 target?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>7</td>
+<td>9</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>0</td>
+<td>2</td>
+<td>2</td>
+<td>11</td>
+<td>13</td>
+<td>✅ 返回 [0, 2]</td>
+</tr>
+</tbody></table>
+<h3 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><ul>
+<li><p><strong>时间复杂度：O(N²)</strong></p>
+<ul>
+<li>其中 N 是数组中的元素数量</li>
+<li>最坏情况下数组中任意两个数都要被匹配一次</li>
+<li>外层循环 N 次，内层循环平均 N&#x2F;2 次</li>
+</ul>
+</li>
+<li><p><strong>空间复杂度：O(1)</strong></p>
+<ul>
+<li>只使用了常数级别的额外空间</li>
+</ul>
+</li>
+</ul>
+<h2 id="两种方法对比"><a href="#两种方法对比" class="headerlink" title="两种方法对比"></a>两种方法对比</h2><h3 id="性能对比"><a href="#性能对比" class="headerlink" title="性能对比"></a>性能对比</h3><table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>哈希表法</th>
+<th>暴力枚举法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>时间复杂度</td>
+<td>O(N)</td>
+<td>O(N²)</td>
+</tr>
+<tr>
+<td>空间复杂度</td>
+<td>O(N)</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>大数据量</td>
+<td>小数据量</td>
+</tr>
+<tr>
+<td>实现难度</td>
+<td>中等</td>
+<td>简单</td>
+</tr>
+</tbody></table>
+<h3 id="优缺点分析"><a href="#优缺点分析" class="headerlink" title="优缺点分析"></a>优缺点分析</h3><p><strong>哈希表法：</strong></p>
+<ul>
+<li>✅ 时间效率高，适合大规模数据</li>
+<li>✅ 只需遍历一次数组</li>
+<li>❌ 需要额外的空间存储哈希表</li>
+<li>❌ 实现相对复杂</li>
+</ul>
+<p><strong>暴力枚举法：</strong></p>
+<ul>
+<li>✅ 实现简单，易于理解</li>
+<li>✅ 不需要额外空间</li>
+<li>❌ 时间复杂度高，数据量大时性能差</li>
+<li>❌ 需要嵌套循环</li>
+</ul>
+<h3 id="性能测试对比"><a href="#性能测试对比" class="headerlink" title="性能测试对比"></a>性能测试对比</h3><p>假设数组长度为 N：</p>
+<table>
+<thead>
+<tr>
+<th>数组长度</th>
+<th>哈希表法耗时</th>
+<th>暴力枚举法耗时</th>
+<th>性能差距</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>100</td>
+<td>~1ms</td>
+<td>~10ms</td>
+<td>10倍</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>~10ms</td>
+<td>~1000ms</td>
+<td>100倍</td>
+</tr>
+<tr>
+<td>10000</td>
+<td>~100ms</td>
+<td>~100000ms</td>
+<td>1000倍</td>
+</tr>
+</tbody></table>
+<h2 id="关键知识点"><a href="#关键知识点" class="headerlink" title="关键知识点"></a>关键知识点</h2><h3 id="HashMap-核心操作详解"><a href="#HashMap-核心操作详解" class="headerlink" title="HashMap 核心操作详解"></a>HashMap 核心操作详解</h3><p><strong>1. 哈希表的数据结构设计</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Key 为数组元素值，Value 为数组元素的索引</span></span><br><span class="line">Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br></pre></td></tr></table></figure>
+
+<p><strong>2. 核心方法的实际应用</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 检查是否存在互补数</span></span><br><span class="line"><span class="keyword">if</span> (map.containsKey(target - nums[i])) &#123;</span><br><span class="line">    <span class="comment">// 获取互补数的索引位置</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">complementIndex</span> <span class="operator">=</span> map.get(target - nums[i]);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[] &#123;complementIndex, i&#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 存储当前元素及其索引，为后续查找提供目标</span></span><br><span class="line">map.put(nums[i], i);</span><br></pre></td></tr></table></figure>
+
+<p><strong>3. 算法优化的核心原理</strong></p>
+<ul>
+<li><strong>传统查找</strong>: 在数组中线性查找 <code>target - x</code> 需要 O(N) 时间</li>
+<li><strong>哈希表查找</strong>: 在哈希表中查找 <code>target - x</code> 只需要 O(1) 时间</li>
+<li><strong>关键优化</strong>: 将 O(N) 的查找操作转换为 O(1) 的哈希查找</li>
+</ul>
+<h3 id="代码实现细节深度分析"><a href="#代码实现细节深度分析" class="headerlink" title="代码实现细节深度分析"></a>代码实现细节深度分析</h3><p><strong>1. 为什么要先查找再插入？</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 正确的顺序：先查找，再插入</span></span><br><span class="line"><span class="keyword">if</span> (map.containsKey(target - nums[i])) &#123;</span><br><span class="line">    <span class="comment">// 找到答案，避免元素与自己匹配</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[] &#123;map.get(target - nums[i]), i&#125;;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 将当前元素存入哈希表，为后续元素提供查找目标</span></span><br><span class="line">    map.put(nums[i], i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>2. 暴力枚举的关键优化技巧</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 外层循环：遍历每个元素作为第一个数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">    <span class="comment">// 内层循环：从 i+1 开始，避免重复匹配和自我匹配</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + <span class="number">1</span>; j &lt; n; ++j) &#123;</span><br><span class="line">        <span class="comment">// 这样确保每对数字只被检查一次</span></span><br><span class="line">        <span class="keyword">if</span> (nums[i] + nums[j] == target) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;i, j&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3. 异常处理的不同策略</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 哈希表方法：抛出运行时异常</span></span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;No two sum solution&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 暴力枚举方法：返回 null 值</span></span><br><span class="line"><span class="keyword">return</span> <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="复杂度深入分析"><a href="#复杂度深入分析" class="headerlink" title="复杂度深入分析"></a>复杂度深入分析</h3><p><strong>时间复杂度详细对比：</strong></p>
+<ul>
+<li><p><strong>哈希表方法</strong>: O(N) </p>
+<ul>
+<li>单次遍历数组：N 次迭代</li>
+<li>每次哈希查找：O(1) 平均时间</li>
+<li>总时间：N × O(1) &#x3D; O(N)</li>
+</ul>
+</li>
+<li><p><strong>暴力枚举</strong>: O(N²)</p>
+<ul>
+<li>外层循环：N 次迭代</li>
+<li>内层循环：平均 N&#x2F;2 次迭代</li>
+<li>总时间：N × N&#x2F;2 &#x3D; O(N²)</li>
+</ul>
+</li>
+</ul>
+<p><strong>空间复杂度详细对比：</strong></p>
+<ul>
+<li><strong>哈希表方法</strong>: O(N) - 最坏情况下存储 N-1 个元素</li>
+<li><strong>暴力枚举</strong>: O(1) - 只使用几个变量的额外空间</li>
+</ul>
+<p><strong>实际性能差异：</strong></p>
+<ul>
+<li>N &#x3D; 100: 哈希表 100 次操作 vs 暴力枚举 5,000 次操作</li>
+<li>N &#x3D; 1,000: 哈希表 1,000 次操作 vs 暴力枚举 500,000 次操作  </li>
+<li>N &#x3D; 10,000: 哈希表 10,000 次操作 vs 暴力枚举 50,000,000 次操作</li>
+</ul>
+<h2 id="学习总结"><a href="#学习总结" class="headerlink" title="学习总结"></a>学习总结</h2><h3 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h3><ol>
+<li><p><strong>以空间换时间</strong></p>
+<ul>
+<li>哈希表法通过使用额外的空间（O(N)）来换取时间效率的提升（从 O(N²) 到 O(N)）</li>
+<li>这是算法优化中的常见策略</li>
+</ul>
+</li>
+<li><p><strong>查找优化</strong></p>
+<ul>
+<li>将数组的线性查找（O(N)）优化为哈希表的常数时间查找（O(1)）</li>
+<li>HashMap 是解决查找问题的利器</li>
+</ul>
+</li>
+<li><p><strong>避免重复计算</strong></p>
+<ul>
+<li>暴力法中通过 <code>j = i + 1</code> 避免重复匹配</li>
+<li>哈希表法通过先查找再插入避免自身匹配</li>
+</ul>
+</li>
+</ol>
+<h2 id="实践建议与编程技巧"><a href="#实践建议与编程技巧" class="headerlink" title="实践建议与编程技巧"></a>实践建议与编程技巧</h2><h3 id="基于实际代码的学习要点"><a href="#基于实际代码的学习要点" class="headerlink" title="基于实际代码的学习要点"></a>基于实际代码的学习要点</h3><p><strong>1. 注释的重要性</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 您的代码展示了良好的注释习惯：</span></span><br><span class="line"><span class="comment">// 初始化数组 nums 和目标值 target</span></span><br><span class="line"><span class="type">int</span>[] nums = &#123;<span class="number">2</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">15</span>&#125;;</span><br><span class="line"><span class="type">int</span> <span class="variable">target</span> <span class="operator">=</span> <span class="number">22</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>清晰的注释有助于理解算法逻辑</li>
+<li>特别是在复杂的哈希表操作中，注释能帮助理解每一步的目的</li>
+</ul>
+<p><strong>2. 方法设计的最佳实践</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 方法一：哈希表</span></span><br><span class="line"><span class="comment"> * 思路及算法：使用哈希表将寻找 target - x 的时间复杂度从 O(N) 降低到 O(1)</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> nums   整数数组</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> target 目标值</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 包含两个整数下标的数组</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用 JavaDoc 格式的方法注释</li>
+<li>明确参数和返回值的含义</li>
+<li>说明算法的核心思想</li>
+</ul>
+<p><strong>3. 测试用例的选择技巧</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TwoSum1.java 中使用 target = 22，测试无解情况</span></span><br><span class="line"><span class="comment">// TwoSum2.java 中使用 target = 13，测试有解情况</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试边界情况和正常情况</li>
+<li>验证异常处理机制</li>
+</ul>
+<h3 id="进阶练习建议"><a href="#进阶练习建议" class="headerlink" title="进阶练习建议"></a>进阶练习建议</h3><p><strong>1. 算法理解层面</strong></p>
+<ul>
+<li>手动模拟哈希表的查找过程</li>
+<li>分析为什么哈希表能将查找时间降到 O(1)</li>
+<li>理解”以空间换时间”的算法设计思想</li>
+</ul>
+<p><strong>2. 代码实现层面</strong></p>
+<ul>
+<li>尝试不同的异常处理方式</li>
+<li>实现多种输出格式（如您代码中的不同打印方式）</li>
+<li>优化代码的可读性和维护性</li>
+</ul>
+<p><strong>3. 扩展思考</strong></p>
+<ul>
+<li>如果要求返回元素值而不是索引怎么办？</li>
+<li>如果数组中有重复元素怎么处理？</li>
+<li>如果有多个解怎么处理？</li>
+<li>如何处理整数溢出的情况？</li>
+</ul>
+<p><strong>4. 性能优化思考</strong></p>
+<ul>
+<li>在什么情况下暴力枚举可能更优？（如数组很小时）</li>
+<li>如何选择合适的 HashMap 初始容量？</li>
+<li>是否可以进一步优化空间使用？</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>两数之和问题是学习算法的经典入门题目，通过这道题我们学到了：</p>
+<ol>
+<li><strong>算法优化的核心思想</strong>：以空间换时间，将 O(N²) 优化到 O(N)</li>
+<li><strong>数据结构的重要性</strong>：HashMap 在解决查找问题中的强大作用</li>
+<li><strong>代码实现的细节</strong>：异常处理、边界条件、注释规范等</li>
+<li><strong>复杂度分析</strong>：理论分析与实际性能的对应关系</li>
+</ol>
+<p>这道题为后续学习更复杂的算法和数据结构打下了坚实的基础。建议多动手实践，深入理解每一个实现细节。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog">好困3127</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog/2025/10/20/Hot100%EF%BC%9A1-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/">https://haokun3127.github.io/blog/2025/10/20/Hot100%EF%BC%9A1-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://haokun3127.github.io/blog" target="_blank">好困的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/blog/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/blog/tags/LeetCode/">LeetCode</a><a class="post-meta__tags" href="/blog/tags/Hot100/">Hot100</a></div><div class="post-share"><div class="social-share" data-image="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/blog/2025/10/20/Hot100%EF%BC%9A2-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" title="Hot100：2.字母异位词分组"><img class="cover" src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="onerror=null;src='/blog/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Hot100：2.字母异位词分组</div></div><div class="info-2"><div class="info-item-1">问题描述给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。 字母异位词 是由重新排列源单词的所有字母得到的一个新单词。 示例 1： 12输入: strs = [&quot;eat&quot;,&quot;tea&quot;,&quot;tan&quot;,&quot;ate&quot;,&quot;nat&quot;,&quot;bat&quot;]输出: [[...</div></div></div></a><a class="pagination-related" href="/blog/2025/10/20/JavaSE%E9%98%B6%E6%AE%B5%E6%80%A7%E6%80%BB%E7%BB%93%EF%BC%88%E4%BA%94%EF%BC%89%E9%A1%B9%E7%9B%AE%EF%BC%9A%E5%AD%A6%E7%94%9F%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" title="JavaSE阶段性总结（五）项目：学生管理系统"><img class="cover" src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="onerror=null;src='/blog/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">JavaSE阶段性总结（五）项目：学生管理系统</div></div><div class="info-2"><div class="info-item-1">ArrayList集合和数组的优势对比 长度可变 添加数据的时候不需要考虑索引，默认将数据添加到末尾  ArrayList 类概述什么是集合 提供一种存储空间可变的存储模型，存储的数据容量可以发生改变。 ArrayList 集合的特点  长度可以变化 只能存储引用数据类型  泛型的使用 用于约束集合中存储元素的数据类型。 ArrayList 类常用方法构造方法   方法名 说明    pub...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/blog/2025/10/20/Hot100%EF%BC%9A2-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" title="Hot100：2.字母异位词分组"><img class="cover" src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-20</div><div class="info-item-2">Hot100：2.字母异位词分组</div></div><div class="info-2"><div class="info-item-1">问题描述给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。 字母异位词 是由重新排列源单词的所有字母得到的一个新单词。 示例 1： 12输入: strs = [&quot;eat&quot;,&quot;tea&quot;,&quot;tan&quot;,&quot;ate&quot;,&quot;nat&quot;,&quot;bat&quot;]输出: [[...</div></div></div></a><a class="pagination-related" href="/blog/2025/10/21/Hot100%EF%BC%9A3-%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" title="Hot100：3.最长连续序列"><img class="cover" src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-21</div><div class="info-item-2">Hot100：3.最长连续序列</div></div><div class="info-2"><div class="info-item-1">问题描述给定一个未排序的整数数组 nums，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。 请你设计并实现时间复杂度为 O(n) 的算法解决此问题。 示例 1： 123输入：nums = [100,4,200,1,3,2]输出：4解释：最长数字连续序列是 [1, 2, 3, 4]。它的长度为 4。  示例 2： 12输入：nums = [0,3,7,2,5,8,4,6,0,1...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">好困3127</div><div class="author-info-description">Java 后端开发 / 热爱技术 / 持续学习</div><div class="site-data"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/haokun3127"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/haokun3127" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:haokun3127@example.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=你的QQ号" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #12B7F5;"></i></a><a class="social-icon" href="/blog/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #FFA500;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">📝 记录学习 · 分享成长 · 共同进步</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80%EF%BC%9A%E5%93%88%E5%B8%8C%E8%A1%A8%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">解法一：哈希表（推荐）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90"><span class="toc-number">2.1.</span> <span class="toc-text">思路分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.2.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E7%A4%BA%E4%BE%8B"><span class="toc-number">2.3.</span> <span class="toc-text">执行过程示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="toc-number">2.4.</span> <span class="toc-text">复杂度分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%BA%8C%EF%BC%9A%E6%9A%B4%E5%8A%9B%E6%9E%9A%E4%B8%BE"><span class="toc-number">3.</span> <span class="toc-text">解法二：暴力枚举</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90-1"><span class="toc-number">3.1.</span> <span class="toc-text">思路分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-1"><span class="toc-number">3.2.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E7%A4%BA%E4%BE%8B-1"><span class="toc-number">3.3.</span> <span class="toc-text">执行过程示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90-1"><span class="toc-number">3.4.</span> <span class="toc-text">复杂度分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95%E5%AF%B9%E6%AF%94"><span class="toc-number">4.</span> <span class="toc-text">两种方法对比</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94"><span class="toc-number">4.1.</span> <span class="toc-text">性能对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9%E5%88%86%E6%9E%90"><span class="toc-number">4.2.</span> <span class="toc-text">优缺点分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%AF%B9%E6%AF%94"><span class="toc-number">4.3.</span> <span class="toc-text">性能测试对比</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">5.</span> <span class="toc-text">关键知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HashMap-%E6%A0%B8%E5%BF%83%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3"><span class="toc-number">5.1.</span> <span class="toc-text">HashMap 核心操作详解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82%E6%B7%B1%E5%BA%A6%E5%88%86%E6%9E%90"><span class="toc-number">5.2.</span> <span class="toc-text">代码实现细节深度分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90"><span class="toc-number">5.3.</span> <span class="toc-text">复杂度深入分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">学习总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3"><span class="toc-number">6.1.</span> <span class="toc-text">算法思想</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5%E5%BB%BA%E8%AE%AE%E4%B8%8E%E7%BC%96%E7%A8%8B%E6%8A%80%E5%B7%A7"><span class="toc-number">7.</span> <span class="toc-text">实践建议与编程技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%AE%9E%E9%99%85%E4%BB%A3%E7%A0%81%E7%9A%84%E5%AD%A6%E4%B9%A0%E8%A6%81%E7%82%B9"><span class="toc-number">7.1.</span> <span class="toc-text">基于实际代码的学习要点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E9%98%B6%E7%BB%83%E4%B9%A0%E5%BB%BA%E8%AE%AE"><span class="toc-number">7.2.</span> <span class="toc-text">进阶练习建议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/21/Hot100%EF%BC%9A3-%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" title="Hot100：3.最长连续序列"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="Hot100：3.最长连续序列"/></a><div class="content"><a class="title" href="/blog/2025/10/21/Hot100%EF%BC%9A3-%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" title="Hot100：3.最长连续序列">Hot100：3.最长连续序列</a><time datetime="2025-10-21T09:30:02.000Z" title="发表于 2025-10-21 17:30:02">2025-10-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/21/JavaSE%E9%98%B6%E6%AE%B5%E6%80%A7%E6%80%BB%E7%BB%93%EF%BC%88%E5%85%AD%EF%BC%89Day13-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%BF%9B%E9%98%B6%EF%BC%88static-%E7%BB%A7%E6%89%BF%EF%BC%89/" title="JavaSE阶段性总结（六）Day13 面向对象进阶（static&amp;继承）"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="JavaSE阶段性总结（六）Day13 面向对象进阶（static&amp;继承）"/></a><div class="content"><a class="title" href="/blog/2025/10/21/JavaSE%E9%98%B6%E6%AE%B5%E6%80%A7%E6%80%BB%E7%BB%93%EF%BC%88%E5%85%AD%EF%BC%89Day13-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%BF%9B%E9%98%B6%EF%BC%88static-%E7%BB%A7%E6%89%BF%EF%BC%89/" title="JavaSE阶段性总结（六）Day13 面向对象进阶（static&amp;继承）">JavaSE阶段性总结（六）Day13 面向对象进阶（static&amp;继承）</a><time datetime="2025-10-21T08:31:36.000Z" title="发表于 2025-10-21 16:31:36">2025-10-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/20/Hot100%EF%BC%9A2-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" title="Hot100：2.字母异位词分组"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="Hot100：2.字母异位词分组"/></a><div class="content"><a class="title" href="/blog/2025/10/20/Hot100%EF%BC%9A2-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" title="Hot100：2.字母异位词分组">Hot100：2.字母异位词分组</a><time datetime="2025-10-20T10:00:00.000Z" title="发表于 2025-10-20 18:00:00">2025-10-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/20/Hot100%EF%BC%9A1-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" title="Hot100：1.两数之和"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="Hot100：1.两数之和"/></a><div class="content"><a class="title" href="/blog/2025/10/20/Hot100%EF%BC%9A1-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" title="Hot100：1.两数之和">Hot100：1.两数之和</a><time datetime="2025-10-20T09:31:31.000Z" title="发表于 2025-10-20 17:31:31">2025-10-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/20/JavaSE%E9%98%B6%E6%AE%B5%E6%80%A7%E6%80%BB%E7%BB%93%EF%BC%88%E4%BA%94%EF%BC%89%E9%A1%B9%E7%9B%AE%EF%BC%9A%E5%AD%A6%E7%94%9F%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" title="JavaSE阶段性总结（五）项目：学生管理系统"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="JavaSE阶段性总结（五）项目：学生管理系统"/></a><div class="content"><a class="title" href="/blog/2025/10/20/JavaSE%E9%98%B6%E6%AE%B5%E6%80%A7%E6%80%BB%E7%BB%93%EF%BC%88%E4%BA%94%EF%BC%89%E9%A1%B9%E7%9B%AE%EF%BC%9A%E5%AD%A6%E7%94%9F%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" title="JavaSE阶段性总结（五）项目：学生管理系统">JavaSE阶段性总结（五）项目：学生管理系统</a><time datetime="2025-10-20T07:34:09.000Z" title="发表于 2025-10-20 15:34:09">2025-10-20</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By 好困3127</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/blog/js/utils.js?v=5.5.1"></script><script src="/blog/js/main.js?v=5.5.1"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="99,102,241" opacity="0.3" zIndex="-1" count="50" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
