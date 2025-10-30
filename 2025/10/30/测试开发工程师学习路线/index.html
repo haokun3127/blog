@@ -1,0 +1,935 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>测试开发工程师学习路线 | 好困的博客</title><meta name="author" content="好困3127"><meta name="copyright" content="好困3127"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一份完整的测试开发工程师学习路线图，从入门到进阶，涵盖编程语言、计算机基础、自动化测试、项目实战等全方位内容">
+<meta property="og:type" content="article">
+<meta property="og:title" content="测试开发工程师学习路线">
+<meta property="og:url" content="https://haokun3127.github.io/blog/2025/10/30/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/index.html">
+<meta property="og:site_name" content="好困的博客">
+<meta property="og:description" content="一份完整的测试开发工程师学习路线图，从入门到进阶，涵盖编程语言、计算机基础、自动化测试、项目实战等全方位内容">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800">
+<meta property="article:published_time" content="2025-10-30T08:00:00.000Z">
+<meta property="article:modified_time" content="2025-10-30T09:02:29.546Z">
+<meta property="article:author" content="好困3127">
+<meta property="article:tag" content="测试开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "测试开发工程师学习路线",
+  "url": "https://haokun3127.github.io/blog/2025/10/30/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/",
+  "image": "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800",
+  "datePublished": "2025-10-30T08:00:00.000Z",
+  "dateModified": "2025-10-30T09:02:29.546Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "好困3127",
+      "url": "https://haokun3127.github.io/blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/blog/img/favicon.png"><link rel="canonical" href="https://haokun3127.github.io/blog/2025/10/30/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/blog/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0f172a')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '测试开发工程师学习路线',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style>.recent-posts>.recent-post-item{width:100%!important;max-width:100%!important;margin-bottom:2rem!important;}.recent-posts{display:flex!important;flex-direction:column!important;}</style><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/blog/"><span class="site-name">好困的博客</span></a><a class="nav-page-title" href="/blog/"><span class="site-name">测试开发工程师学习路线</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">测试开发工程师学习路线</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-10-30T08:00:00.000Z" title="发表于 2025-10-30 16:00:00">2025-10-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-30T09:02:29.546Z" title="更新于 2025-10-30 17:02:29">2025-10-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/blog/categories/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91/">测试开发</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="🎯-阶段0：前言（必看）"><a href="#🎯-阶段0：前言（必看）" class="headerlink" title="🎯 阶段0：前言（必看）"></a>🎯 阶段0：前言（必看）</h1><h2 id="符号标记说明"><a href="#符号标记说明" class="headerlink" title="符号标记说明"></a>符号标记说明</h2><ul>
+<li>⭐ 表示非常重要，所有需要学习</li>
+<li>🔸 非常着急找工作可以先跳过，但内容还是比较重要，时间充裕需要学习</li>
+<li>💡 了解即可，不强制要求掌握</li>
+<li>📚 表示优质资源，推荐使用或者阅读观看</li>
+</ul>
+<hr>
+<h1 id="📖-阶段1：入门"><a href="#📖-阶段1：入门" class="headerlink" title="📖 阶段1：入门"></a>📖 阶段1：入门</h1><h2 id="编程语言"><a href="#编程语言" class="headerlink" title="编程语言"></a>编程语言</h2><h3 id="Java（1-2个月）⭐"><a href="#Java（1-2个月）⭐" class="headerlink" title="Java（1-2个月）⭐"></a>Java（1-2个月）⭐</h3><h4 id="核心知识点"><a href="#核心知识点" class="headerlink" title="核心知识点"></a>核心知识点</h4><p><strong>基础部分</strong></p>
+<ul>
+<li>数据类型（基本数据类型、引用数据类型）</li>
+<li>流程控制（判断、循环）</li>
+<li>面向对象<ul>
+<li>方法、类</li>
+<li>重载、重写</li>
+<li>封装、继承、多态</li>
+</ul>
+</li>
+<li>数组、枚举</li>
+<li>抽象类、接口</li>
+<li>集合类</li>
+<li>常用类（String、日期时间）</li>
+<li>泛型、注解</li>
+<li>多线程</li>
+<li>IO流、反射</li>
+<li>异常处理</li>
+</ul>
+<h4 id="📚-学习资源"><a href="#📚-学习资源" class="headerlink" title="📚 学习资源"></a>📚 学习资源</h4><p><strong>视频教程</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1fh411y7R8">韩顺平 - 零基础30天学会Java</a>（900多集，顺序安排很合理，通俗、有示例、有实战、有思想）</li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV18J411W7cE">黑马Java基础</a>（针对完全没有计算机基础的小白）</li>
+</ul>
+<p><strong>文档资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/java/java-tutorial.html">菜鸟教程</a>（可以在线练习）</li>
+<li><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1252599548343744">廖雪峰 Java 教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/judasn/IntelliJ-IDEA-Tutorial">IDEA 中文教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/454c71172c46">IDEA Mac 快捷键指南</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5de7cca0fefc">IDEA Win 常用快捷键</a></li>
+</ul>
+<p><strong>推荐书籍</strong></p>
+<ul>
+<li>《Head First Java》</li>
+<li>《JAVA核心技术(卷1)》</li>
+</ul>
+<h4 id="💼-经典面试题"><a href="#💼-经典面试题" class="headerlink" title="💼 经典面试题"></a>💼 经典面试题</h4><ul>
+<li>为什么重写 equals 还要重写 hashcode？</li>
+<li>&#x3D;&#x3D; 和 equals 比较的区别？</li>
+<li>final 关键字的作用？</li>
+<li>介绍 Java 的集合类</li>
+<li>ArrayList 和 LinkedList 的区别？</li>
+<li>多态如何实现，重载和重写的区别？</li>
+</ul>
+<hr>
+<h3 id="Python（1个月）⭐"><a href="#Python（1个月）⭐" class="headerlink" title="Python（1个月）⭐"></a>Python（1个月）⭐</h3><h4 id="核心知识点-1"><a href="#核心知识点-1" class="headerlink" title="核心知识点"></a>核心知识点</h4><p><strong>基础部分（14天）</strong></p>
+<ul>
+<li>Python 安装</li>
+<li>开发工具（PyCharm、Sublime、VS Code）</li>
+<li>变量（定义变量、关键字、命名规则、基本数据类型、类型转换）</li>
+<li>运算符和表达式</li>
+<li>流程控制（条件分支、循环）</li>
+<li>基本数据结构<ul>
+<li>字符串、列表、元组、集合、字典</li>
+</ul>
+</li>
+<li>函数<ul>
+<li>定义、参数传递、作用域</li>
+<li>lambda 表达式</li>
+<li>常用内置函数</li>
+</ul>
+</li>
+<li>面向对象编程<ul>
+<li>类和对象</li>
+<li>三大特性（封装、继承、多态）</li>
+<li>装饰器、反射</li>
+</ul>
+</li>
+<li>模块与包</li>
+<li>异常处理</li>
+<li>文件操作</li>
+</ul>
+<p><strong>进阶部分（20天）</strong></p>
+<ul>
+<li>函数进阶（闭包、匿名函数、生成器函数、装饰器、高阶函数）</li>
+<li>正则表达式</li>
+<li>数据库编程（数据库基础、SQL 编写、查询、事务、数据库设计、数据库调优）</li>
+<li>并发编程（同步异步、阻塞非阻塞、多线程、多进程、协程）</li>
+<li>网络编程（网络基础、网络协议、WebSocket）</li>
+</ul>
+<p><strong>常用库</strong></p>
+<ul>
+<li>Requests：网络请求</li>
+<li>openpyxl：Excel 读写库</li>
+<li>nose：测试工具</li>
+<li>faker &#x2F; datafaker：构造测试数据</li>
+</ul>
+<h4 id="📚-学习资源-1"><a href="#📚-学习资源-1" class="headerlink" title="📚 学习资源"></a>📚 学习资源</h4><p><strong>视频教程</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1R7411F7JV">千锋教育 700 集零基础 Python 教程</a>（非常全面，基础、web 开发、爬虫、数据分析、AI 基础都讲了）</li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ex411x7Em?p=1">黑马 Python 600集</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1wD4y1o7AS">Python 全栈开发教程</a>（案例多，适合快速入门）</li>
+</ul>
+<p><strong>推荐书籍</strong></p>
+<ul>
+<li>《Python编程：从入门到实践》</li>
+<li>《笨办法学Python3》</li>
+<li>《Python学习手册》</li>
+</ul>
+<p><strong>文档资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/python3/python3-tutorial.html">Python 入门教程（菜鸟教程）</a>（可以在线写代码练习）</li>
+<li><a target="_blank" rel="noopener" href="https://google.github.io/styleguide/pyguide.html">谷歌 Python 代码规范</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1016959663602400">廖雪峰 Python 入门教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/jackfrued/Python-100-Days">Python 100 天</a></li>
+<li><a target="_blank" rel="noopener" href="https://mofanpy.com/">莫烦 Python 教程</a></li>
+</ul>
+<p><strong>实战平台</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.lanqiao.cn/courses/?fee=free&tag=Python">蓝桥云课 Python 实战合集</a></li>
+</ul>
+<h4 id="💼-经典面试题-1"><a href="#💼-经典面试题-1" class="headerlink" title="💼 经典面试题"></a>💼 经典面试题</h4><ul>
+<li>Python 深拷贝、浅拷贝</li>
+<li>Python 的 list 和 tuple 区别</li>
+<li>Python 可变与不可变数据类型</li>
+</ul>
+<hr>
+<h1 id="💻-阶段2：基础"><a href="#💻-阶段2：基础" class="headerlink" title="💻 阶段2：基础"></a>💻 阶段2：基础</h1><h2 id="计算机基础"><a href="#计算机基础" class="headerlink" title="计算机基础"></a>计算机基础</h2><h3 id="数据结构与算法（持续学习）⭐"><a href="#数据结构与算法（持续学习）⭐" class="headerlink" title="数据结构与算法（持续学习）⭐"></a>数据结构与算法（持续学习）⭐</h3><h4 id="核心知识点-2"><a href="#核心知识点-2" class="headerlink" title="核心知识点"></a>核心知识点</h4><p><strong>数据结构</strong></p>
+<ul>
+<li>时间&#x2F;空间复杂度分析</li>
+<li>数组、字符串</li>
+<li>队列、栈、链表</li>
+<li>集合、哈希表</li>
+<li>树（二叉树、多叉树、字典树）</li>
+</ul>
+<p><strong>算法</strong></p>
+<ul>
+<li>排序、双指针、查找</li>
+<li>分治、动态规划、递归</li>
+<li>回溯、贪心、位运算</li>
+<li>DFS、BFS、图</li>
+</ul>
+<h4 id="📚-学习资源-2"><a href="#📚-学习资源-2" class="headerlink" title="📚 学习资源"></a>📚 学习资源</h4><p><strong>在线刷题</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/">LeetCode</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/leetbook/">LeetCode LeetBook</a></li>
+</ul>
+<p><strong>推荐书籍</strong></p>
+<ul>
+<li>《剑指 Offer》</li>
+<li>《漫画算法：小灰的算法之旅》</li>
+<li>《labuladong的算法小抄》</li>
+<li>《程序员代码面试指南》</li>
+</ul>
+<p><strong>视频教程</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1E4411H73v">尚硅谷 Java 数据结构与算法</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1a54y1b74k">Leetcode 真题解析</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1uA411N7c5">Python 数据结构与算法全套</a></li>
+</ul>
+<p><strong>可视化工具</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://visualgo.net/zh">VisuAlgo 数据结构和算法动态可视化</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cs.usfca.edu/~galles/visualization/Algorithms.html">数据结构可视化</a></li>
+</ul>
+<h4 id="💼-经典面试题-2"><a href="#💼-经典面试题-2" class="headerlink" title="💼 经典面试题"></a>💼 经典面试题</h4><p><strong>数据结构部分</strong></p>
+<ul>
+<li>栈和队列区别是什么？</li>
+<li>MySQL的底层是用的什么数据结构？</li>
+</ul>
+<p><strong>算法部分</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problem-list/2cktkvj/">LeetCode 精选 100 道</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problem-list/qg88wci/">LeetCode 精选算法 200 题</a></li>
+</ul>
+<hr>
+<h3 id="计算机网络（1个月）⭐"><a href="#计算机网络（1个月）⭐" class="headerlink" title="计算机网络（1个月）⭐"></a>计算机网络（1个月）⭐</h3><h4 id="核心知识点-3"><a href="#核心知识点-3" class="headerlink" title="核心知识点"></a>核心知识点</h4><ul>
+<li>网络分层模型</li>
+<li>网络传输过程</li>
+<li>IP、端口</li>
+<li>HTTP &#x2F; HTTPS 协议</li>
+<li>UDP &#x2F; TCP 协议</li>
+<li>ARP 地址解析协议</li>
+<li>网络安全</li>
+<li>DNS 域名解析</li>
+</ul>
+<h4 id="📚-学习资源-3"><a href="#📚-学习资源-3" class="headerlink" title="📚 学习资源"></a>📚 学习资源</h4><p><strong>视频教程</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1c4411d7jb">《计算机网络微课堂》</a></li>
+</ul>
+<p><strong>推荐书籍</strong></p>
+<ul>
+<li>《图解 HTTP》</li>
+<li>《图解 TCP &#x2F; IP》</li>
+<li>《网络是怎样连接的》</li>
+</ul>
+<p><strong>大学课件</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/QSCTech/zju-icicles">浙大计算机网络基础</a></li>
+</ul>
+<h4 id="💼-经典面试题-3"><a href="#💼-经典面试题-3" class="headerlink" title="💼 经典面试题"></a>💼 经典面试题</h4><ul>
+<li>计算机网络各层有哪些协议？</li>
+<li>TCP 和 UDP 协议的区别？</li>
+<li>TCP 为什么需要三次握手和四次挥手？</li>
+<li>HTTP 和 HTTPS 协议的区别？</li>
+<li>计算机网络状态码都有哪些？</li>
+<li>cookie和session的区别？</li>
+<li>从浏览器输入url发生了什么？</li>
+</ul>
+<hr>
+<h3 id="Linux（7-14天）⭐"><a href="#Linux（7-14天）⭐" class="headerlink" title="Linux（7-14天）⭐"></a>Linux（7-14天）⭐</h3><h4 id="核心知识点-4"><a href="#核心知识点-4" class="headerlink" title="核心知识点"></a>核心知识点</h4><ul>
+<li>Linux 系统安装</li>
+<li>环境变量</li>
+<li>文件管理、用户管理</li>
+<li>内存管理、磁盘管理</li>
+<li>进程管理、网络管理</li>
+<li>软件包管理、服务管理</li>
+<li>日志管理</li>
+<li>Linux 内核</li>
+<li><strong>常用命令</strong><ul>
+<li>find&#x2F;sed&#x2F;grep&#x2F;awk</li>
+<li>ps&#x2F;netstat</li>
+<li>top&#x2F;cp&#x2F;scp&#x2F;mv&#x2F;tail&#x2F;chmod&#x2F;pwd&#x2F;mkdir</li>
+</ul>
+</li>
+<li>常用环境搭建（搭建mysql、redis、部署项目等）</li>
+<li>Shell 脚本编程</li>
+<li>VIM 的使用</li>
+</ul>
+<h4 id="📚-学习资源-4"><a href="#📚-学习资源-4" class="headerlink" title="📚 学习资源"></a>📚 学习资源</h4><p><strong>视频教程</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Sv411r7vd">2021 韩顺平 一周学会Linux</a>（基于 CentOS 7.6 版本较新）</li>
+</ul>
+<p><strong>推荐书籍</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://cn.linux.vbird.org/linux_basic/linux_basic.php">《鸟哥的 Linux 私房菜 —— 基础篇》</a>（经典）</li>
+</ul>
+<p><strong>文档资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://linuxtools-rst.readthedocs.io/">Linux 工具快速教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Yeuw1KHFeJknbE297UXfeg">测试开发的常用linux命令</a></li>
+</ul>
+<p><strong>实战平台</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.lanqiao.cn/courses/1">蓝桥云课 Linux 基础入门</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/labs">腾讯云动手实验室</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.aliyun.com/adc/labs/">阿里云体验实验室</a></li>
+</ul>
+<p><strong>工具</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://wangchujiang.com/linux-command">Linux 命令搜索</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.linuxcool.com/">Linux 命令大全手册</a></li>
+</ul>
+<h4 id="💼-经典面试题-4"><a href="#💼-经典面试题-4" class="headerlink" title="💼 经典面试题"></a>💼 经典面试题</h4><ul>
+<li>如何查看某个进程的运行状态？</li>
+<li>如何查看xxx进程占用的端口号？</li>
+<li>Linux如何查看文件内容？</li>
+<li>创建目录命令是什么？</li>
+<li>Linux内存占用过高，该怎么看是哪个进程在哪出了问题？</li>
+<li>如何在 Linux 上查找 1G以上 的大文件，以及查看大文件内容？</li>
+<li>Linux管道是什么？用法</li>
+<li>查看linux 进程数，内存占用情况</li>
+</ul>
+<hr>
+<h3 id="MySQL-数据库（7天）⭐"><a href="#MySQL-数据库（7天）⭐" class="headerlink" title="MySQL 数据库（7天）⭐"></a>MySQL 数据库（7天）⭐</h3><h4 id="核心知识点-5"><a href="#核心知识点-5" class="headerlink" title="核心知识点"></a>核心知识点</h4><ul>
+<li>基本概念</li>
+<li>MySQL 搭建</li>
+<li>SQL 语句编写</li>
+<li>约束、索引、事务</li>
+<li>锁机制</li>
+<li>设计数据库表</li>
+<li>性能优化</li>
+</ul>
+<h4 id="📚-学习资源-5"><a href="#📚-学习资源-5" class="headerlink" title="📚 学习资源"></a>📚 学习资源</h4><p><strong>视频教程</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Vy4y1z7EX">老杜 - mysql入门基础 + 数据库实战</a>（较新、内容相对精炼，有习题）</li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1xW411u7ax">尚硅谷 - MySQL基础教程</a></li>
+</ul>
+<p><strong>在线练习</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://xuesql.cn/">SQL 自学网</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bejson.com/runcode/sql/">SQL 在线运行</a></li>
+</ul>
+<p><strong>文档资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/sql/sql-tutorial.html">SQL - 菜鸟教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/mysql/mysql-tutorial.html">MySQL - 菜鸟教程</a></li>
+</ul>
+<h4 id="💼-经典面试题-5"><a href="#💼-经典面试题-5" class="headerlink" title="💼 经典面试题"></a>💼 经典面试题</h4><ul>
+<li>MySQL 索引的最左原则</li>
+<li>InnoDB 和 MyIsam 引擎的区别？</li>
+<li>有哪些优化数据库性能的方法？</li>
+<li>如何定位慢查询？</li>
+<li>MySQL 支持行锁还是表锁？分别有哪些优缺点？</li>
+<li>数据库查询（join、limit）关键字的使用</li>
+<li>索引是什么，作用是什么？</li>
+</ul>
+<hr>
+<h3 id="操作系统（14-30天）🔸"><a href="#操作系统（14-30天）🔸" class="headerlink" title="操作系统（14-30天）🔸"></a>操作系统（14-30天）🔸</h3><h4 id="核心知识点-6"><a href="#核心知识点-6" class="headerlink" title="核心知识点"></a>核心知识点</h4><ul>
+<li>操作系统的组成</li>
+<li>进程、线程概念</li>
+<li>进程&#x2F;线程间通讯方式</li>
+<li>进程调度算法</li>
+<li>进程&#x2F;线程同步方式</li>
+<li>进程&#x2F;线程状态</li>
+<li>死锁</li>
+<li>内存管理</li>
+<li>局部性原理</li>
+</ul>
+<h4 id="📚-学习资源-6"><a href="#📚-学习资源-6" class="headerlink" title="📚 学习资源"></a>📚 学习资源</h4><p><strong>视频教程</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1uW411f72n">《清华操作系统原理》</a></li>
+</ul>
+<p><strong>推荐书籍</strong></p>
+<ul>
+<li>《编码》</li>
+<li>《30天自制操作系统》</li>
+<li>《现代操作系统》（难度较大，不推荐新手看）</li>
+<li>《深入理解计算机系统》（难度较大，不推荐新手看）</li>
+</ul>
+<h4 id="💼-经典面试题-6"><a href="#💼-经典面试题-6" class="headerlink" title="💼 经典面试题"></a>💼 经典面试题</h4><ul>
+<li>什么是死锁？死锁产生的4个条件？</li>
+<li>线程有哪几种状态？</li>
+<li>有哪些进程调度算法？</li>
+<li>什么是缓冲区溢出？</li>
+</ul>
+<hr>
+<h2 id="测试基础"><a href="#测试基础" class="headerlink" title="测试基础"></a>测试基础</h2><h3 id="测试工具（3天）⭐"><a href="#测试工具（3天）⭐" class="headerlink" title="测试工具（3天）⭐"></a>测试工具（3天）⭐</h3><h4 id="抓包工具"><a href="#抓包工具" class="headerlink" title="抓包工具"></a>抓包工具</h4><p><strong>Charles</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzAwMjE0Mzg0Nw==&mid=2650674015&idx=1&sn=9683e9234a894c2416eeecc84b0a69c4">Charles入门到精通</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1mQ4y1N7dn">黑马Charles抓包工具实战</a></li>
+</ul>
+<p><strong>Fiddler</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1c4411c7zH?p=1">fiddler抓包教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1c4411c7zH?p=1">柠檬班Fiddler抓包教程</a></li>
+</ul>
+<h4 id="接口测试工具"><a href="#接口测试工具" class="headerlink" title="接口测试工具"></a>接口测试工具</h4><p><strong>Postman</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV11K4y1J7sh?p=1">Postman接口测试和接口自动化测试</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1h54y1L7kz?p=71">黑马postman教程</a></li>
+</ul>
+<p><strong>Apifox &#x2F; ApiPost</strong></p>
+<p><strong>Jmeter</strong>（一般用来做性能测试，但也可做接口测试）</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ty4y1q72g?p=1">Jmeter自动化工具从入门到进阶</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1st411Y7QW?p=1">柠檬班Jmeter教程</a></li>
+</ul>
+<h4 id="其他工具"><a href="#其他工具" class="headerlink" title="其他工具"></a>其他工具</h4><ul>
+<li><strong>用例编写工具</strong>：XMind 思维导图软件</li>
+<li><strong>Bug管理工具</strong>：禅道、Jira</li>
+<li><strong>接口管理工具</strong>：Yapi</li>
+</ul>
+<hr>
+<h3 id="功能测试基础（2天）⭐"><a href="#功能测试基础（2天）⭐" class="headerlink" title="功能测试基础（2天）⭐"></a>功能测试基础（2天）⭐</h3><h4 id="测试用例设计"><a href="#测试用例设计" class="headerlink" title="测试用例设计"></a>测试用例设计</h4><p><strong>知识点</strong></p>
+<ul>
+<li>等价类</li>
+<li>边界值</li>
+<li>功能图</li>
+<li>场景法</li>
+<li>因果图</li>
+<li>错误推测</li>
+<li>判定表</li>
+<li>正交试验</li>
+<li>状态迁移</li>
+</ul>
+<p><strong>学习资源</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1QJ411g7nR?p=1">黑马测试用例设计</a>（掌握测试用例设计的理论）</li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1b54y1m7qM">默默成神10分钟教你设计测试用例</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzAwMjE0Mzg0Nw==&mid=2650674179&idx=1&sn=683e46885dbe0a77c5b553f9da037d30">测试用例设计方法</a></li>
+</ul>
+<p><strong>面试题</strong></p>
+<ul>
+<li>微信抢红包测试用例设计</li>
+<li>对电梯进行测试用例设计</li>
+<li>测试淘宝购物车</li>
+</ul>
+<h4 id="测试计划、测试报告"><a href="#测试计划、测试报告" class="headerlink" title="测试计划、测试报告"></a>测试计划、测试报告</h4><hr>
+<h1 id="🚀-阶段3：进阶"><a href="#🚀-阶段3：进阶" class="headerlink" title="🚀 阶段3：进阶"></a>🚀 阶段3：进阶</h1><h2 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h2><h3 id="后端Web开发（1-2个月）⭐"><a href="#后端Web开发（1-2个月）⭐" class="headerlink" title="后端Web开发（1-2个月）⭐"></a>后端Web开发（1-2个月）⭐</h3><h4 id="Python-Web框架"><a href="#Python-Web框架" class="headerlink" title="Python Web框架"></a>Python Web框架</h4><p><strong>Django</strong></p>
+<ul>
+<li>安装与 Demo</li>
+<li>MVT 分层</li>
+<li>模型（数据库基础、ORM）</li>
+<li>视图、模板</li>
+<li>路由</li>
+<li>Django Admin 管理工具</li>
+<li>测试、会话、鉴权</li>
+<li>文件上传、中间件</li>
+<li>高级特性（分页、缓存、序列化、信号、celery 任务调度）</li>
+<li>Restful API 开发</li>
+<li>部署、项目实战</li>
+</ul>
+<p><strong>Flask &#x2F; FastAPI</strong></p>
+<p><strong>学习资源</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1bC4y1a7FA?p=1">Flask 项目实战《路飞学城》</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV17z4y1X7UZ?p=1">千峰Flask教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1AE41117Up?p=1">Python Django 网站开发培训</a></li>
+</ul>
+<hr>
+<h4 id="Java-Web框架"><a href="#Java-Web框架" class="headerlink" title="Java Web框架"></a>Java Web框架</h4><p><strong>Java Web基础知识点</strong></p>
+<ul>
+<li>前端基础</li>
+<li>XML、JSON</li>
+<li>Servlet、Filter、Listener</li>
+<li>JSP、JSTL</li>
+<li>Cookie、Session</li>
+</ul>
+<p><strong>Spring 5</strong>（Java 轻量级应用框架）</p>
+<ul>
+<li>IOC、AOP、事务</li>
+</ul>
+<p><strong>SpringMVC</strong>（Java 轻量级 web 开发框架）</p>
+<ul>
+<li>什么是 MVC？</li>
+<li>请求与响应</li>
+<li>Restful API</li>
+<li>拦截器、配置、执行过程</li>
+</ul>
+<p><strong>MyBatis</strong>（数据访问框架）</p>
+<ul>
+<li>增删改查</li>
+<li>全局配置、动态 SQL</li>
+<li>缓存、和其他框架的整合</li>
+<li>逆向工程</li>
+</ul>
+<p><strong>MyBatis Plus</strong>（Mybatis 的增强工具）</p>
+<ul>
+<li>通用 CRUD</li>
+<li>条件构造器</li>
+<li>代码生成器</li>
+<li>插件扩展</li>
+</ul>
+<p><strong>SpringBoot 2</strong></p>
+<ul>
+<li>常用注解</li>
+<li>资源整合</li>
+<li>高级特性</li>
+<li>本地热部署</li>
+</ul>
+<p><strong>Spring Security</strong>（安全管理框架）</p>
+<ul>
+<li>用户认证</li>
+<li>权限管理</li>
+</ul>
+<p><strong>Maven &#x2F; Gradle</strong>（项目管理工具）</p>
+<ul>
+<li>构建、依赖管理</li>
+<li>插件、配置</li>
+<li>子父工程</li>
+</ul>
+<p><strong>学习资源</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Y7411K7zz">尚硅谷最新版 JavaWeb 全套教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Vf4y127N5">尚硅谷 - Spring 5 框架最新版教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Ry4y1574R">尚硅谷 - SpringMVC 2021 最新教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1mW411M737">尚硅谷 - MyBatis 实战教程全套完整版</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV19K4y1L7MT">雷丰阳 2021 版 SpringBoot2 零基础入门</a></li>
+</ul>
+<hr>
+<h3 id="Git（7天）⭐"><a href="#Git（7天）⭐" class="headerlink" title="Git（7天）⭐"></a>Git（7天）⭐</h3><h4 id="核心知识点-7"><a href="#核心知识点-7" class="headerlink" title="核心知识点"></a>核心知识点</h4><ul>
+<li>区分 Git 和 GitHub</li>
+<li>工作区、分支</li>
+<li>代码提交、推送、拉取、回退、重置</li>
+<li>分支操作</li>
+<li>代码合并、解决冲突</li>
+<li>标签、cherry-pick</li>
+<li>Git Flow</li>
+</ul>
+<h4 id="📚-学习资源-7"><a href="#📚-学习资源-7" class="headerlink" title="📚 学习资源"></a>📚 学习资源</h4><p><strong>视频教程</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1vy4y1s7k6">尚硅谷5h打通Git全套教程</a></li>
+</ul>
+<p><strong>推荐书籍</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://backlog.com/git-tutorial/cn/">猴子都能懂的 Git 入门</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.phodal.com/">GitHub 漫游指南</a></li>
+</ul>
+<p><strong>游戏</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learngitbranching.js.org/?locale=zh_CN">Learning Git Branching</a></li>
+</ul>
+<h4 id="💼-经典面试题-7"><a href="#💼-经典面试题-7" class="headerlink" title="💼 经典面试题"></a>💼 经典面试题</h4><ul>
+<li>如何解决提交冲突？</li>
+<li>提交不小心出现误操作，如何撤销？</li>
+<li>什么是 Git Flow，它有什么好处？</li>
+</ul>
+<hr>
+<h3 id="Redis缓存（7天）⭐"><a href="#Redis缓存（7天）⭐" class="headerlink" title="Redis缓存（7天）⭐"></a>Redis缓存（7天）⭐</h3><h4 id="核心知识点-8"><a href="#核心知识点-8" class="headerlink" title="核心知识点"></a>核心知识点</h4><ul>
+<li>什么是缓存？</li>
+<li>本地缓存（Caffeine 库）</li>
+<li>多级缓存</li>
+<li><strong>Redis 分布式缓存</strong><ul>
+<li>数据类型、常用操作</li>
+<li>Java 操作 Redis</li>
+<li>主从模型搭建</li>
+<li>哨兵集群搭建</li>
+<li>日志持久化</li>
+</ul>
+</li>
+<li><strong>缓存应用场景</strong><ul>
+<li>数据共享、单点登录</li>
+<li>计数器、限流</li>
+<li>点赞、实时排行榜</li>
+<li>分布式锁</li>
+</ul>
+</li>
+<li><strong>缓存常见问题</strong><ul>
+<li>缓存雪崩、缓存击穿</li>
+<li>缓存穿透</li>
+<li>缓存更新一致性</li>
+</ul>
+</li>
+</ul>
+<h4 id="📚-学习资源-8"><a href="#📚-学习资源-8" class="headerlink" title="📚 学习资源"></a>📚 学习资源</h4><p><strong>视频教程</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Rv41177Af">尚硅谷 - 2021 最新 Redis 6 入门到精通教程</a></li>
+</ul>
+<p><strong>文档资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://redisdoc.com/">Redis 命令参考</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/lokles/Web-Development-Interview-With-Java/blob/main/Redis%E9%97%AE%E9%A2%98.md">Redis 面试题整理</a></li>
+</ul>
+<p><strong>推荐书籍</strong></p>
+<ul>
+<li>《Redis 实战》（经典）</li>
+</ul>
+<p><strong>工具</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://try.redis.io/">Redis 在线练习</a>（强烈推荐）</li>
+</ul>
+<h4 id="💼-经典面试题-8"><a href="#💼-经典面试题-8" class="headerlink" title="💼 经典面试题"></a>💼 经典面试题</h4><ul>
+<li>Redis 为什么快？</li>
+<li>Redis 有哪些常用的数据结构？</li>
+<li>Redis RDB 和 AOF 持久化的区别，如何选择？</li>
+<li>如何解决缓存击穿、缓存穿透、雪崩问题？</li>
+<li>如何用 Redis 实现点赞功能，怎么设计 Key &#x2F; Value？</li>
+</ul>
+<hr>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="自动化测试"><a href="#自动化测试" class="headerlink" title="自动化测试"></a>自动化测试</h3><h4 id="接口自动化（7-14天）⭐"><a href="#接口自动化（7-14天）⭐" class="headerlink" title="接口自动化（7-14天）⭐"></a>接口自动化（7-14天）⭐</h4><p><strong>常用框架</strong></p>
+<ul>
+<li><strong>Pytest</strong>（Python）</li>
+<li><strong>Robotframework</strong>（Python）</li>
+<li><strong>Httprunner</strong>（Python）</li>
+<li><strong>TestNG</strong>（Java 自动化测试框架）</li>
+<li><strong>REST-Assured</strong>（Java 自动化测试框架）</li>
+</ul>
+<p><strong>学习资源</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1bV41167a4?p=1">白月黑羽Pytest自动化测试框架</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV14i4y1c7Jo?p=6">码尚教育pytest教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1AD4y1Z7kb?p=1">Pytest自动化测试-全套系统课程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Lx411X7pn?p=1">java语言rest-assured框架进行接口测试实战</a></li>
+</ul>
+<hr>
+<h4 id="UI自动化（7天）⭐"><a href="#UI自动化（7天）⭐" class="headerlink" title="UI自动化（7天）⭐"></a>UI自动化（7天）⭐</h4><p><strong>常用框架</strong></p>
+<ul>
+<li><strong>Selenium</strong>（Web UI 自动化）</li>
+<li><strong>Appium</strong>（移动端 UI 自动化）</li>
+</ul>
+<p><strong>学习资源</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Z4411o7TA?p=1">白月黑羽Python + Selenium Web自动化</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1tE411n7rV?p=1">白月黑羽Appium 手机 App 自动化</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1B441197rZ?p=1">黑马程序员零基础入门移动自动化测试——Appium框架</a></li>
+</ul>
+<hr>
+<h4 id="单元测试自动化💡"><a href="#单元测试自动化💡" class="headerlink" title="单元测试自动化💡"></a>单元测试自动化💡</h4><p><strong>常用框架</strong></p>
+<ul>
+<li><strong>TestNG</strong>：Java 测试框架（也可以用来做接口自动化）</li>
+<li><strong>JUnit</strong>：Java 测试框架</li>
+<li><strong>Unittest</strong>：Python 单元测试框架</li>
+</ul>
+<p><strong>学习资源</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1u4411T78k?p=1">廖雪峰Junit单元测试</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1s5411A7aK?p=1">unittest自动化测试框架从入门到精通</a></li>
+</ul>
+<hr>
+<h1 id="🎯-阶段4：项目实战"><a href="#🎯-阶段4：项目实战" class="headerlink" title="🎯 阶段4：项目实战"></a>🎯 阶段4：项目实战</h1><h2 id="开发项目实战（1-2个月）⭐"><a href="#开发项目实战（1-2个月）⭐" class="headerlink" title="开发项目实战（1-2个月）⭐"></a>开发项目实战（1-2个月）⭐</h2><h3 id="Web开发实战"><a href="#Web开发实战" class="headerlink" title="Web开发实战"></a>Web开发实战</h3><p><strong>Java Web项目</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.nowcoder.com/courses/cover/live/246">Java项目《仿牛客网》</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1np4y1C7Yf?p=1">Java项目《谷粒商城》</a></li>
+</ul>
+<p><strong>Python Web项目</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1uA411b77M?p=1">老男孩django项目实战：轻量级bug管理平台</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1uZ4y1p77F?p=1">Flask项目实战-新闻资讯项目</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1U64y1u77k?p=1">Python Flask全程实战-多功能博客系统开发</a></li>
+</ul>
+<h3 id="测试工具脚本（平台）开发"><a href="#测试工具脚本（平台）开发" class="headerlink" title="测试工具脚本（平台）开发"></a>测试工具脚本（平台）开发</h3><ul>
+<li>监控平台</li>
+<li>接口自动化测试平台</li>
+<li>压测平台</li>
+<li>业务测试中台<ul>
+<li>集成信息查询</li>
+<li>环境自动部署</li>
+<li>测试数据构造、mock数据</li>
+</ul>
+</li>
+</ul>
+<p><strong>开源项目参考</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://testerhome.com/opensource_projects">测试者之家开源项目</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/metersphere/metersphere">MeterSphere 测试平台</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/LianjiaTech/sosotest">sosotest接口自动化测试平台</a></li>
+<li><a target="_blank" rel="noopener" href="https://gitee.com/seagull1985/LuckyFrameWeb">LuckyFrameWeb - 开源自动化测试平台</a></li>
+</ul>
+<hr>
+<h2 id="测试项目实战（7-14天）⭐"><a href="#测试项目实战（7-14天）⭐" class="headerlink" title="测试项目实战（7-14天）⭐"></a>测试项目实战（7-14天）⭐</h2><h3 id="功能测试实战"><a href="#功能测试实战" class="headerlink" title="功能测试实战"></a>功能测试实战</h3><p><strong>服务端测试</strong></p>
+<ul>
+<li>接口测试</li>
+<li>白盒测试</li>
+<li>Mock数据</li>
+<li>测试数据构造</li>
+<li>HTTP返回数据分析</li>
+<li>日志分析与问题排查</li>
+</ul>
+<p><strong>客户端测试</strong></p>
+<ul>
+<li>Web测试</li>
+<li>App测试</li>
+</ul>
+<h3 id="自动化测试实战"><a href="#自动化测试实战" class="headerlink" title="自动化测试实战"></a>自动化测试实战</h3><ul>
+<li>UI自动化项目</li>
+<li>接口自动化项目</li>
+</ul>
+<h3 id="性能测试实战"><a href="#性能测试实战" class="headerlink" title="性能测试实战"></a>性能测试实战</h3><p><strong>学习资源</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV114411177e?p=1">Jmeter接口性能测试项目实战</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1wC4y1Y7yX?p=1">黑马程序员性能测试全套教程</a></li>
+</ul>
+<p><strong>开源项目</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://gitee.com/yu_xiao_qi/pytest-auto-api2">基于 Python + pytest + allure 的接口自动化框架</a></li>
+<li><a target="_blank" rel="noopener" href="https://gitee.com/hagyao520/RestAssured">基于RestAssured的Api自动化测试框架</a></li>
+</ul>
+<hr>
+<h1 id="💼-阶段5：求职"><a href="#💼-阶段5：求职" class="headerlink" title="💼 阶段5：求职"></a>💼 阶段5：求职</h1><h2 id="求职网站"><a href="#求职网站" class="headerlink" title="求职网站"></a>求职网站</h2><ul>
+<li>牛客网</li>
+<li>Boss直聘</li>
+<li>拉勾网</li>
+<li>企业招聘官网</li>
+</ul>
+<h2 id="面经-面试真题"><a href="#面经-面试真题" class="headerlink" title="面经&#x2F;面试真题"></a>面经&#x2F;面试真题</h2><ul>
+<li>微信公众号：<strong>测试开发Guide</strong> 回复【面试】</li>
+<li><a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/experience?tagId=2678">牛客网测试开发面试真题汇总</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/844406">熬夜整理了2022测试开发最全知识点</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/807066">测试开发岗位秋招面试高频考点汇总</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/628372">春招测开岗面试高频考点万字汇总（一）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/928201">计算机网络超高频面试题和答案总结</a></li>
+</ul>
+<hr>
+<h1 id="📈-阶段6：持续学习"><a href="#📈-阶段6：持续学习" class="headerlink" title="📈 阶段6：持续学习"></a>📈 阶段6：持续学习</h1><h2 id="学习方向"><a href="#学习方向" class="headerlink" title="学习方向"></a>学习方向</h2><h3 id="测试效能"><a href="#测试效能" class="headerlink" title="测试效能"></a>测试效能</h3><h4 id="CI-CD（持续集成、持续交付、持续部署）"><a href="#CI-CD（持续集成、持续交付、持续部署）" class="headerlink" title="CI&#x2F;CD（持续集成、持续交付、持续部署）"></a>CI&#x2F;CD（持续集成、持续交付、持续部署）</h4><p><strong>知识点</strong></p>
+<ul>
+<li>什么是 CI &#x2F; CD</li>
+<li>CI &#x2F; CD 有什么好处</li>
+<li>使用任一 CI &#x2F; CD 平台</li>
+<li>相关技术：Jenkins、GitLab、微信云托管</li>
+<li>测试开发在CI阶段能做些什么，在CD阶段能做些什么<ul>
+<li>CI阶段：编译、单元测试、代码静态扫描、接口自动化、性能测试</li>
+<li>CD阶段：分级发布、监控报警</li>
+</ul>
+</li>
+</ul>
+<p><strong>学习资源</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1zf4y127vu">【狂神说】CI&#x2F;CD到底是什么？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1GW411w7pn">尚硅谷 - Jenkins 持续集成工具教程</a></li>
+</ul>
+<hr>
+<h4 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h4><p><strong>Docker</strong></p>
+<ul>
+<li>容器概念、镜像</li>
+<li>部署服务</li>
+<li>Dockerfile</li>
+<li>Docker Compose</li>
+<li>Docker Machine &#x2F; Swarm</li>
+<li>多阶段构建</li>
+</ul>
+<p><strong>K8S（Kubernetes）</strong></p>
+<ul>
+<li>K8S 架构</li>
+<li>工作负载（资源类型、Pod、Pod 生命周期）</li>
+<li>K8S 组件、K8S 对象</li>
+<li>部署应用、服务</li>
+<li>Kubectl 命令行</li>
+<li>集群管理</li>
+</ul>
+<p><strong>学习资源</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1og4y1q7M4">【狂神说】Docker 最新超详细版教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1K5411N7j8">K8S 视频教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/pub/reader/119632192">《深入浅出 Docker》</a></li>
+</ul>
+<hr>
+<h4 id="测试左移与测试右移"><a href="#测试左移与测试右移" class="headerlink" title="测试左移与测试右移"></a>测试左移与测试右移</h4><p><strong>左移</strong></p>
+<ul>
+<li>CI流水线建设</li>
+<li>Jacoco覆盖率统计</li>
+</ul>
+<p><strong>右移</strong></p>
+<ul>
+<li>线上监控</li>
+<li>分级发布拦截</li>
+</ul>
+<h4 id="Diff测试"><a href="#Diff测试" class="headerlink" title="Diff测试"></a>Diff测试</h4><ul>
+<li>diffy框架</li>
+</ul>
+<h4 id="智能化（AI）测试"><a href="#智能化（AI）测试" class="headerlink" title="智能化（AI）测试"></a>智能化（AI）测试</h4><ul>
+<li>自动生成单元、接口测试用例</li>
+<li>自动分析日志、自动定位问题</li>
+</ul>
+<h4 id="流量回放"><a href="#流量回放" class="headerlink" title="流量回放"></a>流量回放</h4><hr>
+<h3 id="测试工具（平台）开发"><a href="#测试工具（平台）开发" class="headerlink" title="测试工具（平台）开发"></a>测试工具（平台）开发</h3><h4 id="前端开发💡"><a href="#前端开发💡" class="headerlink" title="前端开发💡"></a>前端开发💡</h4><ul>
+<li>HTML、CSS</li>
+<li>JavaScript（Ajax）</li>
+<li>Vue</li>
+</ul>
+<h4 id="后端开发"><a href="#后端开发" class="headerlink" title="后端开发"></a>后端开发</h4><p><strong>中间件</strong></p>
+<ul>
+<li>Redis 缓存</li>
+<li>RabbitMQ &#x2F; Kafka 消息队列</li>
+<li>Nginx 网关</li>
+</ul>
+<p><strong>微服务</strong></p>
+<ul>
+<li>Dubbo（RPC、Zookeeper）</li>
+<li>Spring Cloud 框架<ul>
+<li>服务注册与发现</li>
+<li>注册中心 Eureka、Zookeeper、Consul</li>
+<li>Ribbon 负载均衡</li>
+<li>Feign 服务调用</li>
+<li>Hystrix 服务限流、降级、熔断</li>
+<li>Gateway 微服务网关</li>
+<li>Config 分布式配置中心</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h3><p><strong>工具</strong></p>
+<ul>
+<li>Jmeter</li>
+<li>LoadRunner</li>
+<li>Locust</li>
+</ul>
+<h3 id="算法测试💡"><a href="#算法测试💡" class="headerlink" title="算法测试💡"></a>算法测试💡</h3><ul>
+<li>机器学习、深度学习</li>
+</ul>
+<h3 id="大数据测试💡"><a href="#大数据测试💡" class="headerlink" title="大数据测试💡"></a>大数据测试💡</h3><h3 id="专项测试💡"><a href="#专项测试💡" class="headerlink" title="专项测试💡"></a>专项测试💡</h3><ul>
+<li>音视频（音频&#x2F;视频评测）</li>
+</ul>
+<h3 id="稳定性测试💡"><a href="#稳定性测试💡" class="headerlink" title="稳定性测试💡"></a>稳定性测试💡</h3><ul>
+<li>混沌工程（工具：ChaosBlade）</li>
+</ul>
+<hr>
+<h2 id="发展规划"><a href="#发展规划" class="headerlink" title="发展规划"></a>发展规划</h2><h3 id="技术路线"><a href="#技术路线" class="headerlink" title="技术路线"></a>技术路线</h3><p>在提升测试技能的同时重点提升自己的<strong>开发能力</strong></p>
+<hr>
+<h1 id="📌-附录"><a href="#📌-附录" class="headerlink" title="📌 附录"></a>📌 附录</h1><h2 id="测开看中的能力"><a href="#测开看中的能力" class="headerlink" title="测开看中的能力"></a>测开看中的能力</h2><ul>
+<li>✅ 独立分析并定位Bug原因</li>
+<li>✅ 项目整体质量把控</li>
+<li>✅ 合理评估测试时间制定测试排期（测试计划）</li>
+<li>✅ 沟通能力</li>
+<li>✅ 主动发现测试痛点并写测试工具&#x2F;平台解决</li>
+<li>✅ 持续学习能力</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog">好困3127</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog/2025/10/30/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/">https://haokun3127.github.io/blog/2025/10/30/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://haokun3127.github.io/blog" target="_blank">好困的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/blog/tags/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91/">测试开发</a></div><div class="post-share"><div class="social-share" data-image="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/blog/2025/10/30/Hot100%EF%BC%9A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1-%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE/" title="Hot100：二分查找1-搜索插入位置"><img class="cover" src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="onerror=null;src='/blog/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Hot100：二分查找1-搜索插入位置</div></div><div class="info-2"><div class="info-item-1">题目描述 LeetCode 35. 搜索插入位置  给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。 请必须使用时间复杂度为 O(log n) 的算法。 问题理解这道题有两个核心任务：  查找：如果目标值存在，返回其索引 定位插入位置：如果目标值不存在，找到它应该插入的位置（保持数组有序）  示例示例 1： 12输入: ...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">好困3127</div><div class="author-info-description">Java 后端开发 / 热爱技术 / 持续学习</div><div class="site-data"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/haokun3127"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/haokun3127" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:haokun3127@example.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=你的QQ号" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #12B7F5;"></i></a><a class="social-icon" href="/blog/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #FFA500;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">📝 记录学习 · 分享成长 · 共同进步</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%8E%AF-%E9%98%B6%E6%AE%B50%EF%BC%9A%E5%89%8D%E8%A8%80%EF%BC%88%E5%BF%85%E7%9C%8B%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">🎯 阶段0：前言（必看）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%A6%E5%8F%B7%E6%A0%87%E8%AE%B0%E8%AF%B4%E6%98%8E"><span class="toc-number">1.1.</span> <span class="toc-text">符号标记说明</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%93%96-%E9%98%B6%E6%AE%B51%EF%BC%9A%E5%85%A5%E9%97%A8"><span class="toc-number">2.</span> <span class="toc-text">📖 阶段1：入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80"><span class="toc-number">2.1.</span> <span class="toc-text">编程语言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%EF%BC%881-2%E4%B8%AA%E6%9C%88%EF%BC%89%E2%AD%90"><span class="toc-number">2.1.1.</span> <span class="toc-text">Java（1-2个月）⭐</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">核心知识点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%93%9A-%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90"><span class="toc-number">2.1.1.2.</span> <span class="toc-text">📚 学习资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%92%BC-%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-number">2.1.1.3.</span> <span class="toc-text">💼 经典面试题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Python%EF%BC%881%E4%B8%AA%E6%9C%88%EF%BC%89%E2%AD%90"><span class="toc-number">2.1.2.</span> <span class="toc-text">Python（1个月）⭐</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9-1"><span class="toc-number">2.1.2.1.</span> <span class="toc-text">核心知识点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%93%9A-%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90-1"><span class="toc-number">2.1.2.2.</span> <span class="toc-text">📚 学习资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%92%BC-%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98-1"><span class="toc-number">2.1.2.3.</span> <span class="toc-text">💼 经典面试题</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%92%BB-%E9%98%B6%E6%AE%B52%EF%BC%9A%E5%9F%BA%E7%A1%80"><span class="toc-number">3.</span> <span class="toc-text">💻 阶段2：基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80"><span class="toc-number">3.1.</span> <span class="toc-text">计算机基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%EF%BC%88%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A0%EF%BC%89%E2%AD%90"><span class="toc-number">3.1.1.</span> <span class="toc-text">数据结构与算法（持续学习）⭐</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9-2"><span class="toc-number">3.1.1.1.</span> <span class="toc-text">核心知识点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%93%9A-%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90-2"><span class="toc-number">3.1.1.2.</span> <span class="toc-text">📚 学习资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%92%BC-%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98-2"><span class="toc-number">3.1.1.3.</span> <span class="toc-text">💼 经典面试题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%881%E4%B8%AA%E6%9C%88%EF%BC%89%E2%AD%90"><span class="toc-number">3.1.2.</span> <span class="toc-text">计算机网络（1个月）⭐</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9-3"><span class="toc-number">3.1.2.1.</span> <span class="toc-text">核心知识点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%93%9A-%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90-3"><span class="toc-number">3.1.2.2.</span> <span class="toc-text">📚 学习资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%92%BC-%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98-3"><span class="toc-number">3.1.2.3.</span> <span class="toc-text">💼 经典面试题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%EF%BC%887-14%E5%A4%A9%EF%BC%89%E2%AD%90"><span class="toc-number">3.1.3.</span> <span class="toc-text">Linux（7-14天）⭐</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9-4"><span class="toc-number">3.1.3.1.</span> <span class="toc-text">核心知识点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%93%9A-%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90-4"><span class="toc-number">3.1.3.2.</span> <span class="toc-text">📚 学习资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%92%BC-%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98-4"><span class="toc-number">3.1.3.3.</span> <span class="toc-text">💼 经典面试题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL-%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%887%E5%A4%A9%EF%BC%89%E2%AD%90"><span class="toc-number">3.1.4.</span> <span class="toc-text">MySQL 数据库（7天）⭐</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9-5"><span class="toc-number">3.1.4.1.</span> <span class="toc-text">核心知识点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%93%9A-%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90-5"><span class="toc-number">3.1.4.2.</span> <span class="toc-text">📚 学习资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%92%BC-%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98-5"><span class="toc-number">3.1.4.3.</span> <span class="toc-text">💼 经典面试题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%8814-30%E5%A4%A9%EF%BC%89%F0%9F%94%B8"><span class="toc-number">3.1.5.</span> <span class="toc-text">操作系统（14-30天）🔸</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9-6"><span class="toc-number">3.1.5.1.</span> <span class="toc-text">核心知识点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%93%9A-%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90-6"><span class="toc-number">3.1.5.2.</span> <span class="toc-text">📚 学习资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%92%BC-%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98-6"><span class="toc-number">3.1.5.3.</span> <span class="toc-text">💼 经典面试题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80"><span class="toc-number">3.2.</span> <span class="toc-text">测试基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7%EF%BC%883%E5%A4%A9%EF%BC%89%E2%AD%90"><span class="toc-number">3.2.1.</span> <span class="toc-text">测试工具（3天）⭐</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7"><span class="toc-number">3.2.1.1.</span> <span class="toc-text">抓包工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7"><span class="toc-number">3.2.1.2.</span> <span class="toc-text">接口测试工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%B7%A5%E5%85%B7"><span class="toc-number">3.2.1.3.</span> <span class="toc-text">其他工具</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%EF%BC%882%E5%A4%A9%EF%BC%89%E2%AD%90"><span class="toc-number">3.2.2.</span> <span class="toc-text">功能测试基础（2天）⭐</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.2.2.1.</span> <span class="toc-text">测试用例设计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E8%AE%A1%E5%88%92%E3%80%81%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A"><span class="toc-number">3.2.2.2.</span> <span class="toc-text">测试计划、测试报告</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%9A%80-%E9%98%B6%E6%AE%B53%EF%BC%9A%E8%BF%9B%E9%98%B6"><span class="toc-number">4.</span> <span class="toc-text">🚀 阶段3：进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91"><span class="toc-number">4.1.</span> <span class="toc-text">开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%AB%AFWeb%E5%BC%80%E5%8F%91%EF%BC%881-2%E4%B8%AA%E6%9C%88%EF%BC%89%E2%AD%90"><span class="toc-number">4.1.1.</span> <span class="toc-text">后端Web开发（1-2个月）⭐</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Python-Web%E6%A1%86%E6%9E%B6"><span class="toc-number">4.1.1.1.</span> <span class="toc-text">Python Web框架</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Java-Web%E6%A1%86%E6%9E%B6"><span class="toc-number">4.1.1.2.</span> <span class="toc-text">Java Web框架</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git%EF%BC%887%E5%A4%A9%EF%BC%89%E2%AD%90"><span class="toc-number">4.1.2.</span> <span class="toc-text">Git（7天）⭐</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9-7"><span class="toc-number">4.1.2.1.</span> <span class="toc-text">核心知识点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%93%9A-%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90-7"><span class="toc-number">4.1.2.2.</span> <span class="toc-text">📚 学习资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%92%BC-%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98-7"><span class="toc-number">4.1.2.3.</span> <span class="toc-text">💼 经典面试题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis%E7%BC%93%E5%AD%98%EF%BC%887%E5%A4%A9%EF%BC%89%E2%AD%90"><span class="toc-number">4.1.3.</span> <span class="toc-text">Redis缓存（7天）⭐</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E7%82%B9-8"><span class="toc-number">4.1.3.1.</span> <span class="toc-text">核心知识点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%93%9A-%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90-8"><span class="toc-number">4.1.3.2.</span> <span class="toc-text">📚 学习资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%F0%9F%92%BC-%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98-8"><span class="toc-number">4.1.3.3.</span> <span class="toc-text">💼 经典面试题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">4.2.</span> <span class="toc-text">测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95"><span class="toc-number">4.2.1.</span> <span class="toc-text">自动化测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%EF%BC%887-14%E5%A4%A9%EF%BC%89%E2%AD%90"><span class="toc-number">4.2.1.1.</span> <span class="toc-text">接口自动化（7-14天）⭐</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#UI%E8%87%AA%E5%8A%A8%E5%8C%96%EF%BC%887%E5%A4%A9%EF%BC%89%E2%AD%90"><span class="toc-number">4.2.1.2.</span> <span class="toc-text">UI自动化（7天）⭐</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E8%87%AA%E5%8A%A8%E5%8C%96%F0%9F%92%A1"><span class="toc-number">4.2.1.3.</span> <span class="toc-text">单元测试自动化💡</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%8E%AF-%E9%98%B6%E6%AE%B54%EF%BC%9A%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98"><span class="toc-number">5.</span> <span class="toc-text">🎯 阶段4：项目实战</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%EF%BC%881-2%E4%B8%AA%E6%9C%88%EF%BC%89%E2%AD%90"><span class="toc-number">5.1.</span> <span class="toc-text">开发项目实战（1-2个月）⭐</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Web%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98"><span class="toc-number">5.1.1.</span> <span class="toc-text">Web开发实战</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7%E8%84%9A%E6%9C%AC%EF%BC%88%E5%B9%B3%E5%8F%B0%EF%BC%89%E5%BC%80%E5%8F%91"><span class="toc-number">5.1.2.</span> <span class="toc-text">测试工具脚本（平台）开发</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%EF%BC%887-14%E5%A4%A9%EF%BC%89%E2%AD%90"><span class="toc-number">5.2.</span> <span class="toc-text">测试项目实战（7-14天）⭐</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98"><span class="toc-number">5.2.1.</span> <span class="toc-text">功能测试实战</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98"><span class="toc-number">5.2.2.</span> <span class="toc-text">自动化测试实战</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98"><span class="toc-number">5.2.3.</span> <span class="toc-text">性能测试实战</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%92%BC-%E9%98%B6%E6%AE%B55%EF%BC%9A%E6%B1%82%E8%81%8C"><span class="toc-number">6.</span> <span class="toc-text">💼 阶段5：求职</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B1%82%E8%81%8C%E7%BD%91%E7%AB%99"><span class="toc-number">6.1.</span> <span class="toc-text">求职网站</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E7%BB%8F-%E9%9D%A2%E8%AF%95%E7%9C%9F%E9%A2%98"><span class="toc-number">6.2.</span> <span class="toc-text">面经&#x2F;面试真题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%93%88-%E9%98%B6%E6%AE%B56%EF%BC%9A%E6%8C%81%E7%BB%AD%E5%AD%A6%E4%B9%A0"><span class="toc-number">7.</span> <span class="toc-text">📈 阶段6：持续学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E6%96%B9%E5%90%91"><span class="toc-number">7.1.</span> <span class="toc-text">学习方向</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%95%88%E8%83%BD"><span class="toc-number">7.1.1.</span> <span class="toc-text">测试效能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CI-CD%EF%BC%88%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90%E3%80%81%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98%E3%80%81%E6%8C%81%E7%BB%AD%E9%83%A8%E7%BD%B2%EF%BC%89"><span class="toc-number">7.1.1.1.</span> <span class="toc-text">CI&#x2F;CD（持续集成、持续交付、持续部署）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8"><span class="toc-number">7.1.1.2.</span> <span class="toc-text">容器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%B7%A6%E7%A7%BB%E4%B8%8E%E6%B5%8B%E8%AF%95%E5%8F%B3%E7%A7%BB"><span class="toc-number">7.1.1.3.</span> <span class="toc-text">测试左移与测试右移</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Diff%E6%B5%8B%E8%AF%95"><span class="toc-number">7.1.1.4.</span> <span class="toc-text">Diff测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%99%BA%E8%83%BD%E5%8C%96%EF%BC%88AI%EF%BC%89%E6%B5%8B%E8%AF%95"><span class="toc-number">7.1.1.5.</span> <span class="toc-text">智能化（AI）测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%81%E9%87%8F%E5%9B%9E%E6%94%BE"><span class="toc-number">7.1.1.6.</span> <span class="toc-text">流量回放</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7%EF%BC%88%E5%B9%B3%E5%8F%B0%EF%BC%89%E5%BC%80%E5%8F%91"><span class="toc-number">7.1.2.</span> <span class="toc-text">测试工具（平台）开发</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%F0%9F%92%A1"><span class="toc-number">7.1.2.1.</span> <span class="toc-text">前端开发💡</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91"><span class="toc-number">7.1.2.2.</span> <span class="toc-text">后端开发</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="toc-number">7.1.3.</span> <span class="toc-text">性能测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%B5%8B%E8%AF%95%F0%9F%92%A1"><span class="toc-number">7.1.4.</span> <span class="toc-text">算法测试💡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%B5%8B%E8%AF%95%F0%9F%92%A1"><span class="toc-number">7.1.5.</span> <span class="toc-text">大数据测试💡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95%F0%9F%92%A1"><span class="toc-number">7.1.6.</span> <span class="toc-text">专项测试💡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%B3%E5%AE%9A%E6%80%A7%E6%B5%8B%E8%AF%95%F0%9F%92%A1"><span class="toc-number">7.1.7.</span> <span class="toc-text">稳定性测试💡</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E5%B1%95%E8%A7%84%E5%88%92"><span class="toc-number">7.2.</span> <span class="toc-text">发展规划</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E8%B7%AF%E7%BA%BF"><span class="toc-number">7.2.1.</span> <span class="toc-text">技术路线</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%93%8C-%E9%99%84%E5%BD%95"><span class="toc-number">8.</span> <span class="toc-text">📌 附录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E5%BC%80%E7%9C%8B%E4%B8%AD%E7%9A%84%E8%83%BD%E5%8A%9B"><span class="toc-number">8.1.</span> <span class="toc-text">测开看中的能力</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/30/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" title="测试开发工程师学习路线"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="测试开发工程师学习路线"/></a><div class="content"><a class="title" href="/blog/2025/10/30/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" title="测试开发工程师学习路线">测试开发工程师学习路线</a><time datetime="2025-10-30T08:00:00.000Z" title="发表于 2025-10-30 16:00:00">2025-10-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/30/Hot100%EF%BC%9A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1-%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE/" title="Hot100：二分查找1-搜索插入位置"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="Hot100：二分查找1-搜索插入位置"/></a><div class="content"><a class="title" href="/blog/2025/10/30/Hot100%EF%BC%9A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1-%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE/" title="Hot100：二分查找1-搜索插入位置">Hot100：二分查找1-搜索插入位置</a><time datetime="2025-10-30T07:00:16.000Z" title="发表于 2025-10-30 15:00:16">2025-10-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/27/JavaSE%E9%98%B6%E6%AE%B5%E6%80%A7%E6%80%BB%E7%BB%93%EF%BC%88%E4%B8%83%EF%BC%89Day14-%E5%A4%9A%E6%80%81-%E5%8C%85-final-%E6%9D%83%E9%99%90%E4%BF%AE%E9%A5%B0%E7%AC%A6-%E4%BB%A3%E7%A0%81%E5%9D%97/" title="JavaSE阶段性总结（七）Day14 多态&amp;包&amp;final&amp;权限修饰符&amp;代码块"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="JavaSE阶段性总结（七）Day14 多态&amp;包&amp;final&amp;权限修饰符&amp;代码块"/></a><div class="content"><a class="title" href="/blog/2025/10/27/JavaSE%E9%98%B6%E6%AE%B5%E6%80%A7%E6%80%BB%E7%BB%93%EF%BC%88%E4%B8%83%EF%BC%89Day14-%E5%A4%9A%E6%80%81-%E5%8C%85-final-%E6%9D%83%E9%99%90%E4%BF%AE%E9%A5%B0%E7%AC%A6-%E4%BB%A3%E7%A0%81%E5%9D%97/" title="JavaSE阶段性总结（七）Day14 多态&amp;包&amp;final&amp;权限修饰符&amp;代码块">JavaSE阶段性总结（七）Day14 多态&amp;包&amp;final&amp;权限修饰符&amp;代码块</a><time datetime="2025-10-27T08:52:59.000Z" title="发表于 2025-10-27 16:52:59">2025-10-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/21/Hot100%EF%BC%9A%E5%93%88%E5%B8%8C3-%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" title="Hot100：哈希3.最长连续序列"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="Hot100：哈希3.最长连续序列"/></a><div class="content"><a class="title" href="/blog/2025/10/21/Hot100%EF%BC%9A%E5%93%88%E5%B8%8C3-%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" title="Hot100：哈希3.最长连续序列">Hot100：哈希3.最长连续序列</a><time datetime="2025-10-21T09:30:02.000Z" title="发表于 2025-10-21 17:30:02">2025-10-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/21/JavaSE%E9%98%B6%E6%AE%B5%E6%80%A7%E6%80%BB%E7%BB%93%EF%BC%88%E5%85%AD%EF%BC%89Day13-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%BF%9B%E9%98%B6%EF%BC%88static-%E7%BB%A7%E6%89%BF%EF%BC%89/" title="JavaSE阶段性总结（六）Day13 面向对象进阶（static&amp;继承）"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="JavaSE阶段性总结（六）Day13 面向对象进阶（static&amp;继承）"/></a><div class="content"><a class="title" href="/blog/2025/10/21/JavaSE%E9%98%B6%E6%AE%B5%E6%80%A7%E6%80%BB%E7%BB%93%EF%BC%88%E5%85%AD%EF%BC%89Day13-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%BF%9B%E9%98%B6%EF%BC%88static-%E7%BB%A7%E6%89%BF%EF%BC%89/" title="JavaSE阶段性总结（六）Day13 面向对象进阶（static&amp;继承）">JavaSE阶段性总结（六）Day13 面向对象进阶（static&amp;继承）</a><time datetime="2025-10-21T08:31:36.000Z" title="发表于 2025-10-21 16:31:36">2025-10-21</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By 好困3127</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/blog/js/utils.js?v=5.5.1"></script><script src="/blog/js/main.js?v=5.5.1"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="99,102,241" opacity="0.3" zIndex="-1" count="50" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
