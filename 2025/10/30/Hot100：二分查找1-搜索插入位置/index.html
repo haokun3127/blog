@@ -1,0 +1,407 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hot100：二分查找1-搜索插入位置 | 好困的博客</title><meta name="author" content="好困3127"><meta name="copyright" content="好困3127"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="LeetCode Hot100 系列：使用二分查找算法解决搜索插入位置问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hot100：二分查找1-搜索插入位置">
+<meta property="og:url" content="https://haokun3127.github.io/blog/2025/10/30/Hot100%EF%BC%9A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1-%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="好困的博客">
+<meta property="og:description" content="LeetCode Hot100 系列：使用二分查找算法解决搜索插入位置问题">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.com/haokun3127.png">
+<meta property="article:published_time" content="2025-10-30T07:00:16.000Z">
+<meta property="article:modified_time" content="2025-10-30T07:14:35.763Z">
+<meta property="article:author" content="好困3127">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="LeetCode">
+<meta property="article:tag" content="Hot100">
+<meta property="article:tag" content="二分查找">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/haokun3127.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Hot100：二分查找1-搜索插入位置",
+  "url": "https://haokun3127.github.io/blog/2025/10/30/Hot100%EF%BC%9A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1-%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE/",
+  "image": "https://github.com/haokun3127.png",
+  "datePublished": "2025-10-30T07:00:16.000Z",
+  "dateModified": "2025-10-30T07:14:35.763Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "好困3127",
+      "url": "https://haokun3127.github.io/blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/blog/img/favicon.png"><link rel="canonical" href="https://haokun3127.github.io/blog/2025/10/30/Hot100%EF%BC%9A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1-%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/blog/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0f172a')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hot100：二分查找1-搜索插入位置',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style>.recent-posts>.recent-post-item{width:100%!important;max-width:100%!important;margin-bottom:2rem!important;}.recent-posts{display:flex!important;flex-direction:column!important;}</style><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/blog/"><span class="site-name">好困的博客</span></a><a class="nav-page-title" href="/blog/"><span class="site-name">Hot100：二分查找1-搜索插入位置</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Hot100：二分查找1-搜索插入位置</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-10-30T07:00:16.000Z" title="发表于 2025-10-30 15:00:16">2025-10-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-30T07:14:35.763Z" title="更新于 2025-10-30 15:14:35">2025-10-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/blog/categories/%E7%AE%97%E6%B3%95/">算法</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><blockquote>
+<p><strong>LeetCode 35. 搜索插入位置</strong></p>
+</blockquote>
+<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。<strong>如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</strong></p>
+<p>请必须使用时间复杂度为 <code>O(log n)</code> 的算法。</p>
+<h2 id="问题理解"><a href="#问题理解" class="headerlink" title="问题理解"></a>问题理解</h2><p>这道题有两个核心任务：</p>
+<ol>
+<li><strong>查找</strong>：如果目标值存在，返回其索引</li>
+<li><strong>定位插入位置</strong>：如果目标值不存在，找到它应该插入的位置（保持数组有序）</li>
+</ol>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p><strong>示例 1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [1,3,5,6], target = 5</span><br><span class="line">输出: 2</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [1,3,5,6], target = 2</span><br><span class="line">输出: 1</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [1,3,5,6], target = 7</span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure>
+
+<h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><ul>
+<li><code>1 &lt;= nums.length &lt;= 10^4</code></li>
+<li><code>-10^4 &lt;= nums[i] &lt;= 10^4</code></li>
+<li><code>nums</code> 为<strong>无重复元素</strong>的<strong>升序</strong>排列数组</li>
+<li><code>-10^4 &lt;= target &lt;= 10^4</code></li>
+</ul>
+<h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><h2 id="算法选择"><a href="#算法选择" class="headerlink" title="算法选择"></a>算法选择</h2><p>由于题目要求时间复杂度为 <code>O(log n)</code>，并且数组是<strong>有序的</strong>，这是使用<strong>二分查找算法</strong>的典型场景。</p>
+<h2 id="核心思路"><a href="#核心思路" class="headerlink" title="核心思路"></a>核心思路</h2><p>使用二分查找在有序数组中定位目标值或插入位置：</p>
+<ol>
+<li><strong>初始化搜索区间</strong>：<code>min = 0</code>，<code>max = nums.length - 1</code></li>
+<li><strong>循环查找</strong>：<ul>
+<li>计算中间位置：<code>mid = (min + max) / 2</code></li>
+<li>比较 <code>nums[mid]</code> 与 <code>target</code>：<ul>
+<li><code>nums[mid] == target</code>：✅ <strong>找到目标</strong>，返回 <code>mid</code></li>
+<li><code>nums[mid] &gt; target</code>：目标在左半部分，<code>max = mid - 1</code></li>
+<li><code>nums[mid] &lt; target</code>：目标在右半部分，<code>min = mid + 1</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>退出条件</strong>：<code>min &gt; max</code> 时，目标值不存在</li>
+</ol>
+<h2 id="🔑-关键理解：插入位置的确定"><a href="#🔑-关键理解：插入位置的确定" class="headerlink" title="🔑 关键理解：插入位置的确定"></a>🔑 关键理解：插入位置的确定</h2><p>这是本题的核心！当二分查找结束（<code>min &gt; max</code>）时，为什么 <code>min</code> 就是插入位置？</p>
+<h3 id="直观理解"><a href="#直观理解" class="headerlink" title="直观理解"></a>直观理解</h3><p>假设数组 <code>[1, 3, 5, 6]</code>，目标值 <code>target = 2</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">查找过程：</span><br><span class="line">初始: [1, 3, 5, 6]</span><br><span class="line">       ↑     ↑</span><br><span class="line">      min   max</span><br><span class="line"></span><br><span class="line">第1步: mid=1, nums[1]=3 &gt; 2，向左搜索</span><br><span class="line">       max = mid - 1 = 0</span><br><span class="line"></span><br><span class="line">第2步: mid=0, nums[0]=1 &lt; 2，向右搜索</span><br><span class="line">       min = mid + 1 = 1</span><br><span class="line"></span><br><span class="line">第3步: min(1) &gt; max(0)，循环结束</span><br><span class="line">       此时 min=1，表示 2 应该插入到索引1的位置</span><br><span class="line">       </span><br><span class="line">结果: [1, 2, 3, 5, 6]  ← 插入后仍然有序</span><br><span class="line">          ↑</span><br><span class="line">       插入位置</span><br></pre></td></tr></table></figure>
+
+<h3 id="数学证明"><a href="#数学证明" class="headerlink" title="数学证明"></a>数学证明</h3><p><strong>循环不变式</strong>：在每次循环中，<code>min</code> 左侧的所有元素都 <code>&lt; target</code>，<code>max</code> 右侧的所有元素都 <code>&gt; target</code></p>
+<p>当循环结束时（<code>min &gt; max</code>）：</p>
+<ul>
+<li><code>min</code> 指向第一个 <code>≥ target</code> 的位置</li>
+<li>在 <code>min</code> 位置插入 <code>target</code> 可以保持数组有序</li>
+</ul>
+<h3 id="三种情况分析"><a href="#三种情况分析" class="headerlink" title="三种情况分析"></a>三种情况分析</h3><ol>
+<li><strong>目标值小于所有元素</strong>：<code>min = 0</code>，插入到开头</li>
+<li><strong>目标值大于所有元素</strong>：<code>min = nums.length</code>，插入到末尾</li>
+<li><strong>目标值在某两个元素之间</strong>：<code>min</code> 指向第一个大于目标值的位置</li>
+</ol>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> TestHot100;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BinarySearch_InsertPosition</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[] nums = &#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>&#125;;</span><br><span class="line">        <span class="type">int</span> <span class="variable">target</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line">        System.out.println(searchInsert(nums, target));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">searchInsert</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="comment">// 二分查找</span></span><br><span class="line">        <span class="comment">// 最小索引</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">min</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 最大索引</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> nums.length - <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(min &gt; max)&#123;</span><br><span class="line">                <span class="comment">// 目标值不存在，返回应该插入的位置</span></span><br><span class="line">                <span class="keyword">return</span> min;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 计算中间索引</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> (max + min) / <span class="number">2</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 比较中间值与目标值的大小</span></span><br><span class="line">            <span class="keyword">if</span>(nums[mid] &gt; target)&#123;</span><br><span class="line">                <span class="comment">// 目标值在左半部分</span></span><br><span class="line">                max = mid - <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &lt; target)&#123;</span><br><span class="line">                <span class="comment">// 目标值在右半部分</span></span><br><span class="line">                min = mid + <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] == target)&#123;</span><br><span class="line">                <span class="comment">// 目标值等于中间值，直接返回中间索引</span></span><br><span class="line">                <span class="keyword">return</span> mid;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h1><h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><p><strong>O(log n)</strong></p>
+<p>每次循环都会将搜索区间缩小一半，因此最多需要 <code>log₂n</code> 次比较。</p>
+<h2 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h2><p><strong>O(1)</strong></p>
+<p>只使用了常数个额外变量（<code>min</code>、<code>max</code>、<code>mid</code>），不随输入规模增长。</p>
+<h1 id="执行过程详解"><a href="#执行过程详解" class="headerlink" title="执行过程详解"></a>执行过程详解</h1><h2 id="示例-1：查找不存在的值（需要插入）"><a href="#示例-1：查找不存在的值（需要插入）" class="headerlink" title="示例 1：查找不存在的值（需要插入）"></a>示例 1：查找不存在的值（需要插入）</h2><p><strong>输入</strong>：<code>nums = [1, 3, 5, 6]</code>, <code>target = 2</code></p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>min</th>
+<th>max</th>
+<th>mid</th>
+<th>nums[mid]</th>
+<th>判断</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>3</td>
+<td>3 &gt; 2</td>
+<td>max &#x3D; 0</td>
+<td>目标在左半部分</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1 &lt; 2</td>
+<td>min &#x3D; 1</td>
+<td>目标在右半部分</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>0</td>
+<td>-</td>
+<td>-</td>
+<td>min &gt; max</td>
+<td>返回 1</td>
+<td><strong>插入位置确定</strong></td>
+</tr>
+</tbody></table>
+<p><strong>结果</strong>：返回 <code>1</code>，表示 2 应该插入到索引 1 的位置<br><strong>插入后</strong>：<code>[1, 2, 3, 5, 6]</code> ✅ 保持有序</p>
+<h2 id="示例-2：查找存在的值"><a href="#示例-2：查找存在的值" class="headerlink" title="示例 2：查找存在的值"></a>示例 2：查找存在的值</h2><p><strong>输入</strong>：<code>nums = [1, 3, 5, 6]</code>, <code>target = 5</code></p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>min</th>
+<th>max</th>
+<th>mid</th>
+<th>nums[mid]</th>
+<th>判断</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>3</td>
+<td>3 &lt; 5</td>
+<td>min &#x3D; 2</td>
+<td>目标在右半部分</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>2</td>
+<td>5</td>
+<td>5 &#x3D;&#x3D; 5</td>
+<td>返回 2</td>
+<td><strong>找到目标</strong></td>
+</tr>
+</tbody></table>
+<p><strong>结果</strong>：返回 <code>2</code>，目标值存在于索引 2</p>
+<h2 id="示例-3：插入到末尾"><a href="#示例-3：插入到末尾" class="headerlink" title="示例 3：插入到末尾"></a>示例 3：插入到末尾</h2><p><strong>输入</strong>：<code>nums = [1, 3, 5, 6]</code>, <code>target = 7</code></p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>min</th>
+<th>max</th>
+<th>mid</th>
+<th>nums[mid]</th>
+<th>判断</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>3</td>
+<td>3 &lt; 7</td>
+<td>min &#x3D; 2</td>
+<td>目标在右半部分</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>2</td>
+<td>5</td>
+<td>5 &lt; 7</td>
+<td>min &#x3D; 3</td>
+<td>目标在右半部分</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>6</td>
+<td>6 &lt; 7</td>
+<td>min &#x3D; 4</td>
+<td>目标在右半部分</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4</td>
+<td>3</td>
+<td>-</td>
+<td>-</td>
+<td>min &gt; max</td>
+<td>返回 4</td>
+<td><strong>插入到末尾</strong></td>
+</tr>
+</tbody></table>
+<p><strong>结果</strong>：返回 <code>4</code>，表示 7 应该插入到索引 4（数组末尾）<br><strong>插入后</strong>：<code>[1, 3, 5, 6, 7]</code> ✅ 保持有序</p>
+<h1 id="优化建议"><a href="#优化建议" class="headerlink" title="优化建议"></a>优化建议</h1><h2 id="防止整数溢出"><a href="#防止整数溢出" class="headerlink" title="防止整数溢出"></a>防止整数溢出</h2><p>当前代码使用 <code>mid = (max + min) / 2</code>，在某些极端情况下可能导致整数溢出。</p>
+<p><strong>优化方案：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> min + (max - min) / <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这样可以避免 <code>max + min</code> 超出 <code>int</code> 的最大值。</p>
+<h2 id="循环条件优化"><a href="#循环条件优化" class="headerlink" title="循环条件优化"></a>循环条件优化</h2><p>可以将 <code>while(true)</code> 改为 <code>while(min &lt;= max)</code>，使代码逻辑更清晰：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">searchInsert</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">min</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> nums.length - <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(min &lt;= max)&#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> min + (max - min) / <span class="number">2</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(nums[mid] == target)&#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &gt; target)&#123;</span><br><span class="line">            max = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            min = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> min;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="💡-核心要点"><a href="#💡-核心要点" class="headerlink" title="💡 核心要点"></a>💡 核心要点</h2><ol>
+<li><strong>二分查找的本质</strong>：通过不断缩小搜索区间，将时间复杂度降低到 O(log n)</li>
+<li><strong>插入位置的理解</strong>：循环结束时，<code>min</code> 指向第一个 ≥ target 的位置</li>
+<li><strong>循环不变式</strong>：维护 <code>min</code> 和 <code>max</code> 的正确含义是关键</li>
+</ol>
+<h2 id="🎯-解题技巧"><a href="#🎯-解题技巧" class="headerlink" title="🎯 解题技巧"></a>🎯 解题技巧</h2><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>技巧</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>防止溢出</td>
+<td>使用 <code>min + (max - min) / 2</code></td>
+</tr>
+<tr>
+<td>边界处理</td>
+<td>确保每次迭代都能缩小区间</td>
+</tr>
+<tr>
+<td>返回值</td>
+<td>未找到时返回 <code>min</code>（插入位置）</td>
+</tr>
+</tbody></table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog">好困3127</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog/2025/10/30/Hot100%EF%BC%9A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1-%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE/">https://haokun3127.github.io/blog/2025/10/30/Hot100%EF%BC%9A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1-%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://haokun3127.github.io/blog" target="_blank">好困的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/blog/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/blog/tags/LeetCode/">LeetCode</a><a class="post-meta__tags" href="/blog/tags/Hot100/">Hot100</a><a class="post-meta__tags" href="/blog/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">二分查找</a></div><div class="post-share"><div class="social-share" data-image="https://github.com/haokun3127.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/blog/2025/10/27/JavaSE%E9%98%B6%E6%AE%B5%E6%80%A7%E6%80%BB%E7%BB%93%EF%BC%88%E4%B8%83%EF%BC%89Day14-%E5%A4%9A%E6%80%81-%E5%8C%85-final-%E6%9D%83%E9%99%90%E4%BF%AE%E9%A5%B0%E7%AC%A6-%E4%BB%A3%E7%A0%81%E5%9D%97/" title="JavaSE阶段性总结（七）Day14 多态&amp;包&amp;final&amp;权限修饰符&amp;代码块"><img class="cover" src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="onerror=null;src='/blog/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">JavaSE阶段性总结（七）Day14 多态&包&final&权限修饰符&代码块</div></div><div class="info-2"><div class="info-item-1">多态多态的形式多态是继封装、继承之后，面向对象的第三大特性。 多态是出现在继承或者实现关系中的。 多态体现的格式： 12父类类型 变量名 = new 子类/实现类构造器;变量名.方法名();  多态的前提：有继承关系，子类对象是可以赋值给父类类型的变量。例如Animal是一个动物类型，而Cat是一个猫类型。Cat继承了Animal，Cat对象也是Animal类型，自然可以赋值给父类类型的变量...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/blog/2025/10/20/Hot100%EF%BC%9A%E5%93%88%E5%B8%8C1-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" title="Hot100：哈希1.两数之和"><img class="cover" src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-20</div><div class="info-item-2">Hot100：哈希1.两数之和</div></div><div class="info-2"><div class="info-item-1">问题描述给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出和为目标值 target 的那两个整数，并返回它们的数组下标。 要求：  你可以假设每种输入只会对应一个答案 但是，数组中同一个元素在答案里不能重复出现 你可以按任意顺序返回答案  示例： 123输入：nums = [2,7,11,15], target = 9输出：[0,1]解释：因为 nums[0] +...</div></div></div></a><a class="pagination-related" href="/blog/2025/10/20/Hot100%EF%BC%9A%E5%93%88%E5%B8%8C2-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" title="Hot100：哈希2.字母异位词分组"><img class="cover" src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-20</div><div class="info-item-2">Hot100：哈希2.字母异位词分组</div></div><div class="info-2"><div class="info-item-1">问题描述给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。 字母异位词 是由重新排列源单词的所有字母得到的一个新单词。 示例 1： 12输入: strs = [&quot;eat&quot;,&quot;tea&quot;,&quot;tan&quot;,&quot;ate&quot;,&quot;nat&quot;,&quot;bat&quot;]输出: [[...</div></div></div></a><a class="pagination-related" href="/blog/2025/10/21/Hot100%EF%BC%9A%E5%93%88%E5%B8%8C3-%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" title="Hot100：哈希3.最长连续序列"><img class="cover" src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-21</div><div class="info-item-2">Hot100：哈希3.最长连续序列</div></div><div class="info-2"><div class="info-item-1">问题描述给定一个未排序的整数数组 nums，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。 请你设计并实现时间复杂度为 O(n) 的算法解决此问题。 示例 1： 123输入：nums = [100,4,200,1,3,2]输出：4解释：最长数字连续序列是 [1, 2, 3, 4]。它的长度为 4。  示例 2： 12输入：nums = [0,3,7,2,5,8,4,6,0,1...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">好困3127</div><div class="author-info-description">Java 后端开发 / 热爱技术 / 持续学习</div><div class="site-data"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/haokun3127"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/haokun3127" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:haokun3127@example.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=你的QQ号" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #12B7F5;"></i></a><a class="social-icon" href="/blog/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #FFA500;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">📝 记录学习 · 分享成长 · 共同进步</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">题目描述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E7%90%86%E8%A7%A3"><span class="toc-number">1.1.</span> <span class="toc-text">问题理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.2.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA"><span class="toc-number">1.3.</span> <span class="toc-text">提示</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="toc-number">2.</span> <span class="toc-text">解题思路</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E9%80%89%E6%8B%A9"><span class="toc-number">2.1.</span> <span class="toc-text">算法选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%80%9D%E8%B7%AF"><span class="toc-number">2.2.</span> <span class="toc-text">核心思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%94%91-%E5%85%B3%E9%94%AE%E7%90%86%E8%A7%A3%EF%BC%9A%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE%E7%9A%84%E7%A1%AE%E5%AE%9A"><span class="toc-number">2.3.</span> <span class="toc-text">🔑 关键理解：插入位置的确定</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3"><span class="toc-number">2.3.1.</span> <span class="toc-text">直观理解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6%E8%AF%81%E6%98%8E"><span class="toc-number">2.3.2.</span> <span class="toc-text">数学证明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E6%83%85%E5%86%B5%E5%88%86%E6%9E%90"><span class="toc-number">2.3.3.</span> <span class="toc-text">三种情况分析</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90"><span class="toc-number">4.</span> <span class="toc-text">算法分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-number">4.1.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-number">4.2.</span> <span class="toc-text">空间复杂度</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E8%AF%A6%E8%A7%A3"><span class="toc-number">5.</span> <span class="toc-text">执行过程详解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-1%EF%BC%9A%E6%9F%A5%E6%89%BE%E4%B8%8D%E5%AD%98%E5%9C%A8%E7%9A%84%E5%80%BC%EF%BC%88%E9%9C%80%E8%A6%81%E6%8F%92%E5%85%A5%EF%BC%89"><span class="toc-number">5.1.</span> <span class="toc-text">示例 1：查找不存在的值（需要插入）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-2%EF%BC%9A%E6%9F%A5%E6%89%BE%E5%AD%98%E5%9C%A8%E7%9A%84%E5%80%BC"><span class="toc-number">5.2.</span> <span class="toc-text">示例 2：查找存在的值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-3%EF%BC%9A%E6%8F%92%E5%85%A5%E5%88%B0%E6%9C%AB%E5%B0%BE"><span class="toc-number">5.3.</span> <span class="toc-text">示例 3：插入到末尾</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE"><span class="toc-number">6.</span> <span class="toc-text">优化建议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E6%AD%A2%E6%95%B4%E6%95%B0%E6%BA%A2%E5%87%BA"><span class="toc-number">6.1.</span> <span class="toc-text">防止整数溢出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E6%9D%A1%E4%BB%B6%E4%BC%98%E5%8C%96"><span class="toc-number">6.2.</span> <span class="toc-text">循环条件优化</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%A1-%E6%A0%B8%E5%BF%83%E8%A6%81%E7%82%B9"><span class="toc-number">7.1.</span> <span class="toc-text">💡 核心要点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%AF-%E8%A7%A3%E9%A2%98%E6%8A%80%E5%B7%A7"><span class="toc-number">7.2.</span> <span class="toc-text">🎯 解题技巧</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2025/10/30/Hot100%EF%BC%9A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1-%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE/" title="Hot100：二分查找1-搜索插入位置">Hot100：二分查找1-搜索插入位置</a><time datetime="2025-10-30T07:00:16.000Z" title="发表于 2025-10-30 15:00:16">2025-10-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/27/JavaSE%E9%98%B6%E6%AE%B5%E6%80%A7%E6%80%BB%E7%BB%93%EF%BC%88%E4%B8%83%EF%BC%89Day14-%E5%A4%9A%E6%80%81-%E5%8C%85-final-%E6%9D%83%E9%99%90%E4%BF%AE%E9%A5%B0%E7%AC%A6-%E4%BB%A3%E7%A0%81%E5%9D%97/" title="JavaSE阶段性总结（七）Day14 多态&amp;包&amp;final&amp;权限修饰符&amp;代码块"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="JavaSE阶段性总结（七）Day14 多态&amp;包&amp;final&amp;权限修饰符&amp;代码块"/></a><div class="content"><a class="title" href="/blog/2025/10/27/JavaSE%E9%98%B6%E6%AE%B5%E6%80%A7%E6%80%BB%E7%BB%93%EF%BC%88%E4%B8%83%EF%BC%89Day14-%E5%A4%9A%E6%80%81-%E5%8C%85-final-%E6%9D%83%E9%99%90%E4%BF%AE%E9%A5%B0%E7%AC%A6-%E4%BB%A3%E7%A0%81%E5%9D%97/" title="JavaSE阶段性总结（七）Day14 多态&amp;包&amp;final&amp;权限修饰符&amp;代码块">JavaSE阶段性总结（七）Day14 多态&amp;包&amp;final&amp;权限修饰符&amp;代码块</a><time datetime="2025-10-27T08:52:59.000Z" title="发表于 2025-10-27 16:52:59">2025-10-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/21/Hot100%EF%BC%9A%E5%93%88%E5%B8%8C3-%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" title="Hot100：哈希3.最长连续序列"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="Hot100：哈希3.最长连续序列"/></a><div class="content"><a class="title" href="/blog/2025/10/21/Hot100%EF%BC%9A%E5%93%88%E5%B8%8C3-%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/" title="Hot100：哈希3.最长连续序列">Hot100：哈希3.最长连续序列</a><time datetime="2025-10-21T09:30:02.000Z" title="发表于 2025-10-21 17:30:02">2025-10-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/21/JavaSE%E9%98%B6%E6%AE%B5%E6%80%A7%E6%80%BB%E7%BB%93%EF%BC%88%E5%85%AD%EF%BC%89Day13-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%BF%9B%E9%98%B6%EF%BC%88static-%E7%BB%A7%E6%89%BF%EF%BC%89/" title="JavaSE阶段性总结（六）Day13 面向对象进阶（static&amp;继承）"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="JavaSE阶段性总结（六）Day13 面向对象进阶（static&amp;继承）"/></a><div class="content"><a class="title" href="/blog/2025/10/21/JavaSE%E9%98%B6%E6%AE%B5%E6%80%A7%E6%80%BB%E7%BB%93%EF%BC%88%E5%85%AD%EF%BC%89Day13-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%BF%9B%E9%98%B6%EF%BC%88static-%E7%BB%A7%E6%89%BF%EF%BC%89/" title="JavaSE阶段性总结（六）Day13 面向对象进阶（static&amp;继承）">JavaSE阶段性总结（六）Day13 面向对象进阶（static&amp;继承）</a><time datetime="2025-10-21T08:31:36.000Z" title="发表于 2025-10-21 16:31:36">2025-10-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/20/Hot100%EF%BC%9A%E5%93%88%E5%B8%8C2-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" title="Hot100：哈希2.字母异位词分组"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="Hot100：哈希2.字母异位词分组"/></a><div class="content"><a class="title" href="/blog/2025/10/20/Hot100%EF%BC%9A%E5%93%88%E5%B8%8C2-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/" title="Hot100：哈希2.字母异位词分组">Hot100：哈希2.字母异位词分组</a><time datetime="2025-10-20T10:00:00.000Z" title="发表于 2025-10-20 18:00:00">2025-10-20</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By 好困3127</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/blog/js/utils.js?v=5.5.1"></script><script src="/blog/js/main.js?v=5.5.1"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="99,102,241" opacity="0.3" zIndex="-1" count="50" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
