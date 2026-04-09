@@ -1,0 +1,268 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>论文笔记：GNPR-SID | 好困的博客</title><meta name="author" content="好困3127"><meta name="copyright" content="好困3127"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="GNPR-SID 用语义 ID 取代随机数字 ID，把连续时空特征压缩成 LLM 可理解的离散表示，从而提升生成式 POI 推荐的准确率与泛化能力。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文笔记：GNPR-SID">
+<meta property="og:url" content="https://haokun3127.github.io/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AGNPR-SID/index.html">
+<meta property="og:site_name" content="好困的博客">
+<meta property="og:description" content="GNPR-SID 用语义 ID 取代随机数字 ID，把连续时空特征压缩成 LLM 可理解的离散表示，从而提升生成式 POI 推荐的准确率与泛化能力。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.com/haokun3127.png">
+<meta property="article:published_time" content="2026-04-09T06:20:00.000Z">
+<meta property="article:modified_time" content="2026-04-09T06:28:01.955Z">
+<meta property="article:author" content="好困3127">
+<meta property="article:tag" content="论文笔记">
+<meta property="article:tag" content="推荐系统">
+<meta property="article:tag" content="POI 推荐">
+<meta property="article:tag" content="大语言模型">
+<meta property="article:tag" content="Semantic ID">
+<meta property="article:tag" content="GNPR-SID">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/haokun3127.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "论文笔记：GNPR-SID",
+  "url": "https://haokun3127.github.io/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AGNPR-SID/",
+  "image": "https://github.com/haokun3127.png",
+  "datePublished": "2026-04-09T06:20:00.000Z",
+  "dateModified": "2026-04-09T06:28:01.955Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "好困3127",
+      "url": "https://haokun3127.github.io/blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/blog/img/favicon.png"><link rel="canonical" href="https://haokun3127.github.io/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AGNPR-SID/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/blog/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0f172a')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '论文笔记：GNPR-SID',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style>.recent-posts>.recent-post-item{width:100%!important;max-width:100%!important;margin-bottom:2rem!important;}.recent-posts{display:flex!important;flex-direction:column!important;}</style><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/blog/"><span class="site-name">好困的博客</span></a><a class="nav-page-title" href="/blog/"><span class="site-name">论文笔记：GNPR-SID</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">论文笔记：GNPR-SID</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-09T06:20:00.000Z" title="发表于 2026-04-09 14:20:00">2026-04-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-09T06:28:01.955Z" title="更新于 2026-04-09 14:28:01">2026-04-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/blog/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/blog/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">推荐系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="论文信息"><a href="#论文信息" class="headerlink" title="论文信息"></a>论文信息</h2><ul>
+<li>论文标题：Generative Next POI Recommendation with Semantic ID</li>
+<li>会议：KDD 2025</li>
+<li>核心主题：用语义 ID 提升生成式 POI 推荐</li>
+<li>关键词：POI Recommendation、Semantic ID、RQVAE、LLaMA3、LoRA</li>
+</ul>
+<h2 id="摘要速览"><a href="#摘要速览" class="headerlink" title="摘要速览"></a>摘要速览</h2><p>兴趣点（POI）推荐系统需要根据用户历史打卡记录预测其下一次可能到访的位置。现有生成式 POI 推荐方法大多依赖随机数字 ID 表示地点，这会严重削弱模型对地点语义关系和地理邻近性的理解。本文提出 GNPR-SID，通过语义 ID 构建模块和生成式推荐模块，把地理位置、类别、时间规律和协同信号压缩为层级化的离散语义 ID，再交给 LLM 进行序列预测。实验表明，该方法在多个数据集上显著优于现有方法，同时还降低了大量 Token 消耗。</p>
+<h2 id="1-文章基本框架"><a href="#1-文章基本框架" class="headerlink" title="1. 文章基本框架"></a>1. 文章基本框架</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><blockquote>
+<p>下一个 POI 推荐的核心在于捕捉用户的时空序列转换规律。</p>
+</blockquote>
+<ul>
+<li><strong>传统方法的优势与局限</strong>：RNN、Transformer、GNN 等模型擅长处理连续坐标和时间差，但与 LLM 的离散文本输入范式不一致。</li>
+<li><strong>LLM 范式的兴起</strong>：近期研究开始尝试利用 LLM 的常识推理能力做推荐，但通常依赖随机数字 ID 表示地点。</li>
+<li><strong>语义割裂与泛化问题</strong>：随机 ID 没有任何语义规律，LLM 无法感知地点在地理位置和类别上的相似性，面对未见过的新 POI 时很难泛化。</li>
+</ul>
+<h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><blockquote>
+<p>本研究的核心目的是让大语言模型真正“看懂”且能“推理”连续的物理时空关系。</p>
+</blockquote>
+<ul>
+<li><strong>打破随机 ID 黑盒</strong>：不再使用毫无意义的数字标识，而是构建能够反映地理相邻性、类别相似性和用户偏好的语义 ID。</li>
+<li><strong>弥合连续时空与离散文本的鸿沟</strong>：通过量化压缩机制，把复杂的多维时空特征翻译成带层级结构的离散 Token，供 LLM 使用。</li>
+</ul>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><blockquote>
+<p>通过基于 RQVAE 的语义 ID 构建和在 LLaMA3-8B 上的 LoRA 微调，GNPR-SID 在 NYC、TKY 和 CA 三个真实世界数据集上全面超越传统基线和现有 LLM 方法。它不仅提升了准确率，也显著增强了跨域泛化能力，并降低了接近 55% 的 Token 消耗。</p>
+</blockquote>
+<h2 id="2-结果与讨论"><a href="#2-结果与讨论" class="headerlink" title="2. 结果与讨论"></a>2. 结果与讨论</h2><h3 id="数据以及数据来源"><a href="#数据以及数据来源" class="headerlink" title="数据以及数据来源"></a>数据以及数据来源</h3><ul>
+<li><strong>原始数据集</strong>：Foursquare-NYC、Foursquare-TKY 和 Gowalla-CA。</li>
+<li><strong>数据预处理</strong>：过滤掉交互次数少于 10 次的 POI 和用户，按时间序列排序后，以 8:1:1 划分训练、验证和测试集。</li>
+<li><strong>评测标准</strong>：采用生成式 Acc@1 作为核心指标，即模型生成的下一个 SID 必须与真实地点的 SID 完全一致。</li>
+</ul>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><blockquote>
+<p>GNPR-SID 的核心在于先重构 POI 的表示方式，再把重构后的序列交给 LLM 进行生成式预测。</p>
+</blockquote>
+<h3 id="模块一：语义-ID-构建（Semantic-ID-Construction）"><a href="#模块一：语义-ID-构建（Semantic-ID-Construction）" class="headerlink" title="模块一：语义 ID 构建（Semantic ID Construction）"></a>模块一：语义 ID 构建（Semantic ID Construction）</h3><p>为了让大模型“理解”地理位置，作者没有直接输入浮点数坐标，而是设计了一套特征映射与量化流程：</p>
+<ul>
+<li><p>**POI 语义表示 <code>p_e</code>**：从四个维度提取信息并拼接：</p>
+<ul>
+<li>**类别特征 <code>c</code>**：例如“饮品店”“餐厅”等。</li>
+<li>**空间特征 <code>r</code>**：将经纬度转换为 Google Maps Plus Codes，使相邻地点可以共享更接近的空间表示。</li>
+<li>**时间信号 <code>t</code>**：提取地点历史访问频次最高的 Top 10 时段，描述地点的全局时间规律。</li>
+<li>**协同信号 <code>c_u</code>**：提取最常访问该地点的 10 位用户，捕捉潜在的人群圈层偏好。</li>
+</ul>
+</li>
+<li><p><strong>POI 量化（RQVAE）与前缀生成</strong></p>
+<ul>
+<li>使用残差量化变分自编码器，将高维稠密向量压缩到由多层字典组成的离散空间。</li>
+<li>最终生成类似 <code>&lt;a_15&gt;&lt;b_2&gt;&lt;c_9&gt;</code> 的层级索引作为 Semantic ID。</li>
+<li>这种树状结构保证了语义和位置越相似的地点，共享的前缀越多。</li>
+</ul>
+</li>
+<li><p><strong>防止语义坍缩（Diversity Loss）</strong></p>
+<ul>
+<li>如果不加约束，大量 POI 可能挤在少数几个 ID 中。</li>
+<li>作者设计了多样性损失，约束 SID 在语义空间中尽量均匀分布。</li>
+<li>如果出现完全碰撞的 SID，会附加唯一后缀加以区分。</li>
+</ul>
+</li>
+</ul>
+<h3 id="模块二：生成式-POI-推荐（Generative-POI-Recommendation）"><a href="#模块二：生成式-POI-推荐（Generative-POI-Recommendation）" class="headerlink" title="模块二：生成式 POI 推荐（Generative POI Recommendation）"></a>模块二：生成式 POI 推荐（Generative POI Recommendation）</h3><ul>
+<li><strong>序列转换与对齐</strong>：将用户历史打卡轨迹整体替换为对应的 SID 序列。</li>
+<li><strong>时空交织 Prompt 设计</strong>：<ul>
+<li>虽然 SID 已经编码了地点的全局信息，但作者仍然把用户真实打卡时间与 SID 交织输入。</li>
+<li>这样既保留了地点语义，也保留了用户个体化的行为节奏。</li>
+</ul>
+</li>
+<li><strong>填空式任务构造</strong>：将推荐问题改写为类似“Visited: <code>&lt;SID&gt;</code> at [time] … When [time] user is likely to visit: ____” 的形式，迫使 LLM 基于时间做推理。</li>
+<li><strong>微调策略</strong>：在 LLaMA3-8B 上采用 LoRA 进行监督微调。</li>
+</ul>
+<h3 id="结论分析"><a href="#结论分析" class="headerlink" title="结论分析"></a>结论分析</h3><ul>
+<li><strong>主实验</strong>：GNPR-SID 的 Acc@1 稳定超越传统模型以及现有 LLM 方法 LLM4POI，在 CA 数据集上的相对提升达到 16%。</li>
+<li><strong>消融实验</strong>：如果把 SID 换回随机 ID，性能会明显下降；去掉用户打卡时间后也会出现严重掉点。</li>
+<li><strong>效率与泛化</strong>：通过把长文本属性压缩成短促的层级 SID，模型的输入 Token 降低了 54.78%，推理速度更快，同时在跨域测试中也展现出较强鲁棒性。</li>
+</ul>
+<h2 id="3-文章亮点思考"><a href="#3-文章亮点思考" class="headerlink" title="3. 文章亮点思考"></a>3. 文章亮点思考</h2><h3 id="1-本文有什么优缺点？"><a href="#1-本文有什么优缺点？" class="headerlink" title="1. 本文有什么优缺点？"></a>1. 本文有什么优缺点？</h3><ul>
+<li><p><strong>优点</strong></p>
+<ul>
+<li><strong>模态对齐思路漂亮</strong>：没有简单把经纬度或长文本硬塞给 LLM，而是先做量化与语义编码，再把结果离散化为可学习的 Token。</li>
+<li><strong>效率高</strong>：前端量化压缩 + 后端 LLM 推理的解耦设计，大幅减少 Token 消耗，实用价值很高。</li>
+<li><strong>泛化能力强</strong>：前缀共享机制使模型对未见过的 POI 也能进行一定程度的语义推断。</li>
+</ul>
+</li>
+<li><p><strong>缺点 &#x2F; 疑问</strong></p>
+<ul>
+<li><strong>字典容量是静态的</strong>：RQVAE 训练出的 Codebook 容量固定，如果现实世界持续扩展，可能需要重新训练量化器。</li>
+<li><strong>两阶段分离并非最优</strong>：SID 构建和推荐微调彼此分离，如果量化阶段丢失了关键特征，后续 LLM 很难补回来。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-可以如何改进？"><a href="#2-可以如何改进？" class="headerlink" title="2. 可以如何改进？"></a>2. 可以如何改进？</h3><ol>
+<li><strong>端到端联合优化</strong>：让推荐任务的损失能够反向影响 SID 构建模块，使语义 ID 更贴合推荐目标。</li>
+<li><strong>加入多粒度时空编码</strong>：把时间差、空间距离等相对位置信息进一步注入注意力机制，强化用户轨迹建模。</li>
+</ol>
+<h3 id="3-这篇文章为什么能打动人？"><a href="#3-这篇文章为什么能打动人？" class="headerlink" title="3. 这篇文章为什么能打动人？"></a>3. 这篇文章为什么能打动人？</h3><p>这篇文章抓住了“大模型 + 推荐”里一个非常关键的问题：LLM 如何低成本且高精度地理解非文本、非离散的物理世界特征。它并没有停留在换 Prompt 或换基座模型的层面，而是直接深入到数据表示层，系统性地抛弃了随机 ID 范式，并把残差量化、层级语义表示和生成式推荐整合成了一套完整方案。对于时空推荐和更广义的结构化数据建模来说，这都是一个很有启发性的方向。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog">好困3127</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AGNPR-SID/">https://haokun3127.github.io/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AGNPR-SID/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://haokun3127.github.io/blog" target="_blank">好困的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/blog/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a><a class="post-meta__tags" href="/blog/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">推荐系统</a><a class="post-meta__tags" href="/blog/tags/POI-%E6%8E%A8%E8%8D%90/">POI 推荐</a><a class="post-meta__tags" href="/blog/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">大语言模型</a><a class="post-meta__tags" href="/blog/tags/Semantic-ID/">Semantic ID</a><a class="post-meta__tags" href="/blog/tags/GNPR-SID/">GNPR-SID</a></div><div class="post-share"><div class="social-share" data-image="https://github.com/haokun3127.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ATALLRec/" title="论文笔记：TALLRec"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">论文笔记：TALLRec</div></div><div class="info-2"><div class="info-item-1">论文信息 论文标题：TALLRec: An Effective and Efficient Tuning Framework to Align Large Language Model with Recommendation 发表时间：2023-09-14 核心主题：通过高效微调让 LLM 与推荐任务对齐 关键词：TALLRec、LoRA、Few-shot、Instruction Tunin...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AInstructRec/" title="论文笔记：InstructRec"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-09</div><div class="info-item-2">论文笔记：InstructRec</div></div><div class="info-2"><div class="info-item-1">论文信息 论文标题：Recommendation as Instruction Following: A Large Language Model Empowered Recommendation Approach 发表时间：2023-05-11 核心主题：将推荐任务重构为“指令遵循”任务 关键词：InstructRec、Preference、Intention、Task Form、Inst...</div></div></div></a><a class="pagination-related" href="/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ATALLRec/" title="论文笔记：TALLRec"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-09</div><div class="info-item-2">论文笔记：TALLRec</div></div><div class="info-2"><div class="info-item-1">论文信息 论文标题：TALLRec: An Effective and Efficient Tuning Framework to Align Large Language Model with Recommendation 发表时间：2023-09-14 核心主题：通过高效微调让 LLM 与推荐任务对齐 关键词：TALLRec、LoRA、Few-shot、Instruction Tunin...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">好困3127</div><div class="author-info-description">Java 后端开发 / 热爱技术 / 持续学习</div><div class="site-data"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/haokun3127"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/haokun3127" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:haokun3127@example.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=你的QQ号" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #12B7F5;"></i></a><a class="social-icon" href="/blog/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #FFA500;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">📝 记录学习 · 分享成长 · 共同进步</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BA%E6%96%87%E4%BF%A1%E6%81%AF"><span class="toc-number">1.</span> <span class="toc-text">论文信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81%E9%80%9F%E8%A7%88"><span class="toc-number">2.</span> <span class="toc-text">摘要速览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E7%AB%A0%E5%9F%BA%E6%9C%AC%E6%A1%86%E6%9E%B6"><span class="toc-number">3.</span> <span class="toc-text">1. 文章基本框架</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">3.1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E7%9A%84"><span class="toc-number">3.2.</span> <span class="toc-text">目的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">3.3.</span> <span class="toc-text">结论</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%BB%93%E6%9E%9C%E4%B8%8E%E8%AE%A8%E8%AE%BA"><span class="toc-number">4.</span> <span class="toc-text">2. 结果与讨论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BB%A5%E5%8F%8A%E6%95%B0%E6%8D%AE%E6%9D%A5%E6%BA%90"><span class="toc-number">4.1.</span> <span class="toc-text">数据以及数据来源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text">方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E4%B8%80%EF%BC%9A%E8%AF%AD%E4%B9%89-ID-%E6%9E%84%E5%BB%BA%EF%BC%88Semantic-ID-Construction%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">模块一：语义 ID 构建（Semantic ID Construction）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E4%BA%8C%EF%BC%9A%E7%94%9F%E6%88%90%E5%BC%8F-POI-%E6%8E%A8%E8%8D%90%EF%BC%88Generative-POI-Recommendation%EF%BC%89"><span class="toc-number">4.4.</span> <span class="toc-text">模块二：生成式 POI 推荐（Generative POI Recommendation）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA%E5%88%86%E6%9E%90"><span class="toc-number">4.5.</span> <span class="toc-text">结论分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%96%87%E7%AB%A0%E4%BA%AE%E7%82%B9%E6%80%9D%E8%80%83"><span class="toc-number">5.</span> <span class="toc-text">3. 文章亮点思考</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%9C%AC%E6%96%87%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%9F"><span class="toc-number">5.1.</span> <span class="toc-text">1. 本文有什么优缺点？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%8F%AF%E4%BB%A5%E5%A6%82%E4%BD%95%E6%94%B9%E8%BF%9B%EF%BC%9F"><span class="toc-number">5.2.</span> <span class="toc-text">2. 可以如何改进？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%89%93%E5%8A%A8%E4%BA%BA%EF%BC%9F"><span class="toc-number">5.3.</span> <span class="toc-text">3. 这篇文章为什么能打动人？</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AGNPR-SID/" title="论文笔记：GNPR-SID">论文笔记：GNPR-SID</a><time datetime="2026-04-09T06:20:00.000Z" title="发表于 2026-04-09 14:20:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ATALLRec/" title="论文笔记：TALLRec">论文笔记：TALLRec</a><time datetime="2026-04-09T06:10:00.000Z" title="发表于 2026-04-09 14:10:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AInstructRec/" title="论文笔记：InstructRec">论文笔记：InstructRec</a><time datetime="2026-04-09T06:00:00.000Z" title="发表于 2026-04-09 14:00:00">2026-04-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/30/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" title="测试开发工程师学习路线"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="测试开发工程师学习路线"/></a><div class="content"><a class="title" href="/blog/2025/10/30/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" title="测试开发工程师学习路线">测试开发工程师学习路线</a><time datetime="2025-10-30T08:00:00.000Z" title="发表于 2025-10-30 16:00:00">2025-10-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/30/Hot100%EF%BC%9A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1-%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE/" title="Hot100：二分查找1-搜索插入位置"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="Hot100：二分查找1-搜索插入位置"/></a><div class="content"><a class="title" href="/blog/2025/10/30/Hot100%EF%BC%9A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1-%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE/" title="Hot100：二分查找1-搜索插入位置">Hot100：二分查找1-搜索插入位置</a><time datetime="2025-10-30T07:00:16.000Z" title="发表于 2025-10-30 15:00:16">2025-10-30</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 好困3127</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/blog/js/utils.js?v=5.5.1"></script><script src="/blog/js/main.js?v=5.5.1"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="99,102,241" opacity="0.3" zIndex="-1" count="50" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
