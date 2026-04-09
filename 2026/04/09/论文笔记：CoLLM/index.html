@@ -1,0 +1,307 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>论文笔记：CoLLM | 好困的博客</title><meta name="author" content="好困3127"><meta name="copyright" content="好困3127"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="CoLLM 将传统协同模型产生的 embedding 视为独立模态接入 LLM，通过轻量映射层补足热启动场景短板，实现了冷启动与热启动兼顾。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文笔记：CoLLM">
+<meta property="og:url" content="https://haokun3127.github.io/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ACoLLM/index.html">
+<meta property="og:site_name" content="好困的博客">
+<meta property="og:description" content="CoLLM 将传统协同模型产生的 embedding 视为独立模态接入 LLM，通过轻量映射层补足热启动场景短板，实现了冷启动与热启动兼顾。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.com/haokun3127.png">
+<meta property="article:published_time" content="2026-04-09T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-09T11:51:46.388Z">
+<meta property="article:author" content="好困3127">
+<meta property="article:tag" content="论文笔记">
+<meta property="article:tag" content="推荐系统">
+<meta property="article:tag" content="大语言模型">
+<meta property="article:tag" content="协同过滤">
+<meta property="article:tag" content="CoLLM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/haokun3127.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "论文笔记：CoLLM",
+  "url": "https://haokun3127.github.io/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ACoLLM/",
+  "image": "https://github.com/haokun3127.png",
+  "datePublished": "2026-04-09T10:00:00.000Z",
+  "dateModified": "2026-04-09T11:51:46.388Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "好困3127",
+      "url": "https://haokun3127.github.io/blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/blog/img/favicon.png"><link rel="canonical" href="https://haokun3127.github.io/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ACoLLM/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/blog/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0f172a')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '论文笔记：CoLLM',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style>.recent-posts>.recent-post-item{width:100%!important;max-width:100%!important;margin-bottom:2rem!important;}.recent-posts{display:flex!important;flex-direction:column!important;}</style><meta name="generator" content="Hexo 7.3.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/blog/"><span class="site-name">好困的博客</span></a><a class="nav-page-title" href="/blog/"><span class="site-name">论文笔记：CoLLM</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">论文笔记：CoLLM</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-09T10:00:00.000Z" title="发表于 2026-04-09 18:00:00">2026-04-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-09T11:51:46.388Z" title="更新于 2026-04-09 19:51:46">2026-04-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/blog/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/blog/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">推荐系统</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="论文信息"><a href="#论文信息" class="headerlink" title="论文信息"></a>论文信息</h2><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>论文标题</td>
+<td>CoLLM: Integrating Collaborative Embeddings into Large Language Models for Recommendation</td>
+</tr>
+<tr>
+<td>期刊&#x2F;会议</td>
+<td>原笔记未注明，仅记录发表日期为 2025-06-14</td>
+</tr>
+<tr>
+<td>发表日期</td>
+<td>2025-06-14</td>
+</tr>
+<tr>
+<td>作者</td>
+<td>Yang Zhang；Fuli Feng；Jizhi Zhang；Keqin Bao；Qifan Wang；Xiangnan He</td>
+</tr>
+<tr>
+<td>核心主题</td>
+<td>将传统协同信息以独立模态形式注入 LLM 推荐框架</td>
+</tr>
+<tr>
+<td>关键词</td>
+<td>CoLLM、LLMRec、Collaborative Information、Warm-start、Cold-start</td>
+</tr>
+<tr>
+<td>原文 PDF</td>
+<td>Zhang 等 - 2025 - CoLLM Integrating Collaborative Embeddings into Large Language Models for Recommendation.pdf</td>
+</tr>
+<tr>
+<td>笔记创建日期</td>
+<td>2026&#x2F;04&#x2F;09</td>
+</tr>
+</tbody></table>
+<h2 id="摘要速览"><a href="#摘要速览" class="headerlink" title="摘要速览"></a>摘要速览</h2><p>CoLLM 聚焦于一个很关键但常被忽略的问题：现有 LLM 推荐方法更擅长利用文本语义处理冷启动，却没有充分吸收传统推荐系统中的协同信息，因此在热启动场景下常常不如矩阵分解或图模型。本文把协同 embedding 视为一种独立模态，通过映射层对齐到 LLM 的 token 空间，在不修改 LLM 主体结构的前提下，让大模型同时具备文本推理能力与协同建模优势。实验表明，CoLLM 在 ML-1M 和 Amazon-Book 上都优于传统模型和 TALLRec，并在冷、热场景之间取得了更好的平衡。</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>英文摘要</td>
+<td>Leveraging Large Language Models as recommenders, referred to as LLMRec, is gaining traction and brings novel dynamics for modeling user preferences, particularly for cold-start users. However, existing LLMRec approaches primarily focus on text semantics and overlook the crucial aspect of incorporating collaborative information from user-item interactions, leading to potentially sub-optimal performance in warm-start scenarios. To ensure superior recommendations across both warm and cold scenarios, we introduce CoLLM, an innovative LLMRec approach that explicitly integrates collaborative information for recommendations. CoLLM treats collaborative information as a distinct modality, directly encoding it from well-established traditional collaborative models, and then tunes a mapping module to align this collaborative information with the LLM’s input text token space for recommendations. By externally integrating traditional models, CoLLM ensures effective collaborative information modeling without modifying the LLM itself, providing the flexibility to adopt diverse collaborative information modeling mechanisms. Extensive experimentation validates that CoLLM adeptly integrates collaborative information into LLMs, resulting in enhanced recommendation performance.</td>
+</tr>
+<tr>
+<td>中文摘要翻译</td>
+<td>现有 LLMRec 方法在冷启动场景中能借助文本语义取得不错效果，但往往忽略用户与物品交互中蕴含的协同信息，因此在热启动场景容易出现性能瓶颈。CoLLM 将协同信息视作独立模态，直接从传统协同模型中提取表示，再通过映射模块将其对齐到 LLM 输入空间，从而在不改动 LLM 主体的前提下完成融合。实验结果表明，该方法能够有效提升推荐性能，并兼顾冷启动与热启动场景。</td>
+</tr>
+</tbody></table>
+<h2 id="1-文章基本框架"><a href="#1-文章基本框架" class="headerlink" title="1. 文章基本框架"></a>1. 文章基本框架</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><blockquote>
+<p>如果说 TALLRec 解决了 LLM “能不能做推荐”，那么 CoLLM 进一步追问的是：LLM 能不能在保住语义泛化优势的同时，补齐传统推荐系统最强的协同建模能力。</p>
+</blockquote>
+<ul>
+<li><strong>LLMRec 的偏科问题</strong>：现有 LLM 推荐方法依赖文本提示和语义推理，在冷启动用户或物品上往往表现不错，但这种优势并不能直接迁移到热启动场景。</li>
+<li><strong>协同信息缺失</strong>：传统推荐模型的强项在于从大规模交互数据中挖掘协同信号，而把用户和物品完全转成文本后，这部分信息会被显著削弱。</li>
+<li><strong>热启动表现不足</strong>：当用户和物品已经拥有丰富历史交互时，纯文本驱动的 LLMRec 反而可能落后于 MF、LightGCN 等经典方法。</li>
+</ul>
+<h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><blockquote>
+<p>本文的核心目标是把“协同信息”作为一种可以被 LLM 理解的新模态，让推荐模型在冷启动和热启动场景下都保持竞争力。</p>
+</blockquote>
+<ul>
+<li><strong>显式注入协同信号</strong>：不再只依赖文本描述，而是把传统推荐模型学到的 user&#x2F;item embedding 直接接入 LLM。</li>
+<li><strong>保持模型轻量与灵活</strong>：作者不修改 LLM 主干结构，也不扩充庞大的 ID 词表，而是通过一个小型映射层完成跨模态对齐。</li>
+<li><strong>兼顾泛化与效果</strong>：既要保留 LLM 的语义理解优势，也要吸收传统协同模型在热启动场景中的稳定收益。</li>
+</ul>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><blockquote>
+<p>CoLLM 证明了“LLM + 外挂协同信息”是一条务实且有效的推荐路线。</p>
+</blockquote>
+<ul>
+<li>提出了一套两阶段微调框架，把 MF、LightGCN、DIN 等传统协同模型与 Vicuna-7B 结合起来。</li>
+<li>在整体指标上，CoLLM 超越了传统 SOTA 和纯 LLMRec 方法，同时显著缓解了 LLMRec 在热启动场景中的短板。</li>
+</ul>
+<h2 id="2-结果与讨论"><a href="#2-结果与讨论" class="headerlink" title="2. 结果与讨论"></a>2. 结果与讨论</h2><h3 id="数据以及数据来源"><a href="#数据以及数据来源" class="headerlink" title="数据以及数据来源"></a>数据以及数据来源</h3><ul>
+<li><strong>数据集</strong>：使用 ML-1M 和 Amazon-Book 两个经典推荐数据集。</li>
+<li><strong>数据划分</strong>：采用严格的时间戳切分，避免信息泄露，并将任务处理为隐式反馈二分类问题。</li>
+<li><strong>冷热拆分</strong>：测试集进一步划分为 Warm 与 Cold 子集，用来检验模型在不同数据稠密度场景下的表现差异。</li>
+</ul>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><blockquote>
+<p>CoLLM 的思路很直接：让传统推荐模型负责提取协同表示，让 LLM 负责理解文本上下文并做最终推理。</p>
+</blockquote>
+<h4 id="1-协同信息编码模块（CIE-Collaborative-Information-Encoding）"><a href="#1-协同信息编码模块（CIE-Collaborative-Information-Encoding）" class="headerlink" title="1. 协同信息编码模块（CIE: Collaborative Information Encoding）"></a>1. 协同信息编码模块（CIE: Collaborative Information Encoding）</h4><ul>
+<li>**协同模型 <code>f_psi</code>**：使用 MF、LightGCN 或 DIN 等传统模型，把用户和物品编码成低维协同 embedding。</li>
+<li>**映射层 <code>g_phi</code>**：通过一个 MLP 将协同 embedding 映射到 LLM 的词向量空间，充当“翻译器”。</li>
+<li><strong>混合输入方式</strong>：最终输入被组织为文本 token 与协同向量交织的序列，使 LLM 能在统一空间中处理两类信息。</li>
+</ul>
+<h4 id="2-两阶段解耦微调（Two-Step-Tuning）"><a href="#2-两阶段解耦微调（Two-Step-Tuning）" class="headerlink" title="2. 两阶段解耦微调（Two-Step Tuning）"></a>2. 两阶段解耦微调（Two-Step Tuning）</h4><ul>
+<li><p><strong>Step 1: 文本能力与任务对齐</strong></p>
+<ul>
+<li>暂时屏蔽协同 embedding，只用文本提示微调 LoRA。</li>
+<li>目标是先让 LLM 理解推荐任务本身，并稳住冷启动场景中的文本推理能力。</li>
+</ul>
+</li>
+<li><p><strong>Step 2: 协同信号对齐</strong></p>
+<ul>
+<li>冻结 LLM 与 LoRA，仅更新 CIE 中的映射层，必要时可联合微调协同模型。</li>
+<li>目标是把传统协同信号对齐到 LLM 已经适配好的表示空间中。</li>
+</ul>
+</li>
+</ul>
+<h3 id="结论分析"><a href="#结论分析" class="headerlink" title="结论分析"></a>结论分析</h3><ul>
+<li><strong>整体性能（RQ1）</strong>：无论底层协同模型选用 MF、LightGCN 还是 DIN，CoLLM 都优于纯传统模型和 TALLRec，说明“语义 + 协同”组合确实有效。</li>
+<li><strong>冷热场景对比</strong>：在 Warm 子集上，CoLLM 明显修复了 TALLRec 的短板；在 Cold 子集上，又基本保留了 TALLRec 的优势。</li>
+<li><strong>消融与效率（RQ2）</strong>：去掉 CIE 后性能显著下降，而直接引入 ID token 的朴素做法甚至会带来负收益。两阶段训练带来的额外开销相对可控，文中报告训练时间约增加 15.5%，推理耗时约增加 12.5%。</li>
+</ul>
+<h2 id="3-文章亮点思考"><a href="#3-文章亮点思考" class="headerlink" title="3. 文章亮点思考"></a>3. 文章亮点思考</h2><h3 id="1-本文有什么优缺点？"><a href="#1-本文有什么优缺点？" class="headerlink" title="1. 本文有什么优缺点？"></a>1. 本文有什么优缺点？</h3><ul>
+<li><p><strong>优点</strong></p>
+<ul>
+<li><strong>问题抓得准</strong>：文章非常敏锐地指出了 LLMRec 在热启动场景中的核心弱点，不是简单追求“大模型更强”，而是回到推荐系统最本质的协同信号上。</li>
+<li><strong>设计足够克制</strong>：作者没有硬改 LLM 结构，而是用轻量映射层做对齐，这让方案兼具研究价值和工程可落地性。</li>
+<li><strong>可插拔性强</strong>：CIE 模块能兼容多种传统推荐模型，说明 CoLLM 更像一个融合框架，而不是只绑定某一种底座。</li>
+</ul>
+</li>
+<li><p><strong>缺点 &#x2F; 疑问</strong></p>
+<ul>
+<li><strong>在线推理成本仍高</strong>：即使加入协同信息后效果提升明显，LLM 级别的推理延迟在真实工业重排场景里仍然是压力点。</li>
+<li><strong>两阶段训练可能次优</strong>：Step 2 只对齐映射层，没有和 LoRA 共同端到端联合优化，可能限制最终上限。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-可以如何改进？"><a href="#2-可以如何改进？" class="headerlink" title="2. 可以如何改进？"></a>2. 可以如何改进？</h3><ol>
+<li><strong>端到端联合优化</strong>：让文本表示、协同表示和映射层在统一目标下协同训练，减少阶段间割裂。</li>
+<li><strong>动态门控机制</strong>：针对极端冷启动样本，引入 gating 模块动态决定当前应更依赖文本语义还是协同信号。</li>
+<li><strong>面向部署的轻量化设计</strong>：可以进一步探索蒸馏、缓存协同表示或只在精排阶段调用 LLM，以降低线上时延。</li>
+</ol>
+<h3 id="3-这篇文章为什么重要？"><a href="#3-这篇文章为什么重要？" class="headerlink" title="3. 这篇文章为什么重要？"></a>3. 这篇文章为什么重要？</h3><p>这篇文章的重要性在于，它把 LLM 推荐研究从“把推荐问题翻译成文本”推进到了“如何把非文本协同知识高效接入 LLM”。CoLLM 没有否定传统推荐模型，而是把它们当作成熟的外部专家来协同工作。这种思路既尊重了推荐系统长期积累的方法论，也为后续多模态推荐、结构化信号接入大模型提供了非常自然的范式。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog">好困3127</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ACoLLM/">https://haokun3127.github.io/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ACoLLM/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://haokun3127.github.io/blog" target="_blank">好困的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/blog/tags/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a><a class="post-meta__tags" href="/blog/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">推荐系统</a><a class="post-meta__tags" href="/blog/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">大语言模型</a><a class="post-meta__tags" href="/blog/tags/%E5%8D%8F%E5%90%8C%E8%BF%87%E6%BB%A4/">协同过滤</a><a class="post-meta__tags" href="/blog/tags/CoLLM/">CoLLM</a></div><div class="post-share"><div class="social-share" data-image="https://github.com/haokun3127.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AGNPR-SID/" title="4.论文笔记：GNPR-SID"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">4.论文笔记：GNPR-SID</div></div><div class="info-2"><div class="info-item-1">论文信息   字段 内容    论文标题 Generative Next POI Recommendation with Semantic ID   会议 KDD 2025: The 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining   作者 原笔记未记录   核心主题 用语义 ID 提升生成式 POI 推荐 ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AGNPR-SID/" title="4.论文笔记：GNPR-SID"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-09</div><div class="info-item-2">4.论文笔记：GNPR-SID</div></div><div class="info-2"><div class="info-item-1">论文信息   字段 内容    论文标题 Generative Next POI Recommendation with Semantic ID   会议 KDD 2025: The 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining   作者 原笔记未记录   核心主题 用语义 ID 提升生成式 POI 推荐 ...</div></div></div></a><a class="pagination-related" href="/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AInstructRec/" title="论文笔记：1.InstructRec"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-09</div><div class="info-item-2">论文笔记：1.InstructRec</div></div><div class="info-2"><div class="info-item-1">论文信息   字段 内容    论文标题 Recommendation as Instruction Following: A Large Language Model Empowered Recommendation Approach   期刊 未在原笔记中注明   发表日期 2023-05-11   作者 Junjie Zhang；Ruobing Xie；Yupeng Hou；Wayne...</div></div></div></a><a class="pagination-related" href="/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ATALLRec/" title="2.论文笔记：TALLRec"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-09</div><div class="info-item-2">2.论文笔记：TALLRec</div></div><div class="info-2"><div class="info-item-1">论文信息   字段 内容    论文标题 TALLRec: An Effective and Efficient Tuning Framework to Align Large Language Model with Recommendation   期刊&#x2F;会议 原笔记记为期刊&#x2F;会议，未单独区分   发表日期 2023-09-14   作者 Keqin Bao；Jizhi...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">好困3127</div><div class="author-info-description">Java 后端开发 / 热爱技术 / 持续学习</div><div class="site-data"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/haokun3127"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/haokun3127" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:haokun3127@example.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=你的QQ号" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #12B7F5;"></i></a><a class="social-icon" href="/blog/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #FFA500;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">📝 记录学习 · 分享成长 · 共同进步</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BA%E6%96%87%E4%BF%A1%E6%81%AF"><span class="toc-number">1.</span> <span class="toc-text">论文信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81%E9%80%9F%E8%A7%88"><span class="toc-number">2.</span> <span class="toc-text">摘要速览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E7%AB%A0%E5%9F%BA%E6%9C%AC%E6%A1%86%E6%9E%B6"><span class="toc-number">3.</span> <span class="toc-text">1. 文章基本框架</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">3.1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E7%9A%84"><span class="toc-number">3.2.</span> <span class="toc-text">目的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">3.3.</span> <span class="toc-text">结论</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%BB%93%E6%9E%9C%E4%B8%8E%E8%AE%A8%E8%AE%BA"><span class="toc-number">4.</span> <span class="toc-text">2. 结果与讨论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BB%A5%E5%8F%8A%E6%95%B0%E6%8D%AE%E6%9D%A5%E6%BA%90"><span class="toc-number">4.1.</span> <span class="toc-text">数据以及数据来源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text">方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%8D%8F%E5%90%8C%E4%BF%A1%E6%81%AF%E7%BC%96%E7%A0%81%E6%A8%A1%E5%9D%97%EF%BC%88CIE-Collaborative-Information-Encoding%EF%BC%89"><span class="toc-number">4.2.1.</span> <span class="toc-text">1. 协同信息编码模块（CIE: Collaborative Information Encoding）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%B8%A4%E9%98%B6%E6%AE%B5%E8%A7%A3%E8%80%A6%E5%BE%AE%E8%B0%83%EF%BC%88Two-Step-Tuning%EF%BC%89"><span class="toc-number">4.2.2.</span> <span class="toc-text">2. 两阶段解耦微调（Two-Step Tuning）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA%E5%88%86%E6%9E%90"><span class="toc-number">4.3.</span> <span class="toc-text">结论分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%96%87%E7%AB%A0%E4%BA%AE%E7%82%B9%E6%80%9D%E8%80%83"><span class="toc-number">5.</span> <span class="toc-text">3. 文章亮点思考</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%9C%AC%E6%96%87%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%9F"><span class="toc-number">5.1.</span> <span class="toc-text">1. 本文有什么优缺点？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%8F%AF%E4%BB%A5%E5%A6%82%E4%BD%95%E6%94%B9%E8%BF%9B%EF%BC%9F"><span class="toc-number">5.2.</span> <span class="toc-text">2. 可以如何改进？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E8%A6%81%EF%BC%9F"><span class="toc-number">5.3.</span> <span class="toc-text">3. 这篇文章为什么重要？</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ACoLLM/" title="论文笔记：CoLLM">论文笔记：CoLLM</a><time datetime="2026-04-09T10:00:00.000Z" title="发表于 2026-04-09 18:00:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AGNPR-SID/" title="4.论文笔记：GNPR-SID">4.论文笔记：GNPR-SID</a><time datetime="2026-04-09T06:20:00.000Z" title="发表于 2026-04-09 14:20:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ATALLRec/" title="2.论文笔记：TALLRec">2.论文笔记：TALLRec</a><time datetime="2026-04-09T06:10:00.000Z" title="发表于 2026-04-09 14:10:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AInstructRec/" title="论文笔记：1.InstructRec">论文笔记：1.InstructRec</a><time datetime="2026-04-09T06:00:00.000Z" title="发表于 2026-04-09 14:00:00">2026-04-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2025/10/30/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" title="测试开发工程师学习路线"><img src="https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="测试开发工程师学习路线"/></a><div class="content"><a class="title" href="/blog/2025/10/30/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" title="测试开发工程师学习路线">测试开发工程师学习路线</a><time datetime="2025-10-30T08:00:00.000Z" title="发表于 2025-10-30 16:00:00">2025-10-30</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 好困3127</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/blog/js/utils.js?v=5.5.1"></script><script src="/blog/js/main.js?v=5.5.1"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="99,102,241" opacity="0.3" zIndex="-1" count="50" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
