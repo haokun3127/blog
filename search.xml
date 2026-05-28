@@ -442,10 +442,10 @@
 <td>第一阶段</td>
 <td>AI&#x2F;RAG 基础扫盲 + MCP 入门 + 项目跑起来</td>
 <td><span style="color: red;"><strong>进行中</strong></span></td>
-<td><span style="color: red;"><strong>1&#x2F;7</strong></span></td>
+<td><span style="color: red;"><strong>1&#x2F;7，Day 2 进行中</strong></span></td>
 <td>7天</td>
 <td>5.28-</td>
-<td>建立概念地图，理解 RAG 最小闭环，完成本地启动</td>
+<td>已完成大模型基础和 API 调用笔记，下一步补 Prompt 工程</td>
 </tr>
 <tr>
 <td>第二阶段</td>
@@ -487,14 +487,14 @@
 <tbody><tr>
 <td>Day 1</td>
 <td>认识大模型与项目全貌</td>
-<td>Ragent AI 解决什么问题；模块结构图</td>
-<td><span style="color: red;"><strong>进行中</strong></span></td>
+<td>Ragent学习笔记01：认识大模型</td>
+<td><span style="color: green;"><strong>已完成</strong></span></td>
 </tr>
 <tr>
 <td>Day 2</td>
 <td>调用大模型 API 与 Prompt 工程</td>
-<td>Prompt 文件名、场景、输入变量、输出目标表格</td>
-<td>待开始</td>
+<td>Ragent学习笔记02：调用大模型 API；Prompt 文件名、场景、输入变量、输出目标表格</td>
+<td><span style="color: red;"><strong>进行中：API 已完成，Prompt 待学习</strong></span></td>
 </tr>
 <tr>
 <td>Day 3</td>
@@ -705,7 +705,13 @@
 <td></td>
 </tr>
 </tbody></table>
-<h2 id="当前进展"><a href="#当前进展" class="headerlink" title="当前进展"></a>当前进展</h2><p>🔥 <strong>正在进行</strong>：Ragent AI Day 1：认识大模型与项目全貌</p>
+<h2 id="当前进展"><a href="#当前进展" class="headerlink" title="当前进展"></a>当前进展</h2><p>✅ <strong>今日完成</strong>：</p>
+<ul>
+<li>Ragent学习笔记01：认识大模型</li>
+<li>Ragent学习笔记02：调用大模型 API</li>
+</ul>
+<p>🔥 <strong>正在进行</strong>：Ragent AI Day 2：调用大模型 API 与 Prompt 工程</p>
+<p>📌 <strong>下一步</strong>：学习《AI大模型Ragent项目》第3小节：Prompt工程入门，补齐 Day 2 的 Prompt 模板梳理表。</p>
 <hr>
 ]]></content>
       <categories>
