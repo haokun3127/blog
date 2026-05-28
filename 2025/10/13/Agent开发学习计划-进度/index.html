@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Agent开发学习计划/进度 | 好困的博客</title><meta name="author" content="好困3127"><meta name="copyright" content="好困3127"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Agent 开发学习计划与进度记录，以 Ragent AI 项目为主线，按 30 天文档驱动打卡节奏推进 RAG、模型调度、知识库、MCP、SSE、限流和 Trace 等内容。">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Agent开发学习计划/进度 | 好困的博客</title><meta name="author" content="好困3127"><meta name="copyright" content="好困3127"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Agent 开发学习计划与进度记录，以 Ragent AI 项目为主线，按 30 天文档驱动打卡节奏推进 AI&#x2F;RAG 基础、知识库、模型调度、MCP、SSE、限流和 Trace 等内容。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Agent开发学习计划&#x2F;进度">
 <meta property="og:url" content="https://haokun3127.github.io/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/index.html">
 <meta property="og:site_name" content="好困的博客">
-<meta property="og:description" content="Agent 开发学习计划与进度记录，以 Ragent AI 项目为主线，按 30 天文档驱动打卡节奏推进 RAG、模型调度、知识库、MCP、SSE、限流和 Trace 等内容。">
+<meta property="og:description" content="Agent 开发学习计划与进度记录，以 Ragent AI 项目为主线，按 30 天文档驱动打卡节奏推进 AI&#x2F;RAG 基础、知识库、模型调度、MCP、SSE、限流和 Trace 等内容。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://images.unsplash.com/photo-1717501219184-c3fc77f501c3?auto=format&fit=crop&w=1600&q=80">
 <meta property="article:published_time" content="2025-10-13T09:21:36.000Z">
-<meta property="article:modified_time" content="2026-05-28T07:37:27.763Z">
+<meta property="article:modified_time" content="2026-05-28T08:13:01.277Z">
 <meta property="article:author" content="好困3127">
 <meta property="article:tag" content="RAG">
 <meta property="article:tag" content="Ragent">
@@ -21,7 +21,7 @@
   "url": "https://haokun3127.github.io/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/",
   "image": "https://images.unsplash.com/photo-1717501219184-c3fc77f501c3?auto=format&fit=crop&w=1600&q=80",
   "datePublished": "2025-10-13T09:21:36.000Z",
-  "dateModified": "2026-05-28T07:37:27.763Z",
+  "dateModified": "2026-05-28T08:13:01.277Z",
   "author": [
     {
       "@type": "Person",
@@ -171,7 +171,7 @@ btf.addGlobalFn('pjaxSend', () => {
   Pace.restart()
 }, 'pace_restart')
 
-</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(https://images.unsplash.com/photo-1717501219184-c3fc77f501c3?auto=format&amp;fit=crop&amp;w=1600&amp;q=80);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/blog/"><span class="site-name">好困的博客</span></a><a class="nav-page-title" href="/blog/"><span class="site-name">Agent开发学习计划/进度</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Agent开发学习计划/进度</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-10-13T09:21:36.000Z" title="发表于 2025-10-13 17:21:36">2025-10-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-05-28T07:37:27.763Z" title="更新于 2026-05-28 15:37:27">2026-05-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/blog/categories/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/">学习计划</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="学习进度表"><a href="#学习进度表" class="headerlink" title="学习进度表"></a>学习进度表</h2><h3 id="阶段性学习计划"><a href="#阶段性学习计划" class="headerlink" title="阶段性学习计划"></a>阶段性学习计划</h3><table>
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(https://images.unsplash.com/photo-1717501219184-c3fc77f501c3?auto=format&amp;fit=crop&amp;w=1600&amp;q=80);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/blog/"><span class="site-name">好困的博客</span></a><a class="nav-page-title" href="/blog/"><span class="site-name">Agent开发学习计划/进度</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Agent开发学习计划/进度</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-10-13T09:21:36.000Z" title="发表于 2025-10-13 17:21:36">2025-10-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-05-28T08:13:01.277Z" title="更新于 2026-05-28 16:13:01">2026-05-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/blog/categories/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/">学习计划</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="学习进度表"><a href="#学习进度表" class="headerlink" title="学习进度表"></a>学习进度表</h2><h3 id="阶段性学习计划"><a href="#阶段性学习计划" class="headerlink" title="阶段性学习计划"></a>阶段性学习计划</h3><table>
 <thead>
 <tr>
 <th>阶段</th>
@@ -185,12 +185,12 @@ btf.addGlobalFn('pjaxSend', () => {
 </thead>
 <tbody><tr>
 <td>第一阶段</td>
-<td>AI&#x2F;RAG 基础扫盲 + TinyRAG 认知 + 项目跑起来</td>
+<td>AI&#x2F;RAG 基础扫盲 + MCP 入门 + 项目跑起来</td>
 <td><span style="color: red;"><strong>进行中</strong></span></td>
 <td><span style="color: red;"><strong>1&#x2F;7</strong></span></td>
 <td>7天</td>
 <td>5.28-</td>
-<td>Day 1：认识大模型与项目全貌</td>
+<td>建立概念地图，理解 RAG 最小闭环，完成本地启动</td>
 </tr>
 <tr>
 <td>第二阶段</td>
@@ -203,21 +203,21 @@ btf.addGlobalFn('pjaxSend', () => {
 </tr>
 <tr>
 <td>第三阶段</td>
-<td>大模型调度引擎 + Ollama&#x2F;vLLM：模型路由、熔断、SSE、Embedding、Rerank</td>
+<td>本地模型 + 大模型调度引擎 + SSE&#x2F;Embedding&#x2F;Rerank</td>
 <td>待开始</td>
 <td>0&#x2F;7</td>
 <td>7天</td>
 <td></td>
-<td>理解模型调用不是简单调 API</td>
+<td>理解模型路由、熔断、流式、召回和精排</td>
 </tr>
 <tr>
 <td>第四阶段</td>
-<td>AI 知识问答链路 + MCP + 工程化 + 面试复盘</td>
+<td>AI 知识问答链路 + MCP 工具 + 工程化 + 面试复盘</td>
 <td>待开始</td>
 <td>0&#x2F;9</td>
 <td>9天</td>
 <td></td>
-<td>完整讲清一次用户提问在后端经历的阶段</td>
+<td>完整讲清一次用户提问从进入后端到生成答案的全过程</td>
 </tr>
 </tbody></table>
 <h3 id="Ragent-30-天打卡计划"><a href="#Ragent-30-天打卡计划" class="headerlink" title="Ragent 30 天打卡计划"></a>Ragent 30 天打卡计划</h3><table>
@@ -243,8 +243,8 @@ btf.addGlobalFn('pjaxSend', () => {
 </tr>
 <tr>
 <td>Day 3</td>
-<td>什么是 RAG + TinyRAG 思路</td>
-<td>TinyRAG 与 Ragent 加强版流程图</td>
+<td>RAG 基础 + 生成策略与幻觉抑制</td>
+<td>RAG 流程图；幻觉抑制手段清单</td>
 <td>待开始</td>
 </tr>
 <tr>
@@ -261,19 +261,19 @@ btf.addGlobalFn('pjaxSend', () => {
 </tr>
 <tr>
 <td>Day 6</td>
-<td>环境搭建与中间件</td>
-<td>本地环境清单、端口和账号记录</td>
+<td>Function Call 与 MCP 基础</td>
+<td>MCP 和 RAG 分别负责什么，怎么组合</td>
 <td>待开始</td>
 </tr>
 <tr>
 <td>Day 7</td>
-<td>项目启动与控制台体验</td>
-<td>页面到后端模块映射表</td>
+<td>本地环境、项目启动、控制台体验</td>
+<td>环境清单；页面到后端模块映射表</td>
 <td>待开始</td>
 </tr>
 <tr>
 <td>Day 8</td>
-<td>知识库宏观设计</td>
+<td>知识库宏观设计与管理接口</td>
 <td>知识库核心表关系图</td>
 <td>待开始</td>
 </tr>
@@ -315,7 +315,7 @@ btf.addGlobalFn('pjaxSend', () => {
 </tr>
 <tr>
 <td>Day 15</td>
-<td>本地模型与 Ollama</td>
+<td>本地模型与 Ollama&#x2F;vLLM 扫盲</td>
 <td>云模型 vs 本地模型对比表</td>
 <td>待开始</td>
 </tr>
@@ -345,13 +345,13 @@ btf.addGlobalFn('pjaxSend', () => {
 </tr>
 <tr>
 <td>Day 20</td>
-<td>SSE 流式解析、异步执行、首包探测</td>
+<td>SSE 协议、服务端实践、流式解析与首包探测</td>
 <td>流式输出全过程时序图</td>
 <td>待开始</td>
 </tr>
 <tr>
 <td>Day 21</td>
-<td>Embedding 与 Rerank</td>
+<td>Embedding 客户端与 Rerank 重排序</td>
 <td>为什么有向量检索还要 Rerank</td>
 <td>待开始</td>
 </tr>
@@ -387,26 +387,26 @@ btf.addGlobalFn('pjaxSend', () => {
 </tr>
 <tr>
 <td>Day 27</td>
-<td>MCP 工具调用与 Prompt 拼装</td>
-<td>MCP 和 RAG 怎么结合</td>
+<td>MCP 协议、Java SDK 与协议选型</td>
+<td>MCP 为什么不直接用 HTTP 或 gRPC</td>
 <td>待开始</td>
 </tr>
 <tr>
 <td>Day 28</td>
+<td>MCP 工具调用与最终 Prompt 拼装</td>
+<td>MCP 和 RAG 怎么结合</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 29</td>
 <td>流式生成、停止生成、限流排队</td>
 <td>排队限流时序图</td>
 <td>待开始</td>
 </tr>
 <tr>
-<td>Day 29</td>
-<td>评估、Trace、生产化短板</td>
-<td>Ragent 生产化改造清单</td>
-<td>待开始</td>
-</tr>
-<tr>
 <td>Day 30</td>
-<td>简历、面试、高频问题总复盘</td>
-<td>简历项目描述 + 面试版项目讲解稿 + 20 问 20 答</td>
+<td>生产化、简历、面试总复盘</td>
+<td>生产化清单 + 简历项目描述 + 20 问 20 答</td>
 <td>待开始</td>
 </tr>
 </tbody></table>
