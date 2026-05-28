@@ -176,254 +176,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hot100：二分查找1-搜索插入位置</title>
-    <url>/blog/2025/10/30/Hot100%EF%BC%9A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1-%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><blockquote>
-<p><strong>LeetCode 35. 搜索插入位置</strong></p>
-</blockquote>
-<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。<strong>如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</strong></p>
-<p>请必须使用时间复杂度为 <code>O(log n)</code> 的算法。</p>
-<h2 id="问题理解"><a href="#问题理解" class="headerlink" title="问题理解"></a>问题理解</h2><p>这道题有两个核心任务：</p>
-<ol>
-<li><strong>查找</strong>：如果目标值存在，返回其索引</li>
-<li><strong>定位插入位置</strong>：如果目标值不存在，找到它应该插入的位置（保持数组有序）</li>
-</ol>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p><strong>示例 1：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: nums = [1,3,5,6], target = 5</span><br><span class="line">输出: 2</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例 2：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: nums = [1,3,5,6], target = 2</span><br><span class="line">输出: 1</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例 3：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: nums = [1,3,5,6], target = 7</span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure>
-
-<h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><ul>
-<li><code>1 &lt;= nums.length &lt;= 10^4</code></li>
-<li><code>-10^4 &lt;= nums[i] &lt;= 10^4</code></li>
-<li><code>nums</code> 为<strong>无重复元素</strong>的<strong>升序</strong>排列数组</li>
-<li><code>-10^4 &lt;= target &lt;= 10^4</code></li>
-</ul>
-<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><h2 id="算法选择"><a href="#算法选择" class="headerlink" title="算法选择"></a>算法选择</h2><p>由于题目要求时间复杂度为 <code>O(log n)</code>，并且数组是<strong>有序的</strong>，这是使用<strong>二分查找算法</strong>的典型场景。</p>
-<h2 id="核心思路"><a href="#核心思路" class="headerlink" title="核心思路"></a>核心思路</h2><p>使用二分查找在有序数组中定位目标值或插入位置：</p>
-<ol>
-<li><strong>初始化搜索区间</strong>：<code>min = 0</code>，<code>max = nums.length - 1</code></li>
-<li><strong>循环查找</strong>：<ul>
-<li>计算中间位置：<code>mid = (min + max) / 2</code></li>
-<li>比较 <code>nums[mid]</code> 与 <code>target</code>：<ul>
-<li><code>nums[mid] == target</code>：✅ <strong>找到目标</strong>，返回 <code>mid</code></li>
-<li><code>nums[mid] &gt; target</code>：目标在左半部分，<code>max = mid - 1</code></li>
-<li><code>nums[mid] &lt; target</code>：目标在右半部分，<code>min = mid + 1</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><strong>退出条件</strong>：<code>min &gt; max</code> 时，目标值不存在</li>
-</ol>
-<h2 id="🔑-关键理解：插入位置的确定"><a href="#🔑-关键理解：插入位置的确定" class="headerlink" title="🔑 关键理解：插入位置的确定"></a>🔑 关键理解：插入位置的确定</h2><p>这是本题的核心！当二分查找结束（<code>min &gt; max</code>）时，为什么 <code>min</code> 就是插入位置？</p>
-<h3 id="直观理解"><a href="#直观理解" class="headerlink" title="直观理解"></a>直观理解</h3><p>假设数组 <code>[1, 3, 5, 6]</code>，目标值 <code>target = 2</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">查找过程：</span><br><span class="line">初始: [1, 3, 5, 6]</span><br><span class="line">       ↑     ↑</span><br><span class="line">      min   max</span><br><span class="line"></span><br><span class="line">第1步: mid=1, nums[1]=3 &gt; 2，向左搜索</span><br><span class="line">       max = mid - 1 = 0</span><br><span class="line"></span><br><span class="line">第2步: mid=0, nums[0]=1 &lt; 2，向右搜索</span><br><span class="line">       min = mid + 1 = 1</span><br><span class="line"></span><br><span class="line">第3步: min(1) &gt; max(0)，循环结束</span><br><span class="line">       此时 min=1，表示 2 应该插入到索引1的位置</span><br><span class="line">       </span><br><span class="line">结果: [1, 2, 3, 5, 6]  ← 插入后仍然有序</span><br><span class="line">          ↑</span><br><span class="line">       插入位置</span><br></pre></td></tr></table></figure>
-
-<h3 id="数学证明"><a href="#数学证明" class="headerlink" title="数学证明"></a>数学证明</h3><p><strong>循环不变式</strong>：在每次循环中，<code>min</code> 左侧的所有元素都 <code>&lt; target</code>，<code>max</code> 右侧的所有元素都 <code>&gt; target</code></p>
-<p>当循环结束时（<code>min &gt; max</code>）：</p>
-<ul>
-<li><code>min</code> 指向第一个 <code>≥ target</code> 的位置</li>
-<li>在 <code>min</code> 位置插入 <code>target</code> 可以保持数组有序</li>
-</ul>
-<h3 id="三种情况分析"><a href="#三种情况分析" class="headerlink" title="三种情况分析"></a>三种情况分析</h3><ol>
-<li><strong>目标值小于所有元素</strong>：<code>min = 0</code>，插入到开头</li>
-<li><strong>目标值大于所有元素</strong>：<code>min = nums.length</code>，插入到末尾</li>
-<li><strong>目标值在某两个元素之间</strong>：<code>min</code> 指向第一个大于目标值的位置</li>
-</ol>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> TestHot100;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BinarySearch_InsertPosition</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[] nums = &#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>&#125;;</span><br><span class="line">        <span class="type">int</span> <span class="variable">target</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line">        System.out.println(searchInsert(nums, target));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">searchInsert</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="comment">// 二分查找</span></span><br><span class="line">        <span class="comment">// 最小索引</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">min</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 最大索引</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> nums.length - <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(min &gt; max)&#123;</span><br><span class="line">                <span class="comment">// 目标值不存在，返回应该插入的位置</span></span><br><span class="line">                <span class="keyword">return</span> min;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 计算中间索引</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> (max + min) / <span class="number">2</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 比较中间值与目标值的大小</span></span><br><span class="line">            <span class="keyword">if</span>(nums[mid] &gt; target)&#123;</span><br><span class="line">                <span class="comment">// 目标值在左半部分</span></span><br><span class="line">                max = mid - <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &lt; target)&#123;</span><br><span class="line">                <span class="comment">// 目标值在右半部分</span></span><br><span class="line">                min = mid + <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] == target)&#123;</span><br><span class="line">                <span class="comment">// 目标值等于中间值，直接返回中间索引</span></span><br><span class="line">                <span class="keyword">return</span> mid;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><p><strong>O(log n)</strong></p>
-<p>每次循环都会将搜索区间缩小一半，因此最多需要 <code>log₂n</code> 次比较。</p>
-<h2 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h2><p><strong>O(1)</strong></p>
-<p>只使用了常数个额外变量（<code>min</code>、<code>max</code>、<code>mid</code>），不随输入规模增长。</p>
-<h2 id="执行过程详解"><a href="#执行过程详解" class="headerlink" title="执行过程详解"></a>执行过程详解</h2><h2 id="示例-1：查找不存在的值（需要插入）"><a href="#示例-1：查找不存在的值（需要插入）" class="headerlink" title="示例 1：查找不存在的值（需要插入）"></a>示例 1：查找不存在的值（需要插入）</h2><p><strong>输入</strong>：<code>nums = [1, 3, 5, 6]</code>, <code>target = 2</code></p>
-<table>
-<thead>
-<tr>
-<th>步骤</th>
-<th>min</th>
-<th>max</th>
-<th>mid</th>
-<th>nums[mid]</th>
-<th>判断</th>
-<th>操作</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>0</td>
-<td>3</td>
-<td>1</td>
-<td>3</td>
-<td>3 &gt; 2</td>
-<td>max &#x3D; 0</td>
-<td>目标在左半部分</td>
-</tr>
-<tr>
-<td>2</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>1 &lt; 2</td>
-<td>min &#x3D; 1</td>
-<td>目标在右半部分</td>
-</tr>
-<tr>
-<td>3</td>
-<td>1</td>
-<td>0</td>
-<td>-</td>
-<td>-</td>
-<td>min &gt; max</td>
-<td>返回 1</td>
-<td><strong>插入位置确定</strong></td>
-</tr>
-</tbody></table>
-<p><strong>结果</strong>：返回 <code>1</code>，表示 2 应该插入到索引 1 的位置<br><strong>插入后</strong>：<code>[1, 2, 3, 5, 6]</code> ✅ 保持有序</p>
-<h2 id="示例-2：查找存在的值"><a href="#示例-2：查找存在的值" class="headerlink" title="示例 2：查找存在的值"></a>示例 2：查找存在的值</h2><p><strong>输入</strong>：<code>nums = [1, 3, 5, 6]</code>, <code>target = 5</code></p>
-<table>
-<thead>
-<tr>
-<th>步骤</th>
-<th>min</th>
-<th>max</th>
-<th>mid</th>
-<th>nums[mid]</th>
-<th>判断</th>
-<th>操作</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>0</td>
-<td>3</td>
-<td>1</td>
-<td>3</td>
-<td>3 &lt; 5</td>
-<td>min &#x3D; 2</td>
-<td>目标在右半部分</td>
-</tr>
-<tr>
-<td>2</td>
-<td>2</td>
-<td>3</td>
-<td>2</td>
-<td>5</td>
-<td>5 &#x3D;&#x3D; 5</td>
-<td>返回 2</td>
-<td><strong>找到目标</strong></td>
-</tr>
-</tbody></table>
-<p><strong>结果</strong>：返回 <code>2</code>，目标值存在于索引 2</p>
-<h2 id="示例-3：插入到末尾"><a href="#示例-3：插入到末尾" class="headerlink" title="示例 3：插入到末尾"></a>示例 3：插入到末尾</h2><p><strong>输入</strong>：<code>nums = [1, 3, 5, 6]</code>, <code>target = 7</code></p>
-<table>
-<thead>
-<tr>
-<th>步骤</th>
-<th>min</th>
-<th>max</th>
-<th>mid</th>
-<th>nums[mid]</th>
-<th>判断</th>
-<th>操作</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>0</td>
-<td>3</td>
-<td>1</td>
-<td>3</td>
-<td>3 &lt; 7</td>
-<td>min &#x3D; 2</td>
-<td>目标在右半部分</td>
-</tr>
-<tr>
-<td>2</td>
-<td>2</td>
-<td>3</td>
-<td>2</td>
-<td>5</td>
-<td>5 &lt; 7</td>
-<td>min &#x3D; 3</td>
-<td>目标在右半部分</td>
-</tr>
-<tr>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>6</td>
-<td>6 &lt; 7</td>
-<td>min &#x3D; 4</td>
-<td>目标在右半部分</td>
-</tr>
-<tr>
-<td>4</td>
-<td>4</td>
-<td>3</td>
-<td>-</td>
-<td>-</td>
-<td>min &gt; max</td>
-<td>返回 4</td>
-<td><strong>插入到末尾</strong></td>
-</tr>
-</tbody></table>
-<p><strong>结果</strong>：返回 <code>4</code>，表示 7 应该插入到索引 4（数组末尾）<br><strong>插入后</strong>：<code>[1, 3, 5, 6, 7]</code> ✅ 保持有序</p>
-<h2 id="优化建议"><a href="#优化建议" class="headerlink" title="优化建议"></a>优化建议</h2><h2 id="防止整数溢出"><a href="#防止整数溢出" class="headerlink" title="防止整数溢出"></a>防止整数溢出</h2><p>当前代码使用 <code>mid = (max + min) / 2</code>，在某些极端情况下可能导致整数溢出。</p>
-<p><strong>优化方案：</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> min + (max - min) / <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
-
-<p>这样可以避免 <code>max + min</code> 超出 <code>int</code> 的最大值。</p>
-<h2 id="循环条件优化"><a href="#循环条件优化" class="headerlink" title="循环条件优化"></a>循环条件优化</h2><p>可以将 <code>while(true)</code> 改为 <code>while(min &lt;= max)</code>，使代码逻辑更清晰：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">searchInsert</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">min</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> nums.length - <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(min &lt;= max)&#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> min + (max - min) / <span class="number">2</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(nums[mid] == target)&#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &gt; target)&#123;</span><br><span class="line">            max = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            min = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> min;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h2 id="💡-核心要点"><a href="#💡-核心要点" class="headerlink" title="💡 核心要点"></a>💡 核心要点</h2><ol>
-<li><strong>二分查找的本质</strong>：通过不断缩小搜索区间，将时间复杂度降低到 O(log n)</li>
-<li><strong>插入位置的理解</strong>：循环结束时，<code>min</code> 指向第一个 ≥ target 的位置</li>
-<li><strong>循环不变式</strong>：维护 <code>min</code> 和 <code>max</code> 的正确含义是关键</li>
-</ol>
-<h2 id="🎯-解题技巧"><a href="#🎯-解题技巧" class="headerlink" title="🎯 解题技巧"></a>🎯 解题技巧</h2><table>
-<thead>
-<tr>
-<th>场景</th>
-<th>技巧</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>防止溢出</td>
-<td>使用 <code>min + (max - min) / 2</code></td>
-</tr>
-<tr>
-<td>边界处理</td>
-<td>确保每次迭代都能缩小区间</td>
-</tr>
-<tr>
-<td>返回值</td>
-<td>未找到时返回 <code>min</code>（插入位置）</td>
-</tr>
-</tbody></table>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>LeetCode</tag>
-        <tag>Hot100</tag>
-        <tag>二分查找</tag>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hot100：哈希1-两数之和</title>
     <url>/blog/2025/10/20/Hot100%EF%BC%9A%E5%93%88%E5%B8%8C1-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
     <content><![CDATA[<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>给定一个整数数组 <code>nums</code> 和一个整数目标值 <code>target</code>，请你在该数组中找出和为目标值 <code>target</code> 的那两个整数，并返回它们的数组下标。</p>
@@ -752,9 +504,9 @@
         <category>算法</category>
       </categories>
       <tags>
+        <tag>算法</tag>
         <tag>LeetCode</tag>
         <tag>Hot100</tag>
-        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -1289,9 +1041,201 @@
         <category>算法</category>
       </categories>
       <tags>
+        <tag>算法</tag>
         <tag>LeetCode</tag>
         <tag>Hot100</tag>
-        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java学习计划/进度</title>
+    <url>/blog/2025/10/13/Java%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/</url>
+    <content><![CDATA[<h2 id="学习进度表"><a href="#学习进度表" class="headerlink" title="学习进度表"></a>学习进度表</h2><h3 id="阶段性学习计划"><a href="#阶段性学习计划" class="headerlink" title="阶段性学习计划"></a>阶段性学习计划</h3><table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>学习内容</th>
+<th>状态</th>
+<th>进度</th>
+<th>建议时间</th>
+<th>时间</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一阶段</td>
+<td>JAVASE（上）</td>
+<td><span style="color: red;"><strong>已完成</strong></span></td>
+<td><span style="color: red;"><strong>200&#x2F;200</strong></span></td>
+<td>20-25天</td>
+<td>10.9-11.18</td>
+<td></td>
+</tr>
+<tr>
+<td>第二阶段</td>
+<td>JAVASE（下）</td>
+<td><span style="color: red;"><strong>进行中</strong></span></td>
+<td><span style="color: red;"><strong>43&#x2F;200</strong></span></td>
+<td>20-25天</td>
+<td>11.19-</td>
+<td></td>
+</tr>
+<tr>
+<td>第三阶段</td>
+<td>MySQL</td>
+<td>待开始</td>
+<td>0&#x2F;195</td>
+<td>4-5天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第四阶段</td>
+<td>JDBC</td>
+<td>待开始</td>
+<td>0&#x2F;12</td>
+<td>0.5天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第五阶段</td>
+<td>JavaWeb</td>
+<td>待开始</td>
+<td>0&#x2F;200</td>
+<td>3-4天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第六阶段</td>
+<td>SSM框架</td>
+<td>待开始</td>
+<td>0&#x2F;118</td>
+<td>4-5天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第七阶段</td>
+<td>Git版本控制</td>
+<td>待开始</td>
+<td>0&#x2F;1</td>
+<td>1-2天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第八阶段</td>
+<td>Linux基本命令</td>
+<td>待开始</td>
+<td>0&#x2F;1</td>
+<td>1-2天</td>
+<td></td>
+<td>苍穹外卖</td>
+</tr>
+<tr>
+<td>第九阶段</td>
+<td>SpringBoot</td>
+<td>待开始</td>
+<td>0&#x2F;174</td>
+<td>4-5天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第十阶段</td>
+<td>Redis</td>
+<td>待开始</td>
+<td>0&#x2F;175</td>
+<td>8-10天</td>
+<td></td>
+<td>黑马点评</td>
+</tr>
+<tr>
+<td>第十一阶段</td>
+<td>SpringCloud</td>
+<td>待开始</td>
+<td>0&#x2F;185</td>
+<td>3-4天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第十二阶段</td>
+<td>RocketMQ</td>
+<td>待开始</td>
+<td>0&#x2F;45</td>
+<td>1-2天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第十三阶段</td>
+<td>JVM虚拟机</td>
+<td>待开始</td>
+<td>0&#x2F;154</td>
+<td>5-6天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第十四阶段</td>
+<td>JUC并发编程</td>
+<td>待开始</td>
+<td>0&#x2F;302</td>
+<td>8-9天</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="日常练习"><a href="#日常练习" class="headerlink" title="日常练习"></a>日常练习</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>学习内容</th>
+<th>状态</th>
+<th>进度</th>
+<th>建议时间</th>
+<th>时间</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>算法</td>
+<td>Hot100</td>
+<td><span style="color: red;"><strong>进行中</strong></span></td>
+<td><span style="color: red;"><strong>3&#x2F;100</strong></span></td>
+<td></td>
+<td>10.20-</td>
+<td></td>
+</tr>
+<tr>
+<td>八股</td>
+<td>JavaGuide</td>
+<td>待开始</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>小林Coding</td>
+<td>待开始</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="当前进展"><a href="#当前进展" class="headerlink" title="当前进展"></a>当前进展</h2><p>🔥 <strong>正在进行</strong>：JAVASE（下） </p>
+<hr>
+]]></content>
+      <categories>
+        <category>学习计划</category>
+      </categories>
+      <tags>
+        <tag>JavaSE</tag>
       </tags>
   </entry>
   <entry>
@@ -1618,395 +1562,374 @@
         <category>算法</category>
       </categories>
       <tags>
+        <tag>算法</tag>
         <tag>LeetCode</tag>
         <tag>Hot100</tag>
-        <tag>算法</tag>
         <tag>HashSet</tag>
       </tags>
   </entry>
   <entry>
-    <title>Java学习计划/进度</title>
-    <url>/blog/2025/10/13/Java%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/</url>
-    <content><![CDATA[<h2 id="学习进度表"><a href="#学习进度表" class="headerlink" title="学习进度表"></a>学习进度表</h2><h3 id="阶段性学习计划"><a href="#阶段性学习计划" class="headerlink" title="阶段性学习计划"></a>阶段性学习计划</h3><table>
+    <title>ragent复习笔记：认识大模型</title>
+    <url>/blog/2026/05/28/ragent%E5%AD%A6%E4%B9%A0%E6%97%A5%E5%BF%97-2026-05-28-%E8%AE%A4%E8%AF%86%E5%A4%A7%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》第1小节：认识大模型</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》第1小节：认识大模型.html</code></li>
+</ul>
+<h2 id="复习导览"><a href="#复习导览" class="headerlink" title="复习导览"></a>复习导览</h2><p>这一节主要是在正式写 RAG 代码之前，先建立大模型的基础认知：大模型是什么、为什么比传统规则程序更适合自然语言场景、常见模型有哪些、实际项目中应该调用哪类模型，以及为什么开发者最终需要通过 API 把大模型接入自己的系统。</p>
+<p>文章从“客服系统接入 AI”的业务场景切入：网页端的大模型很好用，但真正做项目时，Java 系统不能依赖人工在网页里复制粘贴问题，而是要通过 API 把大模型变成系统里的一个能力组件。</p>
+<h2 id="一页速览"><a href="#一页速览" class="headerlink" title="一页速览"></a>一页速览</h2><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>复习抓手</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>大模型</td>
+<td>不靠人工写死规则，而是从海量文本中学习语言规律</td>
+</tr>
+<tr>
+<td>训练阶段</td>
+<td>预训练得到 Base Model，指令微调和对齐训练得到更适合对话的 Chat Model</td>
+</tr>
+<tr>
+<td>参数量</td>
+<td><code>7B</code>、<code>14B</code>、<code>72B</code> 表示参数规模，能力更强通常成本也更高</td>
+</tr>
+<tr>
+<td>Token</td>
+<td>大模型处理文本的基本单位，影响计费和上下文长度</td>
+</tr>
+<tr>
+<td>上下文窗口</td>
+<td>模型一次能看到的总文本量，RAG 需要检索后只放关键片段</td>
+</tr>
+<tr>
+<td>Temperature</td>
+<td>控制回答随机性，RAG 场景一般设置较低</td>
+</tr>
+<tr>
+<td>MoE</td>
+<td>总参数很多，但每次只激活部分专家参数，降低推理成本</td>
+</tr>
+<tr>
+<td>Chat 模型</td>
+<td>RAG 实际调用的模型类型，能理解指令并基于上下文回答</td>
+</tr>
+<tr>
+<td>量化</td>
+<td>用更低精度压缩权重，降低本地部署的显存和存储成本</td>
+</tr>
+<tr>
+<td>API 调用</td>
+<td>把大模型接入 Java&#x2F;RAG 系统的核心方式</td>
+</tr>
+</tbody></table>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="1-大模型和传统程序的区别"><a href="#1-大模型和传统程序的区别" class="headerlink" title="1. 大模型和传统程序的区别"></a>1. 大模型和传统程序的区别</h3><p>传统业务程序通常依赖开发者提前写好规则，例如用 <code>if-else</code> 或关键词判断用户是不是想退货、查物流、咨询发票。问题是用户表达方式非常多，规则很难覆盖完整。</p>
+<p>大模型的思路不同。它不是靠人把所有规则一条一条写死，而是通过阅读海量文本数据，从书籍、网页、论坛、代码、百科等内容中学习语言规律和知识。训练完成后，它能根据上下文理解不同表达背后的真实意图。</p>
+<p>我的理解：大模型的训练方式可以简单理解为“让机器读大量文本”。它不是靠人工规则工作，而是靠读了足够多的文本后，从数据中总结出语言如何运作。</p>
+<h3 id="2-大模型训练阶段"><a href="#2-大模型训练阶段" class="headerlink" title="2. 大模型训练阶段"></a>2. 大模型训练阶段</h3><p>大模型不是一开始就会像聊天助手一样回答问题。它通常会经历几个阶段，能力是一层一层训练出来的。</p>
+<table>
 <thead>
 <tr>
 <th>阶段</th>
-<th>学习内容</th>
-<th>状态</th>
-<th>进度</th>
-<th>建议时间</th>
-<th>时间</th>
-<th>备注</th>
+<th>目标</th>
+<th>产物&#x2F;效果</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>第一阶段</td>
-<td>JAVASE（上）</td>
-<td><span style="color: red;"><strong>已完成</strong></span></td>
-<td><span style="color: red;"><strong>200&#x2F;200</strong></span></td>
-<td>20-25天</td>
-<td>10.9-11.18</td>
-<td></td>
+<td>预训练（Pre-training）</td>
+<td>让模型阅读海量文本，学习语言规律、常识、代码和知识关联</td>
+<td>得到基座模型（Base Model），主要能力是文本续写</td>
 </tr>
 <tr>
-<td>第二阶段</td>
-<td>JAVASE（下）</td>
-<td><span style="color: red;"><strong>进行中</strong></span></td>
-<td><span style="color: red;"><strong>43&#x2F;200</strong></span></td>
-<td>20-25天</td>
-<td>11.19-</td>
-<td></td>
+<td>指令微调（Instruction Tuning &#x2F; SFT）</td>
+<td>用“问题-答案”“任务-回复”样本教模型听懂人类指令</td>
+<td>模型开始能按要求回答问题、总结、分类、写代码</td>
 </tr>
 <tr>
-<td>第三阶段</td>
-<td>MySQL</td>
-<td>待开始</td>
-<td>0&#x2F;195</td>
-<td>4-5天</td>
-<td></td>
-<td></td>
+<td>对齐训练（Alignment）</td>
+<td>让模型回答更有帮助、更安全、更符合人类偏好</td>
+<td>得到更像助手的 Chat 模型或 Instruct 模型</td>
 </tr>
 <tr>
-<td>第四阶段</td>
-<td>JDBC</td>
-<td>待开始</td>
-<td>0&#x2F;12</td>
-<td>0.5天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第五阶段</td>
-<td>JavaWeb</td>
-<td>待开始</td>
-<td>0&#x2F;200</td>
-<td>3-4天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第六阶段</td>
-<td>SSM框架</td>
-<td>待开始</td>
-<td>0&#x2F;118</td>
-<td>4-5天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第七阶段</td>
-<td>Git版本控制</td>
-<td>待开始</td>
-<td>0&#x2F;1</td>
-<td>1-2天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第八阶段</td>
-<td>Linux基本命令</td>
-<td>待开始</td>
-<td>0&#x2F;1</td>
-<td>1-2天</td>
-<td></td>
-<td>苍穹外卖</td>
-</tr>
-<tr>
-<td>第九阶段</td>
-<td>SpringBoot</td>
-<td>待开始</td>
-<td>0&#x2F;174</td>
-<td>4-5天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第十阶段</td>
-<td>Redis</td>
-<td>待开始</td>
-<td>0&#x2F;175</td>
-<td>8-10天</td>
-<td></td>
-<td>黑马点评</td>
-</tr>
-<tr>
-<td>第十一阶段</td>
-<td>SpringCloud</td>
-<td>待开始</td>
-<td>0&#x2F;185</td>
-<td>3-4天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第十二阶段</td>
-<td>RocketMQ</td>
-<td>待开始</td>
-<td>0&#x2F;45</td>
-<td>1-2天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第十三阶段</td>
-<td>JVM虚拟机</td>
-<td>待开始</td>
-<td>0&#x2F;154</td>
-<td>5-6天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第十四阶段</td>
-<td>JUC并发编程</td>
-<td>待开始</td>
-<td>0&#x2F;302</td>
-<td>8-9天</td>
-<td></td>
-<td></td>
+<td>领域微调&#x2F;继续训练</td>
+<td>用某个行业或业务数据继续训练模型</td>
+<td>模型更熟悉特定领域表达和业务知识</td>
 </tr>
 </tbody></table>
-<h3 id="日常练习"><a href="#日常练习" class="headerlink" title="日常练习"></a>日常练习</h3><table>
+<p>可以这样理解：预训练阶段让模型“读了很多书”，指令微调让模型“学会按题目作答”，对齐训练让模型“更像一个会沟通的助手”。所以我们在 RAG 项目里通常调用的是已经完成指令微调和对齐训练的 Chat 模型，而不是只会续写文本的 Base 模型。</p>
+<p>这里还要区分一个点：RAG 本身通常不是训练模型。RAG 是在提问时先从知识库检索相关资料，再把资料和问题一起交给 Chat 模型回答。也就是说，RAG 更像是给模型“临时开卷考试资料”，而不是把这些知识永久训练进模型参数里。</p>
+<h3 id="3-大模型的“大”指参数量"><a href="#3-大模型的“大”指参数量" class="headerlink" title="3. 大模型的“大”指参数量"></a>3. 大模型的“大”指参数量</h3><p>大模型里的“大”，主要指参数量大。常见的 <code>7B</code>、<code>14B</code>、<code>72B</code> 中，<code>B</code> 是 Billion，表示十亿参数。参数可以粗略理解成模型内部存储知识和语言规律的连接权重。</p>
+<p>参数越多，模型通常能力越强，但运行成本也更高，需要更多显存和算力。对 RAG 问答这类场景来说，并不是参数越大越好，很多时候 14B、32B 级别模型已经够用。选模型要看业务场景、响应速度、成本和部署方式。</p>
+<h3 id="4-Token-是大模型的计量单位"><a href="#4-Token-是大模型的计量单位" class="headerlink" title="4. Token 是大模型的计量单位"></a>4. Token 是大模型的计量单位</h3><p>大模型处理文本不是按“字”或“词”直接计算，而是按 Token。Token 可以理解为模型把文本切分后的最小处理片段。</p>
+<p>Token 重要的原因有两个：</p>
+<ul>
+<li>API 调用通常按输入 Token 和输出 Token 计费。</li>
+<li>上下文窗口也是按 Token 计算，决定了一次能塞给模型多少内容。</li>
+</ul>
+<p>所以后续做 RAG 时，不能无限制地把整本文档都塞给模型，而要先检索出最相关的片段，再交给模型回答。</p>
+<h3 id="5-上下文窗口决定模型一次能看多少内容"><a href="#5-上下文窗口决定模型一次能看多少内容" class="headerlink" title="5. 上下文窗口决定模型一次能看多少内容"></a>5. 上下文窗口决定模型一次能看多少内容</h3><p>上下文窗口指模型一次对话中能看到的文本总量上限，包括系统提示词、历史对话、当前问题、检索片段和模型输出。</p>
+<p>这个概念对 RAG 很关键。如果把大量无关材料都塞进上下文，不仅可能超出窗口限制，也会让模型抓不住重点。RAG 的价值就在于先从知识库中检索最相关内容，只把关键片段放进上下文，让模型基于这些内容组织答案。</p>
+<h3 id="6-Temperature-控制回答的随机性"><a href="#6-Temperature-控制回答的随机性" class="headerlink" title="6. Temperature 控制回答的随机性"></a>6. Temperature 控制回答的随机性</h3><p>Temperature 是调用大模型时常见的参数，用来控制回答的稳定程度和创造性。</p>
+<table>
 <thead>
 <tr>
-<th>类型</th>
-<th>学习内容</th>
-<th>状态</th>
-<th>进度</th>
-<th>建议时间</th>
-<th>时间</th>
-<th>备注</th>
+<th>场景</th>
+<th>推荐取值</th>
+<th>理由</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>算法</td>
-<td>Hot100</td>
-<td><span style="color: red;"><strong>进行中</strong></span></td>
-<td><span style="color: red;"><strong>3&#x2F;100</strong></span></td>
-<td></td>
-<td>10.20-</td>
-<td></td>
+<td>RAG 问答</td>
+<td>0 到 0.3</td>
+<td>要求基于资料准确回答，少发挥</td>
 </tr>
 <tr>
-<td>八股</td>
-<td>JavaGuide</td>
-<td>待开始</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>代码生成</td>
+<td>0 到 0.2</td>
+<td>代码需要稳定和精确</td>
 </tr>
 <tr>
-<td></td>
-<td>小林Coding</td>
-<td>待开始</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>日常聊天</td>
+<td>0.5 到 0.7</td>
+<td>需要自然、有变化</td>
+</tr>
+<tr>
+<td>创意写作</td>
+<td>0.7 到 1.0</td>
+<td>需要更强的多样性</td>
 </tr>
 </tbody></table>
-<h2 id="当前进展"><a href="#当前进展" class="headerlink" title="当前进展"></a>当前进展</h2><p>🔥 <strong>正在进行</strong>：JAVASE（下） </p>
-<hr>
+<p>对 RAG 来说，答案应该来自检索到的资料，所以 Temperature 通常设置得比较低。</p>
+<h3 id="7-MoE-是混合专家架构"><a href="#7-MoE-是混合专家架构" class="headerlink" title="7. MoE 是混合专家架构"></a>7. MoE 是混合专家架构</h3><p>MoE 全称是 Mixture of Experts，混合专家模型。它的特点是模型总参数很多，但每次推理只激活其中一部分专家参数。</p>
+<p>例如某些模型可能总参数是几百 B，但每次实际激活的参数只有几十 B。这样可以在保持较强能力的同时降低推理成本。作为应用开发者，不需要深入实现细节，只要知道看到“总参数&#x2F;激活参数”时，实际推理成本主要看激活参数。</p>
+<h3 id="8-主流模型要建立“模型地图”"><a href="#8-主流模型要建立“模型地图”" class="headerlink" title="8. 主流模型要建立“模型地图”"></a>8. 主流模型要建立“模型地图”</h3><p>文章梳理了国际和国内常见大模型。国际模型包括 GPT、Claude、Gemini、Llama 等；国内模型包括 DeepSeek、Qwen、GLM、MiniMax、Kimi 等。</p>
+<p>对当前 Ragent&#x2F;RAG 学习来说，重点关注 DeepSeek 和 Qwen：</p>
+<ul>
+<li>DeepSeek：推理能力和性价比突出，适合理解 reasoning、Agent、复杂规划等方向。</li>
+<li>Qwen：中文能力稳定，模型尺寸覆盖广，开源生态和工具链比较完整，适合国内业务和学习实践。</li>
+</ul>
+<h3 id="9-RAG-系统实际调用的是-Chat-模型"><a href="#9-RAG-系统实际调用的是-Chat-模型" class="headerlink" title="9. RAG 系统实际调用的是 Chat 模型"></a>9. RAG 系统实际调用的是 Chat 模型</h3><p>大模型可以分为基座模型和 Chat 模型。</p>
+<p>基座模型来自预训练阶段，主要能力是续写文本。它读过大量文本，但不一定会按照人的指令回答问题。</p>
+<p>Chat 模型是在基座模型基础上经过指令微调、对齐训练等步骤得到的模型。它更擅长理解“你要它做什么”，并按照用户问题、系统提示词和上下文材料生成答案。</p>
+<p>RAG 的最后一步是“根据检索片段回答用户问题”，这需要模型理解指令和上下文，所以 RAG 系统通常调用 Chat 模型，而不是 Base 模型。</p>
+<p>常见模型后缀含义：</p>
+<table>
+<thead>
+<tr>
+<th>后缀</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-Instruct</code></td>
+<td>经过指令微调的 Chat 模型</td>
+<td><code>Qwen2.5-7B-Instruct</code></td>
+</tr>
+<tr>
+<td><code>-Chat</code></td>
+<td>和 Instruct 类似，强调对话能力</td>
+<td><code>GLM-4-Chat</code></td>
+</tr>
+<tr>
+<td><code>-GPTQ</code> &#x2F; <code>-AWQ</code></td>
+<td>量化版本，模型体积更小，适合低资源部署</td>
+<td><code>Qwen2.5-7B-Instruct-GPTQ-Int4</code></td>
+</tr>
+</tbody></table>
+<p>看到 <code>-Instruct</code> 或 <code>-Chat</code>，一般可以认为这个模型更适合问答、对话、摘要、RAG 这类任务；看到 <code>-GPTQ</code>、<code>-AWQ</code>、<code>Int4</code> 等字样，说明它通常是为了降低显存占用做过量化处理的版本。</p>
+<h3 id="10-量化是为了降低本地部署成本"><a href="#10-量化是为了降低本地部署成本" class="headerlink" title="10. 量化是为了降低本地部署成本"></a>10. 量化是为了降低本地部署成本</h3><p>量化是本地部署模型时非常重要的概念。它的核心目的就是：在尽量少损失模型效果的前提下，让模型文件更小、显存占用更低、推理成本更可控。</p>
+<h4 id="10-1-模型参数本质上是权重数字"><a href="#10-1-模型参数本质上是权重数字" class="headerlink" title="10.1 模型参数本质上是权重数字"></a>10.1 模型参数本质上是权重数字</h4><p>大模型的参数本质上是一堆数字，也叫权重。模型输入一句话后，会把文本切成 Token，然后经过很多层计算，最后判断下一个 Token 最可能是什么。</p>
+<p>可以把模型想象成一个巨大的打分系统。每一层计算里用到的乘法系数、加法偏移量，都是模型参数。例如模型判断“今天天气”后面更可能接“晴”还是“雨”，内部会对不同候选词计算得分，得分高的词更可能被输出。</p>
+<p>所谓 <code>7B</code> 模型，就是模型里大约有 70 亿个这样的参数。训练时这些参数会不断被调整；训练完成后，它们会固定下来，保存成模型权重文件。</p>
+<h4 id="10-2-FP32、FP16、BF16-是什么"><a href="#10-2-FP32、FP16、BF16-是什么" class="headerlink" title="10.2 FP32、FP16、BF16 是什么"></a>10.2 FP32、FP16、BF16 是什么</h4><p>模型权重是数字，数字需要用某种精度格式保存。常见格式有 FP32、FP16、BF16、TF32。</p>
+<p>浮点数大致由三部分组成：</p>
+<ul>
+<li>符号位：表示正数还是负数。</li>
+<li>指数位：决定能表示多大或多小的数字，也就是数值范围。</li>
+<li>尾数位：决定小数能表示多精细，也就是精度。</li>
+</ul>
+<p>可以用“快递地址”来理解：指数位像省市信息，决定能送多远；尾数位像门牌号，决定能写多细。总空间有限，指数位多，范围更大；尾数位多，精度更细。</p>
+<table>
+<thead>
+<tr>
+<th>格式</th>
+<th>位数</th>
+<th>每个参数占用</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FP32</td>
+<td>32 位</td>
+<td>4 字节</td>
+<td>传统全精度，范围大、精度高，但太占显存</td>
+</tr>
+<tr>
+<td>TF32</td>
+<td>19 位</td>
+<td>通常由 GPU 内部处理</td>
+<td>NVIDIA Ampere 架构引入，保留 FP32 的范围，降低部分精度，开发者一般不用管</td>
+</tr>
+<tr>
+<td>FP16</td>
+<td>16 位</td>
+<td>2 字节</td>
+<td>半精度，体积是 FP32 的一半，精度较好，但数值范围较小，训练时容易溢出</td>
+</tr>
+<tr>
+<td>BF16</td>
+<td>16 位</td>
+<td>2 字节</td>
+<td>脑浮点，范围接近 FP32，精度比 FP16 粗一些，但训练更稳定</td>
+</tr>
+</tbody></table>
+<p>FP16 和 BF16 都是 16 位，但分配方式不同：</p>
+<ul>
+<li>FP16：更偏向保留精度，数值范围较小。</li>
+<li>BF16：更偏向保留范围，精度稍低，但稳定性更好。</li>
+</ul>
+<p>对大模型来说，训练和推理过程中数值范围可能变化很大，所以 BF16 很常见。很多模型在 Hugging Face 上的原始权重默认就是 BF16。平时说“原始精度”或“未量化”，很多时候指的是 BF16，而不是 FP32。</p>
+<h4 id="10-3-什么是量化"><a href="#10-3-什么是量化" class="headerlink" title="10.3 什么是量化"></a>10.3 什么是量化</h4><p>量化就是把模型权重从 BF16&#x2F;FP16 这种 16 位精度，进一步压缩成更低位数，例如 INT8 或 INT4。</p>
+<p>精度降低后，每个参数占用空间变小，模型文件和显存占用也会变小。</p>
+<table>
+<thead>
+<tr>
+<th>精度</th>
+<th>每个参数占用</th>
+<th>7B 模型权重大小估算</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FP32</td>
+<td>4 字节</td>
+<td>约 28 GB</td>
+<td>全精度，当前很少直接用来存模型权重</td>
+</tr>
+<tr>
+<td>BF16 &#x2F; FP16</td>
+<td>2 字节</td>
+<td>约 14 GB</td>
+<td>常见原始权重精度</td>
+</tr>
+<tr>
+<td>INT8</td>
+<td>1 字节</td>
+<td>约 7 GB</td>
+<td>轻度量化，效果损失较小</td>
+</tr>
+<tr>
+<td>INT4</td>
+<td>0.5 字节</td>
+<td>约 3.5 GB</td>
+<td>常见量化选择，体积更小，但效果会有一定损失</td>
+</tr>
+</tbody></table>
+<p>注意：表格里只是模型权重本身的估算。实际运行时还需要额外显存保存 KV Cache、计算中间结果等，所以真实显存占用会更高。一般要预留权重大小 1.2 到 1.5 倍左右的显存。</p>
+<h4 id="10-4-常见量化格式"><a href="#10-4-常见量化格式" class="headerlink" title="10.4 常见量化格式"></a>10.4 常见量化格式</h4><p>在下载模型或查看模型后缀时，经常会看到 GPTQ、AWQ、GGUF 这些格式。</p>
+<table>
+<thead>
+<tr>
+<th>格式</th>
+<th>全称</th>
+<th>特点</th>
+<th>适合场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GPTQ</td>
+<td>GPT Post-Training Quantization</td>
+<td>经典的训练后量化方案，社区支持广，通常用于 GPU 推理</td>
+<td>有 NVIDIA 显卡，想要较好的量化效果</td>
+</tr>
+<tr>
+<td>AWQ</td>
+<td>Activation-aware Weight Quantization</td>
+<td>激活感知权重量化，通常速度和效果都比较好</td>
+<td>有 NVIDIA 显卡，优先考虑的新一些的 GPU 量化方案</td>
+</tr>
+<tr>
+<td>GGUF</td>
+<td>GPT-Generated Unified Format</td>
+<td>llama.cpp 生态常见格式，支持 CPU，也支持部分 GPU 加速</td>
+<td>没有独显、显存不足，或想在本地轻量运行</td>
+</tr>
+</tbody></table>
+<p>简单记法：</p>
+<ul>
+<li>有 NVIDIA 显卡：优先看 AWQ 或 GPTQ。</li>
+<li>显卡不够或想用 CPU 跑：优先看 GGUF。</li>
+</ul>
+<h4 id="10-5-量化等级怎么选"><a href="#10-5-量化等级怎么选" class="headerlink" title="10.5 量化等级怎么选"></a>10.5 量化等级怎么选</h4><p>以 GGUF 为例，经常会看到 <code>Q4_K_M</code>、<code>Q5_K_M</code>、<code>Q8_0</code> 这样的名字。这里的数字大致表示量化位数，数字越大，精度越高，文件越大，显存占用也越高。</p>
+<table>
+<thead>
+<tr>
+<th>量化等级</th>
+<th>含义</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Q4_K_M</code></td>
+<td>4 位量化</td>
+<td>体积小，显存压力低，性价比高，常用选择</td>
+</tr>
+<tr>
+<td><code>Q5_K_M</code></td>
+<td>5 位量化</td>
+<td>在效果和体积之间更平衡</td>
+</tr>
+<tr>
+<td><code>Q8_0</code></td>
+<td>8 位量化</td>
+<td>接近原始精度，但文件和显存占用更大</td>
+</tr>
+</tbody></table>
+<p>普通本地部署时，<code>INT4</code> 或 <code>Q4_K_M</code> 往往已经够用。如果对输出质量要求更高，或者硬件资源更充足，可以考虑 <code>Q5_K_M</code> 或 <code>Q8_0</code>。</p>
+<h4 id="10-6-当前阶段需要关心到什么程度"><a href="#10-6-当前阶段需要关心到什么程度" class="headerlink" title="10.6 当前阶段需要关心到什么程度"></a>10.6 当前阶段需要关心到什么程度</h4><p>如果是通过 SiliconFlow、OpenAI、DeepSeek API、通义千问 API 这类平台调用模型，暂时不用关心量化。平台已经处理了部署、显存、推理优化等问题，我们只需要关注模型名、输入输出、上下文窗口、价格和效果。</p>
+<p>只有在本地部署模型时，才需要根据自己的硬件选择量化版本。这个时候要重点看三件事：模型参数量、量化格式、量化等级。</p>
+<p>我的阶段性理解：</p>
+<ul>
+<li><code>BF16/FP16</code>：更接近原始模型效果，但显存占用大。</li>
+<li><code>INT8</code>：效果损失较小，体积减半。</li>
+<li><code>INT4</code>：显存压力小，适合个人电脑尝试本地部署，但回答质量可能略有下降。</li>
+<li><code>GPTQ/AWQ/GGUF</code>：不是模型能力本身，而是模型权重的量化&#x2F;存储&#x2F;推理格式。</li>
+<li>对 RAG 项目学习来说，先用 API 跑通流程更重要，本地量化部署可以后面再深入。</li>
+</ul>
+<h3 id="11-深度思考适合推理，但-RAG-通常不需要"><a href="#11-深度思考适合推理，但-RAG-通常不需要" class="headerlink" title="11. 深度思考适合推理，但 RAG 通常不需要"></a>11. 深度思考适合推理，但 RAG 通常不需要</h3><p>深度思考通常和 CoT（Chain of Thought，思维链）有关，适合数学推理、复杂规划、代码分析等需要多步推理的任务。</p>
+<p>但在普通 RAG 问答里，答案应该已经存在于检索到的文本片段中。模型主要负责理解、提取和表达，不需要展开很长的推理过程。因此 RAG 场景通常不需要开启深度思考，否则会增加 Token 消耗和响应时间。</p>
+<h3 id="12-开发者需要-API，而不是网页端"><a href="#12-开发者需要-API，而不是网页端" class="headerlink" title="12. 开发者需要 API，而不是网页端"></a>12. 开发者需要 API，而不是网页端</h3><p>网页端适合个人聊天和体验模型能力，但不适合接入业务系统。它的问题包括不能集成到 Java 系统、不能批量处理、不能稳定控制参数、不能自定义完整提示词流程，也很难实现 RAG 的“检索后生成”链路。</p>
+<p>API 调用则可以把大模型当成一个远程函数：系统把模型名、系统提示词、用户问题、Temperature 等参数发过去，模型返回回答。这样大模型就能成为业务系统的一部分。</p>
+<p>本系列后续会使用 SiliconFlow 平台和 Qwen 系列模型，原因是国内访问方便、注册简单、支持多种开源模型，并且 API 兼容 OpenAI 协议，后续切换平台时代码改动较小。</p>
+<h2 id="重点回顾"><a href="#重点回顾" class="headerlink" title="重点回顾"></a>重点回顾</h2><ul>
+<li>大模型不是靠人工写死规则工作，而是从海量文本中学习语言规律。</li>
+<li>大模型训练通常包括预训练、指令微调、对齐训练等阶段，最终才形成适合对话和任务执行的 Chat 模型。</li>
+<li>参数量影响模型能力和成本，但不是越大越好，要根据场景选择。</li>
+<li>Token、上下文窗口、Temperature 是后续调用 API 时必须理解的基础概念。</li>
+<li>RAG 场景下应优先使用 Chat 模型，并把 Temperature 设置得较低。</li>
+<li>API 调用是把大模型接入 Java&#x2F;RAG 系统的关键方式。</li>
+</ul>
+<h2 id="易混点整理"><a href="#易混点整理" class="headerlink" title="易混点整理"></a>易混点整理</h2><ul>
+<li>Base Model 不是 Chat Model。Base Model 主要会续写文本，Chat Model 才更适合对话、问答、摘要和 RAG。</li>
+<li>RAG 通常不是训练模型，而是在提问时检索资料，再把资料交给模型参考。</li>
+<li>Token 不是字数，也不是严格意义上的词数，而是模型内部的文本切分单位。</li>
+<li>上下文窗口不是只算用户问题，而是系统提示词、历史对话、检索片段和模型输出都要占窗口。</li>
+<li>Temperature 越高不代表模型越聪明，只代表回答更随机、更有创造性。</li>
+<li>参数量越大不一定越适合业务，速度、成本、上下文窗口、中文能力和工具调用能力都要一起考虑。</li>
+<li>GPTQ、AWQ、GGUF 不是模型类型，而是量化&#x2F;存储&#x2F;推理相关格式。</li>
+</ul>
 ]]></content>
       <categories>
-        <category>学习计划</category>
+        <category>ragent</category>
       </categories>
       <tags>
-        <tag>JavaSE</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>农机信号故障灯识别小程序</title>
-    <url>/blog/2025/10/13/%E5%86%9C%E6%9C%BA%E4%BF%A1%E5%8F%B7%E6%95%85%E9%9A%9C%E7%81%AF%E8%AF%86%E5%88%AB%E5%B0%8F%E7%A8%8B%E5%BA%8F/</url>
-    <content><![CDATA[<h2 id="智能农机识别小程序-项目总结"><a href="#智能农机识别小程序-项目总结" class="headerlink" title="智能农机识别小程序 - 项目总结"></a>智能农机识别小程序 - 项目总结</h2><h2 id="📋-项目概述"><a href="#📋-项目概述" class="headerlink" title="📋 项目概述"></a>📋 项目概述</h2><p><strong>项目名称</strong>：智能农机识别微信小程序<br><strong>技术栈</strong>：uni-app + Vue 3 + AI大模型<br><strong>项目定位</strong>：为农户提供农机识别、故障诊断、知识问答和政策解读的智能化服务平台</p>
-<hr>
-<h2 id="✨-核心功能"><a href="#✨-核心功能" class="headerlink" title="✨ 核心功能"></a>✨ 核心功能</h2><h3 id="💬-农机知识问答"><a href="#💬-农机知识问答" class="headerlink" title="💬 农机知识问答"></a>💬 农机知识问答</h3><ul>
-<li><strong>智能对话</strong>：AI驱动的农机知识库问答</li>
-<li><strong>多轮对话</strong>：支持上下文理解</li>
-<li><strong>快捷问题</strong>：热门问题快速提问</li>
-<li><strong>语音输入</strong>：支持语音转文字功能</li>
-</ul>
-<h3 id="📷-AI视觉诊断"><a href="#📷-AI视觉诊断" class="headerlink" title="📷 AI视觉诊断"></a>📷 AI视觉诊断</h3><ul>
-<li><strong>图像识别</strong>：拍照或相册选择，识别农机类型</li>
-<li><strong>故障诊断</strong>：AI分析设备状态，识别故障信号</li>
-<li><strong>智能建议</strong>：提供详细维护建议和优先级排序</li>
-<li><strong>诊断历史</strong>：查看历史诊断记录</li>
-</ul>
-<h3 id="📋-政策解读"><a href="#📋-政策解读" class="headerlink" title="📋 政策解读"></a>📋 政策解读</h3><ul>
-<li><strong>政策搜索</strong>：快速查找相关农机政策</li>
-<li><strong>白话解读</strong>：将政策文件转为通俗易懂的语言</li>
-<li><strong>申请流程</strong>：详细的补贴申请指南</li>
-<li><strong>热门标签</strong>：快速筛选政策类型</li>
-</ul>
-<hr>
-<h2 id="🛠️-技术架构"><a href="#🛠️-技术架构" class="headerlink" title="🛠️ 技术架构"></a>🛠️ 技术架构</h2><h3 id="前端技术"><a href="#前端技术" class="headerlink" title="前端技术"></a>前端技术</h3><ul>
-<li><strong>框架</strong>：uni-app（跨平台小程序开发框架）</li>
-<li><strong>前端框架</strong>：Vue 3（Composition API）</li>
-<li><strong>UI组件</strong>：uni-ui 组件库</li>
-<li><strong>样式</strong>：SCSS + rpx 响应式单位</li>
-<li><strong>状态管理</strong>：uni.storage 本地存储</li>
-</ul>
-<h3 id="AI-服务集成"><a href="#AI-服务集成" class="headerlink" title="AI 服务集成"></a>AI 服务集成</h3><h4 id="对话-AI（知识问答）"><a href="#对话-AI（知识问答）" class="headerlink" title="对话 AI（知识问答）"></a>对话 AI（知识问答）</h4><ul>
-<li><strong>百度文心一言</strong>：ERNIE-Bot系列</li>
-<li><strong>阿里通义千问</strong>：qwen-turbo&#x2F;plus&#x2F;max</li>
-<li><strong>智谱 GLM</strong>：GLM-4系列</li>
-<li>支持自定义后端API</li>
-</ul>
-<h4 id="视觉识别（图像诊断）"><a href="#视觉识别（图像诊断）" class="headerlink" title="视觉识别（图像诊断）"></a>视觉识别（图像诊断）</h4><ul>
-<li><strong>百度AI</strong>：通用物体和场景识别</li>
-<li><strong>阿里云视觉智能</strong>：图像分类服务</li>
-<li><strong>通义千问-VL</strong>：多模态大模型（推荐）<ul>
-<li>支持图像理解和分析</li>
-<li>可根据图片回答问题</li>
-</ul>
-</li>
-</ul>
-<h4 id="语音识别"><a href="#语音识别" class="headerlink" title="语音识别"></a>语音识别</h4><ul>
-<li><strong>百度语音识别</strong>：支持wav格式</li>
-<li>采样率：16000Hz</li>
-<li>识别模型：普通话 + 简单英文</li>
-</ul>
-<h3 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">农机项目/</span><br><span class="line">├── pages/              # 页面</span><br><span class="line">│   ├── login/         # 登录页</span><br><span class="line">│   ├── index/         # 首页</span><br><span class="line">│   ├── chat/          # 知识问答</span><br><span class="line">│   ├── vision/        # 视觉诊断</span><br><span class="line">│   └── policy/        # 政策解读</span><br><span class="line">├── api/               # 接口封装</span><br><span class="line">│   ├── ai.js         # AI大模型接口</span><br><span class="line">│   ├── auth.js       # 认证接口</span><br><span class="line">│   ├── backend.js    # 后端接口</span><br><span class="line">│   └── speech.js     # 语音识别接口</span><br><span class="line">├── utils/             # 工具函数</span><br><span class="line">│   ├── config.js     # 配置文件（API Key等）</span><br><span class="line">│   ├── request.js    # 网络请求封装</span><br><span class="line">│   └── vconsole.js   # 日志调试工具</span><br><span class="line">├── static/            # 静态资源</span><br><span class="line">├── uni_modules/       # uni-ui组件库</span><br><span class="line">└── manifest.json      # 小程序配置</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="🎨-界面设计亮点"><a href="#🎨-界面设计亮点" class="headerlink" title="🎨 界面设计亮点"></a>🎨 界面设计亮点</h2><h3 id="现代化渐变UI"><a href="#现代化渐变UI" class="headerlink" title="现代化渐变UI"></a>现代化渐变UI</h3><ul>
-<li>绿色主题色（#4CAF50）：契合农机行业</li>
-<li>渐变背景：提升视觉效果</li>
-<li>卡片式设计：信息层次清晰</li>
-</ul>
-<h3 id="诊断结果优化展示"><a href="#诊断结果优化展示" class="headerlink" title="诊断结果优化展示"></a>诊断结果优化展示</h3><ul>
-<li><p><strong>详细分析区</strong>：蓝灰渐变背景 + 📋 图标</p>
-<ul>
-<li>冷静专业的配色</li>
-<li>白色内容卡片</li>
-<li>文字两端对齐，行高舒适</li>
-</ul>
-</li>
-<li><p><strong>维护建议区</strong>：橙黄渐变背景 + 💡 图标</p>
-<ul>
-<li>警示突出的配色</li>
-<li>左侧橙色边框强调重点</li>
-<li>深橙色文字加粗显示</li>
-</ul>
-</li>
-</ul>
-<h3 id="响应式设计"><a href="#响应式设计" class="headerlink" title="响应式设计"></a>响应式设计</h3><ul>
-<li>使用rpx单位自适应屏幕</li>
-<li>兼容不同尺寸设备</li>
-<li>优化排版和间距</li>
-</ul>
-<hr>
-<h2 id="🔧-配置说明"><a href="#🔧-配置说明" class="headerlink" title="🔧 配置说明"></a>🔧 配置说明</h2><h3 id="AI服务配置"><a href="#AI服务配置" class="headerlink" title="AI服务配置"></a>AI服务配置</h3><p>在 <code>utils/config.js</code> 中配置API密钥：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">ai</span>: &#123;</span><br><span class="line">  <span class="attr">provider</span>: <span class="string">&#x27;aliyun&#x27;</span>,  <span class="comment">// 选择AI服务商</span></span><br><span class="line">  <span class="attr">aliyun</span>: &#123;</span><br><span class="line">    <span class="attr">apiKey</span>: <span class="string">&#x27;sk-xxx&#x27;</span>,  <span class="comment">// 阿里通义千问API Key</span></span><br><span class="line">    <span class="attr">model</span>: <span class="string">&#x27;qwen-turbo&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="视觉识别配置"><a href="#视觉识别配置" class="headerlink" title="视觉识别配置"></a>视觉识别配置</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">vision</span>: &#123;</span><br><span class="line">  <span class="attr">provider</span>: <span class="string">&#x27;qwen-vl&#x27;</span>,  <span class="comment">// 使用通义千问多模态</span></span><br><span class="line">  <span class="attr">qwenVL</span>: &#123;</span><br><span class="line">    <span class="attr">apiKey</span>: <span class="string">&#x27;sk-xxx&#x27;</span>,</span><br><span class="line">    <span class="attr">model</span>: <span class="string">&#x27;qwen-vl-max&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="微信小程序配置"><a href="#微信小程序配置" class="headerlink" title="微信小程序配置"></a>微信小程序配置</h3><p>在 <code>manifest.json</code> 中配置AppID：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;mp-weixin&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;appid&quot;</span><span class="punctuation">:</span> <span class="string">&quot;wxe3db4416558f9a0c&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="🚀-部署流程"><a href="#🚀-部署流程" class="headerlink" title="🚀 部署流程"></a>🚀 部署流程</h2><h3 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h3><ol>
-<li>用HBuilderX打开项目</li>
-<li>配置微信开发者工具路径</li>
-<li>关闭域名校验（开发阶段）</li>
-<li>运行到微信开发者工具</li>
-</ol>
-<h3 id="生产部署"><a href="#生产部署" class="headerlink" title="生产部署"></a>生产部署</h3><ol>
-<li>配置合法的HTTPS服务器域名</li>
-<li>在微信公众平台配置服务器域名白名单</li>
-<li>填写真实的API密钥</li>
-<li>发行小程序并上传审核</li>
-</ol>
-<hr>
-<h2 id="💡-核心技术实现"><a href="#💡-核心技术实现" class="headerlink" title="💡 核心技术实现"></a>💡 核心技术实现</h2><h3 id="AI对话实现"><a href="#AI对话实现" class="headerlink" title="AI对话实现"></a>AI对话实现</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 统一的对话接口，自动选择配置的AI服务</span></span><br><span class="line"><span class="keyword">import</span> &#123; chat &#125; <span class="keyword">from</span> <span class="string">&#x27;@/api/ai.js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> reply = <span class="keyword">await</span> <span class="title function_">chat</span>(</span><br><span class="line">  userMessage,      <span class="comment">// 用户消息</span></span><br><span class="line">  historyMessages,  <span class="comment">// 历史对话</span></span><br><span class="line">  systemPrompt      <span class="comment">// 系统提示词</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<h3 id="图像识别实现"><a href="#图像识别实现" class="headerlink" title="图像识别实现"></a>图像识别实现</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 通义千问VL多模态分析</span></span><br><span class="line"><span class="keyword">import</span> &#123; analyzeImageWithQwenVL &#125; <span class="keyword">from</span> <span class="string">&#x27;@/api/ai.js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> analysis = <span class="keyword">await</span> <span class="title function_">analyzeImageWithQwenVL</span>(</span><br><span class="line">  imageBase64,</span><br><span class="line">  <span class="string">&#x27;请分析这张农机图片，识别设备类型和故障&#x27;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<h3 id="语音识别实现"><a href="#语音识别实现" class="headerlink" title="语音识别实现"></a>语音识别实现</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; speechToText &#125; <span class="keyword">from</span> <span class="string">&#x27;@/api/speech.js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> text = <span class="keyword">await</span> <span class="title function_">speechToText</span>(audioFilePath)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="📊-项目特色"><a href="#📊-项目特色" class="headerlink" title="📊 项目特色"></a>📊 项目特色</h2><h3 id="多AI服务支持"><a href="#多AI服务支持" class="headerlink" title="多AI服务支持"></a>多AI服务支持</h3><ul>
-<li>灵活切换不同AI服务商</li>
-<li>统一的接口调用方式</li>
-<li>降低单一服务依赖风险</li>
-</ul>
-<h3 id="农机领域专业化"><a href="#农机领域专业化" class="headerlink" title="农机领域专业化"></a>农机领域专业化</h3><ul>
-<li>针对农机知识库优化</li>
-<li>专业的故障诊断提示词</li>
-<li>政策解读符合农户阅读习惯</li>
-</ul>
-<h3 id="用户体验优化"><a href="#用户体验优化" class="headerlink" title="用户体验优化"></a>用户体验优化</h3><ul>
-<li>清晰的视觉层次</li>
-<li>专业的诊断报告展示</li>
-<li>快捷操作（语音输入、快捷问题）</li>
-</ul>
-<h3 id="开发体验友好"><a href="#开发体验友好" class="headerlink" title="开发体验友好"></a>开发体验友好</h3><ul>
-<li>详细的配置说明</li>
-<li>日志收集调试工具</li>
-<li>模块化的代码结构</li>
-</ul>
-<hr>
-<h2 id="⚠️-注意事项"><a href="#⚠️-注意事项" class="headerlink" title="⚠️ 注意事项"></a>⚠️ 注意事项</h2><h3 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h3><ul>
-<li>❌ 不要在前端暴露AppSecret</li>
-<li>✅ API Key应妥善保管</li>
-<li>✅ 生产环境关闭debug模式</li>
-</ul>
-<h3 id="域名配置"><a href="#域名配置" class="headerlink" title="域名配置"></a>域名配置</h3><ul>
-<li>✅ 所有API域名必须HTTPS</li>
-<li>✅ 需在微信公众平台配置白名单</li>
-<li>✅ 域名必须已备案</li>
-</ul>
-<h3 id="API使用"><a href="#API使用" class="headerlink" title="API使用"></a>API使用</h3><ul>
-<li>💰 注意AI服务的调用限额和费用</li>
-<li>⏱️ 设置合理的超时时间（默认30秒）</li>
-<li>🔄 建议实现错误重试机制</li>
-</ul>
-<hr>
-<h2 id="📈-未来优化方向"><a href="#📈-未来优化方向" class="headerlink" title="📈 未来优化方向"></a>📈 未来优化方向</h2><h3 id="功能扩展"><a href="#功能扩展" class="headerlink" title="功能扩展"></a>功能扩展</h3><ul>
-<li><input disabled="" type="checkbox"> 添加历史记录管理</li>
-<li><input disabled="" type="checkbox"> 支持多图片批量诊断</li>
-<li><input disabled="" type="checkbox"> 增加用户反馈机制</li>
-<li><input disabled="" type="checkbox"> 农机保养提醒功能</li>
-</ul>
-<h3 id="技术优化"><a href="#技术优化" class="headerlink" title="技术优化"></a>技术优化</h3><ul>
-<li><input disabled="" type="checkbox"> 接入真实后端服务</li>
-<li><input disabled="" type="checkbox"> 优化AI响应速度</li>
-<li><input disabled="" type="checkbox"> 增加离线模式</li>
-<li><input disabled="" type="checkbox"> 数据统计和分析</li>
-</ul>
-<h3 id="体验提升"><a href="#体验提升" class="headerlink" title="体验提升"></a>体验提升</h3><ul>
-<li><input disabled="" type="checkbox"> 添加引导页和教程</li>
-<li><input disabled="" type="checkbox"> 优化加载动画</li>
-<li><input disabled="" type="checkbox"> 增加分享功能</li>
-<li><input disabled="" type="checkbox"> 支持深色模式</li>
-</ul>
-<hr>
-<h2 id="📄-文档资源"><a href="#📄-文档资源" class="headerlink" title="📄 文档资源"></a>📄 文档资源</h2><ul>
-<li><a href="./%E5%86%9C%E6%9C%BA%E9%A1%B9%E7%9B%AE/README.md">README.md</a> - 详细开发文档</li>
-<li><a href="./%E5%86%9C%E6%9C%BA%E9%A1%B9%E7%9B%AE/%E8%AF%8A%E6%96%AD%E7%BB%93%E6%9E%9C%E5%B1%95%E7%A4%BA%E4%BC%98%E5%8C%96%E8%AF%B4%E6%98%8E.md">诊断结果展示优化说明.md</a> - UI优化文档</li>
-<li><a href="./%E5%86%9C%E6%9C%BA%E9%A1%B9%E7%9B%AE/utils/config.js">utils&#x2F;config.js</a> - 完整配置示例</li>
-</ul>
-<hr>
-<h2 id="📞-技术栈参考"><a href="#📞-技术栈参考" class="headerlink" title="📞 技术栈参考"></a>📞 技术栈参考</h2><ul>
-<li><a href="https://uniapp.dcloud.net.cn/">uni-app官方文档</a></li>
-<li><a href="https://cn.vuejs.org/">Vue 3官方文档</a></li>
-<li><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/">微信小程序文档</a></li>
-<li><a href="https://dashscope.console.aliyun.com/">阿里通义千问API</a></li>
-<li><a href="https://ai.baidu.com/">百度AI开放平台</a></li>
-</ul>
-<hr>
-<h2 id="🎯-项目总结"><a href="#🎯-项目总结" class="headerlink" title="🎯 项目总结"></a>🎯 项目总结</h2><p>这是一个<strong>功能完善</strong>、<strong>技术先进</strong>、<strong>用户友好</strong>的智能农机识别小程序：</p>
-<p>✅ <strong>技术创新</strong>：集成多种AI大模型，提供智能化服务<br>✅ <strong>行业专注</strong>：深耕农机领域，解决实际痛点<br>✅ <strong>体验优先</strong>：精心打磨UI&#x2F;UX，提升用户满意度<br>✅ <strong>架构合理</strong>：模块化设计，便于维护和扩展  </p>
-<p>项目可直接部署使用，也可作为<strong>uni-app + AI集成</strong>的参考案例。</p>
-<hr>
-<p><strong>项目版本</strong>：1.0.0<br><strong>最后更新</strong>：2024年<br><strong>开源协议</strong>：MIT License</p>
-]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>小程序开发</tag>
+        <tag>ragent</tag>
+        <tag>AI大模型</tag>
+        <tag>RAG</tag>
+        <tag>学习日志</tag>
       </tags>
   </entry>
   <entry>
@@ -2786,6 +2709,155 @@
       </tags>
   </entry>
   <entry>
+    <title>论文笔记：CoLLM</title>
+    <url>/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ACoLLM/</url>
+    <content><![CDATA[<h2 id="论文信息"><a href="#论文信息" class="headerlink" title="论文信息"></a>论文信息</h2><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>论文标题</td>
+<td>CoLLM: Integrating Collaborative Embeddings into Large Language Models for Recommendation</td>
+</tr>
+<tr>
+<td>期刊&#x2F;会议</td>
+<td>原笔记未注明，仅记录发表日期为 2025-06-14</td>
+</tr>
+<tr>
+<td>发表日期</td>
+<td>2025-06-14</td>
+</tr>
+<tr>
+<td>作者</td>
+<td>Yang Zhang；Fuli Feng；Jizhi Zhang；Keqin Bao；Qifan Wang；Xiangnan He</td>
+</tr>
+<tr>
+<td>核心主题</td>
+<td>将传统协同信息以独立模态形式注入 LLM 推荐框架</td>
+</tr>
+<tr>
+<td>关键词</td>
+<td>CoLLM、LLMRec、Collaborative Information、Warm-start、Cold-start</td>
+</tr>
+<tr>
+<td>原文 PDF</td>
+<td>Zhang 等 - 2025 - CoLLM Integrating Collaborative Embeddings into Large Language Models for Recommendation.pdf</td>
+</tr>
+<tr>
+<td>笔记创建日期</td>
+<td>2026&#x2F;04&#x2F;09</td>
+</tr>
+</tbody></table>
+<h2 id="摘要速览"><a href="#摘要速览" class="headerlink" title="摘要速览"></a>摘要速览</h2><p>CoLLM 聚焦于一个很关键但常被忽略的问题：现有 LLM 推荐方法更擅长利用文本语义处理冷启动，却没有充分吸收传统推荐系统中的协同信息，因此在热启动场景下常常不如矩阵分解或图模型。本文把协同 embedding 视为一种独立模态，通过映射层对齐到 LLM 的 token 空间，在不修改 LLM 主体结构的前提下，让大模型同时具备文本推理能力与协同建模优势。实验表明，CoLLM 在 ML-1M 和 Amazon-Book 上都优于传统模型和 TALLRec，并在冷、热场景之间取得了更好的平衡。</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>英文摘要</td>
+<td>Leveraging Large Language Models as recommenders, referred to as LLMRec, is gaining traction and brings novel dynamics for modeling user preferences, particularly for cold-start users. However, existing LLMRec approaches primarily focus on text semantics and overlook the crucial aspect of incorporating collaborative information from user-item interactions, leading to potentially sub-optimal performance in warm-start scenarios. To ensure superior recommendations across both warm and cold scenarios, we introduce CoLLM, an innovative LLMRec approach that explicitly integrates collaborative information for recommendations. CoLLM treats collaborative information as a distinct modality, directly encoding it from well-established traditional collaborative models, and then tunes a mapping module to align this collaborative information with the LLM’s input text token space for recommendations. By externally integrating traditional models, CoLLM ensures effective collaborative information modeling without modifying the LLM itself, providing the flexibility to adopt diverse collaborative information modeling mechanisms. Extensive experimentation validates that CoLLM adeptly integrates collaborative information into LLMs, resulting in enhanced recommendation performance.</td>
+</tr>
+<tr>
+<td>中文摘要翻译</td>
+<td>现有 LLMRec 方法在冷启动场景中能借助文本语义取得不错效果，但往往忽略用户与物品交互中蕴含的协同信息，因此在热启动场景容易出现性能瓶颈。CoLLM 将协同信息视作独立模态，直接从传统协同模型中提取表示，再通过映射模块将其对齐到 LLM 输入空间，从而在不改动 LLM 主体的前提下完成融合。实验结果表明，该方法能够有效提升推荐性能，并兼顾冷启动与热启动场景。</td>
+</tr>
+</tbody></table>
+<h2 id="文章基本框架"><a href="#文章基本框架" class="headerlink" title="文章基本框架"></a>文章基本框架</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><blockquote>
+<p>如果说 TALLRec 解决了 LLM “能不能做推荐”，那么 CoLLM 进一步追问的是：LLM 能不能在保住语义泛化优势的同时，补齐传统推荐系统最强的协同建模能力。</p>
+</blockquote>
+<ul>
+<li><strong>LLMRec 的偏科问题</strong>：现有 LLM 推荐方法依赖文本提示和语义推理，在冷启动用户或物品上往往表现不错，但这种优势并不能直接迁移到热启动场景。</li>
+<li><strong>协同信息缺失</strong>：传统推荐模型的强项在于从大规模交互数据中挖掘协同信号，而把用户和物品完全转成文本后，这部分信息会被显著削弱。</li>
+<li><strong>热启动表现不足</strong>：当用户和物品已经拥有丰富历史交互时，纯文本驱动的 LLMRec 反而可能落后于 MF、LightGCN 等经典方法。</li>
+</ul>
+<h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><blockquote>
+<p>本文的核心目标是把“协同信息”作为一种可以被 LLM 理解的新模态，让推荐模型在冷启动和热启动场景下都保持竞争力。</p>
+</blockquote>
+<ul>
+<li><strong>显式注入协同信号</strong>：不再只依赖文本描述，而是把传统推荐模型学到的 user&#x2F;item embedding 直接接入 LLM。</li>
+<li><strong>保持模型轻量与灵活</strong>：作者不修改 LLM 主干结构，也不扩充庞大的 ID 词表，而是通过一个小型映射层完成跨模态对齐。</li>
+<li><strong>兼顾泛化与效果</strong>：既要保留 LLM 的语义理解优势，也要吸收传统协同模型在热启动场景中的稳定收益。</li>
+</ul>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><blockquote>
+<p>CoLLM 证明了“LLM + 外挂协同信息”是一条务实且有效的推荐路线。</p>
+</blockquote>
+<ul>
+<li>提出了一套两阶段微调框架，把 MF、LightGCN、DIN 等传统协同模型与 Vicuna-7B 结合起来。</li>
+<li>在整体指标上，CoLLM 超越了传统 SOTA 和纯 LLMRec 方法，同时显著缓解了 LLMRec 在热启动场景中的短板。</li>
+</ul>
+<h2 id="结果与讨论"><a href="#结果与讨论" class="headerlink" title="结果与讨论"></a>结果与讨论</h2><h3 id="数据以及数据来源"><a href="#数据以及数据来源" class="headerlink" title="数据以及数据来源"></a>数据以及数据来源</h3><ul>
+<li><strong>数据集</strong>：使用 ML-1M 和 Amazon-Book 两个经典推荐数据集。</li>
+<li><strong>数据划分</strong>：采用严格的时间戳切分，避免信息泄露，并将任务处理为隐式反馈二分类问题。</li>
+<li><strong>冷热拆分</strong>：测试集进一步划分为 Warm 与 Cold 子集，用来检验模型在不同数据稠密度场景下的表现差异。</li>
+</ul>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><blockquote>
+<p>CoLLM 的思路很直接：让传统推荐模型负责提取协同表示，让 LLM 负责理解文本上下文并做最终推理。</p>
+</blockquote>
+<h4 id="协同信息编码模块（CIE-Collaborative-Information-Encoding）"><a href="#协同信息编码模块（CIE-Collaborative-Information-Encoding）" class="headerlink" title="协同信息编码模块（CIE: Collaborative Information Encoding）"></a>协同信息编码模块（CIE: Collaborative Information Encoding）</h4><ul>
+<li><strong>协同模型</strong> <code>f_psi</code>：使用 MF、LightGCN 或 DIN 等传统模型，把用户和物品编码成低维协同 embedding。</li>
+<li><strong>映射层</strong> <code>g_phi</code>：通过一个 MLP 将协同 embedding 映射到 LLM 的词向量空间，充当“翻译器”。</li>
+<li><strong>混合输入方式</strong>：最终输入被组织为文本 token 与协同向量交织的序列，使 LLM 能在统一空间中处理两类信息。</li>
+</ul>
+<h4 id="两阶段解耦微调（Two-Step-Tuning）"><a href="#两阶段解耦微调（Two-Step-Tuning）" class="headerlink" title="两阶段解耦微调（Two-Step Tuning）"></a>两阶段解耦微调（Two-Step Tuning）</h4><ul>
+<li><p><strong>Step 1: 文本能力与任务对齐</strong></p>
+<ul>
+<li>暂时屏蔽协同 embedding，只用文本提示微调 LoRA。</li>
+<li>目标是先让 LLM 理解推荐任务本身，并稳住冷启动场景中的文本推理能力。</li>
+</ul>
+</li>
+<li><p><strong>Step 2: 协同信号对齐</strong></p>
+<ul>
+<li>冻结 LLM 与 LoRA，仅更新 CIE 中的映射层，必要时可联合微调协同模型。</li>
+<li>目标是把传统协同信号对齐到 LLM 已经适配好的表示空间中。</li>
+</ul>
+</li>
+</ul>
+<h3 id="结论分析"><a href="#结论分析" class="headerlink" title="结论分析"></a>结论分析</h3><ul>
+<li><strong>整体性能（RQ1）</strong>：无论底层协同模型选用 MF、LightGCN 还是 DIN，CoLLM 都优于纯传统模型和 TALLRec，说明“语义 + 协同”组合确实有效。</li>
+<li><strong>冷热场景对比</strong>：在 Warm 子集上，CoLLM 明显修复了 TALLRec 的短板；在 Cold 子集上，又基本保留了 TALLRec 的优势。</li>
+<li><strong>消融与效率（RQ2）</strong>：去掉 CIE 后性能显著下降，而直接引入 ID token 的朴素做法甚至会带来负收益。两阶段训练带来的额外开销相对可控，文中报告训练时间约增加 15.5%，推理耗时约增加 12.5%。</li>
+</ul>
+<h2 id="文章亮点思考"><a href="#文章亮点思考" class="headerlink" title="文章亮点思考"></a>文章亮点思考</h2><h3 id="本文有什么优缺点？"><a href="#本文有什么优缺点？" class="headerlink" title="本文有什么优缺点？"></a>本文有什么优缺点？</h3><ul>
+<li><p><strong>优点</strong></p>
+<ul>
+<li><strong>问题抓得准</strong>：文章非常敏锐地指出了 LLMRec 在热启动场景中的核心弱点，不是简单追求“大模型更强”，而是回到推荐系统最本质的协同信号上。</li>
+<li><strong>设计足够克制</strong>：作者没有硬改 LLM 结构，而是用轻量映射层做对齐，这让方案兼具研究价值和工程可落地性。</li>
+<li><strong>可插拔性强</strong>：CIE 模块能兼容多种传统推荐模型，说明 CoLLM 更像一个融合框架，而不是只绑定某一种底座。</li>
+</ul>
+</li>
+<li><p><strong>缺点 &#x2F; 疑问</strong></p>
+<ul>
+<li><strong>在线推理成本仍高</strong>：即使加入协同信息后效果提升明显，LLM 级别的推理延迟在真实工业重排场景里仍然是压力点。</li>
+<li><strong>两阶段训练可能次优</strong>：Step 2 只对齐映射层，没有和 LoRA 共同端到端联合优化，可能限制最终上限。</li>
+</ul>
+</li>
+</ul>
+<h3 id="可以如何改进？"><a href="#可以如何改进？" class="headerlink" title="可以如何改进？"></a>可以如何改进？</h3><ol>
+<li><strong>端到端联合优化</strong>：让文本表示、协同表示和映射层在统一目标下协同训练，减少阶段间割裂。</li>
+<li><strong>动态门控机制</strong>：针对极端冷启动样本，引入 gating 模块动态决定当前应更依赖文本语义还是协同信号。</li>
+<li><strong>面向部署的轻量化设计</strong>：可以进一步探索蒸馏、缓存协同表示或只在精排阶段调用 LLM，以降低线上时延。</li>
+</ol>
+<h3 id="这篇文章为什么重要？"><a href="#这篇文章为什么重要？" class="headerlink" title="这篇文章为什么重要？"></a>这篇文章为什么重要？</h3><p>这篇文章的重要性在于，它把 LLM 推荐研究从“把推荐问题翻译成文本”推进到了“如何把非文本协同知识高效接入 LLM”。CoLLM 没有否定传统推荐模型，而是把它们当作成熟的外部专家来协同工作。这种思路既尊重了推荐系统长期积累的方法论，也为后续多模态推荐、结构化信号接入大模型提供了非常自然的范式。</p>
+]]></content>
+      <categories>
+        <category>论文笔记</category>
+        <category>推荐系统</category>
+      </categories>
+      <tags>
+        <tag>论文笔记</tag>
+        <tag>推荐系统</tag>
+        <tag>大语言模型</tag>
+        <tag>协同过滤</tag>
+        <tag>CoLLM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>论文笔记：GNPR-SID</title>
     <url>/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AGNPR-SID/</url>
     <content><![CDATA[<h2 id="论文信息"><a href="#论文信息" class="headerlink" title="论文信息"></a>论文信息</h2><table>
@@ -2931,10 +3003,203 @@
       <tags>
         <tag>论文笔记</tag>
         <tag>推荐系统</tag>
-        <tag>POI 推荐</tag>
         <tag>大语言模型</tag>
+        <tag>POI 推荐</tag>
         <tag>Semantic ID</tag>
         <tag>GNPR-SID</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>农机信号故障灯识别小程序</title>
+    <url>/blog/2025/10/13/%E5%86%9C%E6%9C%BA%E4%BF%A1%E5%8F%B7%E6%95%85%E9%9A%9C%E7%81%AF%E8%AF%86%E5%88%AB%E5%B0%8F%E7%A8%8B%E5%BA%8F/</url>
+    <content><![CDATA[<h2 id="智能农机识别小程序-项目总结"><a href="#智能农机识别小程序-项目总结" class="headerlink" title="智能农机识别小程序 - 项目总结"></a>智能农机识别小程序 - 项目总结</h2><h2 id="📋-项目概述"><a href="#📋-项目概述" class="headerlink" title="📋 项目概述"></a>📋 项目概述</h2><p><strong>项目名称</strong>：智能农机识别微信小程序<br><strong>技术栈</strong>：uni-app + Vue 3 + AI大模型<br><strong>项目定位</strong>：为农户提供农机识别、故障诊断、知识问答和政策解读的智能化服务平台</p>
+<hr>
+<h2 id="✨-核心功能"><a href="#✨-核心功能" class="headerlink" title="✨ 核心功能"></a>✨ 核心功能</h2><h3 id="💬-农机知识问答"><a href="#💬-农机知识问答" class="headerlink" title="💬 农机知识问答"></a>💬 农机知识问答</h3><ul>
+<li><strong>智能对话</strong>：AI驱动的农机知识库问答</li>
+<li><strong>多轮对话</strong>：支持上下文理解</li>
+<li><strong>快捷问题</strong>：热门问题快速提问</li>
+<li><strong>语音输入</strong>：支持语音转文字功能</li>
+</ul>
+<h3 id="📷-AI视觉诊断"><a href="#📷-AI视觉诊断" class="headerlink" title="📷 AI视觉诊断"></a>📷 AI视觉诊断</h3><ul>
+<li><strong>图像识别</strong>：拍照或相册选择，识别农机类型</li>
+<li><strong>故障诊断</strong>：AI分析设备状态，识别故障信号</li>
+<li><strong>智能建议</strong>：提供详细维护建议和优先级排序</li>
+<li><strong>诊断历史</strong>：查看历史诊断记录</li>
+</ul>
+<h3 id="📋-政策解读"><a href="#📋-政策解读" class="headerlink" title="📋 政策解读"></a>📋 政策解读</h3><ul>
+<li><strong>政策搜索</strong>：快速查找相关农机政策</li>
+<li><strong>白话解读</strong>：将政策文件转为通俗易懂的语言</li>
+<li><strong>申请流程</strong>：详细的补贴申请指南</li>
+<li><strong>热门标签</strong>：快速筛选政策类型</li>
+</ul>
+<hr>
+<h2 id="🛠️-技术架构"><a href="#🛠️-技术架构" class="headerlink" title="🛠️ 技术架构"></a>🛠️ 技术架构</h2><h3 id="前端技术"><a href="#前端技术" class="headerlink" title="前端技术"></a>前端技术</h3><ul>
+<li><strong>框架</strong>：uni-app（跨平台小程序开发框架）</li>
+<li><strong>前端框架</strong>：Vue 3（Composition API）</li>
+<li><strong>UI组件</strong>：uni-ui 组件库</li>
+<li><strong>样式</strong>：SCSS + rpx 响应式单位</li>
+<li><strong>状态管理</strong>：uni.storage 本地存储</li>
+</ul>
+<h3 id="AI-服务集成"><a href="#AI-服务集成" class="headerlink" title="AI 服务集成"></a>AI 服务集成</h3><h4 id="对话-AI（知识问答）"><a href="#对话-AI（知识问答）" class="headerlink" title="对话 AI（知识问答）"></a>对话 AI（知识问答）</h4><ul>
+<li><strong>百度文心一言</strong>：ERNIE-Bot系列</li>
+<li><strong>阿里通义千问</strong>：qwen-turbo&#x2F;plus&#x2F;max</li>
+<li><strong>智谱 GLM</strong>：GLM-4系列</li>
+<li>支持自定义后端API</li>
+</ul>
+<h4 id="视觉识别（图像诊断）"><a href="#视觉识别（图像诊断）" class="headerlink" title="视觉识别（图像诊断）"></a>视觉识别（图像诊断）</h4><ul>
+<li><strong>百度AI</strong>：通用物体和场景识别</li>
+<li><strong>阿里云视觉智能</strong>：图像分类服务</li>
+<li><strong>通义千问-VL</strong>：多模态大模型（推荐）<ul>
+<li>支持图像理解和分析</li>
+<li>可根据图片回答问题</li>
+</ul>
+</li>
+</ul>
+<h4 id="语音识别"><a href="#语音识别" class="headerlink" title="语音识别"></a>语音识别</h4><ul>
+<li><strong>百度语音识别</strong>：支持wav格式</li>
+<li>采样率：16000Hz</li>
+<li>识别模型：普通话 + 简单英文</li>
+</ul>
+<h3 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">农机项目/</span><br><span class="line">├── pages/              # 页面</span><br><span class="line">│   ├── login/         # 登录页</span><br><span class="line">│   ├── index/         # 首页</span><br><span class="line">│   ├── chat/          # 知识问答</span><br><span class="line">│   ├── vision/        # 视觉诊断</span><br><span class="line">│   └── policy/        # 政策解读</span><br><span class="line">├── api/               # 接口封装</span><br><span class="line">│   ├── ai.js         # AI大模型接口</span><br><span class="line">│   ├── auth.js       # 认证接口</span><br><span class="line">│   ├── backend.js    # 后端接口</span><br><span class="line">│   └── speech.js     # 语音识别接口</span><br><span class="line">├── utils/             # 工具函数</span><br><span class="line">│   ├── config.js     # 配置文件（API Key等）</span><br><span class="line">│   ├── request.js    # 网络请求封装</span><br><span class="line">│   └── vconsole.js   # 日志调试工具</span><br><span class="line">├── static/            # 静态资源</span><br><span class="line">├── uni_modules/       # uni-ui组件库</span><br><span class="line">└── manifest.json      # 小程序配置</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🎨-界面设计亮点"><a href="#🎨-界面设计亮点" class="headerlink" title="🎨 界面设计亮点"></a>🎨 界面设计亮点</h2><h3 id="现代化渐变UI"><a href="#现代化渐变UI" class="headerlink" title="现代化渐变UI"></a>现代化渐变UI</h3><ul>
+<li>绿色主题色（#4CAF50）：契合农机行业</li>
+<li>渐变背景：提升视觉效果</li>
+<li>卡片式设计：信息层次清晰</li>
+</ul>
+<h3 id="诊断结果优化展示"><a href="#诊断结果优化展示" class="headerlink" title="诊断结果优化展示"></a>诊断结果优化展示</h3><ul>
+<li><p><strong>详细分析区</strong>：蓝灰渐变背景 + 📋 图标</p>
+<ul>
+<li>冷静专业的配色</li>
+<li>白色内容卡片</li>
+<li>文字两端对齐，行高舒适</li>
+</ul>
+</li>
+<li><p><strong>维护建议区</strong>：橙黄渐变背景 + 💡 图标</p>
+<ul>
+<li>警示突出的配色</li>
+<li>左侧橙色边框强调重点</li>
+<li>深橙色文字加粗显示</li>
+</ul>
+</li>
+</ul>
+<h3 id="响应式设计"><a href="#响应式设计" class="headerlink" title="响应式设计"></a>响应式设计</h3><ul>
+<li>使用rpx单位自适应屏幕</li>
+<li>兼容不同尺寸设备</li>
+<li>优化排版和间距</li>
+</ul>
+<hr>
+<h2 id="🔧-配置说明"><a href="#🔧-配置说明" class="headerlink" title="🔧 配置说明"></a>🔧 配置说明</h2><h3 id="AI服务配置"><a href="#AI服务配置" class="headerlink" title="AI服务配置"></a>AI服务配置</h3><p>在 <code>utils/config.js</code> 中配置API密钥：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">ai</span>: &#123;</span><br><span class="line">  <span class="attr">provider</span>: <span class="string">&#x27;aliyun&#x27;</span>,  <span class="comment">// 选择AI服务商</span></span><br><span class="line">  <span class="attr">aliyun</span>: &#123;</span><br><span class="line">    <span class="attr">apiKey</span>: <span class="string">&#x27;sk-xxx&#x27;</span>,  <span class="comment">// 阿里通义千问API Key</span></span><br><span class="line">    <span class="attr">model</span>: <span class="string">&#x27;qwen-turbo&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="视觉识别配置"><a href="#视觉识别配置" class="headerlink" title="视觉识别配置"></a>视觉识别配置</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">vision</span>: &#123;</span><br><span class="line">  <span class="attr">provider</span>: <span class="string">&#x27;qwen-vl&#x27;</span>,  <span class="comment">// 使用通义千问多模态</span></span><br><span class="line">  <span class="attr">qwenVL</span>: &#123;</span><br><span class="line">    <span class="attr">apiKey</span>: <span class="string">&#x27;sk-xxx&#x27;</span>,</span><br><span class="line">    <span class="attr">model</span>: <span class="string">&#x27;qwen-vl-max&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="微信小程序配置"><a href="#微信小程序配置" class="headerlink" title="微信小程序配置"></a>微信小程序配置</h3><p>在 <code>manifest.json</code> 中配置AppID：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;mp-weixin&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;appid&quot;</span><span class="punctuation">:</span> <span class="string">&quot;wxe3db4416558f9a0c&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🚀-部署流程"><a href="#🚀-部署流程" class="headerlink" title="🚀 部署流程"></a>🚀 部署流程</h2><h3 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h3><ol>
+<li>用HBuilderX打开项目</li>
+<li>配置微信开发者工具路径</li>
+<li>关闭域名校验（开发阶段）</li>
+<li>运行到微信开发者工具</li>
+</ol>
+<h3 id="生产部署"><a href="#生产部署" class="headerlink" title="生产部署"></a>生产部署</h3><ol>
+<li>配置合法的HTTPS服务器域名</li>
+<li>在微信公众平台配置服务器域名白名单</li>
+<li>填写真实的API密钥</li>
+<li>发行小程序并上传审核</li>
+</ol>
+<hr>
+<h2 id="💡-核心技术实现"><a href="#💡-核心技术实现" class="headerlink" title="💡 核心技术实现"></a>💡 核心技术实现</h2><h3 id="AI对话实现"><a href="#AI对话实现" class="headerlink" title="AI对话实现"></a>AI对话实现</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 统一的对话接口，自动选择配置的AI服务</span></span><br><span class="line"><span class="keyword">import</span> &#123; chat &#125; <span class="keyword">from</span> <span class="string">&#x27;@/api/ai.js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> reply = <span class="keyword">await</span> <span class="title function_">chat</span>(</span><br><span class="line">  userMessage,      <span class="comment">// 用户消息</span></span><br><span class="line">  historyMessages,  <span class="comment">// 历史对话</span></span><br><span class="line">  systemPrompt      <span class="comment">// 系统提示词</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="图像识别实现"><a href="#图像识别实现" class="headerlink" title="图像识别实现"></a>图像识别实现</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 通义千问VL多模态分析</span></span><br><span class="line"><span class="keyword">import</span> &#123; analyzeImageWithQwenVL &#125; <span class="keyword">from</span> <span class="string">&#x27;@/api/ai.js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> analysis = <span class="keyword">await</span> <span class="title function_">analyzeImageWithQwenVL</span>(</span><br><span class="line">  imageBase64,</span><br><span class="line">  <span class="string">&#x27;请分析这张农机图片，识别设备类型和故障&#x27;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="语音识别实现"><a href="#语音识别实现" class="headerlink" title="语音识别实现"></a>语音识别实现</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; speechToText &#125; <span class="keyword">from</span> <span class="string">&#x27;@/api/speech.js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> text = <span class="keyword">await</span> <span class="title function_">speechToText</span>(audioFilePath)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="📊-项目特色"><a href="#📊-项目特色" class="headerlink" title="📊 项目特色"></a>📊 项目特色</h2><h3 id="多AI服务支持"><a href="#多AI服务支持" class="headerlink" title="多AI服务支持"></a>多AI服务支持</h3><ul>
+<li>灵活切换不同AI服务商</li>
+<li>统一的接口调用方式</li>
+<li>降低单一服务依赖风险</li>
+</ul>
+<h3 id="农机领域专业化"><a href="#农机领域专业化" class="headerlink" title="农机领域专业化"></a>农机领域专业化</h3><ul>
+<li>针对农机知识库优化</li>
+<li>专业的故障诊断提示词</li>
+<li>政策解读符合农户阅读习惯</li>
+</ul>
+<h3 id="用户体验优化"><a href="#用户体验优化" class="headerlink" title="用户体验优化"></a>用户体验优化</h3><ul>
+<li>清晰的视觉层次</li>
+<li>专业的诊断报告展示</li>
+<li>快捷操作（语音输入、快捷问题）</li>
+</ul>
+<h3 id="开发体验友好"><a href="#开发体验友好" class="headerlink" title="开发体验友好"></a>开发体验友好</h3><ul>
+<li>详细的配置说明</li>
+<li>日志收集调试工具</li>
+<li>模块化的代码结构</li>
+</ul>
+<hr>
+<h2 id="⚠️-注意事项"><a href="#⚠️-注意事项" class="headerlink" title="⚠️ 注意事项"></a>⚠️ 注意事项</h2><h3 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h3><ul>
+<li>❌ 不要在前端暴露AppSecret</li>
+<li>✅ API Key应妥善保管</li>
+<li>✅ 生产环境关闭debug模式</li>
+</ul>
+<h3 id="域名配置"><a href="#域名配置" class="headerlink" title="域名配置"></a>域名配置</h3><ul>
+<li>✅ 所有API域名必须HTTPS</li>
+<li>✅ 需在微信公众平台配置白名单</li>
+<li>✅ 域名必须已备案</li>
+</ul>
+<h3 id="API使用"><a href="#API使用" class="headerlink" title="API使用"></a>API使用</h3><ul>
+<li>💰 注意AI服务的调用限额和费用</li>
+<li>⏱️ 设置合理的超时时间（默认30秒）</li>
+<li>🔄 建议实现错误重试机制</li>
+</ul>
+<hr>
+<h2 id="📈-未来优化方向"><a href="#📈-未来优化方向" class="headerlink" title="📈 未来优化方向"></a>📈 未来优化方向</h2><h3 id="功能扩展"><a href="#功能扩展" class="headerlink" title="功能扩展"></a>功能扩展</h3><ul>
+<li><input disabled="" type="checkbox"> 添加历史记录管理</li>
+<li><input disabled="" type="checkbox"> 支持多图片批量诊断</li>
+<li><input disabled="" type="checkbox"> 增加用户反馈机制</li>
+<li><input disabled="" type="checkbox"> 农机保养提醒功能</li>
+</ul>
+<h3 id="技术优化"><a href="#技术优化" class="headerlink" title="技术优化"></a>技术优化</h3><ul>
+<li><input disabled="" type="checkbox"> 接入真实后端服务</li>
+<li><input disabled="" type="checkbox"> 优化AI响应速度</li>
+<li><input disabled="" type="checkbox"> 增加离线模式</li>
+<li><input disabled="" type="checkbox"> 数据统计和分析</li>
+</ul>
+<h3 id="体验提升"><a href="#体验提升" class="headerlink" title="体验提升"></a>体验提升</h3><ul>
+<li><input disabled="" type="checkbox"> 添加引导页和教程</li>
+<li><input disabled="" type="checkbox"> 优化加载动画</li>
+<li><input disabled="" type="checkbox"> 增加分享功能</li>
+<li><input disabled="" type="checkbox"> 支持深色模式</li>
+</ul>
+<hr>
+<h2 id="📄-文档资源"><a href="#📄-文档资源" class="headerlink" title="📄 文档资源"></a>📄 文档资源</h2><ul>
+<li><a href="./%E5%86%9C%E6%9C%BA%E9%A1%B9%E7%9B%AE/README.md">README.md</a> - 详细开发文档</li>
+<li><a href="./%E5%86%9C%E6%9C%BA%E9%A1%B9%E7%9B%AE/%E8%AF%8A%E6%96%AD%E7%BB%93%E6%9E%9C%E5%B1%95%E7%A4%BA%E4%BC%98%E5%8C%96%E8%AF%B4%E6%98%8E.md">诊断结果展示优化说明.md</a> - UI优化文档</li>
+<li><a href="./%E5%86%9C%E6%9C%BA%E9%A1%B9%E7%9B%AE/utils/config.js">utils&#x2F;config.js</a> - 完整配置示例</li>
+</ul>
+<hr>
+<h2 id="📞-技术栈参考"><a href="#📞-技术栈参考" class="headerlink" title="📞 技术栈参考"></a>📞 技术栈参考</h2><ul>
+<li><a href="https://uniapp.dcloud.net.cn/">uni-app官方文档</a></li>
+<li><a href="https://cn.vuejs.org/">Vue 3官方文档</a></li>
+<li><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/">微信小程序文档</a></li>
+<li><a href="https://dashscope.console.aliyun.com/">阿里通义千问API</a></li>
+<li><a href="https://ai.baidu.com/">百度AI开放平台</a></li>
+</ul>
+<hr>
+<h2 id="🎯-项目总结"><a href="#🎯-项目总结" class="headerlink" title="🎯 项目总结"></a>🎯 项目总结</h2><p>这是一个<strong>功能完善</strong>、<strong>技术先进</strong>、<strong>用户友好</strong>的智能农机识别小程序：</p>
+<p>✅ <strong>技术创新</strong>：集成多种AI大模型，提供智能化服务<br>✅ <strong>行业专注</strong>：深耕农机领域，解决实际痛点<br>✅ <strong>体验优先</strong>：精心打磨UI&#x2F;UX，提升用户满意度<br>✅ <strong>架构合理</strong>：模块化设计，便于维护和扩展  </p>
+<p>项目可直接部署使用，也可作为<strong>uni-app + AI集成</strong>的参考案例。</p>
+<hr>
+<p><strong>项目版本</strong>：1.0.0<br><strong>最后更新</strong>：2024年<br><strong>开源协议</strong>：MIT License</p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>小程序开发</tag>
       </tags>
   </entry>
   <entry>
@@ -3373,152 +3638,251 @@
       </tags>
   </entry>
   <entry>
-    <title>论文笔记：CoLLM</title>
-    <url>/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ACoLLM/</url>
-    <content><![CDATA[<h2 id="论文信息"><a href="#论文信息" class="headerlink" title="论文信息"></a>论文信息</h2><table>
-<thead>
-<tr>
-<th>字段</th>
-<th>内容</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>论文标题</td>
-<td>CoLLM: Integrating Collaborative Embeddings into Large Language Models for Recommendation</td>
-</tr>
-<tr>
-<td>期刊&#x2F;会议</td>
-<td>原笔记未注明，仅记录发表日期为 2025-06-14</td>
-</tr>
-<tr>
-<td>发表日期</td>
-<td>2025-06-14</td>
-</tr>
-<tr>
-<td>作者</td>
-<td>Yang Zhang；Fuli Feng；Jizhi Zhang；Keqin Bao；Qifan Wang；Xiangnan He</td>
-</tr>
-<tr>
-<td>核心主题</td>
-<td>将传统协同信息以独立模态形式注入 LLM 推荐框架</td>
-</tr>
-<tr>
-<td>关键词</td>
-<td>CoLLM、LLMRec、Collaborative Information、Warm-start、Cold-start</td>
-</tr>
-<tr>
-<td>原文 PDF</td>
-<td>Zhang 等 - 2025 - CoLLM Integrating Collaborative Embeddings into Large Language Models for Recommendation.pdf</td>
-</tr>
-<tr>
-<td>笔记创建日期</td>
-<td>2026&#x2F;04&#x2F;09</td>
-</tr>
-</tbody></table>
-<h2 id="摘要速览"><a href="#摘要速览" class="headerlink" title="摘要速览"></a>摘要速览</h2><p>CoLLM 聚焦于一个很关键但常被忽略的问题：现有 LLM 推荐方法更擅长利用文本语义处理冷启动，却没有充分吸收传统推荐系统中的协同信息，因此在热启动场景下常常不如矩阵分解或图模型。本文把协同 embedding 视为一种独立模态，通过映射层对齐到 LLM 的 token 空间，在不修改 LLM 主体结构的前提下，让大模型同时具备文本推理能力与协同建模优势。实验表明，CoLLM 在 ML-1M 和 Amazon-Book 上都优于传统模型和 TALLRec，并在冷、热场景之间取得了更好的平衡。</p>
+    <title>Hot100：二分查找1-搜索插入位置</title>
+    <url>/blog/2025/10/30/Hot100%EF%BC%9A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1-%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><blockquote>
+<p><strong>LeetCode 35. 搜索插入位置</strong></p>
+</blockquote>
+<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。<strong>如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</strong></p>
+<p>请必须使用时间复杂度为 <code>O(log n)</code> 的算法。</p>
+<h2 id="问题理解"><a href="#问题理解" class="headerlink" title="问题理解"></a>问题理解</h2><p>这道题有两个核心任务：</p>
+<ol>
+<li><strong>查找</strong>：如果目标值存在，返回其索引</li>
+<li><strong>定位插入位置</strong>：如果目标值不存在，找到它应该插入的位置（保持数组有序）</li>
+</ol>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p><strong>示例 1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: nums = [1,3,5,6], target = 5</span><br><span class="line">输出: 2</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: nums = [1,3,5,6], target = 2</span><br><span class="line">输出: 1</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: nums = [1,3,5,6], target = 7</span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure>
+
+<h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><ul>
+<li><code>1 &lt;= nums.length &lt;= 10^4</code></li>
+<li><code>-10^4 &lt;= nums[i] &lt;= 10^4</code></li>
+<li><code>nums</code> 为<strong>无重复元素</strong>的<strong>升序</strong>排列数组</li>
+<li><code>-10^4 &lt;= target &lt;= 10^4</code></li>
+</ul>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><h2 id="算法选择"><a href="#算法选择" class="headerlink" title="算法选择"></a>算法选择</h2><p>由于题目要求时间复杂度为 <code>O(log n)</code>，并且数组是<strong>有序的</strong>，这是使用<strong>二分查找算法</strong>的典型场景。</p>
+<h2 id="核心思路"><a href="#核心思路" class="headerlink" title="核心思路"></a>核心思路</h2><p>使用二分查找在有序数组中定位目标值或插入位置：</p>
+<ol>
+<li><strong>初始化搜索区间</strong>：<code>min = 0</code>，<code>max = nums.length - 1</code></li>
+<li><strong>循环查找</strong>：<ul>
+<li>计算中间位置：<code>mid = (min + max) / 2</code></li>
+<li>比较 <code>nums[mid]</code> 与 <code>target</code>：<ul>
+<li><code>nums[mid] == target</code>：✅ <strong>找到目标</strong>，返回 <code>mid</code></li>
+<li><code>nums[mid] &gt; target</code>：目标在左半部分，<code>max = mid - 1</code></li>
+<li><code>nums[mid] &lt; target</code>：目标在右半部分，<code>min = mid + 1</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>退出条件</strong>：<code>min &gt; max</code> 时，目标值不存在</li>
+</ol>
+<h2 id="🔑-关键理解：插入位置的确定"><a href="#🔑-关键理解：插入位置的确定" class="headerlink" title="🔑 关键理解：插入位置的确定"></a>🔑 关键理解：插入位置的确定</h2><p>这是本题的核心！当二分查找结束（<code>min &gt; max</code>）时，为什么 <code>min</code> 就是插入位置？</p>
+<h3 id="直观理解"><a href="#直观理解" class="headerlink" title="直观理解"></a>直观理解</h3><p>假设数组 <code>[1, 3, 5, 6]</code>，目标值 <code>target = 2</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">查找过程：</span><br><span class="line">初始: [1, 3, 5, 6]</span><br><span class="line">       ↑     ↑</span><br><span class="line">      min   max</span><br><span class="line"></span><br><span class="line">第1步: mid=1, nums[1]=3 &gt; 2，向左搜索</span><br><span class="line">       max = mid - 1 = 0</span><br><span class="line"></span><br><span class="line">第2步: mid=0, nums[0]=1 &lt; 2，向右搜索</span><br><span class="line">       min = mid + 1 = 1</span><br><span class="line"></span><br><span class="line">第3步: min(1) &gt; max(0)，循环结束</span><br><span class="line">       此时 min=1，表示 2 应该插入到索引1的位置</span><br><span class="line">       </span><br><span class="line">结果: [1, 2, 3, 5, 6]  ← 插入后仍然有序</span><br><span class="line">          ↑</span><br><span class="line">       插入位置</span><br></pre></td></tr></table></figure>
+
+<h3 id="数学证明"><a href="#数学证明" class="headerlink" title="数学证明"></a>数学证明</h3><p><strong>循环不变式</strong>：在每次循环中，<code>min</code> 左侧的所有元素都 <code>&lt; target</code>，<code>max</code> 右侧的所有元素都 <code>&gt; target</code></p>
+<p>当循环结束时（<code>min &gt; max</code>）：</p>
+<ul>
+<li><code>min</code> 指向第一个 <code>≥ target</code> 的位置</li>
+<li>在 <code>min</code> 位置插入 <code>target</code> 可以保持数组有序</li>
+</ul>
+<h3 id="三种情况分析"><a href="#三种情况分析" class="headerlink" title="三种情况分析"></a>三种情况分析</h3><ol>
+<li><strong>目标值小于所有元素</strong>：<code>min = 0</code>，插入到开头</li>
+<li><strong>目标值大于所有元素</strong>：<code>min = nums.length</code>，插入到末尾</li>
+<li><strong>目标值在某两个元素之间</strong>：<code>min</code> 指向第一个大于目标值的位置</li>
+</ol>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> TestHot100;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BinarySearch_InsertPosition</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[] nums = &#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>&#125;;</span><br><span class="line">        <span class="type">int</span> <span class="variable">target</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line">        System.out.println(searchInsert(nums, target));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">searchInsert</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="comment">// 二分查找</span></span><br><span class="line">        <span class="comment">// 最小索引</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">min</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 最大索引</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> nums.length - <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(min &gt; max)&#123;</span><br><span class="line">                <span class="comment">// 目标值不存在，返回应该插入的位置</span></span><br><span class="line">                <span class="keyword">return</span> min;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 计算中间索引</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> (max + min) / <span class="number">2</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 比较中间值与目标值的大小</span></span><br><span class="line">            <span class="keyword">if</span>(nums[mid] &gt; target)&#123;</span><br><span class="line">                <span class="comment">// 目标值在左半部分</span></span><br><span class="line">                max = mid - <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &lt; target)&#123;</span><br><span class="line">                <span class="comment">// 目标值在右半部分</span></span><br><span class="line">                min = mid + <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] == target)&#123;</span><br><span class="line">                <span class="comment">// 目标值等于中间值，直接返回中间索引</span></span><br><span class="line">                <span class="keyword">return</span> mid;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><p><strong>O(log n)</strong></p>
+<p>每次循环都会将搜索区间缩小一半，因此最多需要 <code>log₂n</code> 次比较。</p>
+<h2 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h2><p><strong>O(1)</strong></p>
+<p>只使用了常数个额外变量（<code>min</code>、<code>max</code>、<code>mid</code>），不随输入规模增长。</p>
+<h2 id="执行过程详解"><a href="#执行过程详解" class="headerlink" title="执行过程详解"></a>执行过程详解</h2><h2 id="示例-1：查找不存在的值（需要插入）"><a href="#示例-1：查找不存在的值（需要插入）" class="headerlink" title="示例 1：查找不存在的值（需要插入）"></a>示例 1：查找不存在的值（需要插入）</h2><p><strong>输入</strong>：<code>nums = [1, 3, 5, 6]</code>, <code>target = 2</code></p>
 <table>
 <thead>
 <tr>
-<th>项目</th>
-<th>内容</th>
+<th>步骤</th>
+<th>min</th>
+<th>max</th>
+<th>mid</th>
+<th>nums[mid]</th>
+<th>判断</th>
+<th>操作</th>
+<th>说明</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>英文摘要</td>
-<td>Leveraging Large Language Models as recommenders, referred to as LLMRec, is gaining traction and brings novel dynamics for modeling user preferences, particularly for cold-start users. However, existing LLMRec approaches primarily focus on text semantics and overlook the crucial aspect of incorporating collaborative information from user-item interactions, leading to potentially sub-optimal performance in warm-start scenarios. To ensure superior recommendations across both warm and cold scenarios, we introduce CoLLM, an innovative LLMRec approach that explicitly integrates collaborative information for recommendations. CoLLM treats collaborative information as a distinct modality, directly encoding it from well-established traditional collaborative models, and then tunes a mapping module to align this collaborative information with the LLM’s input text token space for recommendations. By externally integrating traditional models, CoLLM ensures effective collaborative information modeling without modifying the LLM itself, providing the flexibility to adopt diverse collaborative information modeling mechanisms. Extensive experimentation validates that CoLLM adeptly integrates collaborative information into LLMs, resulting in enhanced recommendation performance.</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>3</td>
+<td>3 &gt; 2</td>
+<td>max &#x3D; 0</td>
+<td>目标在左半部分</td>
 </tr>
 <tr>
-<td>中文摘要翻译</td>
-<td>现有 LLMRec 方法在冷启动场景中能借助文本语义取得不错效果，但往往忽略用户与物品交互中蕴含的协同信息，因此在热启动场景容易出现性能瓶颈。CoLLM 将协同信息视作独立模态，直接从传统协同模型中提取表示，再通过映射模块将其对齐到 LLM 输入空间，从而在不改动 LLM 主体的前提下完成融合。实验结果表明，该方法能够有效提升推荐性能，并兼顾冷启动与热启动场景。</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1 &lt; 2</td>
+<td>min &#x3D; 1</td>
+<td>目标在右半部分</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>0</td>
+<td>-</td>
+<td>-</td>
+<td>min &gt; max</td>
+<td>返回 1</td>
+<td><strong>插入位置确定</strong></td>
 </tr>
 </tbody></table>
-<h2 id="文章基本框架"><a href="#文章基本框架" class="headerlink" title="文章基本框架"></a>文章基本框架</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><blockquote>
-<p>如果说 TALLRec 解决了 LLM “能不能做推荐”，那么 CoLLM 进一步追问的是：LLM 能不能在保住语义泛化优势的同时，补齐传统推荐系统最强的协同建模能力。</p>
-</blockquote>
-<ul>
-<li><strong>LLMRec 的偏科问题</strong>：现有 LLM 推荐方法依赖文本提示和语义推理，在冷启动用户或物品上往往表现不错，但这种优势并不能直接迁移到热启动场景。</li>
-<li><strong>协同信息缺失</strong>：传统推荐模型的强项在于从大规模交互数据中挖掘协同信号，而把用户和物品完全转成文本后，这部分信息会被显著削弱。</li>
-<li><strong>热启动表现不足</strong>：当用户和物品已经拥有丰富历史交互时，纯文本驱动的 LLMRec 反而可能落后于 MF、LightGCN 等经典方法。</li>
-</ul>
-<h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><blockquote>
-<p>本文的核心目标是把“协同信息”作为一种可以被 LLM 理解的新模态，让推荐模型在冷启动和热启动场景下都保持竞争力。</p>
-</blockquote>
-<ul>
-<li><strong>显式注入协同信号</strong>：不再只依赖文本描述，而是把传统推荐模型学到的 user&#x2F;item embedding 直接接入 LLM。</li>
-<li><strong>保持模型轻量与灵活</strong>：作者不修改 LLM 主干结构，也不扩充庞大的 ID 词表，而是通过一个小型映射层完成跨模态对齐。</li>
-<li><strong>兼顾泛化与效果</strong>：既要保留 LLM 的语义理解优势，也要吸收传统协同模型在热启动场景中的稳定收益。</li>
-</ul>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><blockquote>
-<p>CoLLM 证明了“LLM + 外挂协同信息”是一条务实且有效的推荐路线。</p>
-</blockquote>
-<ul>
-<li>提出了一套两阶段微调框架，把 MF、LightGCN、DIN 等传统协同模型与 Vicuna-7B 结合起来。</li>
-<li>在整体指标上，CoLLM 超越了传统 SOTA 和纯 LLMRec 方法，同时显著缓解了 LLMRec 在热启动场景中的短板。</li>
-</ul>
-<h2 id="结果与讨论"><a href="#结果与讨论" class="headerlink" title="结果与讨论"></a>结果与讨论</h2><h3 id="数据以及数据来源"><a href="#数据以及数据来源" class="headerlink" title="数据以及数据来源"></a>数据以及数据来源</h3><ul>
-<li><strong>数据集</strong>：使用 ML-1M 和 Amazon-Book 两个经典推荐数据集。</li>
-<li><strong>数据划分</strong>：采用严格的时间戳切分，避免信息泄露，并将任务处理为隐式反馈二分类问题。</li>
-<li><strong>冷热拆分</strong>：测试集进一步划分为 Warm 与 Cold 子集，用来检验模型在不同数据稠密度场景下的表现差异。</li>
-</ul>
-<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><blockquote>
-<p>CoLLM 的思路很直接：让传统推荐模型负责提取协同表示，让 LLM 负责理解文本上下文并做最终推理。</p>
-</blockquote>
-<h4 id="协同信息编码模块（CIE-Collaborative-Information-Encoding）"><a href="#协同信息编码模块（CIE-Collaborative-Information-Encoding）" class="headerlink" title="协同信息编码模块（CIE: Collaborative Information Encoding）"></a>协同信息编码模块（CIE: Collaborative Information Encoding）</h4><ul>
-<li><strong>协同模型</strong> <code>f_psi</code>：使用 MF、LightGCN 或 DIN 等传统模型，把用户和物品编码成低维协同 embedding。</li>
-<li><strong>映射层</strong> <code>g_phi</code>：通过一个 MLP 将协同 embedding 映射到 LLM 的词向量空间，充当“翻译器”。</li>
-<li><strong>混合输入方式</strong>：最终输入被组织为文本 token 与协同向量交织的序列，使 LLM 能在统一空间中处理两类信息。</li>
-</ul>
-<h4 id="两阶段解耦微调（Two-Step-Tuning）"><a href="#两阶段解耦微调（Two-Step-Tuning）" class="headerlink" title="两阶段解耦微调（Two-Step Tuning）"></a>两阶段解耦微调（Two-Step Tuning）</h4><ul>
-<li><p><strong>Step 1: 文本能力与任务对齐</strong></p>
-<ul>
-<li>暂时屏蔽协同 embedding，只用文本提示微调 LoRA。</li>
-<li>目标是先让 LLM 理解推荐任务本身，并稳住冷启动场景中的文本推理能力。</li>
-</ul>
-</li>
-<li><p><strong>Step 2: 协同信号对齐</strong></p>
-<ul>
-<li>冻结 LLM 与 LoRA，仅更新 CIE 中的映射层，必要时可联合微调协同模型。</li>
-<li>目标是把传统协同信号对齐到 LLM 已经适配好的表示空间中。</li>
-</ul>
-</li>
-</ul>
-<h3 id="结论分析"><a href="#结论分析" class="headerlink" title="结论分析"></a>结论分析</h3><ul>
-<li><strong>整体性能（RQ1）</strong>：无论底层协同模型选用 MF、LightGCN 还是 DIN，CoLLM 都优于纯传统模型和 TALLRec，说明“语义 + 协同”组合确实有效。</li>
-<li><strong>冷热场景对比</strong>：在 Warm 子集上，CoLLM 明显修复了 TALLRec 的短板；在 Cold 子集上，又基本保留了 TALLRec 的优势。</li>
-<li><strong>消融与效率（RQ2）</strong>：去掉 CIE 后性能显著下降，而直接引入 ID token 的朴素做法甚至会带来负收益。两阶段训练带来的额外开销相对可控，文中报告训练时间约增加 15.5%，推理耗时约增加 12.5%。</li>
-</ul>
-<h2 id="文章亮点思考"><a href="#文章亮点思考" class="headerlink" title="文章亮点思考"></a>文章亮点思考</h2><h3 id="本文有什么优缺点？"><a href="#本文有什么优缺点？" class="headerlink" title="本文有什么优缺点？"></a>本文有什么优缺点？</h3><ul>
-<li><p><strong>优点</strong></p>
-<ul>
-<li><strong>问题抓得准</strong>：文章非常敏锐地指出了 LLMRec 在热启动场景中的核心弱点，不是简单追求“大模型更强”，而是回到推荐系统最本质的协同信号上。</li>
-<li><strong>设计足够克制</strong>：作者没有硬改 LLM 结构，而是用轻量映射层做对齐，这让方案兼具研究价值和工程可落地性。</li>
-<li><strong>可插拔性强</strong>：CIE 模块能兼容多种传统推荐模型，说明 CoLLM 更像一个融合框架，而不是只绑定某一种底座。</li>
-</ul>
-</li>
-<li><p><strong>缺点 &#x2F; 疑问</strong></p>
-<ul>
-<li><strong>在线推理成本仍高</strong>：即使加入协同信息后效果提升明显，LLM 级别的推理延迟在真实工业重排场景里仍然是压力点。</li>
-<li><strong>两阶段训练可能次优</strong>：Step 2 只对齐映射层，没有和 LoRA 共同端到端联合优化，可能限制最终上限。</li>
-</ul>
-</li>
-</ul>
-<h3 id="可以如何改进？"><a href="#可以如何改进？" class="headerlink" title="可以如何改进？"></a>可以如何改进？</h3><ol>
-<li><strong>端到端联合优化</strong>：让文本表示、协同表示和映射层在统一目标下协同训练，减少阶段间割裂。</li>
-<li><strong>动态门控机制</strong>：针对极端冷启动样本，引入 gating 模块动态决定当前应更依赖文本语义还是协同信号。</li>
-<li><strong>面向部署的轻量化设计</strong>：可以进一步探索蒸馏、缓存协同表示或只在精排阶段调用 LLM，以降低线上时延。</li>
+<p><strong>结果</strong>：返回 <code>1</code>，表示 2 应该插入到索引 1 的位置<br><strong>插入后</strong>：<code>[1, 2, 3, 5, 6]</code> ✅ 保持有序</p>
+<h2 id="示例-2：查找存在的值"><a href="#示例-2：查找存在的值" class="headerlink" title="示例 2：查找存在的值"></a>示例 2：查找存在的值</h2><p><strong>输入</strong>：<code>nums = [1, 3, 5, 6]</code>, <code>target = 5</code></p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>min</th>
+<th>max</th>
+<th>mid</th>
+<th>nums[mid]</th>
+<th>判断</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>3</td>
+<td>3 &lt; 5</td>
+<td>min &#x3D; 2</td>
+<td>目标在右半部分</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>2</td>
+<td>5</td>
+<td>5 &#x3D;&#x3D; 5</td>
+<td>返回 2</td>
+<td><strong>找到目标</strong></td>
+</tr>
+</tbody></table>
+<p><strong>结果</strong>：返回 <code>2</code>，目标值存在于索引 2</p>
+<h2 id="示例-3：插入到末尾"><a href="#示例-3：插入到末尾" class="headerlink" title="示例 3：插入到末尾"></a>示例 3：插入到末尾</h2><p><strong>输入</strong>：<code>nums = [1, 3, 5, 6]</code>, <code>target = 7</code></p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>min</th>
+<th>max</th>
+<th>mid</th>
+<th>nums[mid]</th>
+<th>判断</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>3</td>
+<td>3 &lt; 7</td>
+<td>min &#x3D; 2</td>
+<td>目标在右半部分</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>2</td>
+<td>5</td>
+<td>5 &lt; 7</td>
+<td>min &#x3D; 3</td>
+<td>目标在右半部分</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>6</td>
+<td>6 &lt; 7</td>
+<td>min &#x3D; 4</td>
+<td>目标在右半部分</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4</td>
+<td>3</td>
+<td>-</td>
+<td>-</td>
+<td>min &gt; max</td>
+<td>返回 4</td>
+<td><strong>插入到末尾</strong></td>
+</tr>
+</tbody></table>
+<p><strong>结果</strong>：返回 <code>4</code>，表示 7 应该插入到索引 4（数组末尾）<br><strong>插入后</strong>：<code>[1, 3, 5, 6, 7]</code> ✅ 保持有序</p>
+<h2 id="优化建议"><a href="#优化建议" class="headerlink" title="优化建议"></a>优化建议</h2><h2 id="防止整数溢出"><a href="#防止整数溢出" class="headerlink" title="防止整数溢出"></a>防止整数溢出</h2><p>当前代码使用 <code>mid = (max + min) / 2</code>，在某些极端情况下可能导致整数溢出。</p>
+<p><strong>优化方案：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> min + (max - min) / <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这样可以避免 <code>max + min</code> 超出 <code>int</code> 的最大值。</p>
+<h2 id="循环条件优化"><a href="#循环条件优化" class="headerlink" title="循环条件优化"></a>循环条件优化</h2><p>可以将 <code>while(true)</code> 改为 <code>while(min &lt;= max)</code>，使代码逻辑更清晰：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">searchInsert</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">min</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> nums.length - <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(min &lt;= max)&#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> min + (max - min) / <span class="number">2</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(nums[mid] == target)&#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &gt; target)&#123;</span><br><span class="line">            max = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            min = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> min;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h2 id="💡-核心要点"><a href="#💡-核心要点" class="headerlink" title="💡 核心要点"></a>💡 核心要点</h2><ol>
+<li><strong>二分查找的本质</strong>：通过不断缩小搜索区间，将时间复杂度降低到 O(log n)</li>
+<li><strong>插入位置的理解</strong>：循环结束时，<code>min</code> 指向第一个 ≥ target 的位置</li>
+<li><strong>循环不变式</strong>：维护 <code>min</code> 和 <code>max</code> 的正确含义是关键</li>
 </ol>
-<h3 id="这篇文章为什么重要？"><a href="#这篇文章为什么重要？" class="headerlink" title="这篇文章为什么重要？"></a>这篇文章为什么重要？</h3><p>这篇文章的重要性在于，它把 LLM 推荐研究从“把推荐问题翻译成文本”推进到了“如何把非文本协同知识高效接入 LLM”。CoLLM 没有否定传统推荐模型，而是把它们当作成熟的外部专家来协同工作。这种思路既尊重了推荐系统长期积累的方法论，也为后续多模态推荐、结构化信号接入大模型提供了非常自然的范式。</p>
+<h2 id="🎯-解题技巧"><a href="#🎯-解题技巧" class="headerlink" title="🎯 解题技巧"></a>🎯 解题技巧</h2><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>技巧</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>防止溢出</td>
+<td>使用 <code>min + (max - min) / 2</code></td>
+</tr>
+<tr>
+<td>边界处理</td>
+<td>确保每次迭代都能缩小区间</td>
+</tr>
+<tr>
+<td>返回值</td>
+<td>未找到时返回 <code>min</code>（插入位置）</td>
+</tr>
+</tbody></table>
 ]]></content>
       <categories>
-        <category>论文笔记</category>
-        <category>推荐系统</category>
+        <category>算法</category>
       </categories>
       <tags>
-        <tag>论文笔记</tag>
-        <tag>推荐系统</tag>
-        <tag>大语言模型</tag>
-        <tag>协同过滤</tag>
-        <tag>CoLLM</tag>
+        <tag>算法</tag>
+        <tag>LeetCode</tag>
+        <tag>Hot100</tag>
+        <tag>二分查找</tag>
       </tags>
   </entry>
 </search>
