@@ -1,6 +1,254 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Hot100：二分查找1-搜索插入位置</title>
+    <url>/blog/2025/10/30/Hot100%EF%BC%9A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1-%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><blockquote>
+<p><strong>LeetCode 35. 搜索插入位置</strong></p>
+</blockquote>
+<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。<strong>如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</strong></p>
+<p>请必须使用时间复杂度为 <code>O(log n)</code> 的算法。</p>
+<h2 id="问题理解"><a href="#问题理解" class="headerlink" title="问题理解"></a>问题理解</h2><p>这道题有两个核心任务：</p>
+<ol>
+<li><strong>查找</strong>：如果目标值存在，返回其索引</li>
+<li><strong>定位插入位置</strong>：如果目标值不存在，找到它应该插入的位置（保持数组有序）</li>
+</ol>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p><strong>示例 1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: nums = [1,3,5,6], target = 5</span><br><span class="line">输出: 2</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: nums = [1,3,5,6], target = 2</span><br><span class="line">输出: 1</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: nums = [1,3,5,6], target = 7</span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure>
+
+<h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><ul>
+<li><code>1 &lt;= nums.length &lt;= 10^4</code></li>
+<li><code>-10^4 &lt;= nums[i] &lt;= 10^4</code></li>
+<li><code>nums</code> 为<strong>无重复元素</strong>的<strong>升序</strong>排列数组</li>
+<li><code>-10^4 &lt;= target &lt;= 10^4</code></li>
+</ul>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><h2 id="算法选择"><a href="#算法选择" class="headerlink" title="算法选择"></a>算法选择</h2><p>由于题目要求时间复杂度为 <code>O(log n)</code>，并且数组是<strong>有序的</strong>，这是使用<strong>二分查找算法</strong>的典型场景。</p>
+<h2 id="核心思路"><a href="#核心思路" class="headerlink" title="核心思路"></a>核心思路</h2><p>使用二分查找在有序数组中定位目标值或插入位置：</p>
+<ol>
+<li><strong>初始化搜索区间</strong>：<code>min = 0</code>，<code>max = nums.length - 1</code></li>
+<li><strong>循环查找</strong>：<ul>
+<li>计算中间位置：<code>mid = (min + max) / 2</code></li>
+<li>比较 <code>nums[mid]</code> 与 <code>target</code>：<ul>
+<li><code>nums[mid] == target</code>：✅ <strong>找到目标</strong>，返回 <code>mid</code></li>
+<li><code>nums[mid] &gt; target</code>：目标在左半部分，<code>max = mid - 1</code></li>
+<li><code>nums[mid] &lt; target</code>：目标在右半部分，<code>min = mid + 1</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>退出条件</strong>：<code>min &gt; max</code> 时，目标值不存在</li>
+</ol>
+<h2 id="🔑-关键理解：插入位置的确定"><a href="#🔑-关键理解：插入位置的确定" class="headerlink" title="🔑 关键理解：插入位置的确定"></a>🔑 关键理解：插入位置的确定</h2><p>这是本题的核心！当二分查找结束（<code>min &gt; max</code>）时，为什么 <code>min</code> 就是插入位置？</p>
+<h3 id="直观理解"><a href="#直观理解" class="headerlink" title="直观理解"></a>直观理解</h3><p>假设数组 <code>[1, 3, 5, 6]</code>，目标值 <code>target = 2</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">查找过程：</span><br><span class="line">初始: [1, 3, 5, 6]</span><br><span class="line">       ↑     ↑</span><br><span class="line">      min   max</span><br><span class="line"></span><br><span class="line">第1步: mid=1, nums[1]=3 &gt; 2，向左搜索</span><br><span class="line">       max = mid - 1 = 0</span><br><span class="line"></span><br><span class="line">第2步: mid=0, nums[0]=1 &lt; 2，向右搜索</span><br><span class="line">       min = mid + 1 = 1</span><br><span class="line"></span><br><span class="line">第3步: min(1) &gt; max(0)，循环结束</span><br><span class="line">       此时 min=1，表示 2 应该插入到索引1的位置</span><br><span class="line">       </span><br><span class="line">结果: [1, 2, 3, 5, 6]  ← 插入后仍然有序</span><br><span class="line">          ↑</span><br><span class="line">       插入位置</span><br></pre></td></tr></table></figure>
+
+<h3 id="数学证明"><a href="#数学证明" class="headerlink" title="数学证明"></a>数学证明</h3><p><strong>循环不变式</strong>：在每次循环中，<code>min</code> 左侧的所有元素都 <code>&lt; target</code>，<code>max</code> 右侧的所有元素都 <code>&gt; target</code></p>
+<p>当循环结束时（<code>min &gt; max</code>）：</p>
+<ul>
+<li><code>min</code> 指向第一个 <code>≥ target</code> 的位置</li>
+<li>在 <code>min</code> 位置插入 <code>target</code> 可以保持数组有序</li>
+</ul>
+<h3 id="三种情况分析"><a href="#三种情况分析" class="headerlink" title="三种情况分析"></a>三种情况分析</h3><ol>
+<li><strong>目标值小于所有元素</strong>：<code>min = 0</code>，插入到开头</li>
+<li><strong>目标值大于所有元素</strong>：<code>min = nums.length</code>，插入到末尾</li>
+<li><strong>目标值在某两个元素之间</strong>：<code>min</code> 指向第一个大于目标值的位置</li>
+</ol>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> TestHot100;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BinarySearch_InsertPosition</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[] nums = &#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>&#125;;</span><br><span class="line">        <span class="type">int</span> <span class="variable">target</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line">        System.out.println(searchInsert(nums, target));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">searchInsert</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="comment">// 二分查找</span></span><br><span class="line">        <span class="comment">// 最小索引</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">min</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 最大索引</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> nums.length - <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(min &gt; max)&#123;</span><br><span class="line">                <span class="comment">// 目标值不存在，返回应该插入的位置</span></span><br><span class="line">                <span class="keyword">return</span> min;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 计算中间索引</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> (max + min) / <span class="number">2</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 比较中间值与目标值的大小</span></span><br><span class="line">            <span class="keyword">if</span>(nums[mid] &gt; target)&#123;</span><br><span class="line">                <span class="comment">// 目标值在左半部分</span></span><br><span class="line">                max = mid - <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &lt; target)&#123;</span><br><span class="line">                <span class="comment">// 目标值在右半部分</span></span><br><span class="line">                min = mid + <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] == target)&#123;</span><br><span class="line">                <span class="comment">// 目标值等于中间值，直接返回中间索引</span></span><br><span class="line">                <span class="keyword">return</span> mid;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><p><strong>O(log n)</strong></p>
+<p>每次循环都会将搜索区间缩小一半，因此最多需要 <code>log₂n</code> 次比较。</p>
+<h2 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h2><p><strong>O(1)</strong></p>
+<p>只使用了常数个额外变量（<code>min</code>、<code>max</code>、<code>mid</code>），不随输入规模增长。</p>
+<h2 id="执行过程详解"><a href="#执行过程详解" class="headerlink" title="执行过程详解"></a>执行过程详解</h2><h2 id="示例-1：查找不存在的值（需要插入）"><a href="#示例-1：查找不存在的值（需要插入）" class="headerlink" title="示例 1：查找不存在的值（需要插入）"></a>示例 1：查找不存在的值（需要插入）</h2><p><strong>输入</strong>：<code>nums = [1, 3, 5, 6]</code>, <code>target = 2</code></p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>min</th>
+<th>max</th>
+<th>mid</th>
+<th>nums[mid]</th>
+<th>判断</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>3</td>
+<td>3 &gt; 2</td>
+<td>max &#x3D; 0</td>
+<td>目标在左半部分</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1 &lt; 2</td>
+<td>min &#x3D; 1</td>
+<td>目标在右半部分</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>0</td>
+<td>-</td>
+<td>-</td>
+<td>min &gt; max</td>
+<td>返回 1</td>
+<td><strong>插入位置确定</strong></td>
+</tr>
+</tbody></table>
+<p><strong>结果</strong>：返回 <code>1</code>，表示 2 应该插入到索引 1 的位置<br><strong>插入后</strong>：<code>[1, 2, 3, 5, 6]</code> ✅ 保持有序</p>
+<h2 id="示例-2：查找存在的值"><a href="#示例-2：查找存在的值" class="headerlink" title="示例 2：查找存在的值"></a>示例 2：查找存在的值</h2><p><strong>输入</strong>：<code>nums = [1, 3, 5, 6]</code>, <code>target = 5</code></p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>min</th>
+<th>max</th>
+<th>mid</th>
+<th>nums[mid]</th>
+<th>判断</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>3</td>
+<td>3 &lt; 5</td>
+<td>min &#x3D; 2</td>
+<td>目标在右半部分</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>2</td>
+<td>5</td>
+<td>5 &#x3D;&#x3D; 5</td>
+<td>返回 2</td>
+<td><strong>找到目标</strong></td>
+</tr>
+</tbody></table>
+<p><strong>结果</strong>：返回 <code>2</code>，目标值存在于索引 2</p>
+<h2 id="示例-3：插入到末尾"><a href="#示例-3：插入到末尾" class="headerlink" title="示例 3：插入到末尾"></a>示例 3：插入到末尾</h2><p><strong>输入</strong>：<code>nums = [1, 3, 5, 6]</code>, <code>target = 7</code></p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>min</th>
+<th>max</th>
+<th>mid</th>
+<th>nums[mid]</th>
+<th>判断</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>3</td>
+<td>3 &lt; 7</td>
+<td>min &#x3D; 2</td>
+<td>目标在右半部分</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>2</td>
+<td>5</td>
+<td>5 &lt; 7</td>
+<td>min &#x3D; 3</td>
+<td>目标在右半部分</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>6</td>
+<td>6 &lt; 7</td>
+<td>min &#x3D; 4</td>
+<td>目标在右半部分</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4</td>
+<td>3</td>
+<td>-</td>
+<td>-</td>
+<td>min &gt; max</td>
+<td>返回 4</td>
+<td><strong>插入到末尾</strong></td>
+</tr>
+</tbody></table>
+<p><strong>结果</strong>：返回 <code>4</code>，表示 7 应该插入到索引 4（数组末尾）<br><strong>插入后</strong>：<code>[1, 3, 5, 6, 7]</code> ✅ 保持有序</p>
+<h2 id="优化建议"><a href="#优化建议" class="headerlink" title="优化建议"></a>优化建议</h2><h2 id="防止整数溢出"><a href="#防止整数溢出" class="headerlink" title="防止整数溢出"></a>防止整数溢出</h2><p>当前代码使用 <code>mid = (max + min) / 2</code>，在某些极端情况下可能导致整数溢出。</p>
+<p><strong>优化方案：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> min + (max - min) / <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这样可以避免 <code>max + min</code> 超出 <code>int</code> 的最大值。</p>
+<h2 id="循环条件优化"><a href="#循环条件优化" class="headerlink" title="循环条件优化"></a>循环条件优化</h2><p>可以将 <code>while(true)</code> 改为 <code>while(min &lt;= max)</code>，使代码逻辑更清晰：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">searchInsert</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">min</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> nums.length - <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(min &lt;= max)&#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> min + (max - min) / <span class="number">2</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(nums[mid] == target)&#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &gt; target)&#123;</span><br><span class="line">            max = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            min = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> min;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h2 id="💡-核心要点"><a href="#💡-核心要点" class="headerlink" title="💡 核心要点"></a>💡 核心要点</h2><ol>
+<li><strong>二分查找的本质</strong>：通过不断缩小搜索区间，将时间复杂度降低到 O(log n)</li>
+<li><strong>插入位置的理解</strong>：循环结束时，<code>min</code> 指向第一个 ≥ target 的位置</li>
+<li><strong>循环不变式</strong>：维护 <code>min</code> 和 <code>max</code> 的正确含义是关键</li>
+</ol>
+<h2 id="🎯-解题技巧"><a href="#🎯-解题技巧" class="headerlink" title="🎯 解题技巧"></a>🎯 解题技巧</h2><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>技巧</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>防止溢出</td>
+<td>使用 <code>min + (max - min) / 2</code></td>
+</tr>
+<tr>
+<td>边界处理</td>
+<td>确保每次迭代都能缩小区间</td>
+</tr>
+<tr>
+<td>返回值</td>
+<td>未找到时返回 <code>min</code>（插入位置）</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Hot100</tag>
+        <tag>二分查找</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Git 使用指南：把本地代码 Push 到 GitHub</title>
     <url>/blog/2026/05/26/Git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97-%E6%8A%8A%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%A0%81Push%E5%88%B0GitHub/</url>
     <content><![CDATA[<p>这篇笔记记录 Git 的基础使用流程，目标是把本地项目代码提交到 Git，并推送到 GitHub 仓库。</p>
@@ -504,9 +752,9 @@
         <category>算法</category>
       </categories>
       <tags>
-        <tag>算法</tag>
         <tag>LeetCode</tag>
         <tag>Hot100</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -1041,201 +1289,9 @@
         <category>算法</category>
       </categories>
       <tags>
-        <tag>算法</tag>
         <tag>LeetCode</tag>
         <tag>Hot100</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java学习计划/进度</title>
-    <url>/blog/2025/10/13/Java%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/</url>
-    <content><![CDATA[<h2 id="学习进度表"><a href="#学习进度表" class="headerlink" title="学习进度表"></a>学习进度表</h2><h3 id="阶段性学习计划"><a href="#阶段性学习计划" class="headerlink" title="阶段性学习计划"></a>阶段性学习计划</h3><table>
-<thead>
-<tr>
-<th>阶段</th>
-<th>学习内容</th>
-<th>状态</th>
-<th>进度</th>
-<th>建议时间</th>
-<th>时间</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>第一阶段</td>
-<td>JAVASE（上）</td>
-<td><span style="color: red;"><strong>已完成</strong></span></td>
-<td><span style="color: red;"><strong>200&#x2F;200</strong></span></td>
-<td>20-25天</td>
-<td>10.9-11.18</td>
-<td></td>
-</tr>
-<tr>
-<td>第二阶段</td>
-<td>JAVASE（下）</td>
-<td><span style="color: red;"><strong>进行中</strong></span></td>
-<td><span style="color: red;"><strong>43&#x2F;200</strong></span></td>
-<td>20-25天</td>
-<td>11.19-</td>
-<td></td>
-</tr>
-<tr>
-<td>第三阶段</td>
-<td>MySQL</td>
-<td>待开始</td>
-<td>0&#x2F;195</td>
-<td>4-5天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第四阶段</td>
-<td>JDBC</td>
-<td>待开始</td>
-<td>0&#x2F;12</td>
-<td>0.5天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第五阶段</td>
-<td>JavaWeb</td>
-<td>待开始</td>
-<td>0&#x2F;200</td>
-<td>3-4天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第六阶段</td>
-<td>SSM框架</td>
-<td>待开始</td>
-<td>0&#x2F;118</td>
-<td>4-5天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第七阶段</td>
-<td>Git版本控制</td>
-<td>待开始</td>
-<td>0&#x2F;1</td>
-<td>1-2天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第八阶段</td>
-<td>Linux基本命令</td>
-<td>待开始</td>
-<td>0&#x2F;1</td>
-<td>1-2天</td>
-<td></td>
-<td>苍穹外卖</td>
-</tr>
-<tr>
-<td>第九阶段</td>
-<td>SpringBoot</td>
-<td>待开始</td>
-<td>0&#x2F;174</td>
-<td>4-5天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第十阶段</td>
-<td>Redis</td>
-<td>待开始</td>
-<td>0&#x2F;175</td>
-<td>8-10天</td>
-<td></td>
-<td>黑马点评</td>
-</tr>
-<tr>
-<td>第十一阶段</td>
-<td>SpringCloud</td>
-<td>待开始</td>
-<td>0&#x2F;185</td>
-<td>3-4天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第十二阶段</td>
-<td>RocketMQ</td>
-<td>待开始</td>
-<td>0&#x2F;45</td>
-<td>1-2天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第十三阶段</td>
-<td>JVM虚拟机</td>
-<td>待开始</td>
-<td>0&#x2F;154</td>
-<td>5-6天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第十四阶段</td>
-<td>JUC并发编程</td>
-<td>待开始</td>
-<td>0&#x2F;302</td>
-<td>8-9天</td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="日常练习"><a href="#日常练习" class="headerlink" title="日常练习"></a>日常练习</h3><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>学习内容</th>
-<th>状态</th>
-<th>进度</th>
-<th>建议时间</th>
-<th>时间</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>算法</td>
-<td>Hot100</td>
-<td><span style="color: red;"><strong>进行中</strong></span></td>
-<td><span style="color: red;"><strong>3&#x2F;100</strong></span></td>
-<td></td>
-<td>10.20-</td>
-<td></td>
-</tr>
-<tr>
-<td>八股</td>
-<td>JavaGuide</td>
-<td>待开始</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>小林Coding</td>
-<td>待开始</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h2 id="当前进展"><a href="#当前进展" class="headerlink" title="当前进展"></a>当前进展</h2><p>🔥 <strong>正在进行</strong>：JAVASE（下） </p>
-<hr>
-]]></content>
-      <categories>
-        <category>学习计划</category>
-      </categories>
-      <tags>
-        <tag>JavaSE</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -1562,10 +1618,202 @@
         <category>算法</category>
       </categories>
       <tags>
-        <tag>算法</tag>
         <tag>LeetCode</tag>
         <tag>Hot100</tag>
+        <tag>算法</tag>
         <tag>HashSet</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java学习计划/进度</title>
+    <url>/blog/2025/10/13/Java%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/</url>
+    <content><![CDATA[<h2 id="学习进度表"><a href="#学习进度表" class="headerlink" title="学习进度表"></a>学习进度表</h2><h3 id="阶段性学习计划"><a href="#阶段性学习计划" class="headerlink" title="阶段性学习计划"></a>阶段性学习计划</h3><table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>学习内容</th>
+<th>状态</th>
+<th>进度</th>
+<th>建议时间</th>
+<th>时间</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一阶段</td>
+<td>JAVASE（上）</td>
+<td><span style="color: red;"><strong>已完成</strong></span></td>
+<td><span style="color: red;"><strong>200&#x2F;200</strong></span></td>
+<td>20-25天</td>
+<td>10.9-11.18</td>
+<td></td>
+</tr>
+<tr>
+<td>第二阶段</td>
+<td>JAVASE（下）</td>
+<td><span style="color: red;"><strong>进行中</strong></span></td>
+<td><span style="color: red;"><strong>43&#x2F;200</strong></span></td>
+<td>20-25天</td>
+<td>11.19-</td>
+<td></td>
+</tr>
+<tr>
+<td>第三阶段</td>
+<td>MySQL</td>
+<td>待开始</td>
+<td>0&#x2F;195</td>
+<td>4-5天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第四阶段</td>
+<td>JDBC</td>
+<td>待开始</td>
+<td>0&#x2F;12</td>
+<td>0.5天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第五阶段</td>
+<td>JavaWeb</td>
+<td>待开始</td>
+<td>0&#x2F;200</td>
+<td>3-4天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第六阶段</td>
+<td>SSM框架</td>
+<td>待开始</td>
+<td>0&#x2F;118</td>
+<td>4-5天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第七阶段</td>
+<td>Git版本控制</td>
+<td>待开始</td>
+<td>0&#x2F;1</td>
+<td>1-2天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第八阶段</td>
+<td>Linux基本命令</td>
+<td>待开始</td>
+<td>0&#x2F;1</td>
+<td>1-2天</td>
+<td></td>
+<td>苍穹外卖</td>
+</tr>
+<tr>
+<td>第九阶段</td>
+<td>SpringBoot</td>
+<td>待开始</td>
+<td>0&#x2F;174</td>
+<td>4-5天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第十阶段</td>
+<td>Redis</td>
+<td>待开始</td>
+<td>0&#x2F;175</td>
+<td>8-10天</td>
+<td></td>
+<td>黑马点评</td>
+</tr>
+<tr>
+<td>第十一阶段</td>
+<td>SpringCloud</td>
+<td>待开始</td>
+<td>0&#x2F;185</td>
+<td>3-4天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第十二阶段</td>
+<td>RocketMQ</td>
+<td>待开始</td>
+<td>0&#x2F;45</td>
+<td>1-2天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第十三阶段</td>
+<td>JVM虚拟机</td>
+<td>待开始</td>
+<td>0&#x2F;154</td>
+<td>5-6天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第十四阶段</td>
+<td>JUC并发编程</td>
+<td>待开始</td>
+<td>0&#x2F;302</td>
+<td>8-9天</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="日常练习"><a href="#日常练习" class="headerlink" title="日常练习"></a>日常练习</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>学习内容</th>
+<th>状态</th>
+<th>进度</th>
+<th>建议时间</th>
+<th>时间</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>算法</td>
+<td>Hot100</td>
+<td><span style="color: red;"><strong>进行中</strong></span></td>
+<td><span style="color: red;"><strong>3&#x2F;100</strong></span></td>
+<td></td>
+<td>10.20-</td>
+<td></td>
+</tr>
+<tr>
+<td>八股</td>
+<td>JavaGuide</td>
+<td>待开始</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>小林Coding</td>
+<td>待开始</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="当前进展"><a href="#当前进展" class="headerlink" title="当前进展"></a>当前进展</h2><p>🔥 <strong>正在进行</strong>：JAVASE（下） </p>
+<hr>
+]]></content>
+      <categories>
+        <category>学习计划</category>
+      </categories>
+      <tags>
+        <tag>JavaSE</tag>
       </tags>
   </entry>
   <entry>
@@ -1625,10 +1873,10 @@
 <td>把大模型接入 Java&#x2F;RAG 系统的核心方式</td>
 </tr>
 </tbody></table>
-<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="1-大模型和传统程序的区别"><a href="#1-大模型和传统程序的区别" class="headerlink" title="1. 大模型和传统程序的区别"></a>1. 大模型和传统程序的区别</h3><p>传统业务程序通常依赖开发者提前写好规则，例如用 <code>if-else</code> 或关键词判断用户是不是想退货、查物流、咨询发票。问题是用户表达方式非常多，规则很难覆盖完整。</p>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="大模型和传统程序的区别"><a href="#大模型和传统程序的区别" class="headerlink" title="大模型和传统程序的区别"></a>大模型和传统程序的区别</h3><p>传统业务程序通常依赖开发者提前写好规则，例如用 <code>if-else</code> 或关键词判断用户是不是想退货、查物流、咨询发票。问题是用户表达方式非常多，规则很难覆盖完整。</p>
 <p>大模型的思路不同。它不是靠人把所有规则一条一条写死，而是通过阅读海量文本数据，从书籍、网页、论坛、代码、百科等内容中学习语言规律和知识。训练完成后，它能根据上下文理解不同表达背后的真实意图。</p>
 <p>我的理解：大模型的训练方式可以简单理解为“让机器读大量文本”。它不是靠人工规则工作，而是靠读了足够多的文本后，从数据中总结出语言如何运作。</p>
-<h3 id="2-大模型训练阶段"><a href="#2-大模型训练阶段" class="headerlink" title="2. 大模型训练阶段"></a>2. 大模型训练阶段</h3><p>大模型不是一开始就会像聊天助手一样回答问题。它通常会经历几个阶段，能力是一层一层训练出来的。</p>
+<h3 id="大模型训练阶段"><a href="#大模型训练阶段" class="headerlink" title="大模型训练阶段"></a>大模型训练阶段</h3><p>大模型不是一开始就会像聊天助手一样回答问题。它通常会经历几个阶段，能力是一层一层训练出来的。</p>
 <table>
 <thead>
 <tr>
@@ -1660,18 +1908,18 @@
 </tbody></table>
 <p>可以这样理解：预训练阶段让模型“读了很多书”，指令微调让模型“学会按题目作答”，对齐训练让模型“更像一个会沟通的助手”。所以我们在 RAG 项目里通常调用的是已经完成指令微调和对齐训练的 Chat 模型，而不是只会续写文本的 Base 模型。</p>
 <p>这里还要区分一个点：RAG 本身通常不是训练模型。RAG 是在提问时先从知识库检索相关资料，再把资料和问题一起交给 Chat 模型回答。也就是说，RAG 更像是给模型“临时开卷考试资料”，而不是把这些知识永久训练进模型参数里。</p>
-<h3 id="3-大模型的“大”指参数量"><a href="#3-大模型的“大”指参数量" class="headerlink" title="3. 大模型的“大”指参数量"></a>3. 大模型的“大”指参数量</h3><p>大模型里的“大”，主要指参数量大。常见的 <code>7B</code>、<code>14B</code>、<code>72B</code> 中，<code>B</code> 是 Billion，表示十亿参数。参数可以粗略理解成模型内部存储知识和语言规律的连接权重。</p>
+<h3 id="大模型的“大”指参数量"><a href="#大模型的“大”指参数量" class="headerlink" title="大模型的“大”指参数量"></a>大模型的“大”指参数量</h3><p>大模型里的“大”，主要指参数量大。常见的 <code>7B</code>、<code>14B</code>、<code>72B</code> 中，<code>B</code> 是 Billion，表示十亿参数。参数可以粗略理解成模型内部存储知识和语言规律的连接权重。</p>
 <p>参数越多，模型通常能力越强，但运行成本也更高，需要更多显存和算力。对 RAG 问答这类场景来说，并不是参数越大越好，很多时候 14B、32B 级别模型已经够用。选模型要看业务场景、响应速度、成本和部署方式。</p>
-<h3 id="4-Token-是大模型的计量单位"><a href="#4-Token-是大模型的计量单位" class="headerlink" title="4. Token 是大模型的计量单位"></a>4. Token 是大模型的计量单位</h3><p>大模型处理文本不是按“字”或“词”直接计算，而是按 Token。Token 可以理解为模型把文本切分后的最小处理片段。</p>
+<h3 id="Token-是大模型的计量单位"><a href="#Token-是大模型的计量单位" class="headerlink" title="Token 是大模型的计量单位"></a>Token 是大模型的计量单位</h3><p>大模型处理文本不是按“字”或“词”直接计算，而是按 Token。Token 可以理解为模型把文本切分后的最小处理片段。</p>
 <p>Token 重要的原因有两个：</p>
 <ul>
 <li>API 调用通常按输入 Token 和输出 Token 计费。</li>
 <li>上下文窗口也是按 Token 计算，决定了一次能塞给模型多少内容。</li>
 </ul>
 <p>所以后续做 RAG 时，不能无限制地把整本文档都塞给模型，而要先检索出最相关的片段，再交给模型回答。</p>
-<h3 id="5-上下文窗口决定模型一次能看多少内容"><a href="#5-上下文窗口决定模型一次能看多少内容" class="headerlink" title="5. 上下文窗口决定模型一次能看多少内容"></a>5. 上下文窗口决定模型一次能看多少内容</h3><p>上下文窗口指模型一次对话中能看到的文本总量上限，包括系统提示词、历史对话、当前问题、检索片段和模型输出。</p>
+<h3 id="上下文窗口决定模型一次能看多少内容"><a href="#上下文窗口决定模型一次能看多少内容" class="headerlink" title="上下文窗口决定模型一次能看多少内容"></a>上下文窗口决定模型一次能看多少内容</h3><p>上下文窗口指模型一次对话中能看到的文本总量上限，包括系统提示词、历史对话、当前问题、检索片段和模型输出。</p>
 <p>这个概念对 RAG 很关键。如果把大量无关材料都塞进上下文，不仅可能超出窗口限制，也会让模型抓不住重点。RAG 的价值就在于先从知识库中检索最相关内容，只把关键片段放进上下文，让模型基于这些内容组织答案。</p>
-<h3 id="6-Temperature-控制回答的随机性"><a href="#6-Temperature-控制回答的随机性" class="headerlink" title="6. Temperature 控制回答的随机性"></a>6. Temperature 控制回答的随机性</h3><p>Temperature 是调用大模型时常见的参数，用来控制回答的稳定程度和创造性。</p>
+<h3 id="Temperature-控制回答的随机性"><a href="#Temperature-控制回答的随机性" class="headerlink" title="Temperature 控制回答的随机性"></a>Temperature 控制回答的随机性</h3><p>Temperature 是调用大模型时常见的参数，用来控制回答的稳定程度和创造性。</p>
 <table>
 <thead>
 <tr>
@@ -1702,15 +1950,15 @@
 </tr>
 </tbody></table>
 <p>对 RAG 来说，答案应该来自检索到的资料，所以 Temperature 通常设置得比较低。</p>
-<h3 id="7-MoE-是混合专家架构"><a href="#7-MoE-是混合专家架构" class="headerlink" title="7. MoE 是混合专家架构"></a>7. MoE 是混合专家架构</h3><p>MoE 全称是 Mixture of Experts，混合专家模型。它的特点是模型总参数很多，但每次推理只激活其中一部分专家参数。</p>
+<h3 id="MoE-是混合专家架构"><a href="#MoE-是混合专家架构" class="headerlink" title="MoE 是混合专家架构"></a>MoE 是混合专家架构</h3><p>MoE 全称是 Mixture of Experts，混合专家模型。它的特点是模型总参数很多，但每次推理只激活其中一部分专家参数。</p>
 <p>例如某些模型可能总参数是几百 B，但每次实际激活的参数只有几十 B。这样可以在保持较强能力的同时降低推理成本。作为应用开发者，不需要深入实现细节，只要知道看到“总参数&#x2F;激活参数”时，实际推理成本主要看激活参数。</p>
-<h3 id="8-主流模型要建立“模型地图”"><a href="#8-主流模型要建立“模型地图”" class="headerlink" title="8. 主流模型要建立“模型地图”"></a>8. 主流模型要建立“模型地图”</h3><p>文章梳理了国际和国内常见大模型。国际模型包括 GPT、Claude、Gemini、Llama 等；国内模型包括 DeepSeek、Qwen、GLM、MiniMax、Kimi 等。</p>
+<h3 id="主流模型要建立“模型地图”"><a href="#主流模型要建立“模型地图”" class="headerlink" title="主流模型要建立“模型地图”"></a>主流模型要建立“模型地图”</h3><p>文章梳理了国际和国内常见大模型。国际模型包括 GPT、Claude、Gemini、Llama 等；国内模型包括 DeepSeek、Qwen、GLM、MiniMax、Kimi 等。</p>
 <p>对当前 Ragent&#x2F;RAG 学习来说，重点关注 DeepSeek 和 Qwen：</p>
 <ul>
 <li>DeepSeek：推理能力和性价比突出，适合理解 reasoning、Agent、复杂规划等方向。</li>
 <li>Qwen：中文能力稳定，模型尺寸覆盖广，开源生态和工具链比较完整，适合国内业务和学习实践。</li>
 </ul>
-<h3 id="9-RAG-系统实际调用的是-Chat-模型"><a href="#9-RAG-系统实际调用的是-Chat-模型" class="headerlink" title="9. RAG 系统实际调用的是 Chat 模型"></a>9. RAG 系统实际调用的是 Chat 模型</h3><p>大模型可以分为基座模型和 Chat 模型。</p>
+<h3 id="RAG-系统实际调用的是-Chat-模型"><a href="#RAG-系统实际调用的是-Chat-模型" class="headerlink" title="RAG 系统实际调用的是 Chat 模型"></a>RAG 系统实际调用的是 Chat 模型</h3><p>大模型可以分为基座模型和 Chat 模型。</p>
 <p>基座模型来自预训练阶段，主要能力是续写文本。它读过大量文本，但不一定会按照人的指令回答问题。</p>
 <p>Chat 模型是在基座模型基础上经过指令微调、对齐训练等步骤得到的模型。它更擅长理解“你要它做什么”，并按照用户问题、系统提示词和上下文材料生成答案。</p>
 <p>RAG 的最后一步是“根据检索片段回答用户问题”，这需要模型理解指令和上下文，所以 RAG 系统通常调用 Chat 模型，而不是 Base 模型。</p>
@@ -1740,11 +1988,11 @@
 </tr>
 </tbody></table>
 <p>看到 <code>-Instruct</code> 或 <code>-Chat</code>，一般可以认为这个模型更适合问答、对话、摘要、RAG 这类任务；看到 <code>-GPTQ</code>、<code>-AWQ</code>、<code>Int4</code> 等字样，说明它通常是为了降低显存占用做过量化处理的版本。</p>
-<h3 id="10-量化是为了降低本地部署成本"><a href="#10-量化是为了降低本地部署成本" class="headerlink" title="10. 量化是为了降低本地部署成本"></a>10. 量化是为了降低本地部署成本</h3><p>量化是本地部署模型时非常重要的概念。它的核心目的就是：在尽量少损失模型效果的前提下，让模型文件更小、显存占用更低、推理成本更可控。</p>
-<h4 id="10-1-模型参数本质上是权重数字"><a href="#10-1-模型参数本质上是权重数字" class="headerlink" title="10.1 模型参数本质上是权重数字"></a>10.1 模型参数本质上是权重数字</h4><p>大模型的参数本质上是一堆数字，也叫权重。模型输入一句话后，会把文本切成 Token，然后经过很多层计算，最后判断下一个 Token 最可能是什么。</p>
+<h3 id="量化是为了降低本地部署成本"><a href="#量化是为了降低本地部署成本" class="headerlink" title="量化是为了降低本地部署成本"></a>量化是为了降低本地部署成本</h3><p>量化是本地部署模型时非常重要的概念。它的核心目的就是：在尽量少损失模型效果的前提下，让模型文件更小、显存占用更低、推理成本更可控。</p>
+<h4 id="模型参数本质上是权重数字"><a href="#模型参数本质上是权重数字" class="headerlink" title="模型参数本质上是权重数字"></a>模型参数本质上是权重数字</h4><p>大模型的参数本质上是一堆数字，也叫权重。模型输入一句话后，会把文本切成 Token，然后经过很多层计算，最后判断下一个 Token 最可能是什么。</p>
 <p>可以把模型想象成一个巨大的打分系统。每一层计算里用到的乘法系数、加法偏移量，都是模型参数。例如模型判断“今天天气”后面更可能接“晴”还是“雨”，内部会对不同候选词计算得分，得分高的词更可能被输出。</p>
 <p>所谓 <code>7B</code> 模型，就是模型里大约有 70 亿个这样的参数。训练时这些参数会不断被调整；训练完成后，它们会固定下来，保存成模型权重文件。</p>
-<h4 id="10-2-FP32、FP16、BF16-是什么"><a href="#10-2-FP32、FP16、BF16-是什么" class="headerlink" title="10.2 FP32、FP16、BF16 是什么"></a>10.2 FP32、FP16、BF16 是什么</h4><p>模型权重是数字，数字需要用某种精度格式保存。常见格式有 FP32、FP16、BF16、TF32。</p>
+<h4 id="FP32、FP16、BF16-是什么"><a href="#FP32、FP16、BF16-是什么" class="headerlink" title="FP32、FP16、BF16 是什么"></a>FP32、FP16、BF16 是什么</h4><p>模型权重是数字，数字需要用某种精度格式保存。常见格式有 FP32、FP16、BF16、TF32。</p>
 <p>浮点数大致由三部分组成：</p>
 <ul>
 <li>符号位：表示正数还是负数。</li>
@@ -1792,7 +2040,7 @@
 <li>BF16：更偏向保留范围，精度稍低，但稳定性更好。</li>
 </ul>
 <p>对大模型来说，训练和推理过程中数值范围可能变化很大，所以 BF16 很常见。很多模型在 Hugging Face 上的原始权重默认就是 BF16。平时说“原始精度”或“未量化”，很多时候指的是 BF16，而不是 FP32。</p>
-<h4 id="10-3-什么是量化"><a href="#10-3-什么是量化" class="headerlink" title="10.3 什么是量化"></a>10.3 什么是量化</h4><p>量化就是把模型权重从 BF16&#x2F;FP16 这种 16 位精度，进一步压缩成更低位数，例如 INT8 或 INT4。</p>
+<h4 id="什么是量化"><a href="#什么是量化" class="headerlink" title="什么是量化"></a>什么是量化</h4><p>量化就是把模型权重从 BF16&#x2F;FP16 这种 16 位精度，进一步压缩成更低位数，例如 INT8 或 INT4。</p>
 <p>精度降低后，每个参数占用空间变小，模型文件和显存占用也会变小。</p>
 <table>
 <thead>
@@ -1829,7 +2077,7 @@
 </tr>
 </tbody></table>
 <p>注意：表格里只是模型权重本身的估算。实际运行时还需要额外显存保存 KV Cache、计算中间结果等，所以真实显存占用会更高。一般要预留权重大小 1.2 到 1.5 倍左右的显存。</p>
-<h4 id="10-4-常见量化格式"><a href="#10-4-常见量化格式" class="headerlink" title="10.4 常见量化格式"></a>10.4 常见量化格式</h4><p>在下载模型或查看模型后缀时，经常会看到 GPTQ、AWQ、GGUF 这些格式。</p>
+<h4 id="常见量化格式"><a href="#常见量化格式" class="headerlink" title="常见量化格式"></a>常见量化格式</h4><p>在下载模型或查看模型后缀时，经常会看到 GPTQ、AWQ、GGUF 这些格式。</p>
 <table>
 <thead>
 <tr>
@@ -1863,7 +2111,7 @@
 <li>有 NVIDIA 显卡：优先看 AWQ 或 GPTQ。</li>
 <li>显卡不够或想用 CPU 跑：优先看 GGUF。</li>
 </ul>
-<h4 id="10-5-量化等级怎么选"><a href="#10-5-量化等级怎么选" class="headerlink" title="10.5 量化等级怎么选"></a>10.5 量化等级怎么选</h4><p>以 GGUF 为例，经常会看到 <code>Q4_K_M</code>、<code>Q5_K_M</code>、<code>Q8_0</code> 这样的名字。这里的数字大致表示量化位数，数字越大，精度越高，文件越大，显存占用也越高。</p>
+<h4 id="量化等级怎么选"><a href="#量化等级怎么选" class="headerlink" title="量化等级怎么选"></a>量化等级怎么选</h4><p>以 GGUF 为例，经常会看到 <code>Q4_K_M</code>、<code>Q5_K_M</code>、<code>Q8_0</code> 这样的名字。这里的数字大致表示量化位数，数字越大，精度越高，文件越大，显存占用也越高。</p>
 <table>
 <thead>
 <tr>
@@ -1889,7 +2137,7 @@
 </tr>
 </tbody></table>
 <p>普通本地部署时，<code>INT4</code> 或 <code>Q4_K_M</code> 往往已经够用。如果对输出质量要求更高，或者硬件资源更充足，可以考虑 <code>Q5_K_M</code> 或 <code>Q8_0</code>。</p>
-<h4 id="10-6-当前阶段需要关心到什么程度"><a href="#10-6-当前阶段需要关心到什么程度" class="headerlink" title="10.6 当前阶段需要关心到什么程度"></a>10.6 当前阶段需要关心到什么程度</h4><p>如果是通过 SiliconFlow、OpenAI、DeepSeek API、通义千问 API 这类平台调用模型，暂时不用关心量化。平台已经处理了部署、显存、推理优化等问题，我们只需要关注模型名、输入输出、上下文窗口、价格和效果。</p>
+<h4 id="当前阶段需要关心到什么程度"><a href="#当前阶段需要关心到什么程度" class="headerlink" title="当前阶段需要关心到什么程度"></a>当前阶段需要关心到什么程度</h4><p>如果是通过 SiliconFlow、OpenAI、DeepSeek API、通义千问 API 这类平台调用模型，暂时不用关心量化。平台已经处理了部署、显存、推理优化等问题，我们只需要关注模型名、输入输出、上下文窗口、价格和效果。</p>
 <p>只有在本地部署模型时，才需要根据自己的硬件选择量化版本。这个时候要重点看三件事：模型参数量、量化格式、量化等级。</p>
 <p>我的阶段性理解：</p>
 <ul>
@@ -1899,9 +2147,9 @@
 <li><code>GPTQ/AWQ/GGUF</code>：不是模型能力本身，而是模型权重的量化&#x2F;存储&#x2F;推理格式。</li>
 <li>对 RAG 项目学习来说，先用 API 跑通流程更重要，本地量化部署可以后面再深入。</li>
 </ul>
-<h3 id="11-深度思考适合推理，但-RAG-通常不需要"><a href="#11-深度思考适合推理，但-RAG-通常不需要" class="headerlink" title="11. 深度思考适合推理，但 RAG 通常不需要"></a>11. 深度思考适合推理，但 RAG 通常不需要</h3><p>深度思考通常和 CoT（Chain of Thought，思维链）有关，适合数学推理、复杂规划、代码分析等需要多步推理的任务。</p>
+<h3 id="深度思考适合推理，但-RAG-通常不需要"><a href="#深度思考适合推理，但-RAG-通常不需要" class="headerlink" title="深度思考适合推理，但 RAG 通常不需要"></a>深度思考适合推理，但 RAG 通常不需要</h3><p>深度思考通常和 CoT（Chain of Thought，思维链）有关，适合数学推理、复杂规划、代码分析等需要多步推理的任务。</p>
 <p>但在普通 RAG 问答里，答案应该已经存在于检索到的文本片段中。模型主要负责理解、提取和表达，不需要展开很长的推理过程。因此 RAG 场景通常不需要开启深度思考，否则会增加 Token 消耗和响应时间。</p>
-<h3 id="12-开发者需要-API，而不是网页端"><a href="#12-开发者需要-API，而不是网页端" class="headerlink" title="12. 开发者需要 API，而不是网页端"></a>12. 开发者需要 API，而不是网页端</h3><p>网页端适合个人聊天和体验模型能力，但不适合接入业务系统。它的问题包括不能集成到 Java 系统、不能批量处理、不能稳定控制参数、不能自定义完整提示词流程，也很难实现 RAG 的“检索后生成”链路。</p>
+<h3 id="开发者需要-API，而不是网页端"><a href="#开发者需要-API，而不是网页端" class="headerlink" title="开发者需要 API，而不是网页端"></a>开发者需要 API，而不是网页端</h3><p>网页端适合个人聊天和体验模型能力，但不适合接入业务系统。它的问题包括不能集成到 Java 系统、不能批量处理、不能稳定控制参数、不能自定义完整提示词流程，也很难实现 RAG 的“检索后生成”链路。</p>
 <p>API 调用则可以把大模型当成一个远程函数：系统把模型名、系统提示词、用户问题、Temperature 等参数发过去，模型返回回答。这样大模型就能成为业务系统的一部分。</p>
 <p>本系列后续会使用 SiliconFlow 平台和 Qwen 系列模型，原因是国内访问方便、注册简单、支持多种开源模型，并且 API 兼容 OpenAI 协议，后续切换平台时代码改动较小。</p>
 <h2 id="重点回顾"><a href="#重点回顾" class="headerlink" title="重点回顾"></a>重点回顾</h2><ul>
@@ -2709,6 +2957,158 @@
       </tags>
   </entry>
   <entry>
+    <title>论文笔记：GNPR-SID</title>
+    <url>/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AGNPR-SID/</url>
+    <content><![CDATA[<h2 id="论文信息"><a href="#论文信息" class="headerlink" title="论文信息"></a>论文信息</h2><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>论文标题</td>
+<td>Generative Next POI Recommendation with Semantic ID</td>
+</tr>
+<tr>
+<td>会议</td>
+<td>KDD 2025: The 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining</td>
+</tr>
+<tr>
+<td>作者</td>
+<td>原笔记未记录</td>
+</tr>
+<tr>
+<td>核心主题</td>
+<td>用语义 ID 提升生成式 POI 推荐</td>
+</tr>
+<tr>
+<td>关键词</td>
+<td>POI Recommendation、Semantic ID、RQVAE、LLaMA3、LoRA</td>
+</tr>
+<tr>
+<td>笔记创建日期</td>
+<td>2026&#x2F;03&#x2F;20</td>
+</tr>
+</tbody></table>
+<h2 id="摘要速览"><a href="#摘要速览" class="headerlink" title="摘要速览"></a>摘要速览</h2><p>兴趣点（POI）推荐系统需要根据用户历史打卡记录预测其下一次可能到访的位置。现有生成式 POI 推荐方法大多依赖随机数字 ID 表示地点，这会严重削弱模型对地点语义关系和地理邻近性的理解。本文提出 GNPR-SID，通过语义 ID 构建模块和生成式推荐模块，把地理位置、类别、时间规律和协同信号压缩为层级化的离散语义 ID，再交给 LLM 进行序列预测。实验表明，该方法在多个数据集上显著优于现有方法，同时还降低了大量 Token 消耗。</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>英文摘要</td>
+<td>Point-of-interest recommendation aims to predict users’ next destinations from their preferences and historical check-ins. Existing generative POI recommendation methods usually use random numeric IDs, which limits the modeling of semantic relationships between similar locations. This paper proposes GNPR-SID, an LLM-based POI recommendation model with a semantic POI ID representation method. The framework contains a Semantic ID Construction module and a Generative POI Recommendation module. By incorporating semantic and collaborative features into SID generation, the method improves recommendation accuracy and generalization. It further uses a POI quantization method based on residual quantized variational autoencoder and a diversity loss to build semantically related and uniformly distributed SIDs. Experiments on three benchmark datasets show up to 16% improvement in recommendation accuracy.</td>
+</tr>
+<tr>
+<td>中文摘要翻译</td>
+<td>兴趣点推荐系统旨在根据用户偏好和历史打卡记录预测其下一个目的地。现有生成式 POI 推荐方法通常使用随机数字 ID 表示 POI，这限制了模型对相似地点语义关系的建模能力。本文提出 GNPR-SID，一种基于大语言模型的下一个 POI 推荐方法，核心在于构建具有语义信息的 POI ID。该方法包含语义 ID 构建模块和生成式 POI 推荐模块，通过融合语义特征与协同特征来生成更具表达力的 SID，并利用基于残差量化变分自编码器的量化方式和多样性损失，使 SID 在离散语义空间中既有区分度又更均匀分布。实验表明，该方法在三个基准数据集上显著优于现有方法，最高可提升 16% 的推荐准确率。</td>
+</tr>
+</tbody></table>
+<h2 id="文章基本框架"><a href="#文章基本框架" class="headerlink" title="文章基本框架"></a>文章基本框架</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><blockquote>
+<p>下一个 POI 推荐的核心在于捕捉用户的时空序列转换规律。</p>
+</blockquote>
+<ul>
+<li><strong>传统方法的优势与局限</strong>：RNN、Transformer、GNN 等模型擅长处理连续坐标和时间差，但与 LLM 的离散文本输入范式不一致。</li>
+<li><strong>LLM 范式的兴起</strong>：近期研究开始尝试利用 LLM 的常识推理能力做推荐，但通常依赖随机数字 ID 表示地点。</li>
+<li><strong>语义割裂与泛化问题</strong>：随机 ID 没有任何语义规律，LLM 无法感知地点在地理位置和类别上的相似性，面对未见过的新 POI 时很难泛化。</li>
+</ul>
+<h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><blockquote>
+<p>本研究的核心目的是让大语言模型真正“看懂”且能“推理”连续的物理时空关系。</p>
+</blockquote>
+<ul>
+<li><strong>打破随机 ID 黑盒</strong>：不再使用毫无意义的数字标识，而是构建能够反映地理相邻性、类别相似性和用户偏好的语义 ID。</li>
+<li><strong>弥合连续时空与离散文本的鸿沟</strong>：通过量化压缩机制，把复杂的多维时空特征翻译成带层级结构的离散 Token，供 LLM 使用。</li>
+</ul>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><blockquote>
+<p>通过基于 RQVAE 的语义 ID 构建和在 LLaMA3-8B 上的 LoRA 微调，GNPR-SID 在 NYC、TKY 和 CA 三个真实世界数据集上全面超越传统基线和现有 LLM 方法。它不仅提升了准确率，也显著增强了跨域泛化能力，并降低了接近 55% 的 Token 消耗。</p>
+</blockquote>
+<h2 id="结果与讨论"><a href="#结果与讨论" class="headerlink" title="结果与讨论"></a>结果与讨论</h2><h3 id="数据以及数据来源"><a href="#数据以及数据来源" class="headerlink" title="数据以及数据来源"></a>数据以及数据来源</h3><ul>
+<li><strong>原始数据集</strong>：Foursquare-NYC、Foursquare-TKY 和 Gowalla-CA。</li>
+<li><strong>数据预处理</strong>：过滤掉交互次数少于 10 次的 POI 和用户，按时间序列排序后，以 8:1:1 划分训练、验证和测试集。</li>
+<li><strong>评测标准</strong>：采用生成式 Acc@1 作为核心指标，即模型生成的下一个 SID 必须与真实地点的 SID 完全一致。</li>
+</ul>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><blockquote>
+<p>GNPR-SID 的核心在于先重构 POI 的表示方式，再把重构后的序列交给 LLM 进行生成式预测。</p>
+</blockquote>
+<h3 id="模块一：语义-ID-构建（Semantic-ID-Construction）"><a href="#模块一：语义-ID-构建（Semantic-ID-Construction）" class="headerlink" title="模块一：语义 ID 构建（Semantic ID Construction）"></a>模块一：语义 ID 构建（Semantic ID Construction）</h3><p>为了让大模型“理解”地理位置，作者没有直接输入浮点数坐标，而是设计了一套特征映射与量化流程：</p>
+<ul>
+<li><p><strong>POI 语义表示</strong> <code>p_e</code>：从四个维度提取信息并拼接：</p>
+<ul>
+<li><strong>类别特征</strong> <code>c</code>：例如“饮品店”“餐厅”等。</li>
+<li><strong>空间特征</strong> <code>r</code>：将经纬度转换为 Google Maps Plus Codes，使相邻地点可以共享更接近的空间表示。</li>
+<li><strong>时间信号</strong> <code>t</code>：提取地点历史访问频次最高的 Top 10 时段，描述地点的全局时间规律。</li>
+<li><strong>协同信号</strong> <code>c_u</code>：提取最常访问该地点的 10 位用户，捕捉潜在的人群圈层偏好。</li>
+</ul>
+</li>
+<li><p><strong>POI 量化（RQVAE）与前缀生成</strong></p>
+<ul>
+<li>使用残差量化变分自编码器，将高维稠密向量压缩到由多层字典组成的离散空间。</li>
+<li>最终生成类似 <code>&lt;a_15&gt;&lt;b_2&gt;&lt;c_9&gt;</code> 的层级索引作为 Semantic ID。</li>
+<li>这种树状结构保证了语义和位置越相似的地点，共享的前缀越多。</li>
+</ul>
+</li>
+<li><p><strong>防止语义坍缩（Diversity Loss）</strong></p>
+<ul>
+<li>如果不加约束，大量 POI 可能挤在少数几个 ID 中。</li>
+<li>作者设计了多样性损失，约束 SID 在语义空间中尽量均匀分布。</li>
+<li>如果出现完全碰撞的 SID，会附加唯一后缀加以区分。</li>
+</ul>
+</li>
+</ul>
+<h3 id="模块二：生成式-POI-推荐（Generative-POI-Recommendation）"><a href="#模块二：生成式-POI-推荐（Generative-POI-Recommendation）" class="headerlink" title="模块二：生成式 POI 推荐（Generative POI Recommendation）"></a>模块二：生成式 POI 推荐（Generative POI Recommendation）</h3><ul>
+<li><strong>序列转换与对齐</strong>：将用户历史打卡轨迹整体替换为对应的 SID 序列。</li>
+<li><strong>时空交织 Prompt 设计</strong>：<ul>
+<li>虽然 SID 已经编码了地点的全局信息，但作者仍然把用户真实打卡时间与 SID 交织输入。</li>
+<li>这样既保留了地点语义，也保留了用户个体化的行为节奏。</li>
+</ul>
+</li>
+<li><strong>填空式任务构造</strong>：将推荐问题改写为类似“Visited: <code>&lt;SID&gt;</code> at [time] … When [time] user is likely to visit: ____” 的形式，迫使 LLM 基于时间做推理。</li>
+<li><strong>微调策略</strong>：在 LLaMA3-8B 上采用 LoRA 进行监督微调。</li>
+</ul>
+<h3 id="结论分析"><a href="#结论分析" class="headerlink" title="结论分析"></a>结论分析</h3><ul>
+<li><strong>主实验</strong>：GNPR-SID 的 Acc@1 稳定超越传统模型以及现有 LLM 方法 LLM4POI，在 CA 数据集上的相对提升达到 16%。</li>
+<li><strong>消融实验</strong>：如果把 SID 换回随机 ID，性能会明显下降；去掉用户打卡时间后也会出现严重掉点。</li>
+<li><strong>效率与泛化</strong>：通过把长文本属性压缩成短促的层级 SID，模型的输入 Token 降低了 54.78%，推理速度更快，同时在跨域测试中也展现出较强鲁棒性。</li>
+</ul>
+<h2 id="文章亮点思考"><a href="#文章亮点思考" class="headerlink" title="文章亮点思考"></a>文章亮点思考</h2><h3 id="本文有什么优缺点？"><a href="#本文有什么优缺点？" class="headerlink" title="本文有什么优缺点？"></a>本文有什么优缺点？</h3><ul>
+<li><p><strong>优点</strong></p>
+<ul>
+<li><strong>模态对齐思路漂亮</strong>：没有简单把经纬度或长文本硬塞给 LLM，而是先做量化与语义编码，再把结果离散化为可学习的 Token。</li>
+<li><strong>效率高</strong>：前端量化压缩 + 后端 LLM 推理的解耦设计，大幅减少 Token 消耗，实用价值很高。</li>
+<li><strong>泛化能力强</strong>：前缀共享机制使模型对未见过的 POI 也能进行一定程度的语义推断。</li>
+</ul>
+</li>
+<li><p><strong>缺点 &#x2F; 疑问</strong></p>
+<ul>
+<li><strong>字典容量是静态的</strong>：RQVAE 训练出的 Codebook 容量固定，如果现实世界持续扩展，可能需要重新训练量化器。</li>
+<li><strong>两阶段分离并非最优</strong>：SID 构建和推荐微调彼此分离，如果量化阶段丢失了关键特征，后续 LLM 很难补回来。</li>
+</ul>
+</li>
+</ul>
+<h3 id="可以如何改进？"><a href="#可以如何改进？" class="headerlink" title="可以如何改进？"></a>可以如何改进？</h3><ol>
+<li><strong>端到端联合优化</strong>：让推荐任务的损失能够反向影响 SID 构建模块，使语义 ID 更贴合推荐目标。</li>
+<li><strong>加入多粒度时空编码</strong>：把时间差、空间距离等相对位置信息进一步注入注意力机制，强化用户轨迹建模。</li>
+</ol>
+<h3 id="这篇文章为什么能打动人？"><a href="#这篇文章为什么能打动人？" class="headerlink" title="这篇文章为什么能打动人？"></a>这篇文章为什么能打动人？</h3><p>这篇文章抓住了“大模型 + 推荐”里一个非常关键的问题：LLM 如何低成本且高精度地理解非文本、非离散的物理世界特征。它并没有停留在换 Prompt 或换基座模型的层面，而是直接深入到数据表示层，系统性地抛弃了随机 ID 范式，并把残差量化、层级语义表示和生成式推荐整合成了一套完整方案。对于时空推荐和更广义的结构化数据建模来说，这都是一个很有启发性的方向。</p>
+]]></content>
+      <categories>
+        <category>论文笔记</category>
+        <category>推荐系统</category>
+      </categories>
+      <tags>
+        <tag>论文笔记</tag>
+        <tag>推荐系统</tag>
+        <tag>POI 推荐</tag>
+        <tag>大语言模型</tag>
+        <tag>Semantic ID</tag>
+        <tag>GNPR-SID</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>论文笔记：CoLLM</title>
     <url>/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ACoLLM/</url>
     <content><![CDATA[<h2 id="论文信息"><a href="#论文信息" class="headerlink" title="论文信息"></a>论文信息</h2><table>
@@ -2855,158 +3255,6 @@
         <tag>大语言模型</tag>
         <tag>协同过滤</tag>
         <tag>CoLLM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>论文笔记：GNPR-SID</title>
-    <url>/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AGNPR-SID/</url>
-    <content><![CDATA[<h2 id="论文信息"><a href="#论文信息" class="headerlink" title="论文信息"></a>论文信息</h2><table>
-<thead>
-<tr>
-<th>字段</th>
-<th>内容</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>论文标题</td>
-<td>Generative Next POI Recommendation with Semantic ID</td>
-</tr>
-<tr>
-<td>会议</td>
-<td>KDD 2025: The 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining</td>
-</tr>
-<tr>
-<td>作者</td>
-<td>原笔记未记录</td>
-</tr>
-<tr>
-<td>核心主题</td>
-<td>用语义 ID 提升生成式 POI 推荐</td>
-</tr>
-<tr>
-<td>关键词</td>
-<td>POI Recommendation、Semantic ID、RQVAE、LLaMA3、LoRA</td>
-</tr>
-<tr>
-<td>笔记创建日期</td>
-<td>2026&#x2F;03&#x2F;20</td>
-</tr>
-</tbody></table>
-<h2 id="摘要速览"><a href="#摘要速览" class="headerlink" title="摘要速览"></a>摘要速览</h2><p>兴趣点（POI）推荐系统需要根据用户历史打卡记录预测其下一次可能到访的位置。现有生成式 POI 推荐方法大多依赖随机数字 ID 表示地点，这会严重削弱模型对地点语义关系和地理邻近性的理解。本文提出 GNPR-SID，通过语义 ID 构建模块和生成式推荐模块，把地理位置、类别、时间规律和协同信号压缩为层级化的离散语义 ID，再交给 LLM 进行序列预测。实验表明，该方法在多个数据集上显著优于现有方法，同时还降低了大量 Token 消耗。</p>
-<table>
-<thead>
-<tr>
-<th>项目</th>
-<th>内容</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>英文摘要</td>
-<td>Point-of-interest recommendation aims to predict users’ next destinations from their preferences and historical check-ins. Existing generative POI recommendation methods usually use random numeric IDs, which limits the modeling of semantic relationships between similar locations. This paper proposes GNPR-SID, an LLM-based POI recommendation model with a semantic POI ID representation method. The framework contains a Semantic ID Construction module and a Generative POI Recommendation module. By incorporating semantic and collaborative features into SID generation, the method improves recommendation accuracy and generalization. It further uses a POI quantization method based on residual quantized variational autoencoder and a diversity loss to build semantically related and uniformly distributed SIDs. Experiments on three benchmark datasets show up to 16% improvement in recommendation accuracy.</td>
-</tr>
-<tr>
-<td>中文摘要翻译</td>
-<td>兴趣点推荐系统旨在根据用户偏好和历史打卡记录预测其下一个目的地。现有生成式 POI 推荐方法通常使用随机数字 ID 表示 POI，这限制了模型对相似地点语义关系的建模能力。本文提出 GNPR-SID，一种基于大语言模型的下一个 POI 推荐方法，核心在于构建具有语义信息的 POI ID。该方法包含语义 ID 构建模块和生成式 POI 推荐模块，通过融合语义特征与协同特征来生成更具表达力的 SID，并利用基于残差量化变分自编码器的量化方式和多样性损失，使 SID 在离散语义空间中既有区分度又更均匀分布。实验表明，该方法在三个基准数据集上显著优于现有方法，最高可提升 16% 的推荐准确率。</td>
-</tr>
-</tbody></table>
-<h2 id="文章基本框架"><a href="#文章基本框架" class="headerlink" title="文章基本框架"></a>文章基本框架</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><blockquote>
-<p>下一个 POI 推荐的核心在于捕捉用户的时空序列转换规律。</p>
-</blockquote>
-<ul>
-<li><strong>传统方法的优势与局限</strong>：RNN、Transformer、GNN 等模型擅长处理连续坐标和时间差，但与 LLM 的离散文本输入范式不一致。</li>
-<li><strong>LLM 范式的兴起</strong>：近期研究开始尝试利用 LLM 的常识推理能力做推荐，但通常依赖随机数字 ID 表示地点。</li>
-<li><strong>语义割裂与泛化问题</strong>：随机 ID 没有任何语义规律，LLM 无法感知地点在地理位置和类别上的相似性，面对未见过的新 POI 时很难泛化。</li>
-</ul>
-<h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><blockquote>
-<p>本研究的核心目的是让大语言模型真正“看懂”且能“推理”连续的物理时空关系。</p>
-</blockquote>
-<ul>
-<li><strong>打破随机 ID 黑盒</strong>：不再使用毫无意义的数字标识，而是构建能够反映地理相邻性、类别相似性和用户偏好的语义 ID。</li>
-<li><strong>弥合连续时空与离散文本的鸿沟</strong>：通过量化压缩机制，把复杂的多维时空特征翻译成带层级结构的离散 Token，供 LLM 使用。</li>
-</ul>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><blockquote>
-<p>通过基于 RQVAE 的语义 ID 构建和在 LLaMA3-8B 上的 LoRA 微调，GNPR-SID 在 NYC、TKY 和 CA 三个真实世界数据集上全面超越传统基线和现有 LLM 方法。它不仅提升了准确率，也显著增强了跨域泛化能力，并降低了接近 55% 的 Token 消耗。</p>
-</blockquote>
-<h2 id="结果与讨论"><a href="#结果与讨论" class="headerlink" title="结果与讨论"></a>结果与讨论</h2><h3 id="数据以及数据来源"><a href="#数据以及数据来源" class="headerlink" title="数据以及数据来源"></a>数据以及数据来源</h3><ul>
-<li><strong>原始数据集</strong>：Foursquare-NYC、Foursquare-TKY 和 Gowalla-CA。</li>
-<li><strong>数据预处理</strong>：过滤掉交互次数少于 10 次的 POI 和用户，按时间序列排序后，以 8:1:1 划分训练、验证和测试集。</li>
-<li><strong>评测标准</strong>：采用生成式 Acc@1 作为核心指标，即模型生成的下一个 SID 必须与真实地点的 SID 完全一致。</li>
-</ul>
-<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><blockquote>
-<p>GNPR-SID 的核心在于先重构 POI 的表示方式，再把重构后的序列交给 LLM 进行生成式预测。</p>
-</blockquote>
-<h3 id="模块一：语义-ID-构建（Semantic-ID-Construction）"><a href="#模块一：语义-ID-构建（Semantic-ID-Construction）" class="headerlink" title="模块一：语义 ID 构建（Semantic ID Construction）"></a>模块一：语义 ID 构建（Semantic ID Construction）</h3><p>为了让大模型“理解”地理位置，作者没有直接输入浮点数坐标，而是设计了一套特征映射与量化流程：</p>
-<ul>
-<li><p><strong>POI 语义表示</strong> <code>p_e</code>：从四个维度提取信息并拼接：</p>
-<ul>
-<li><strong>类别特征</strong> <code>c</code>：例如“饮品店”“餐厅”等。</li>
-<li><strong>空间特征</strong> <code>r</code>：将经纬度转换为 Google Maps Plus Codes，使相邻地点可以共享更接近的空间表示。</li>
-<li><strong>时间信号</strong> <code>t</code>：提取地点历史访问频次最高的 Top 10 时段，描述地点的全局时间规律。</li>
-<li><strong>协同信号</strong> <code>c_u</code>：提取最常访问该地点的 10 位用户，捕捉潜在的人群圈层偏好。</li>
-</ul>
-</li>
-<li><p><strong>POI 量化（RQVAE）与前缀生成</strong></p>
-<ul>
-<li>使用残差量化变分自编码器，将高维稠密向量压缩到由多层字典组成的离散空间。</li>
-<li>最终生成类似 <code>&lt;a_15&gt;&lt;b_2&gt;&lt;c_9&gt;</code> 的层级索引作为 Semantic ID。</li>
-<li>这种树状结构保证了语义和位置越相似的地点，共享的前缀越多。</li>
-</ul>
-</li>
-<li><p><strong>防止语义坍缩（Diversity Loss）</strong></p>
-<ul>
-<li>如果不加约束，大量 POI 可能挤在少数几个 ID 中。</li>
-<li>作者设计了多样性损失，约束 SID 在语义空间中尽量均匀分布。</li>
-<li>如果出现完全碰撞的 SID，会附加唯一后缀加以区分。</li>
-</ul>
-</li>
-</ul>
-<h3 id="模块二：生成式-POI-推荐（Generative-POI-Recommendation）"><a href="#模块二：生成式-POI-推荐（Generative-POI-Recommendation）" class="headerlink" title="模块二：生成式 POI 推荐（Generative POI Recommendation）"></a>模块二：生成式 POI 推荐（Generative POI Recommendation）</h3><ul>
-<li><strong>序列转换与对齐</strong>：将用户历史打卡轨迹整体替换为对应的 SID 序列。</li>
-<li><strong>时空交织 Prompt 设计</strong>：<ul>
-<li>虽然 SID 已经编码了地点的全局信息，但作者仍然把用户真实打卡时间与 SID 交织输入。</li>
-<li>这样既保留了地点语义，也保留了用户个体化的行为节奏。</li>
-</ul>
-</li>
-<li><strong>填空式任务构造</strong>：将推荐问题改写为类似“Visited: <code>&lt;SID&gt;</code> at [time] … When [time] user is likely to visit: ____” 的形式，迫使 LLM 基于时间做推理。</li>
-<li><strong>微调策略</strong>：在 LLaMA3-8B 上采用 LoRA 进行监督微调。</li>
-</ul>
-<h3 id="结论分析"><a href="#结论分析" class="headerlink" title="结论分析"></a>结论分析</h3><ul>
-<li><strong>主实验</strong>：GNPR-SID 的 Acc@1 稳定超越传统模型以及现有 LLM 方法 LLM4POI，在 CA 数据集上的相对提升达到 16%。</li>
-<li><strong>消融实验</strong>：如果把 SID 换回随机 ID，性能会明显下降；去掉用户打卡时间后也会出现严重掉点。</li>
-<li><strong>效率与泛化</strong>：通过把长文本属性压缩成短促的层级 SID，模型的输入 Token 降低了 54.78%，推理速度更快，同时在跨域测试中也展现出较强鲁棒性。</li>
-</ul>
-<h2 id="文章亮点思考"><a href="#文章亮点思考" class="headerlink" title="文章亮点思考"></a>文章亮点思考</h2><h3 id="本文有什么优缺点？"><a href="#本文有什么优缺点？" class="headerlink" title="本文有什么优缺点？"></a>本文有什么优缺点？</h3><ul>
-<li><p><strong>优点</strong></p>
-<ul>
-<li><strong>模态对齐思路漂亮</strong>：没有简单把经纬度或长文本硬塞给 LLM，而是先做量化与语义编码，再把结果离散化为可学习的 Token。</li>
-<li><strong>效率高</strong>：前端量化压缩 + 后端 LLM 推理的解耦设计，大幅减少 Token 消耗，实用价值很高。</li>
-<li><strong>泛化能力强</strong>：前缀共享机制使模型对未见过的 POI 也能进行一定程度的语义推断。</li>
-</ul>
-</li>
-<li><p><strong>缺点 &#x2F; 疑问</strong></p>
-<ul>
-<li><strong>字典容量是静态的</strong>：RQVAE 训练出的 Codebook 容量固定，如果现实世界持续扩展，可能需要重新训练量化器。</li>
-<li><strong>两阶段分离并非最优</strong>：SID 构建和推荐微调彼此分离，如果量化阶段丢失了关键特征，后续 LLM 很难补回来。</li>
-</ul>
-</li>
-</ul>
-<h3 id="可以如何改进？"><a href="#可以如何改进？" class="headerlink" title="可以如何改进？"></a>可以如何改进？</h3><ol>
-<li><strong>端到端联合优化</strong>：让推荐任务的损失能够反向影响 SID 构建模块，使语义 ID 更贴合推荐目标。</li>
-<li><strong>加入多粒度时空编码</strong>：把时间差、空间距离等相对位置信息进一步注入注意力机制，强化用户轨迹建模。</li>
-</ol>
-<h3 id="这篇文章为什么能打动人？"><a href="#这篇文章为什么能打动人？" class="headerlink" title="这篇文章为什么能打动人？"></a>这篇文章为什么能打动人？</h3><p>这篇文章抓住了“大模型 + 推荐”里一个非常关键的问题：LLM 如何低成本且高精度地理解非文本、非离散的物理世界特征。它并没有停留在换 Prompt 或换基座模型的层面，而是直接深入到数据表示层，系统性地抛弃了随机 ID 范式，并把残差量化、层级语义表示和生成式推荐整合成了一套完整方案。对于时空推荐和更广义的结构化数据建模来说，这都是一个很有启发性的方向。</p>
-]]></content>
-      <categories>
-        <category>论文笔记</category>
-        <category>推荐系统</category>
-      </categories>
-      <tags>
-        <tag>论文笔记</tag>
-        <tag>推荐系统</tag>
-        <tag>大语言模型</tag>
-        <tag>POI 推荐</tag>
-        <tag>Semantic ID</tag>
-        <tag>GNPR-SID</tag>
       </tags>
   </entry>
   <entry>
@@ -3635,254 +3883,6 @@
         <tag>大语言模型</tag>
         <tag>LoRA</tag>
         <tag>TALLRec</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hot100：二分查找1-搜索插入位置</title>
-    <url>/blog/2025/10/30/Hot100%EF%BC%9A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1-%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><blockquote>
-<p><strong>LeetCode 35. 搜索插入位置</strong></p>
-</blockquote>
-<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。<strong>如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</strong></p>
-<p>请必须使用时间复杂度为 <code>O(log n)</code> 的算法。</p>
-<h2 id="问题理解"><a href="#问题理解" class="headerlink" title="问题理解"></a>问题理解</h2><p>这道题有两个核心任务：</p>
-<ol>
-<li><strong>查找</strong>：如果目标值存在，返回其索引</li>
-<li><strong>定位插入位置</strong>：如果目标值不存在，找到它应该插入的位置（保持数组有序）</li>
-</ol>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p><strong>示例 1：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: nums = [1,3,5,6], target = 5</span><br><span class="line">输出: 2</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例 2：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: nums = [1,3,5,6], target = 2</span><br><span class="line">输出: 1</span><br></pre></td></tr></table></figure>
-
-<p><strong>示例 3：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入: nums = [1,3,5,6], target = 7</span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure>
-
-<h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><ul>
-<li><code>1 &lt;= nums.length &lt;= 10^4</code></li>
-<li><code>-10^4 &lt;= nums[i] &lt;= 10^4</code></li>
-<li><code>nums</code> 为<strong>无重复元素</strong>的<strong>升序</strong>排列数组</li>
-<li><code>-10^4 &lt;= target &lt;= 10^4</code></li>
-</ul>
-<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><h2 id="算法选择"><a href="#算法选择" class="headerlink" title="算法选择"></a>算法选择</h2><p>由于题目要求时间复杂度为 <code>O(log n)</code>，并且数组是<strong>有序的</strong>，这是使用<strong>二分查找算法</strong>的典型场景。</p>
-<h2 id="核心思路"><a href="#核心思路" class="headerlink" title="核心思路"></a>核心思路</h2><p>使用二分查找在有序数组中定位目标值或插入位置：</p>
-<ol>
-<li><strong>初始化搜索区间</strong>：<code>min = 0</code>，<code>max = nums.length - 1</code></li>
-<li><strong>循环查找</strong>：<ul>
-<li>计算中间位置：<code>mid = (min + max) / 2</code></li>
-<li>比较 <code>nums[mid]</code> 与 <code>target</code>：<ul>
-<li><code>nums[mid] == target</code>：✅ <strong>找到目标</strong>，返回 <code>mid</code></li>
-<li><code>nums[mid] &gt; target</code>：目标在左半部分，<code>max = mid - 1</code></li>
-<li><code>nums[mid] &lt; target</code>：目标在右半部分，<code>min = mid + 1</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><strong>退出条件</strong>：<code>min &gt; max</code> 时，目标值不存在</li>
-</ol>
-<h2 id="🔑-关键理解：插入位置的确定"><a href="#🔑-关键理解：插入位置的确定" class="headerlink" title="🔑 关键理解：插入位置的确定"></a>🔑 关键理解：插入位置的确定</h2><p>这是本题的核心！当二分查找结束（<code>min &gt; max</code>）时，为什么 <code>min</code> 就是插入位置？</p>
-<h3 id="直观理解"><a href="#直观理解" class="headerlink" title="直观理解"></a>直观理解</h3><p>假设数组 <code>[1, 3, 5, 6]</code>，目标值 <code>target = 2</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">查找过程：</span><br><span class="line">初始: [1, 3, 5, 6]</span><br><span class="line">       ↑     ↑</span><br><span class="line">      min   max</span><br><span class="line"></span><br><span class="line">第1步: mid=1, nums[1]=3 &gt; 2，向左搜索</span><br><span class="line">       max = mid - 1 = 0</span><br><span class="line"></span><br><span class="line">第2步: mid=0, nums[0]=1 &lt; 2，向右搜索</span><br><span class="line">       min = mid + 1 = 1</span><br><span class="line"></span><br><span class="line">第3步: min(1) &gt; max(0)，循环结束</span><br><span class="line">       此时 min=1，表示 2 应该插入到索引1的位置</span><br><span class="line">       </span><br><span class="line">结果: [1, 2, 3, 5, 6]  ← 插入后仍然有序</span><br><span class="line">          ↑</span><br><span class="line">       插入位置</span><br></pre></td></tr></table></figure>
-
-<h3 id="数学证明"><a href="#数学证明" class="headerlink" title="数学证明"></a>数学证明</h3><p><strong>循环不变式</strong>：在每次循环中，<code>min</code> 左侧的所有元素都 <code>&lt; target</code>，<code>max</code> 右侧的所有元素都 <code>&gt; target</code></p>
-<p>当循环结束时（<code>min &gt; max</code>）：</p>
-<ul>
-<li><code>min</code> 指向第一个 <code>≥ target</code> 的位置</li>
-<li>在 <code>min</code> 位置插入 <code>target</code> 可以保持数组有序</li>
-</ul>
-<h3 id="三种情况分析"><a href="#三种情况分析" class="headerlink" title="三种情况分析"></a>三种情况分析</h3><ol>
-<li><strong>目标值小于所有元素</strong>：<code>min = 0</code>，插入到开头</li>
-<li><strong>目标值大于所有元素</strong>：<code>min = nums.length</code>，插入到末尾</li>
-<li><strong>目标值在某两个元素之间</strong>：<code>min</code> 指向第一个大于目标值的位置</li>
-</ol>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> TestHot100;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BinarySearch_InsertPosition</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span>[] nums = &#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>&#125;;</span><br><span class="line">        <span class="type">int</span> <span class="variable">target</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line">        System.out.println(searchInsert(nums, target));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">searchInsert</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="comment">// 二分查找</span></span><br><span class="line">        <span class="comment">// 最小索引</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">min</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 最大索引</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> nums.length - <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(min &gt; max)&#123;</span><br><span class="line">                <span class="comment">// 目标值不存在，返回应该插入的位置</span></span><br><span class="line">                <span class="keyword">return</span> min;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 计算中间索引</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> (max + min) / <span class="number">2</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 比较中间值与目标值的大小</span></span><br><span class="line">            <span class="keyword">if</span>(nums[mid] &gt; target)&#123;</span><br><span class="line">                <span class="comment">// 目标值在左半部分</span></span><br><span class="line">                max = mid - <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &lt; target)&#123;</span><br><span class="line">                <span class="comment">// 目标值在右半部分</span></span><br><span class="line">                min = mid + <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] == target)&#123;</span><br><span class="line">                <span class="comment">// 目标值等于中间值，直接返回中间索引</span></span><br><span class="line">                <span class="keyword">return</span> mid;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><p><strong>O(log n)</strong></p>
-<p>每次循环都会将搜索区间缩小一半，因此最多需要 <code>log₂n</code> 次比较。</p>
-<h2 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h2><p><strong>O(1)</strong></p>
-<p>只使用了常数个额外变量（<code>min</code>、<code>max</code>、<code>mid</code>），不随输入规模增长。</p>
-<h2 id="执行过程详解"><a href="#执行过程详解" class="headerlink" title="执行过程详解"></a>执行过程详解</h2><h2 id="示例-1：查找不存在的值（需要插入）"><a href="#示例-1：查找不存在的值（需要插入）" class="headerlink" title="示例 1：查找不存在的值（需要插入）"></a>示例 1：查找不存在的值（需要插入）</h2><p><strong>输入</strong>：<code>nums = [1, 3, 5, 6]</code>, <code>target = 2</code></p>
-<table>
-<thead>
-<tr>
-<th>步骤</th>
-<th>min</th>
-<th>max</th>
-<th>mid</th>
-<th>nums[mid]</th>
-<th>判断</th>
-<th>操作</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>0</td>
-<td>3</td>
-<td>1</td>
-<td>3</td>
-<td>3 &gt; 2</td>
-<td>max &#x3D; 0</td>
-<td>目标在左半部分</td>
-</tr>
-<tr>
-<td>2</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>1 &lt; 2</td>
-<td>min &#x3D; 1</td>
-<td>目标在右半部分</td>
-</tr>
-<tr>
-<td>3</td>
-<td>1</td>
-<td>0</td>
-<td>-</td>
-<td>-</td>
-<td>min &gt; max</td>
-<td>返回 1</td>
-<td><strong>插入位置确定</strong></td>
-</tr>
-</tbody></table>
-<p><strong>结果</strong>：返回 <code>1</code>，表示 2 应该插入到索引 1 的位置<br><strong>插入后</strong>：<code>[1, 2, 3, 5, 6]</code> ✅ 保持有序</p>
-<h2 id="示例-2：查找存在的值"><a href="#示例-2：查找存在的值" class="headerlink" title="示例 2：查找存在的值"></a>示例 2：查找存在的值</h2><p><strong>输入</strong>：<code>nums = [1, 3, 5, 6]</code>, <code>target = 5</code></p>
-<table>
-<thead>
-<tr>
-<th>步骤</th>
-<th>min</th>
-<th>max</th>
-<th>mid</th>
-<th>nums[mid]</th>
-<th>判断</th>
-<th>操作</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>0</td>
-<td>3</td>
-<td>1</td>
-<td>3</td>
-<td>3 &lt; 5</td>
-<td>min &#x3D; 2</td>
-<td>目标在右半部分</td>
-</tr>
-<tr>
-<td>2</td>
-<td>2</td>
-<td>3</td>
-<td>2</td>
-<td>5</td>
-<td>5 &#x3D;&#x3D; 5</td>
-<td>返回 2</td>
-<td><strong>找到目标</strong></td>
-</tr>
-</tbody></table>
-<p><strong>结果</strong>：返回 <code>2</code>，目标值存在于索引 2</p>
-<h2 id="示例-3：插入到末尾"><a href="#示例-3：插入到末尾" class="headerlink" title="示例 3：插入到末尾"></a>示例 3：插入到末尾</h2><p><strong>输入</strong>：<code>nums = [1, 3, 5, 6]</code>, <code>target = 7</code></p>
-<table>
-<thead>
-<tr>
-<th>步骤</th>
-<th>min</th>
-<th>max</th>
-<th>mid</th>
-<th>nums[mid]</th>
-<th>判断</th>
-<th>操作</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>0</td>
-<td>3</td>
-<td>1</td>
-<td>3</td>
-<td>3 &lt; 7</td>
-<td>min &#x3D; 2</td>
-<td>目标在右半部分</td>
-</tr>
-<tr>
-<td>2</td>
-<td>2</td>
-<td>3</td>
-<td>2</td>
-<td>5</td>
-<td>5 &lt; 7</td>
-<td>min &#x3D; 3</td>
-<td>目标在右半部分</td>
-</tr>
-<tr>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>6</td>
-<td>6 &lt; 7</td>
-<td>min &#x3D; 4</td>
-<td>目标在右半部分</td>
-</tr>
-<tr>
-<td>4</td>
-<td>4</td>
-<td>3</td>
-<td>-</td>
-<td>-</td>
-<td>min &gt; max</td>
-<td>返回 4</td>
-<td><strong>插入到末尾</strong></td>
-</tr>
-</tbody></table>
-<p><strong>结果</strong>：返回 <code>4</code>，表示 7 应该插入到索引 4（数组末尾）<br><strong>插入后</strong>：<code>[1, 3, 5, 6, 7]</code> ✅ 保持有序</p>
-<h2 id="优化建议"><a href="#优化建议" class="headerlink" title="优化建议"></a>优化建议</h2><h2 id="防止整数溢出"><a href="#防止整数溢出" class="headerlink" title="防止整数溢出"></a>防止整数溢出</h2><p>当前代码使用 <code>mid = (max + min) / 2</code>，在某些极端情况下可能导致整数溢出。</p>
-<p><strong>优化方案：</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> min + (max - min) / <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
-
-<p>这样可以避免 <code>max + min</code> 超出 <code>int</code> 的最大值。</p>
-<h2 id="循环条件优化"><a href="#循环条件优化" class="headerlink" title="循环条件优化"></a>循环条件优化</h2><p>可以将 <code>while(true)</code> 改为 <code>while(min &lt;= max)</code>，使代码逻辑更清晰：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">searchInsert</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">min</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> nums.length - <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(min &lt;= max)&#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> min + (max - min) / <span class="number">2</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(nums[mid] == target)&#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &gt; target)&#123;</span><br><span class="line">            max = mid - <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            min = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> min;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h2 id="💡-核心要点"><a href="#💡-核心要点" class="headerlink" title="💡 核心要点"></a>💡 核心要点</h2><ol>
-<li><strong>二分查找的本质</strong>：通过不断缩小搜索区间，将时间复杂度降低到 O(log n)</li>
-<li><strong>插入位置的理解</strong>：循环结束时，<code>min</code> 指向第一个 ≥ target 的位置</li>
-<li><strong>循环不变式</strong>：维护 <code>min</code> 和 <code>max</code> 的正确含义是关键</li>
-</ol>
-<h2 id="🎯-解题技巧"><a href="#🎯-解题技巧" class="headerlink" title="🎯 解题技巧"></a>🎯 解题技巧</h2><table>
-<thead>
-<tr>
-<th>场景</th>
-<th>技巧</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>防止溢出</td>
-<td>使用 <code>min + (max - min) / 2</code></td>
-</tr>
-<tr>
-<td>边界处理</td>
-<td>确保每次迭代都能缩小区间</td>
-</tr>
-<tr>
-<td>返回值</td>
-<td>未找到时返回 <code>min</code>（插入位置）</td>
-</tr>
-</tbody></table>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-        <tag>LeetCode</tag>
-        <tag>Hot100</tag>
-        <tag>二分查找</tag>
       </tags>
   </entry>
 </search>
