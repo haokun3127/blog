@@ -3448,198 +3448,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java学习计划/进度</title>
-    <url>/blog/2025/10/13/Java%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/</url>
-    <content><![CDATA[<h2 id="学习进度表"><a href="#学习进度表" class="headerlink" title="学习进度表"></a>学习进度表</h2><h3 id="阶段性学习计划"><a href="#阶段性学习计划" class="headerlink" title="阶段性学习计划"></a>阶段性学习计划</h3><table>
-<thead>
-<tr>
-<th>阶段</th>
-<th>学习内容</th>
-<th>状态</th>
-<th>进度</th>
-<th>建议时间</th>
-<th>时间</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>第一阶段</td>
-<td>JAVASE（上）</td>
-<td><span style="color: red;"><strong>已完成</strong></span></td>
-<td><span style="color: red;"><strong>200&#x2F;200</strong></span></td>
-<td>20-25天</td>
-<td>10.9-11.18</td>
-<td></td>
-</tr>
-<tr>
-<td>第二阶段</td>
-<td>JAVASE（下）</td>
-<td><span style="color: red;"><strong>进行中</strong></span></td>
-<td><span style="color: red;"><strong>43&#x2F;200</strong></span></td>
-<td>20-25天</td>
-<td>11.19-</td>
-<td></td>
-</tr>
-<tr>
-<td>第三阶段</td>
-<td>MySQL</td>
-<td>待开始</td>
-<td>0&#x2F;195</td>
-<td>4-5天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第四阶段</td>
-<td>JDBC</td>
-<td>待开始</td>
-<td>0&#x2F;12</td>
-<td>0.5天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第五阶段</td>
-<td>JavaWeb</td>
-<td>待开始</td>
-<td>0&#x2F;200</td>
-<td>3-4天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第六阶段</td>
-<td>SSM框架</td>
-<td>待开始</td>
-<td>0&#x2F;118</td>
-<td>4-5天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第七阶段</td>
-<td>Git版本控制</td>
-<td>待开始</td>
-<td>0&#x2F;1</td>
-<td>1-2天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第八阶段</td>
-<td>Linux基本命令</td>
-<td>待开始</td>
-<td>0&#x2F;1</td>
-<td>1-2天</td>
-<td></td>
-<td>苍穹外卖</td>
-</tr>
-<tr>
-<td>第九阶段</td>
-<td>SpringBoot</td>
-<td>待开始</td>
-<td>0&#x2F;174</td>
-<td>4-5天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第十阶段</td>
-<td>Redis</td>
-<td>待开始</td>
-<td>0&#x2F;175</td>
-<td>8-10天</td>
-<td></td>
-<td>黑马点评</td>
-</tr>
-<tr>
-<td>第十一阶段</td>
-<td>SpringCloud</td>
-<td>待开始</td>
-<td>0&#x2F;185</td>
-<td>3-4天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第十二阶段</td>
-<td>RocketMQ</td>
-<td>待开始</td>
-<td>0&#x2F;45</td>
-<td>1-2天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第十三阶段</td>
-<td>JVM虚拟机</td>
-<td>待开始</td>
-<td>0&#x2F;154</td>
-<td>5-6天</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>第十四阶段</td>
-<td>JUC并发编程</td>
-<td>待开始</td>
-<td>0&#x2F;302</td>
-<td>8-9天</td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="日常练习"><a href="#日常练习" class="headerlink" title="日常练习"></a>日常练习</h3><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>学习内容</th>
-<th>状态</th>
-<th>进度</th>
-<th>建议时间</th>
-<th>时间</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>算法</td>
-<td>Hot100</td>
-<td><span style="color: red;"><strong>进行中</strong></span></td>
-<td><span style="color: red;"><strong>3&#x2F;100</strong></span></td>
-<td></td>
-<td>10.20-</td>
-<td></td>
-</tr>
-<tr>
-<td>八股</td>
-<td>JavaGuide</td>
-<td>待开始</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>小林Coding</td>
-<td>待开始</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h2 id="当前进展"><a href="#当前进展" class="headerlink" title="当前进展"></a>当前进展</h2><p>🔥 <strong>正在进行</strong>：JAVASE（下） </p>
-<hr>
-]]></content>
-      <categories>
-        <category>学习计划</category>
-      </categories>
-      <tags>
-        <tag>JavaSE</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>论文笔记：InstructRec</title>
     <url>/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AInstructRec/</url>
     <content><![CDATA[<h2 id="论文信息"><a href="#论文信息" class="headerlink" title="论文信息"></a>论文信息</h2><table>
@@ -3883,6 +3691,301 @@
         <tag>大语言模型</tag>
         <tag>Instruction Tuning</tag>
         <tag>InstructRec</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Agent开发学习计划/进度</title>
+    <url>/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/</url>
+    <content><![CDATA[<h2 id="学习进度表"><a href="#学习进度表" class="headerlink" title="学习进度表"></a>学习进度表</h2><h3 id="阶段性学习计划"><a href="#阶段性学习计划" class="headerlink" title="阶段性学习计划"></a>阶段性学习计划</h3><table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>学习内容</th>
+<th>状态</th>
+<th>进度</th>
+<th>建议时间</th>
+<th>时间</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一阶段</td>
+<td>AI&#x2F;RAG 基础扫盲 + TinyRAG 认知 + 项目跑起来</td>
+<td><span style="color: red;"><strong>进行中</strong></span></td>
+<td><span style="color: red;"><strong>1&#x2F;7</strong></span></td>
+<td>7天</td>
+<td>5.28-</td>
+<td>Day 1：认识大模型与项目全貌</td>
+</tr>
+<tr>
+<td>第二阶段</td>
+<td>AI 知识库建设：文档上传、解析、分块、Embedding、向量检索、入库 Pipeline</td>
+<td>待开始</td>
+<td>0&#x2F;7</td>
+<td>7天</td>
+<td></td>
+<td>打通知识库文件如何变成可检索数据</td>
+</tr>
+<tr>
+<td>第三阶段</td>
+<td>大模型调度引擎 + Ollama&#x2F;vLLM：模型路由、熔断、SSE、Embedding、Rerank</td>
+<td>待开始</td>
+<td>0&#x2F;7</td>
+<td>7天</td>
+<td></td>
+<td>理解模型调用不是简单调 API</td>
+</tr>
+<tr>
+<td>第四阶段</td>
+<td>AI 知识问答链路 + MCP + 工程化 + 面试复盘</td>
+<td>待开始</td>
+<td>0&#x2F;9</td>
+<td>9天</td>
+<td></td>
+<td>完整讲清一次用户提问在后端经历的阶段</td>
+</tr>
+</tbody></table>
+<h3 id="Ragent-30-天打卡计划"><a href="#Ragent-30-天打卡计划" class="headerlink" title="Ragent 30 天打卡计划"></a>Ragent 30 天打卡计划</h3><table>
+<thead>
+<tr>
+<th>天数</th>
+<th>今日主题</th>
+<th>核心产出</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Day 1</td>
+<td>认识大模型与项目全貌</td>
+<td>Ragent AI 解决什么问题；模块结构图</td>
+<td><span style="color: red;"><strong>进行中</strong></span></td>
+</tr>
+<tr>
+<td>Day 2</td>
+<td>调用大模型 API 与 Prompt 工程</td>
+<td>Prompt 文件名、场景、输入变量、输出目标表格</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 3</td>
+<td>什么是 RAG + TinyRAG 思路</td>
+<td>TinyRAG 与 Ragent 加强版流程图</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 4</td>
+<td>文档解析、Chunk、元数据</td>
+<td>字段、作用、对检索&#x2F;回答影响表格</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 5</td>
+<td>Embedding、向量数据库、向量检索</td>
+<td>Ragent 为什么可以从 Milvus 切到 PgVector</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 6</td>
+<td>环境搭建与中间件</td>
+<td>本地环境清单、端口和账号记录</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 7</td>
+<td>项目启动与控制台体验</td>
+<td>页面到后端模块映射表</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 8</td>
+<td>知识库宏观设计</td>
+<td>知识库核心表关系图</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 9</td>
+<td>上传限制与内存问题</td>
+<td>30MB 文件为什么可能占更多内存</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 10</td>
+<td>上传分布式限流</td>
+<td>文件上传限流为什么不能只靠 Nginx</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 11</td>
+<td>文档上传接口与开始分块接口</td>
+<td>上传 -&gt; MQ -&gt; 分块处理时序图</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 12</td>
+<td>定时同步架构</td>
+<td>远程文档同步失败后如何恢复</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 13</td>
+<td>入库 Pipeline 详解</td>
+<td>入库 Pipeline 流程图</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 14</td>
+<td>知识库周复盘</td>
+<td>1 页知识库总结 + 10 问 10 答</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 15</td>
+<td>本地模型与 Ollama</td>
+<td>云模型 vs 本地模型对比表</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 16</td>
+<td>AI 基础设施层宏观设计</td>
+<td>为什么不直接用 Spring AI&#x2F;LangChain4j</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 17</td>
+<td>多模型路由与智能选择</td>
+<td>模型路由流程图</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 18</td>
+<td>三态熔断器与故障转移</td>
+<td>熔断器状态机图</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 19</td>
+<td>Chat 同步调用与模板方法</td>
+<td>新增模型供应商需要改哪些地方</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 20</td>
+<td>SSE 流式解析、异步执行、首包探测</td>
+<td>流式输出全过程时序图</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 21</td>
+<td>Embedding 与 Rerank</td>
+<td>为什么有向量检索还要 Rerank</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 22</td>
+<td>知识问答八阶段总览</td>
+<td>知识问答八阶段流程图</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 23</td>
+<td>多轮对话记忆</td>
+<td>50 轮对话 Token 爆了怎么办</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 24</td>
+<td>问题重写与语义增强</td>
+<td>原问题 -&gt; 重写问题 -&gt; 检索收益表</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 25</td>
+<td>意图树与多路由调度</td>
+<td>意图树图 + 命中规则说明</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 26</td>
+<td>多通道并行检索与结果融合</td>
+<td>多路召回 -&gt; 去重 -&gt; Rerank -&gt; TopK 流程图</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 27</td>
+<td>MCP 工具调用与 Prompt 拼装</td>
+<td>MCP 和 RAG 怎么结合</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 28</td>
+<td>流式生成、停止生成、限流排队</td>
+<td>排队限流时序图</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 29</td>
+<td>评估、Trace、生产化短板</td>
+<td>Ragent 生产化改造清单</td>
+<td>待开始</td>
+</tr>
+<tr>
+<td>Day 30</td>
+<td>简历、面试、高频问题总复盘</td>
+<td>简历项目描述 + 面试版项目讲解稿 + 20 问 20 答</td>
+<td>待开始</td>
+</tr>
+</tbody></table>
+<h3 id="日常练习"><a href="#日常练习" class="headerlink" title="日常练习"></a>日常练习</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>学习内容</th>
+<th>状态</th>
+<th>进度</th>
+<th>建议时间</th>
+<th>时间</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>算法</td>
+<td>Hot100</td>
+<td><span style="color: red;"><strong>进行中</strong></span></td>
+<td><span style="color: red;"><strong>3&#x2F;100</strong></span></td>
+<td></td>
+<td>10.20-</td>
+<td></td>
+</tr>
+<tr>
+<td>八股</td>
+<td>JavaGuide</td>
+<td>待开始</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>小林Coding</td>
+<td>待开始</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="当前进展"><a href="#当前进展" class="headerlink" title="当前进展"></a>当前进展</h2><p>🔥 <strong>正在进行</strong>：Ragent AI Day 1：认识大模型与项目全貌</p>
+<hr>
+]]></content>
+      <categories>
+        <category>学习计划</category>
+      </categories>
+      <tags>
+        <tag>RAG</tag>
+        <tag>Ragent</tag>
+        <tag>Agent开发</tag>
+        <tag>学习计划</tag>
       </tags>
   </entry>
 </search>
