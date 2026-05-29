@@ -5004,6 +5004,8 @@
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">RAG = 先检索相关资料，再让大模型基于资料回答问题。</span><br></pre></td></tr></table></figure>
 
 <p>它的重点不是让模型“记住”更多知识，而是让模型在回答前“看到”相关资料。</p>
+<p><img src="/blog/img/ragent-note-04-rag-case.png" alt="RAG 让大模型先检索再生成"></p>
+<p>这张图很好地说明了 RAG 的作用：普通 LLM 遇到训练后发生的新事件时，可能会因为没有相关知识而拒答或答错；加入 RAG 后，系统会先从文档中检索相关片段，再把“问题 + 相关文档”组合成 Prompt 交给大模型生成答案。这样模型不是凭空猜，而是带着资料回答。</p>
 <p>可以用考试来类比：</p>
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">普通大模型问答：闭卷考试，模型只能靠训练时学到的知识回答。</span><br><span class="line">RAG 问答：开卷考试，系统先帮模型找到相关资料，再让模型根据资料作答。</span><br></pre></td></tr></table></figure>
 
@@ -5088,7 +5090,9 @@
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">RAG 更像给模型查资料。</span><br><span class="line">微调更像训练模型形成某种能力或习惯。</span><br></pre></td></tr></table></figure>
 
 <p>如果知识经常变化，优先考虑 RAG。如果希望模型学会某种稳定的输出格式、专业语气或任务模式，可以考虑微调。</p>
-<h3 id="4-RAG-的最小流程"><a href="#4-RAG-的最小流程" class="headerlink" title="4. RAG 的最小流程"></a>4. RAG 的最小流程</h3><p>一个最小可用的 RAG 系统可以分成两条链路：</p>
+<h3 id="4-RAG-的最小流程"><a href="#4-RAG-的最小流程" class="headerlink" title="4. RAG 的最小流程"></a>4. RAG 的最小流程</h3><p><img src="/blog/img/ragent-note-04-rag-core-flow.png" alt="RAG 核心流程"></p>
+<p>这张流程图可以作为 RAG 主链路的总览：先导入资料，再分块、向量化、建立索引；用户提问时，再从索引中检索 Top-K 相关片段，最后把用户问题和检索上下文一起交给 LLM 生成回答。</p>
+<p>一个最小可用的 RAG 系统可以分成两条链路：</p>
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">离线入库链路：</span><br><span class="line">文档 -&gt; 解析 -&gt; 清洗 -&gt; 分块 Chunk -&gt; 向量化 Embedding -&gt; 存入向量数据库</span><br><span class="line"></span><br><span class="line">在线问答链路：</span><br><span class="line">用户问题 -&gt; 问题向量化 -&gt; 向量检索 -&gt; 召回相关 Chunk -&gt; 拼接 Prompt -&gt; 大模型生成答案</span><br></pre></td></tr></table></figure>
 
 <p>如果画成完整流程，大致是这样：</p>
