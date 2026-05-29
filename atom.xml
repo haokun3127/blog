@@ -10,7 +10,7 @@
   <rights>All rights reserved 2026, 好困3127</rights>
   <subtitle>闲来无事</subtitle>
   <title>好困的博客</title>
-  <updated>2026-05-29T06:07:48.509Z</updated>
+  <updated>2026-05-29T06:18:29.598Z</updated>
   <entry>
     <author>
       <name>好困3127</name>
@@ -29,7 +29,7 @@
     <published>2026-05-29T04:00:00.000Z</published>
     <summary>整理《AI大模型Ragent项目》第3小节：Prompt 工程入门，梳理 Prompt 工程五要素、RAG Prompt 约束、抗注入、引用规则、兜底策略和迭代优化方法。</summary>
     <title>Ragent学习笔记03：Prompt 工程入门</title>
-    <updated>2026-05-29T06:07:48.509Z</updated>
+    <updated>2026-05-29T06:18:29.598Z</updated>
   </entry>
   <entry>
     <author>
@@ -49,7 +49,7 @@
     <published>2026-05-28T13:55:00.000Z</published>
     <summary>整理《AI大模型Ragent项目》第2小节：调用大模型API的学习笔记，梳理 OpenAI 兼容协议、SiliconFlow、messages 角色机制、非流式调用、流式调用和 SSE 响应解析。</summary>
     <title>Ragent学习笔记02：调用大模型 API</title>
-    <updated>2026-05-28T14:03:35.952Z</updated>
+    <updated>2026-05-29T06:18:29.597Z</updated>
   </entry>
   <entry>
     <author>
@@ -68,7 +68,7 @@
     <published>2026-05-28T06:55:00.000Z</published>
     <summary>整理《AI大模型Ragent项目》第1小节：认识大模型的学习笔记，梳理大模型、训练阶段、Chat模型、Token、上下文窗口、Temperature、量化、深度思考和API调用等基础概念。</summary>
     <title>Ragent学习笔记01：认识大模型</title>
-    <updated>2026-05-28T14:06:19.981Z</updated>
+    <updated>2026-05-29T06:18:29.595Z</updated>
   </entry>
   <entry>
     <author>
@@ -86,7 +86,7 @@
     <published>2026-05-26T12:00:00.000Z</published>
     <summary>一份面向新手的 Git 使用笔记，记录从本地初始化、提交代码到 Push 到 GitHub 的完整流程。</summary>
     <title>Git 使用指南：把本地代码 Push 到 GitHub</title>
-    <updated>2026-05-26T08:42:14.306Z</updated>
+    <updated>2026-05-29T06:18:29.591Z</updated>
   </entry>
   <entry>
     <author>
@@ -107,7 +107,7 @@
     <published>2026-04-09T10:00:00.000Z</published>
     <summary>CoLLM 将传统协同模型产生的 embedding 视为独立模态接入 LLM，通过轻量映射层补足热启动场景短板，实现了冷启动与热启动兼顾。</summary>
     <title>论文笔记：CoLLM</title>
-    <updated>2026-05-26T08:42:14.316Z</updated>
+    <updated>2026-05-29T06:18:29.601Z</updated>
   </entry>
   <entry>
     <author>
@@ -129,7 +129,7 @@
     <published>2026-04-09T06:20:00.000Z</published>
     <summary>GNPR-SID 用语义 ID 取代随机数字 ID，把连续时空特征压缩成 LLM 可理解的离散表示，从而提升生成式 POI 推荐的准确率与泛化能力。</summary>
     <title>论文笔记：GNPR-SID</title>
-    <updated>2026-05-26T08:42:14.317Z</updated>
+    <updated>2026-05-29T06:18:29.602Z</updated>
   </entry>
   <entry>
     <author>
@@ -150,7 +150,7 @@
     <published>2026-04-09T06:10:00.000Z</published>
     <summary>TALLRec 通过两阶段微调和 LoRA，让通用 LLM 以较低成本适配推荐任务，并在少样本和跨域场景中取得了不错表现。</summary>
     <title>论文笔记：TALLRec</title>
-    <updated>2026-05-26T08:42:14.318Z</updated>
+    <updated>2026-05-29T06:18:29.612Z</updated>
   </entry>
   <entry>
     <author>
@@ -171,7 +171,7 @@
     <published>2026-04-09T06:00:00.000Z</published>
     <summary>InstructRec 将推荐任务重构为指令遵循任务，通过统一的偏好、意图与任务形式，让大语言模型更好地理解推荐需求。</summary>
     <title>论文笔记：InstructRec</title>
-    <updated>2026-05-26T08:42:14.318Z</updated>
+    <updated>2026-05-29T06:18:29.611Z</updated>
   </entry>
   <entry>
     <author>
@@ -187,7 +187,7 @@
     <published>2025-10-30T08:00:00.000Z</published>
     <summary>一份完整的测试开发工程师学习路线图，从入门到进阶，涵盖编程语言、计算机基础、自动化测试、项目实战等全方位内容</summary>
     <title>测试开发工程师学习路线</title>
-    <updated>2026-05-26T08:42:14.316Z</updated>
+    <updated>2026-05-29T06:18:29.600Z</updated>
   </entry>
   <entry>
     <author>
@@ -206,7 +206,7 @@
     <published>2025-10-30T07:00:16.000Z</published>
     <summary>LeetCode Hot100 系列：使用二分查找算法解决搜索插入位置问题</summary>
     <title>Hot100：二分查找1-搜索插入位置</title>
-    <updated>2026-05-26T08:42:14.308Z</updated>
+    <updated>2026-05-29T06:18:29.592Z</updated>
   </entry>
   <entry>
     <author>
@@ -225,7 +225,7 @@
     <published>2025-10-21T09:30:02.000Z</published>
     <summary>LeetCode Hot100 系列 - 最长连续序列问题的O(n)解法详解</summary>
     <title>Hot100：哈希3-最长连续序列</title>
-    <updated>2026-05-26T08:42:14.312Z</updated>
+    <updated>2026-05-29T06:18:29.595Z</updated>
   </entry>
   <entry>
     <author>
@@ -243,7 +243,7 @@
     <published>2025-10-20T10:00:00.000Z</published>
     <summary>LeetCode Hot100 系列 - 字母异位词分组问题详解</summary>
     <title>Hot100：哈希2-字母异位词分组</title>
-    <updated>2026-05-26T08:42:14.311Z</updated>
+    <updated>2026-05-29T06:18:29.594Z</updated>
   </entry>
   <entry>
     <author>
@@ -261,7 +261,7 @@
     <published>2025-10-20T09:31:31.000Z</published>
     <summary>LeetCode Hot100 系列 - 两数之和问题的两种解法详解</summary>
     <title>Hot100：哈希1-两数之和</title>
-    <updated>2026-05-26T08:42:14.309Z</updated>
+    <updated>2026-05-29T06:18:29.593Z</updated>
   </entry>
   <entry>
     <author>
@@ -277,7 +277,7 @@
     <published>2025-10-13T09:50:10.000Z</published>
     <summary>基于 uni-app、Vue 3 和 AI 大模型的智能农机识别微信小程序项目总结，涵盖农机识别、故障诊断、知识问答与政策解读。</summary>
     <title>农机信号故障灯识别小程序</title>
-    <updated>2026-05-26T08:42:14.314Z</updated>
+    <updated>2026-05-29T06:18:29.599Z</updated>
   </entry>
   <entry>
     <author>
@@ -296,6 +296,6 @@
     <published>2025-10-13T09:21:36.000Z</published>
     <summary>Agent 开发学习计划与进度记录，以 Ragent AI 项目为主线，按 30 天文档驱动打卡节奏推进 AI/RAG 基础、知识库、模型调度、MCP、SSE、限流和 Trace 等内容。</summary>
     <title>Agent开发学习计划/进度</title>
-    <updated>2026-05-28T14:33:20.938Z</updated>
+    <updated>2026-05-29T06:18:29.587Z</updated>
   </entry>
 </feed>
