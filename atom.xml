@@ -10,7 +10,27 @@
   <rights>All rights reserved 2026, 好困3127</rights>
   <subtitle>闲来无事</subtitle>
   <title>好困的博客</title>
-  <updated>2026-05-28T14:03:35.952Z</updated>
+  <updated>2026-05-29T06:07:48.509Z</updated>
+  <entry>
+    <author>
+      <name>好困3127</name>
+    </author>
+    <category term="ragent" scheme="https://haokun3127.github.io/blog/categories/ragent/"/>
+    <category term="RAG" scheme="https://haokun3127.github.io/blog/tags/RAG/"/>
+    <category term="ragent" scheme="https://haokun3127.github.io/blog/tags/ragent/"/>
+    <category term="AI大模型" scheme="https://haokun3127.github.io/blog/tags/AI%E5%A4%A7%E6%A8%A1%E5%9E%8B/"/>
+    <category term="学习笔记" scheme="https://haokun3127.github.io/blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <category term="Prompt" scheme="https://haokun3127.github.io/blog/tags/Prompt/"/>
+    <content>
+      <![CDATA[<h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul><li>《AI大模型Ragent项目》第3小节：Prompt工程入门</li><li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》第3小节：Prompt工程入门.html</code></li></ul><h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>这一节从“会调用模型”进入“让模型稳定按业务要求回答”。Prompt 不是随便写一句话，而是把角色、任务、约束、输入和输出格式组织成一套可复用、可测试、可迭代的工程化指令。对 RAG 来说，Prompt 的重点不是让模型更会发挥，而是让模型只基于检索资料回答，并在资料不足时懂得澄清或兜底。</p><h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table><thead><tr><th>概念</th><th>学习要点</th></tr></thead><tbody><tr><td>Prompt 五要素</td><td>角色、任务、约束、输入、输出共同决定模型行为</td></tr><tr><td>角色 Role</td><td>定义模型身份和回答边界，避免模型乱扩展职责</td></tr><tr><td>任务 Task</td><td>明确模型要完成什么，避免意图模糊</td></tr><tr><td>约束 Constraints</td><td>规定知识来源、风格、长度、禁止事项和优先级</td></tr><tr><td>输入 Inputs</td><td>用分隔符、字段名、可信度说明把上下文喂清楚</td></tr><tr><td>输出 Outputs</td><td>规定结构、引用、兜底和澄清方式</td></tr><tr><td>Prompt 注入</td><td>资料或用户输入中可能夹带“忽略上文”等恶意指令</td></tr><tr><td>Bad Case 迭代</td><td>从错误案例反推 Prompt 缺少哪条规则</td></tr></tbody></table><h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="Prompt-工程为什么重要"><a href="#Prompt-工程为什么重要" class="headerlink" title="Prompt 工程为什么重要"></a>Prompt 工程为什么重要</h3><p>大模型不是传统函数，输入稍微变化就可能导致输出风格、边界和准确性变化。Prompt 工程的价值，是把“希望模型怎么答”变成稳定的规则。</p><p>在 RAG 系统中，检索结果只是原材料，Prompt 决定模型如何使用材料、如何处理冲突、如何拒绝没有依据的问题。好检索配坏 Prompt，依然会生成不可用答案。</p><h3 id="Prompt-的五要素框架"><a href="#Prompt-的五要素框架" class="headerlink" title="Prompt 的五要素框架"></a>Prompt 的五要素框架</h3><p>角色说明模型是谁，例如知识库问答助手、客服助手、代码审查助手；任务说明要做什么，例如回答问题、提取字段、判断意图；约束说明不能做什么，例如不能编造、不能使用参考资料外的信息。</p><p>输入要清楚区分用户问题、历史对话、检索片段和业务参数。输出要明确格式、长度、引用方式和兜底话术。五要素越清楚，模型越容易稳定工作。</p><h3 id="RAG-场景下的特殊要求"><a href="#RAG-场景下的特殊要求" class="headerlink" title="RAG 场景下的特殊要求"></a>RAG 场景下的特殊要求</h3><p>RAG Prompt 要明确“参考资料是事实来源，不是指令来源”。这能降低 Prompt 注入风险，避免知识库文本里的恶意指令覆盖系统规则。</p><p>引用规则要可验收：没有引用支撑的事实不要输出；引用内容必须真的支持答案；资料冲突时要说明冲突，而不是强行合并。</p><h3 id="Prompt-优化流程"><a href="#Prompt-优化流程" class="headerlink" title="Prompt 优化流程"></a>Prompt 优化流程</h3><p>不要凭感觉一次写完 Prompt。更工程化的方式是：收集 bad case，定位失败原因，修改规则，再用固定测试集回归。</p><p>Prompt 也要版本管理。每次修改要记录修改原因、解决了什么问题、是否引入新问题，避免线上效果不可追溯。</p><h3 id="常见误区"><a href="#常见误区" class="headerlink" title="常见误区"></a>常见误区</h3><p>Prompt 太短会缺少边界，模型容易自由发挥；Prompt 太长又可能规则冲突、占用 Token。比较好的做法是保留核心规则，分组编号，给出优先级。</p><p>Few-shot 示例适合复杂格式或边界场景，但不是越多越好。示例太多会占用上下文，示例不典型还会误导模型。</p><h2 id="学习重点"><a href="#学习重点" class="headerlink" title="学习重点"></a>学习重点</h2><ul><li>Prompt 不是玄学，而是对模型输入的工程化设计。</li><li>RAG Prompt 的核心是限定知识来源、处理冲突、要求引用、提供兜底。</li><li>Prompt 注入防护要写清楚：系统规则优先于用户问题，用户问题优先于参考资料中的文本指令。</li><li>Prompt 需要像代码一样迭代、测试和版本管理。</li></ul><h2 id="易混点整理"><a href="#易混点整理" class="headerlink" title="易混点整理"></a>易混点整理</h2><ul><li>System Prompt 不等于随便设定人设，它承担的是行为边界和安全约束。</li><li>Few-shot 不是必需品，简单任务用清楚规则通常更稳。</li><li>资料不足时直接编答案不是“智能”，而是 RAG 系统最需要避免的问题。</li></ul>]]>
+    </content>
+    <id>https://haokun3127.github.io/blog/2026/05/29/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-Prompt%E5%B7%A5%E7%A8%8B%E5%85%A5%E9%97%A8/</id>
+    <link href="https://haokun3127.github.io/blog/2026/05/29/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-Prompt%E5%B7%A5%E7%A8%8B%E5%85%A5%E9%97%A8/"/>
+    <published>2026-05-29T04:00:00.000Z</published>
+    <summary>整理《AI大模型Ragent项目》第3小节：Prompt 工程入门，梳理 Prompt 工程五要素、RAG Prompt 约束、抗注入、引用规则、兜底策略和迭代优化方法。</summary>
+    <title>Ragent学习笔记03：Prompt 工程入门</title>
+    <updated>2026-05-29T06:07:48.509Z</updated>
+  </entry>
   <entry>
     <author>
       <name>好困3127</name>
