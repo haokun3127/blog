@@ -828,6 +828,45 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (map.containsKey(need)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;map.get(need), i&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>如果之前已经出现过补数，就可以直接返回之前补数的下标和当前下标。</p>
+<h3 id="map-containsKey-和-map-get-的用法"><a href="#map-containsKey-和-map-get-的用法" class="headerlink" title="map.containsKey 和 map.get 的用法"></a><code>map.containsKey</code> 和 <code>map.get</code> 的用法</h3><p>这两个方法经常一起写，但作用不一样。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">map.containsKey(key)</span><br></pre></td></tr></table></figure>
+
+<p>它的作用是：判断 <code>map</code> 里是否存在这个 <code>key</code>。</p>
+<ul>
+<li>存在，返回 <code>true</code></li>
+<li>不存在，返回 <code>false</code></li>
+</ul>
+<p>在这道题里：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">map.containsKey(need)</span><br></pre></td></tr></table></figure>
+
+<p>意思就是：之前遍历过的数字里，有没有我们现在需要的补数 <code>need</code>。</p>
+<p>再看：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">map.get(key)</span><br></pre></td></tr></table></figure>
+
+<p>它的作用是：根据 <code>key</code> 取出对应的 <code>value</code>。</p>
+<p>在这道题里：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">map.get(need)</span><br></pre></td></tr></table></figure>
+
+<p>取出来的就是补数 <code>need</code> 对应的下标。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">map.put(<span class="number">2</span>, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<p>那么：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">map.containsKey(<span class="number">2</span>);   <span class="comment">// true</span></span><br><span class="line">map.get(<span class="number">2</span>);           <span class="comment">// 0</span></span><br><span class="line"></span><br><span class="line">map.containsKey(<span class="number">7</span>);   <span class="comment">// false</span></span><br><span class="line">map.get(<span class="number">7</span>);           <span class="comment">// null</span></span><br></pre></td></tr></table></figure>
+
+<p>这里要特别注意：如果 <code>key</code> 不存在，<code>map.get(key)</code> 会返回 <code>null</code>。</p>
+<p>所以这道题写成这样会更清楚：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (map.containsKey(need)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;map.get(need), i&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以这样理解：</p>
+<ul>
+<li><code>containsKey(need)</code>：先确认补数在不在 <code>map</code> 里</li>
+<li><code>get(need)</code>：如果在，再把它对应的下标取出来</li>
+</ul>
+<p>也可以写成：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Integer</span> <span class="variable">index</span> <span class="operator">=</span> map.get(need);</span><br><span class="line"><span class="keyword">if</span> (index != <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;index, i&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但对这道题来说，<code>containsKey + get</code> 更直观，也更容易看懂哈希表的查找过程。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">map.put(nums[i], i);</span><br></pre></td></tr></table></figure>
 
 <p>当前数暂时没找到搭档，就把它存起来，给后面的数字使用。</p>
