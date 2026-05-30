@@ -1,0 +1,442 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Ragent学习笔记05：用 Apache Tika 解析文档 | 好困的博客</title><meta name="author" content="好困3127"><meta name="copyright" content="好困3127"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="整理《AI大模型Ragent项目》第5小节：用 Apache Tika 解析文档，系统梳理文档解析在 RAG 入库链路中的位置、Apache Tika 的作用、MIME 类型、正文提取、元数据提取、OCR 边界以及嵌入式与独立服务部署方式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ragent学习笔记05：用 Apache Tika 解析文档">
+<meta property="og:url" content="https://haokun3127.github.io/blog/2026/05/30/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005-%E7%94%A8ApacheTika%E8%A7%A3%E6%9E%90%E6%96%87%E6%A1%A3/index.html">
+<meta property="og:site_name" content="好困的博客">
+<meta property="og:description" content="整理《AI大模型Ragent项目》第5小节：用 Apache Tika 解析文档，系统梳理文档解析在 RAG 入库链路中的位置、Apache Tika 的作用、MIME 类型、正文提取、元数据提取、OCR 边界以及嵌入式与独立服务部署方式。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://haokun3127.github.io/blog/img/ragent-note-05-tika.png">
+<meta property="article:published_time" content="2026-05-30T08:00:00.000Z">
+<meta property="article:modified_time" content="2026-05-30T07:46:21.091Z">
+<meta property="article:author" content="好困3127">
+<meta property="article:tag" content="RAG">
+<meta property="article:tag" content="ragent">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="Apache Tika">
+<meta property="article:tag" content="文档解析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://haokun3127.github.io/blog/img/ragent-note-05-tika.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Ragent学习笔记05：用 Apache Tika 解析文档",
+  "url": "https://haokun3127.github.io/blog/2026/05/30/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005-%E7%94%A8ApacheTika%E8%A7%A3%E6%9E%90%E6%96%87%E6%A1%A3/",
+  "image": "https://haokun3127.github.io/blog/img/ragent-note-05-tika.png",
+  "datePublished": "2026-05-30T08:00:00.000Z",
+  "dateModified": "2026-05-30T07:46:21.091Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "好困3127",
+      "url": "https://haokun3127.github.io/blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/blog/img/favicon.svg"><link rel="canonical" href="https://haokun3127.github.io/blog/2026/05/30/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005-%E7%94%A8ApacheTika%E8%A7%A3%E6%9E%90%E6%96%87%E6%A1%A3/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/blog/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0f172a')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/blog/',
+  algolia: undefined,
+  localSearch: {"path":"/blog/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Ragent学习笔记05：用 Apache Tika 解析文档',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style>.recent-posts>.recent-post-item{width:100%!important;max-width:100%!important;margin-bottom:2rem!important;}.recent-posts{display:flex!important;flex-direction:column!important;}</style><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/blog/atom.xml" title="好困的博客" type="application/atom+xml">
+</head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/blog/img/ragent-note-05-tika.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/blog/"><span class="site-name">好困的博客</span></a><a class="nav-page-title" href="/blog/"><span class="site-name">Ragent学习笔记05：用 Apache Tika 解析文档</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Ragent学习笔记05：用 Apache Tika 解析文档</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-05-30T08:00:00.000Z" title="发表于 2026-05-30 16:00:00">2026-05-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-05-30T07:46:21.091Z" title="更新于 2026-05-30 15:46:21">2026-05-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/blog/categories/ragent/">ragent</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》第5小节：用 Apache Tika 解析文档</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》第5小节：用Apache Tika解析文档.html</code></li>
+</ul>
+<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>这一节正式进入 RAG 文档预处理链路。前面我们已经知道，RAG 的核心是“先检索，再生成”，但系统要想检索，前提是资料已经变成可处理、可切分、可向量化的文本。</p>
+<p>问题在于，企业里的知识资料并不是天然干净的纯文本。真实场景里常见的是 PDF、Word、PPT、Excel、Markdown、网页抓取内容、扫描件和图片型文档。它们虽然都“能打开看”，但内部结构完全不同。对机器来说，这些文件往往不是一段现成的文本，而是一套复杂格式、标签结构、版式信息甚至图片内容的组合。</p>
+<p>Apache Tika 的作用，就是把这些复杂文件统一接到同一个解析入口上，尽量抽取出正文文本和元数据，为后续的 Chunk、Embedding、向量检索做准备。</p>
+<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>作用</th>
+<th>这一节要掌握什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文档解析</td>
+<td>把复杂文件转成可处理文本</td>
+<td>是 RAG 入库的起点</td>
+</tr>
+<tr>
+<td>Apache Tika</td>
+<td>统一识别和解析多种文档格式</td>
+<td>提供通用解析能力</td>
+</tr>
+<tr>
+<td>MIME 类型</td>
+<td>判断文件真实类型</td>
+<td>不能只看后缀名</td>
+</tr>
+<tr>
+<td>正文提取</td>
+<td>抽取文件里的可读文本</td>
+<td>给分块和向量化用</td>
+</tr>
+<tr>
+<td>元数据提取</td>
+<td>抽取作者、标题、页数、时间等信息</td>
+<td>给过滤、展示、溯源用</td>
+</tr>
+<tr>
+<td>OCR</td>
+<td>从图片中识别文字</td>
+<td>解决扫描件和图片型 PDF</td>
+</tr>
+<tr>
+<td>部署方式</td>
+<td>嵌入式或独立服务</td>
+<td>看规模、稳定性、资源隔离需求</td>
+</tr>
+</tbody></table>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="1-为什么文档解析是-RAG-的第一步"><a href="#1-为什么文档解析是-RAG-的第一步" class="headerlink" title="1. 为什么文档解析是 RAG 的第一步"></a>1. 为什么文档解析是 RAG 的第一步</h3><p>RAG 的后续流程通常是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">文件 -&gt; 解析 -&gt; 分块 -&gt; 向量化 -&gt; 建索引 -&gt; 检索 -&gt; 生成回答</span><br></pre></td></tr></table></figure>
+
+<p>这里“解析”必须排在最前面，因为后面的所有能力几乎都依赖它的输出结果。</p>
+<p>如果解析阶段做不好，后面会连锁出问题：</p>
+<ul>
+<li>文本抽取不完整：后面分块时就会缺内容</li>
+<li>标题层级丢失：Chunk 边界会切得很乱</li>
+<li>页码或来源信息丢失：回答时没法溯源</li>
+<li>表格内容抽坏：检索时可能命中错误语义</li>
+<li>扫描件没做 OCR：向量化时几乎没有有效文本</li>
+</ul>
+<p>也就是说，RAG 不是“有个 PDF 就能上传，有个向量库就能回答”。文件先得变成机器能理解的文本结构，这一步就是文档解析。</p>
+<h3 id="2-为什么“能打开看”不等于“能拿来做-RAG”"><a href="#2-为什么“能打开看”不等于“能拿来做-RAG”" class="headerlink" title="2. 为什么“能打开看”不等于“能拿来做 RAG”"></a>2. 为什么“能打开看”不等于“能拿来做 RAG”</h3><p>很多文件对人来说很自然，但对程序来说并不直接等于文本。</p>
+<p>举几个典型例子：</p>
+<ul>
+<li>PDF：有的 PDF 是文字流，有的 PDF 本质是图片</li>
+<li>Word：正文、标题、表格、页眉页脚都混在文档结构里</li>
+<li>PPT：文字是分散在多个文本框里的，不是自然连续文本</li>
+<li>Excel：内容是单元格网格，不是线性段落</li>
+<li>HTML：正文里混有标签、脚本、导航、广告和样式信息</li>
+</ul>
+<p>所以“读文件”不是简单 <code>read()</code> 一下字节就结束，而是要做下面几件事：</p>
+<ol>
+<li>识别文件真实类型</li>
+<li>找到对应的解析器</li>
+<li>尽量提取正文</li>
+<li>同时抽取元数据</li>
+<li>在需要时补 OCR</li>
+<li>输出后续处理链路可以接住的结果</li>
+</ol>
+<p>Apache Tika 就是在做这层统一抽象。</p>
+<h3 id="3-Apache-Tika-是什么"><a href="#3-Apache-Tika-是什么" class="headerlink" title="3. Apache Tika 是什么"></a>3. Apache Tika 是什么</h3><p>Apache Tika 可以理解为一个“通用文档解析入口”。它把很多底层文档解析库封装起来，对外提供比较统一的文件识别和内容抽取能力。</p>
+<p>它解决的主要问题有两个：</p>
+<ul>
+<li>识别文件类型</li>
+<li>抽取文本和元数据</li>
+</ul>
+<p>对于 RAG 系统来说，它的价值不在于“某一种格式解析得最强”，而在于：</p>
+<ul>
+<li>覆盖文件类型广</li>
+<li>接入方式统一</li>
+<li>适合做入库前的第一层通用解析</li>
+</ul>
+<p>这很符合企业知识库的实际需求，因为上传的资料种类通常非常杂，不可能每种格式都单独开发一套解析入口。</p>
+<h3 id="4-Tika-在-RAG-链路里负责什么，不负责什么"><a href="#4-Tika-在-RAG-链路里负责什么，不负责什么" class="headerlink" title="4. Tika 在 RAG 链路里负责什么，不负责什么"></a>4. Tika 在 RAG 链路里负责什么，不负责什么</h3><p>这一点很重要。</p>
+<p>Tika 负责的是“把文件初步变成结构化可处理内容”，但它不是万能的文档智能理解系统。</p>
+<p>它更擅长做的事情：</p>
+<ul>
+<li>判断文件类型</li>
+<li>提取可读正文</li>
+<li>提取元数据</li>
+<li>把不同格式文件统一接入</li>
+</ul>
+<p>它不擅长或者不能单独解决的事情：</p>
+<ul>
+<li>高质量版面理解</li>
+<li>特别复杂的表格语义还原</li>
+<li>图片里的文字识别本身</li>
+<li>文档业务结构的深层语义理解</li>
+</ul>
+<p>所以系统设计上应该这样理解：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Tika = 通用解析层</span><br><span class="line">OCR / 版面理解 / 表格增强 = 额外增强层</span><br><span class="line">Chunk / Embedding / 检索 = 后续 RAG 处理层</span><br></pre></td></tr></table></figure>
+
+<p>这能避免一个常见误区：以为接入了 Tika，文档理解问题就彻底解决了。实际上它解决的是“先把文件转成通用文本”的问题，不是“把文档语义完美还原”的问题。</p>
+<h3 id="5-MIME-类型为什么重要"><a href="#5-MIME-类型为什么重要" class="headerlink" title="5. MIME 类型为什么重要"></a>5. MIME 类型为什么重要</h3><p>很多人刚接触文件上传时，会下意识只看文件后缀，比如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.pdf</span><br><span class="line">.docx</span><br><span class="line">.pptx</span><br><span class="line">.xlsx</span><br></pre></td></tr></table></figure>
+
+<p>但后缀名不可靠，原因很简单：</p>
+<ul>
+<li>用户可以随便改后缀</li>
+<li>有些文件没有标准后缀</li>
+<li>有些文件扩展名和真实内容不一致</li>
+</ul>
+<p>所以更稳的做法是看 MIME 类型。你可以把 MIME 类型理解成“文件的真实身份证”。</p>
+<p>例如：</p>
+<ul>
+<li><code>application/pdf</code></li>
+<li><code>application/vnd.openxmlformats-officedocument.wordprocessingml.document</code></li>
+<li><code>text/html</code></li>
+<li><code>text/plain</code></li>
+</ul>
+<p>在 RAG 系统里，先识别 MIME 类型有几个好处：</p>
+<ul>
+<li>决定走哪个解析器</li>
+<li>判断是不是支持的格式</li>
+<li>提前拦截异常文件</li>
+<li>记录文档类型，便于后续管理和排错</li>
+</ul>
+<p>这也是为什么课程里强调：不要只看文件后缀，要识别文件真实类型。</p>
+<h3 id="6-正文提取是后续分块的输入"><a href="#6-正文提取是后续分块的输入" class="headerlink" title="6. 正文提取是后续分块的输入"></a>6. 正文提取是后续分块的输入</h3><p>对 RAG 来说，最核心的解析结果就是正文文本。</p>
+<p>因为后面要做：</p>
+<ul>
+<li>按段落或字符分块</li>
+<li>计算 Embedding</li>
+<li>存入向量库</li>
+<li>在用户提问时做相似度检索</li>
+</ul>
+<p>所以解析出来的正文质量会直接影响检索质量。</p>
+<p>如果正文提取有这些问题：</p>
+<ul>
+<li>丢段落</li>
+<li>段落顺序错乱</li>
+<li>表格内容粘连</li>
+<li>标题和正文混在一起</li>
+<li>OCR 结果错误太多</li>
+</ul>
+<p>后面的 Chunk 就会切得不合理，Embedding 表达也会失真，最终问答质量自然下降。</p>
+<p>从这个角度看，正文提取不是一个边缘步骤，而是整个 RAG 质量链路的前置条件。</p>
+<h3 id="7-元数据提取为什么不能忽略"><a href="#7-元数据提取为什么不能忽略" class="headerlink" title="7. 元数据提取为什么不能忽略"></a>7. 元数据提取为什么不能忽略</h3><p>很多人在做最简版 RAG 时，只关注“能不能抽到正文”，但企业场景里元数据同样重要。</p>
+<p>常见元数据包括：</p>
+<ul>
+<li>文件名</li>
+<li>标题</li>
+<li>作者</li>
+<li>创建时间</li>
+<li>修改时间</li>
+<li>页数</li>
+<li>文件类型</li>
+<li>来源地址</li>
+<li>所属知识库</li>
+<li>所属部门</li>
+<li>权限范围</li>
+</ul>
+<p>这些元数据在 RAG 里通常有四类用途：</p>
+<ol>
+<li><p>检索过滤<br>例如只搜某个知识库、某个部门、某个时间范围的文档。</p>
+</li>
+<li><p>结果展示<br>回答时要告诉用户“这段内容来自哪份文档”。</p>
+</li>
+<li><p>溯源定位<br>如果答案错了，要能回头定位原始文档和原始 chunk。</p>
+</li>
+<li><p>权限控制<br>不同用户未必能搜同一批资料。</p>
+</li>
+</ol>
+<p>所以更准确的理解是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">正文 = 用来检索和生成</span><br><span class="line">元数据 = 用来过滤、管理、展示和溯源</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-OCR-的边界：为什么扫描件更难"><a href="#8-OCR-的边界：为什么扫描件更难" class="headerlink" title="8. OCR 的边界：为什么扫描件更难"></a>8. OCR 的边界：为什么扫描件更难</h3><p>如果 PDF 本质上是图片，或者上传的是扫描版文件，那么普通文本抽取往往拿不到有效正文。这时就需要 OCR。</p>
+<p>OCR 的作用是把图片里的文字识别出来，但它会带来新的问题：</p>
+<ul>
+<li>成本更高</li>
+<li>速度更慢</li>
+<li>错误率更高</li>
+<li>版面还原能力有限</li>
+</ul>
+<p>所以在系统设计里，OCR 一般不应该默认对所有文件都开，而应该按场景判断：</p>
+<ul>
+<li>文件是不是图片型 PDF</li>
+<li>文件内容是否几乎提取不到文本</li>
+<li>当前业务值不值得为这类文件付 OCR 成本</li>
+</ul>
+<p>这也是课程里很重要的一层思考：企业级 RAG 不是“功能越多越好”，而是要考虑性能、成本和准确率的平衡。</p>
+<h3 id="9-嵌入式与独立服务：部署方式怎么选"><a href="#9-嵌入式与独立服务：部署方式怎么选" class="headerlink" title="9. 嵌入式与独立服务：部署方式怎么选"></a>9. 嵌入式与独立服务：部署方式怎么选</h3><p>课程里还提到了 Tika 的两种典型使用方式：</p>
+<ul>
+<li>作为 Java 依赖直接嵌入业务进程</li>
+<li>作为独立解析服务部署</li>
+</ul>
+<p>这两种方式都能用，但适合的场景不同。</p>
+<h4 id="嵌入式方式"><a href="#嵌入式方式" class="headerlink" title="嵌入式方式"></a>嵌入式方式</h4><p>优点：</p>
+<ul>
+<li>接入简单</li>
+<li>调用链短</li>
+<li>本地开发方便</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>大文件解析会占业务服务内存和 CPU</li>
+<li>复杂文档可能拖慢主进程</li>
+<li>资源隔离差</li>
+</ul>
+<p>适合：</p>
+<ul>
+<li>早期原型</li>
+<li>文件量不大</li>
+<li>单体系统</li>
+</ul>
+<h4 id="独立服务方式"><a href="#独立服务方式" class="headerlink" title="独立服务方式"></a>独立服务方式</h4><p>优点：</p>
+<ul>
+<li>可以隔离解析资源</li>
+<li>可以单独扩容</li>
+<li>更适合异步处理和大文件场景</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>部署和调用更复杂</li>
+<li>需要额外服务治理</li>
+</ul>
+<p>适合：</p>
+<ul>
+<li>企业级知识库</li>
+<li>文档量大</li>
+<li>解析格式复杂</li>
+<li>上传高并发</li>
+</ul>
+<p>对 Ragent 这种面向企业级 Agentic RAG 的项目来说，独立服务化思路通常更贴近生产环境，因为文档解析本身就是一个资源消耗较大的环节。</p>
+<h3 id="10-这一节在整个-RAG-学习顺序中的位置"><a href="#10-这一节在整个-RAG-学习顺序中的位置" class="headerlink" title="10. 这一节在整个 RAG 学习顺序中的位置"></a>10. 这一节在整个 RAG 学习顺序中的位置</h3><p>这一节最好不要孤立看，它和后面两节其实是一条连续链路：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">第5小节：先把文件解析成文本和元数据</span><br><span class="line">第6小节：再把文本切成合理 Chunk</span><br><span class="line">第7小节：再把 metadata 管起来用于过滤和溯源</span><br></pre></td></tr></table></figure>
+
+<p>所以你学完第 5 小节后，接着学 Chunk 和元数据会非常顺。因为这三节本来就是在回答同一个问题：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">企业文档到底怎样一步步变成可检索知识？</span><br></pre></td></tr></table></figure>
+
+<h2 id="学习重点"><a href="#学习重点" class="headerlink" title="学习重点"></a>学习重点</h2><ul>
+<li>文档解析是 RAG 入库链路的第一步，直接影响后面的分块、向量化和检索质量。</li>
+<li>Apache Tika 提供的是“通用解析层”，价值在于统一接入多种文件格式。</li>
+<li>MIME 类型比文件后缀更可靠，决定了解析路径是否正确。</li>
+<li>正文提取给 Chunk 和 Embedding 用，元数据提取给过滤、溯源、展示和权限控制用。</li>
+<li>扫描件和图片型 PDF 往往需要 OCR，但 OCR 会带来成本和误差。</li>
+<li>嵌入式还是独立服务，要看文件规模、资源消耗和生产稳定性要求。</li>
+</ul>
+<h2 id="易混点整理"><a href="#易混点整理" class="headerlink" title="易混点整理"></a>易混点整理</h2><h3 id="1-“文件能打开”不等于“能做-RAG”"><a href="#1-“文件能打开”不等于“能做-RAG”" class="headerlink" title="1. “文件能打开”不等于“能做 RAG”"></a>1. “文件能打开”不等于“能做 RAG”</h3><p>人能看懂文档，不代表程序能直接拿到结构化文本。PDF、PPT、Excel、扫描件都需要专门解析。</p>
+<h3 id="2-文件后缀不等于真实文件类型"><a href="#2-文件后缀不等于真实文件类型" class="headerlink" title="2. 文件后缀不等于真实文件类型"></a>2. 文件后缀不等于真实文件类型</h3><p>不能只凭 <code>.pdf</code>、<code>.docx</code> 判断文件格式，要结合 MIME 类型识别真实类型。</p>
+<h3 id="3-Tika-不等于-OCR"><a href="#3-Tika-不等于-OCR" class="headerlink" title="3. Tika 不等于 OCR"></a>3. Tika 不等于 OCR</h3><p>Tika 负责统一解析入口，OCR 负责图片文字识别。图片型 PDF 场景下，往往需要额外 OCR 能力。</p>
+<h3 id="4-只抽正文，不管元数据，会让后续能力变弱"><a href="#4-只抽正文，不管元数据，会让后续能力变弱" class="headerlink" title="4. 只抽正文，不管元数据，会让后续能力变弱"></a>4. 只抽正文，不管元数据，会让后续能力变弱</h3><p>没有元数据，后面做过滤、引用来源、权限隔离、问题排查都会很吃力。</p>
+<h3 id="5-解析做完不等于直接能检索"><a href="#5-解析做完不等于直接能检索" class="headerlink" title="5. 解析做完不等于直接能检索"></a>5. 解析做完不等于直接能检索</h3><p>解析后还要经过 Chunk、Embedding、索引、检索，才能真正进入 RAG 可用状态。</p>
+<h2 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h2><p>Apache Tika 这一节讲清楚了企业级 RAG 入库链路的起点：系统不能把复杂文档直接喂给模型，而是要先通过通用解析层，把多格式文件变成“正文文本 + 元数据”，这样后面的分块、向量化、检索和回答才有可靠基础。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog">好困3127</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog/2026/05/30/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005-%E7%94%A8ApacheTika%E8%A7%A3%E6%9E%90%E6%96%87%E6%A1%A3/">https://haokun3127.github.io/blog/2026/05/30/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005-%E7%94%A8ApacheTika%E8%A7%A3%E6%9E%90%E6%96%87%E6%A1%A3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://haokun3127.github.io/blog" target="_blank">好困的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/blog/tags/RAG/">RAG</a><a class="post-meta__tags" href="/blog/tags/ragent/">ragent</a><a class="post-meta__tags" href="/blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><a class="post-meta__tags" href="/blog/tags/Apache-Tika/">Apache Tika</a><a class="post-meta__tags" href="/blog/tags/%E6%96%87%E6%A1%A3%E8%A7%A3%E6%9E%90/">文档解析</a></div><div class="post-share"><div class="social-share" data-image="/blog/img/ragent-note-05-tika.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/blog/2026/05/29/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004-%E4%BB%80%E4%B9%88%E6%98%AFRAG/" title="Ragent学习笔记04：什么是 RAG"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/blog/img/ragent-note-04-rag.png" onerror="onerror=null;src='/blog/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Ragent学习笔记04：什么是 RAG</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》第4小节：什么是 RAG，梳理 RAG 的核心概念、出现原因、完整流程、工程难点、适用场景以及它在 Ragent 项目中的位置。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/blog/2026/05/28/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E8%AE%A4%E8%AF%86%E5%A4%A7%E6%A8%A1%E5%9E%8B/" title="Ragent学习笔记01：认识大模型"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/blog/img/ragent-note-01-llm.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-28</div><div class="info-item-2">Ragent学习笔记01：认识大模型</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》第1小节：认识大模型的学习笔记，梳理大模型、训练阶段、Chat模型、Token、上下文窗口、Temperature、量化、深度思考和API调用等基础概念。</div></div></div></a><a class="pagination-related" href="/blog/2026/05/29/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-Prompt%E5%B7%A5%E7%A8%8B%E5%85%A5%E9%97%A8/" title="Ragent学习笔记03：Prompt 工程入门"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/blog/img/ragent-note-03-prompt.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-29</div><div class="info-item-2">Ragent学习笔记03：Prompt 工程入门</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》第3小节：Prompt 工程入门，按个人学习和复习思路梳理 Prompt 的作用、五要素框架、RAG 场景写法、引用规则、兜底策略、Prompt 注入防护和完整模板。</div></div></div></a><a class="pagination-related" href="/blog/2026/05/29/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004-%E4%BB%80%E4%B9%88%E6%98%AFRAG/" title="Ragent学习笔记04：什么是 RAG"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/blog/img/ragent-note-04-rag.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-29</div><div class="info-item-2">Ragent学习笔记04：什么是 RAG</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》第4小节：什么是 RAG，梳理 RAG 的核心概念、出现原因、完整流程、工程难点、适用场景以及它在 Ragent 项目中的位置。</div></div></div></a><a class="pagination-related" href="/blog/2026/05/28/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E8%B0%83%E7%94%A8%E5%A4%A7%E6%A8%A1%E5%9E%8BAPI/" title="Ragent学习笔记02：调用大模型 API"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/blog/img/ragent-note-02-api.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-28</div><div class="info-item-2">Ragent学习笔记02：调用大模型 API</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》第2小节：调用大模型API的学习笔记，梳理 OpenAI 兼容协议、SiliconFlow、messages 角色机制、非流式调用、流式调用和 SSE 响应解析。</div></div></div></a><a class="pagination-related" href="/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/" title="Agent开发学习计划&#x2F;进度"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/blog/img/agent-dev-plan-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-13</div><div class="info-item-2">Agent开发学习计划&#x2F;进度</div></div><div class="info-2"><div class="info-item-1">Agent 开发学习计划与进度记录，以 Ragent AI 项目为主线，按 30 天文档驱动打卡节奏推进 AI/RAG 基础、知识库、模型调度、MCP、SSE、限流和 Trace 等内容。</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">好困3127</div><div class="author-info-description">Java 后端开发 / 热爱技术 / 持续学习</div><div class="site-data"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/haokun3127"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/haokun3127" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1039746386@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=1039746386" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #12B7F5;"></i></a><a class="social-icon" href="/blog/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #ee802f;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">📝 记录学习 · 分享成长 · 共同进步</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8A%E6%97%A5%E5%AD%A6%E4%B9%A0%E6%9D%90%E6%96%99"><span class="toc-number">1.</span> <span class="toc-text">今日学习材料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%A7%88"><span class="toc-number">2.</span> <span class="toc-text">学习导览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%A5%E8%AF%86%E9%80%9F%E8%A7%88"><span class="toc-number">3.</span> <span class="toc-text">知识速览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E7%AC%94%E8%AE%B0"><span class="toc-number">4.</span> <span class="toc-text">详细笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%96%87%E6%A1%A3%E8%A7%A3%E6%9E%90%E6%98%AF-RAG-%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5"><span class="toc-number">4.1.</span> <span class="toc-text">1. 为什么文档解析是 RAG 的第一步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%B8%BA%E4%BB%80%E4%B9%88%E2%80%9C%E8%83%BD%E6%89%93%E5%BC%80%E7%9C%8B%E2%80%9D%E4%B8%8D%E7%AD%89%E4%BA%8E%E2%80%9C%E8%83%BD%E6%8B%BF%E6%9D%A5%E5%81%9A-RAG%E2%80%9D"><span class="toc-number">4.2.</span> <span class="toc-text">2. 为什么“能打开看”不等于“能拿来做 RAG”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Apache-Tika-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">4.3.</span> <span class="toc-text">3. Apache Tika 是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Tika-%E5%9C%A8-RAG-%E9%93%BE%E8%B7%AF%E9%87%8C%E8%B4%9F%E8%B4%A3%E4%BB%80%E4%B9%88%EF%BC%8C%E4%B8%8D%E8%B4%9F%E8%B4%A3%E4%BB%80%E4%B9%88"><span class="toc-number">4.4.</span> <span class="toc-text">4. Tika 在 RAG 链路里负责什么，不负责什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-MIME-%E7%B1%BB%E5%9E%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E8%A6%81"><span class="toc-number">4.5.</span> <span class="toc-text">5. MIME 类型为什么重要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E6%AD%A3%E6%96%87%E6%8F%90%E5%8F%96%E6%98%AF%E5%90%8E%E7%BB%AD%E5%88%86%E5%9D%97%E7%9A%84%E8%BE%93%E5%85%A5"><span class="toc-number">4.6.</span> <span class="toc-text">6. 正文提取是后续分块的输入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E5%85%83%E6%95%B0%E6%8D%AE%E6%8F%90%E5%8F%96%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E5%BF%BD%E7%95%A5"><span class="toc-number">4.7.</span> <span class="toc-text">7. 元数据提取为什么不能忽略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-OCR-%E7%9A%84%E8%BE%B9%E7%95%8C%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%89%AB%E6%8F%8F%E4%BB%B6%E6%9B%B4%E9%9A%BE"><span class="toc-number">4.8.</span> <span class="toc-text">8. OCR 的边界：为什么扫描件更难</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E5%B5%8C%E5%85%A5%E5%BC%8F%E4%B8%8E%E7%8B%AC%E7%AB%8B%E6%9C%8D%E5%8A%A1%EF%BC%9A%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F%E6%80%8E%E4%B9%88%E9%80%89"><span class="toc-number">4.9.</span> <span class="toc-text">9. 嵌入式与独立服务：部署方式怎么选</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%96%B9%E5%BC%8F"><span class="toc-number">4.9.1.</span> <span class="toc-text">嵌入式方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8B%AC%E7%AB%8B%E6%9C%8D%E5%8A%A1%E6%96%B9%E5%BC%8F"><span class="toc-number">4.9.2.</span> <span class="toc-text">独立服务方式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E8%BF%99%E4%B8%80%E8%8A%82%E5%9C%A8%E6%95%B4%E4%B8%AA-RAG-%E5%AD%A6%E4%B9%A0%E9%A1%BA%E5%BA%8F%E4%B8%AD%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="toc-number">4.10.</span> <span class="toc-text">10. 这一节在整个 RAG 学习顺序中的位置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E9%87%8D%E7%82%B9"><span class="toc-number">5.</span> <span class="toc-text">学习重点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%93%E6%B7%B7%E7%82%B9%E6%95%B4%E7%90%86"><span class="toc-number">6.</span> <span class="toc-text">易混点整理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E2%80%9C%E6%96%87%E4%BB%B6%E8%83%BD%E6%89%93%E5%BC%80%E2%80%9D%E4%B8%8D%E7%AD%89%E4%BA%8E%E2%80%9C%E8%83%BD%E5%81%9A-RAG%E2%80%9D"><span class="toc-number">6.1.</span> <span class="toc-text">1. “文件能打开”不等于“能做 RAG”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80%E4%B8%8D%E7%AD%89%E4%BA%8E%E7%9C%9F%E5%AE%9E%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B"><span class="toc-number">6.2.</span> <span class="toc-text">2. 文件后缀不等于真实文件类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Tika-%E4%B8%8D%E7%AD%89%E4%BA%8E-OCR"><span class="toc-number">6.3.</span> <span class="toc-text">3. Tika 不等于 OCR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%8F%AA%E6%8A%BD%E6%AD%A3%E6%96%87%EF%BC%8C%E4%B8%8D%E7%AE%A1%E5%85%83%E6%95%B0%E6%8D%AE%EF%BC%8C%E4%BC%9A%E8%AE%A9%E5%90%8E%E7%BB%AD%E8%83%BD%E5%8A%9B%E5%8F%98%E5%BC%B1"><span class="toc-number">6.4.</span> <span class="toc-text">4. 只抽正文，不管元数据，会让后续能力变弱</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%A7%A3%E6%9E%90%E5%81%9A%E5%AE%8C%E4%B8%8D%E7%AD%89%E4%BA%8E%E7%9B%B4%E6%8E%A5%E8%83%BD%E6%A3%80%E7%B4%A2"><span class="toc-number">6.5.</span> <span class="toc-text">5. 解析做完不等于直接能检索</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">一句话总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/blog/2026/05/30/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005-%E7%94%A8ApacheTika%E8%A7%A3%E6%9E%90%E6%96%87%E6%A1%A3/" title="Ragent学习笔记05：用 Apache Tika 解析文档"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/blog/img/ragent-note-05-tika.png" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="Ragent学习笔记05：用 Apache Tika 解析文档"/></a><div class="content"><a class="title" href="/blog/2026/05/30/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005-%E7%94%A8ApacheTika%E8%A7%A3%E6%9E%90%E6%96%87%E6%A1%A3/" title="Ragent学习笔记05：用 Apache Tika 解析文档">Ragent学习笔记05：用 Apache Tika 解析文档</a><time datetime="2026-05-30T08:00:00.000Z" title="发表于 2026-05-30 16:00:00">2026-05-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2026/05/29/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004-%E4%BB%80%E4%B9%88%E6%98%AFRAG/" title="Ragent学习笔记04：什么是 RAG"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/blog/img/ragent-note-04-rag.png" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="Ragent学习笔记04：什么是 RAG"/></a><div class="content"><a class="title" href="/blog/2026/05/29/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004-%E4%BB%80%E4%B9%88%E6%98%AFRAG/" title="Ragent学习笔记04：什么是 RAG">Ragent学习笔记04：什么是 RAG</a><time datetime="2026-05-29T07:00:00.000Z" title="发表于 2026-05-29 15:00:00">2026-05-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2026/05/29/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-Prompt%E5%B7%A5%E7%A8%8B%E5%85%A5%E9%97%A8/" title="Ragent学习笔记03：Prompt 工程入门"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/blog/img/ragent-note-03-prompt.png" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="Ragent学习笔记03：Prompt 工程入门"/></a><div class="content"><a class="title" href="/blog/2026/05/29/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-Prompt%E5%B7%A5%E7%A8%8B%E5%85%A5%E9%97%A8/" title="Ragent学习笔记03：Prompt 工程入门">Ragent学习笔记03：Prompt 工程入门</a><time datetime="2026-05-29T04:00:00.000Z" title="发表于 2026-05-29 12:00:00">2026-05-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2026/05/28/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E8%B0%83%E7%94%A8%E5%A4%A7%E6%A8%A1%E5%9E%8BAPI/" title="Ragent学习笔记02：调用大模型 API"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/blog/img/ragent-note-02-api.png" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="Ragent学习笔记02：调用大模型 API"/></a><div class="content"><a class="title" href="/blog/2026/05/28/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E8%B0%83%E7%94%A8%E5%A4%A7%E6%A8%A1%E5%9E%8BAPI/" title="Ragent学习笔记02：调用大模型 API">Ragent学习笔记02：调用大模型 API</a><time datetime="2026-05-28T13:55:00.000Z" title="发表于 2026-05-28 21:55:00">2026-05-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/2026/05/28/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E8%AE%A4%E8%AF%86%E5%A4%A7%E6%A8%A1%E5%9E%8B/" title="Ragent学习笔记01：认识大模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/blog/img/ragent-note-01-llm.png" onerror="this.onerror=null;this.src='/blog/img/404.jpg'" alt="Ragent学习笔记01：认识大模型"/></a><div class="content"><a class="title" href="/blog/2026/05/28/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E8%AE%A4%E8%AF%86%E5%A4%A7%E6%A8%A1%E5%9E%8B/" title="Ragent学习笔记01：认识大模型">Ragent学习笔记01：认识大模型</a><time datetime="2026-05-28T06:55:00.000Z" title="发表于 2026-05-28 14:55:00">2026-05-28</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 好困3127</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/blog/js/utils.js?v=5.5.1"></script><script src="/blog/js/main.js?v=5.5.1"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章、标签或关键词" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/blog/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>

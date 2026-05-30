@@ -425,10 +425,10 @@
 <td>第一阶段</td>
 <td>AI&#x2F;RAG&#x2F;MCP 基础扫盲：大模型、API、Prompt、RAG、文档预处理、向量检索、Function Call、MCP、SSE</td>
 <td><span style="color: red;"><strong>进行中</strong></span></td>
-<td><span style="color: red;"><strong>Day 2 进行中：第4小节已完成，第5-7小节待学</strong></span></td>
+<td><span style="color: red;"><strong>Day 2 进行中：第4、5小节已完成，第6-7小节待学</strong></span></td>
 <td>6天</td>
 <td>5.28-</td>
-<td>当前要补齐 Tika、Chunk、元数据，打通 RAG 文档预处理链路</td>
+<td>已完成 RAG 总览和 Apache Tika 文档解析，下一步补齐 Chunk 和元数据</td>
 </tr>
 <tr>
 <td>第二阶段</td>
@@ -489,7 +489,7 @@
 <td>RAG 最小闭环与文档预处理</td>
 <td>第4-7小节</td>
 <td>笔记04-07；文档 -&gt; 解析 -&gt; 分块 -&gt; 元数据流程图</td>
-<td><span style="color: red;"><strong>进行中：第4小节已完成</strong></span></td>
+<td><span style="color: red;"><strong>进行中：第4、5小节已完成</strong></span></td>
 </tr>
 <tr>
 <td>Day 3</td>
@@ -734,9 +734,10 @@
 <li>Ragent学习笔记02：调用大模型 API</li>
 <li>Ragent学习笔记03：Prompt 工程入门</li>
 <li>Ragent学习笔记04：什么是 RAG</li>
+<li>Ragent学习笔记05：用 Apache Tika 解析文档</li>
 </ul>
 <p>当前阶段：第一阶段 Day 2 进行中。</p>
-<p>下一步：继续 Day 2，学习《AI大模型Ragent项目》第5小节：用 Apache Tika 解析文档，然后接着学第6小节 Chunk 和第7小节元数据。这样第 4-7 小节能合成一条完整的“RAG 文档预处理链路”。</p>
+<p>下一步：继续 Day 2，学习《AI大模型Ragent项目》第6小节：数据分块 Chunk 策略与实践，然后接着学第7小节元数据的作用与管理，把第 4-7 小节完整串成一条“RAG 文档预处理链路”。</p>
 <hr>
 ]]></content>
       <categories>
@@ -5012,6 +5013,288 @@
         <tag>ragent</tag>
         <tag>AI大模型</tag>
         <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ragent学习笔记05：用 Apache Tika 解析文档</title>
+    <url>/blog/2026/05/30/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005-%E7%94%A8ApacheTika%E8%A7%A3%E6%9E%90%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》第5小节：用 Apache Tika 解析文档</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》第5小节：用Apache Tika解析文档.html</code></li>
+</ul>
+<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>这一节正式进入 RAG 文档预处理链路。前面我们已经知道，RAG 的核心是“先检索，再生成”，但系统要想检索，前提是资料已经变成可处理、可切分、可向量化的文本。</p>
+<p>问题在于，企业里的知识资料并不是天然干净的纯文本。真实场景里常见的是 PDF、Word、PPT、Excel、Markdown、网页抓取内容、扫描件和图片型文档。它们虽然都“能打开看”，但内部结构完全不同。对机器来说，这些文件往往不是一段现成的文本，而是一套复杂格式、标签结构、版式信息甚至图片内容的组合。</p>
+<p>Apache Tika 的作用，就是把这些复杂文件统一接到同一个解析入口上，尽量抽取出正文文本和元数据，为后续的 Chunk、Embedding、向量检索做准备。</p>
+<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>作用</th>
+<th>这一节要掌握什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文档解析</td>
+<td>把复杂文件转成可处理文本</td>
+<td>是 RAG 入库的起点</td>
+</tr>
+<tr>
+<td>Apache Tika</td>
+<td>统一识别和解析多种文档格式</td>
+<td>提供通用解析能力</td>
+</tr>
+<tr>
+<td>MIME 类型</td>
+<td>判断文件真实类型</td>
+<td>不能只看后缀名</td>
+</tr>
+<tr>
+<td>正文提取</td>
+<td>抽取文件里的可读文本</td>
+<td>给分块和向量化用</td>
+</tr>
+<tr>
+<td>元数据提取</td>
+<td>抽取作者、标题、页数、时间等信息</td>
+<td>给过滤、展示、溯源用</td>
+</tr>
+<tr>
+<td>OCR</td>
+<td>从图片中识别文字</td>
+<td>解决扫描件和图片型 PDF</td>
+</tr>
+<tr>
+<td>部署方式</td>
+<td>嵌入式或独立服务</td>
+<td>看规模、稳定性、资源隔离需求</td>
+</tr>
+</tbody></table>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="1-为什么文档解析是-RAG-的第一步"><a href="#1-为什么文档解析是-RAG-的第一步" class="headerlink" title="1. 为什么文档解析是 RAG 的第一步"></a>1. 为什么文档解析是 RAG 的第一步</h3><p>RAG 的后续流程通常是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">文件 -&gt; 解析 -&gt; 分块 -&gt; 向量化 -&gt; 建索引 -&gt; 检索 -&gt; 生成回答</span><br></pre></td></tr></table></figure>
+
+<p>这里“解析”必须排在最前面，因为后面的所有能力几乎都依赖它的输出结果。</p>
+<p>如果解析阶段做不好，后面会连锁出问题：</p>
+<ul>
+<li>文本抽取不完整：后面分块时就会缺内容</li>
+<li>标题层级丢失：Chunk 边界会切得很乱</li>
+<li>页码或来源信息丢失：回答时没法溯源</li>
+<li>表格内容抽坏：检索时可能命中错误语义</li>
+<li>扫描件没做 OCR：向量化时几乎没有有效文本</li>
+</ul>
+<p>也就是说，RAG 不是“有个 PDF 就能上传，有个向量库就能回答”。文件先得变成机器能理解的文本结构，这一步就是文档解析。</p>
+<h3 id="2-为什么“能打开看”不等于“能拿来做-RAG”"><a href="#2-为什么“能打开看”不等于“能拿来做-RAG”" class="headerlink" title="2. 为什么“能打开看”不等于“能拿来做 RAG”"></a>2. 为什么“能打开看”不等于“能拿来做 RAG”</h3><p>很多文件对人来说很自然，但对程序来说并不直接等于文本。</p>
+<p>举几个典型例子：</p>
+<ul>
+<li>PDF：有的 PDF 是文字流，有的 PDF 本质是图片</li>
+<li>Word：正文、标题、表格、页眉页脚都混在文档结构里</li>
+<li>PPT：文字是分散在多个文本框里的，不是自然连续文本</li>
+<li>Excel：内容是单元格网格，不是线性段落</li>
+<li>HTML：正文里混有标签、脚本、导航、广告和样式信息</li>
+</ul>
+<p>所以“读文件”不是简单 <code>read()</code> 一下字节就结束，而是要做下面几件事：</p>
+<ol>
+<li>识别文件真实类型</li>
+<li>找到对应的解析器</li>
+<li>尽量提取正文</li>
+<li>同时抽取元数据</li>
+<li>在需要时补 OCR</li>
+<li>输出后续处理链路可以接住的结果</li>
+</ol>
+<p>Apache Tika 就是在做这层统一抽象。</p>
+<h3 id="3-Apache-Tika-是什么"><a href="#3-Apache-Tika-是什么" class="headerlink" title="3. Apache Tika 是什么"></a>3. Apache Tika 是什么</h3><p>Apache Tika 可以理解为一个“通用文档解析入口”。它把很多底层文档解析库封装起来，对外提供比较统一的文件识别和内容抽取能力。</p>
+<p>它解决的主要问题有两个：</p>
+<ul>
+<li>识别文件类型</li>
+<li>抽取文本和元数据</li>
+</ul>
+<p>对于 RAG 系统来说，它的价值不在于“某一种格式解析得最强”，而在于：</p>
+<ul>
+<li>覆盖文件类型广</li>
+<li>接入方式统一</li>
+<li>适合做入库前的第一层通用解析</li>
+</ul>
+<p>这很符合企业知识库的实际需求，因为上传的资料种类通常非常杂，不可能每种格式都单独开发一套解析入口。</p>
+<h3 id="4-Tika-在-RAG-链路里负责什么，不负责什么"><a href="#4-Tika-在-RAG-链路里负责什么，不负责什么" class="headerlink" title="4. Tika 在 RAG 链路里负责什么，不负责什么"></a>4. Tika 在 RAG 链路里负责什么，不负责什么</h3><p>这一点很重要。</p>
+<p>Tika 负责的是“把文件初步变成结构化可处理内容”，但它不是万能的文档智能理解系统。</p>
+<p>它更擅长做的事情：</p>
+<ul>
+<li>判断文件类型</li>
+<li>提取可读正文</li>
+<li>提取元数据</li>
+<li>把不同格式文件统一接入</li>
+</ul>
+<p>它不擅长或者不能单独解决的事情：</p>
+<ul>
+<li>高质量版面理解</li>
+<li>特别复杂的表格语义还原</li>
+<li>图片里的文字识别本身</li>
+<li>文档业务结构的深层语义理解</li>
+</ul>
+<p>所以系统设计上应该这样理解：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Tika = 通用解析层</span><br><span class="line">OCR / 版面理解 / 表格增强 = 额外增强层</span><br><span class="line">Chunk / Embedding / 检索 = 后续 RAG 处理层</span><br></pre></td></tr></table></figure>
+
+<p>这能避免一个常见误区：以为接入了 Tika，文档理解问题就彻底解决了。实际上它解决的是“先把文件转成通用文本”的问题，不是“把文档语义完美还原”的问题。</p>
+<h3 id="5-MIME-类型为什么重要"><a href="#5-MIME-类型为什么重要" class="headerlink" title="5. MIME 类型为什么重要"></a>5. MIME 类型为什么重要</h3><p>很多人刚接触文件上传时，会下意识只看文件后缀，比如：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">.pdf</span><br><span class="line">.docx</span><br><span class="line">.pptx</span><br><span class="line">.xlsx</span><br></pre></td></tr></table></figure>
+
+<p>但后缀名不可靠，原因很简单：</p>
+<ul>
+<li>用户可以随便改后缀</li>
+<li>有些文件没有标准后缀</li>
+<li>有些文件扩展名和真实内容不一致</li>
+</ul>
+<p>所以更稳的做法是看 MIME 类型。你可以把 MIME 类型理解成“文件的真实身份证”。</p>
+<p>例如：</p>
+<ul>
+<li><code>application/pdf</code></li>
+<li><code>application/vnd.openxmlformats-officedocument.wordprocessingml.document</code></li>
+<li><code>text/html</code></li>
+<li><code>text/plain</code></li>
+</ul>
+<p>在 RAG 系统里，先识别 MIME 类型有几个好处：</p>
+<ul>
+<li>决定走哪个解析器</li>
+<li>判断是不是支持的格式</li>
+<li>提前拦截异常文件</li>
+<li>记录文档类型，便于后续管理和排错</li>
+</ul>
+<p>这也是为什么课程里强调：不要只看文件后缀，要识别文件真实类型。</p>
+<h3 id="6-正文提取是后续分块的输入"><a href="#6-正文提取是后续分块的输入" class="headerlink" title="6. 正文提取是后续分块的输入"></a>6. 正文提取是后续分块的输入</h3><p>对 RAG 来说，最核心的解析结果就是正文文本。</p>
+<p>因为后面要做：</p>
+<ul>
+<li>按段落或字符分块</li>
+<li>计算 Embedding</li>
+<li>存入向量库</li>
+<li>在用户提问时做相似度检索</li>
+</ul>
+<p>所以解析出来的正文质量会直接影响检索质量。</p>
+<p>如果正文提取有这些问题：</p>
+<ul>
+<li>丢段落</li>
+<li>段落顺序错乱</li>
+<li>表格内容粘连</li>
+<li>标题和正文混在一起</li>
+<li>OCR 结果错误太多</li>
+</ul>
+<p>后面的 Chunk 就会切得不合理，Embedding 表达也会失真，最终问答质量自然下降。</p>
+<p>从这个角度看，正文提取不是一个边缘步骤，而是整个 RAG 质量链路的前置条件。</p>
+<h3 id="7-元数据提取为什么不能忽略"><a href="#7-元数据提取为什么不能忽略" class="headerlink" title="7. 元数据提取为什么不能忽略"></a>7. 元数据提取为什么不能忽略</h3><p>很多人在做最简版 RAG 时，只关注“能不能抽到正文”，但企业场景里元数据同样重要。</p>
+<p>常见元数据包括：</p>
+<ul>
+<li>文件名</li>
+<li>标题</li>
+<li>作者</li>
+<li>创建时间</li>
+<li>修改时间</li>
+<li>页数</li>
+<li>文件类型</li>
+<li>来源地址</li>
+<li>所属知识库</li>
+<li>所属部门</li>
+<li>权限范围</li>
+</ul>
+<p>这些元数据在 RAG 里通常有四类用途：</p>
+<ol>
+<li><p>检索过滤<br>例如只搜某个知识库、某个部门、某个时间范围的文档。</p>
+</li>
+<li><p>结果展示<br>回答时要告诉用户“这段内容来自哪份文档”。</p>
+</li>
+<li><p>溯源定位<br>如果答案错了，要能回头定位原始文档和原始 chunk。</p>
+</li>
+<li><p>权限控制<br>不同用户未必能搜同一批资料。</p>
+</li>
+</ol>
+<p>所以更准确的理解是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">正文 = 用来检索和生成</span><br><span class="line">元数据 = 用来过滤、管理、展示和溯源</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-OCR-的边界：为什么扫描件更难"><a href="#8-OCR-的边界：为什么扫描件更难" class="headerlink" title="8. OCR 的边界：为什么扫描件更难"></a>8. OCR 的边界：为什么扫描件更难</h3><p>如果 PDF 本质上是图片，或者上传的是扫描版文件，那么普通文本抽取往往拿不到有效正文。这时就需要 OCR。</p>
+<p>OCR 的作用是把图片里的文字识别出来，但它会带来新的问题：</p>
+<ul>
+<li>成本更高</li>
+<li>速度更慢</li>
+<li>错误率更高</li>
+<li>版面还原能力有限</li>
+</ul>
+<p>所以在系统设计里，OCR 一般不应该默认对所有文件都开，而应该按场景判断：</p>
+<ul>
+<li>文件是不是图片型 PDF</li>
+<li>文件内容是否几乎提取不到文本</li>
+<li>当前业务值不值得为这类文件付 OCR 成本</li>
+</ul>
+<p>这也是课程里很重要的一层思考：企业级 RAG 不是“功能越多越好”，而是要考虑性能、成本和准确率的平衡。</p>
+<h3 id="9-嵌入式与独立服务：部署方式怎么选"><a href="#9-嵌入式与独立服务：部署方式怎么选" class="headerlink" title="9. 嵌入式与独立服务：部署方式怎么选"></a>9. 嵌入式与独立服务：部署方式怎么选</h3><p>课程里还提到了 Tika 的两种典型使用方式：</p>
+<ul>
+<li>作为 Java 依赖直接嵌入业务进程</li>
+<li>作为独立解析服务部署</li>
+</ul>
+<p>这两种方式都能用，但适合的场景不同。</p>
+<h4 id="嵌入式方式"><a href="#嵌入式方式" class="headerlink" title="嵌入式方式"></a>嵌入式方式</h4><p>优点：</p>
+<ul>
+<li>接入简单</li>
+<li>调用链短</li>
+<li>本地开发方便</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>大文件解析会占业务服务内存和 CPU</li>
+<li>复杂文档可能拖慢主进程</li>
+<li>资源隔离差</li>
+</ul>
+<p>适合：</p>
+<ul>
+<li>早期原型</li>
+<li>文件量不大</li>
+<li>单体系统</li>
+</ul>
+<h4 id="独立服务方式"><a href="#独立服务方式" class="headerlink" title="独立服务方式"></a>独立服务方式</h4><p>优点：</p>
+<ul>
+<li>可以隔离解析资源</li>
+<li>可以单独扩容</li>
+<li>更适合异步处理和大文件场景</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>部署和调用更复杂</li>
+<li>需要额外服务治理</li>
+</ul>
+<p>适合：</p>
+<ul>
+<li>企业级知识库</li>
+<li>文档量大</li>
+<li>解析格式复杂</li>
+<li>上传高并发</li>
+</ul>
+<p>对 Ragent 这种面向企业级 Agentic RAG 的项目来说，独立服务化思路通常更贴近生产环境，因为文档解析本身就是一个资源消耗较大的环节。</p>
+<h3 id="10-这一节在整个-RAG-学习顺序中的位置"><a href="#10-这一节在整个-RAG-学习顺序中的位置" class="headerlink" title="10. 这一节在整个 RAG 学习顺序中的位置"></a>10. 这一节在整个 RAG 学习顺序中的位置</h3><p>这一节最好不要孤立看，它和后面两节其实是一条连续链路：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">第5小节：先把文件解析成文本和元数据</span><br><span class="line">第6小节：再把文本切成合理 Chunk</span><br><span class="line">第7小节：再把 metadata 管起来用于过滤和溯源</span><br></pre></td></tr></table></figure>
+
+<p>所以你学完第 5 小节后，接着学 Chunk 和元数据会非常顺。因为这三节本来就是在回答同一个问题：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">企业文档到底怎样一步步变成可检索知识？</span><br></pre></td></tr></table></figure>
+
+<h2 id="学习重点"><a href="#学习重点" class="headerlink" title="学习重点"></a>学习重点</h2><ul>
+<li>文档解析是 RAG 入库链路的第一步，直接影响后面的分块、向量化和检索质量。</li>
+<li>Apache Tika 提供的是“通用解析层”，价值在于统一接入多种文件格式。</li>
+<li>MIME 类型比文件后缀更可靠，决定了解析路径是否正确。</li>
+<li>正文提取给 Chunk 和 Embedding 用，元数据提取给过滤、溯源、展示和权限控制用。</li>
+<li>扫描件和图片型 PDF 往往需要 OCR，但 OCR 会带来成本和误差。</li>
+<li>嵌入式还是独立服务，要看文件规模、资源消耗和生产稳定性要求。</li>
+</ul>
+<h2 id="易混点整理"><a href="#易混点整理" class="headerlink" title="易混点整理"></a>易混点整理</h2><h3 id="1-“文件能打开”不等于“能做-RAG”"><a href="#1-“文件能打开”不等于“能做-RAG”" class="headerlink" title="1. “文件能打开”不等于“能做 RAG”"></a>1. “文件能打开”不等于“能做 RAG”</h3><p>人能看懂文档，不代表程序能直接拿到结构化文本。PDF、PPT、Excel、扫描件都需要专门解析。</p>
+<h3 id="2-文件后缀不等于真实文件类型"><a href="#2-文件后缀不等于真实文件类型" class="headerlink" title="2. 文件后缀不等于真实文件类型"></a>2. 文件后缀不等于真实文件类型</h3><p>不能只凭 <code>.pdf</code>、<code>.docx</code> 判断文件格式，要结合 MIME 类型识别真实类型。</p>
+<h3 id="3-Tika-不等于-OCR"><a href="#3-Tika-不等于-OCR" class="headerlink" title="3. Tika 不等于 OCR"></a>3. Tika 不等于 OCR</h3><p>Tika 负责统一解析入口，OCR 负责图片文字识别。图片型 PDF 场景下，往往需要额外 OCR 能力。</p>
+<h3 id="4-只抽正文，不管元数据，会让后续能力变弱"><a href="#4-只抽正文，不管元数据，会让后续能力变弱" class="headerlink" title="4. 只抽正文，不管元数据，会让后续能力变弱"></a>4. 只抽正文，不管元数据，会让后续能力变弱</h3><p>没有元数据，后面做过滤、引用来源、权限隔离、问题排查都会很吃力。</p>
+<h3 id="5-解析做完不等于直接能检索"><a href="#5-解析做完不等于直接能检索" class="headerlink" title="5. 解析做完不等于直接能检索"></a>5. 解析做完不等于直接能检索</h3><p>解析后还要经过 Chunk、Embedding、索引、检索，才能真正进入 RAG 可用状态。</p>
+<h2 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h2><p>Apache Tika 这一节讲清楚了企业级 RAG 入库链路的起点：系统不能把复杂文档直接喂给模型，而是要先通过通用解析层，把多格式文件变成“正文文本 + 元数据”，这样后面的分块、向量化、检索和回答才有可靠基础。</p>
+]]></content>
+      <categories>
+        <category>ragent</category>
+      </categories>
+      <tags>
+        <tag>RAG</tag>
+        <tag>ragent</tag>
+        <tag>学习笔记</tag>
+        <tag>Apache Tika</tag>
+        <tag>文档解析</tag>
       </tags>
   </entry>
 </search>
