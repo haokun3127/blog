@@ -46,6 +46,38 @@
   margin: 0 0 1.1rem;
 }
 
+.learning-focus {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(15, 118, 110, 0.11) 0%, rgba(255, 255, 255, 0.98) 62%);
+}
+
+.learning-focus-main h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.34rem;
+  line-height: 1.35;
+}
+
+.learning-focus-main p {
+  margin: 0;
+  color: var(--font-color);
+  opacity: 0.8;
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.learning-focus-actions {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.55rem;
+}
+
 .learning-hub-banner {
   display: flex;
   justify-content: space-between;
@@ -96,6 +128,21 @@
 .ragent-series-nav-head a:hover {
   color: #fff !important;
   opacity: 0.92;
+}
+
+.learning-hub-secondary-link {
+  color: var(--study-accent);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(15, 118, 110, 0.15);
+  border-radius: 999px;
+  padding: 0.52rem 0.9rem;
+  font-size: 0.88rem;
+  white-space: nowrap;
+}
+
+.learning-hub-secondary-link:hover {
+  color: var(--study-accent) !important;
+  background: #fff;
 }
 
 .learning-hub-grid {
@@ -264,6 +311,15 @@
   padding: 1rem;
 }
 
+.series-nav-block {
+  margin: 1rem 0 1.2rem;
+  padding: 1rem;
+  border: 1px solid var(--study-border);
+  border-radius: 6px;
+  background: var(--card-bg);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
 .ragent-series-nav-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -297,6 +353,16 @@
 .ragent-series-current {
   background: linear-gradient(180deg, rgba(15, 118, 110, 0.07) 0%, rgba(15, 118, 110, 0.03) 100%);
   border-color: rgba(15, 118, 110, 0.18);
+}
+
+.hot100-series-nav .ragent-series-current {
+  background: linear-gradient(180deg, rgba(234, 88, 12, 0.1) 0%, rgba(234, 88, 12, 0.03) 100%);
+  border-color: rgba(234, 88, 12, 0.18);
+}
+
+.hot100-series-nav .ragent-series-nav-label,
+.hot100-series-nav .ragent-series-nav-eyebrow {
+  color: #c2410c;
 }
 
 .ragent-series-nav-card.is-disabled {
@@ -391,6 +457,20 @@
 }
 
 @media screen and (max-width: 768px) {
+  .learning-focus {
+    flex-direction: column;
+    padding: 0.9rem 0.95rem;
+  }
+
+  .learning-focus-main h2 {
+    font-size: 1.14rem;
+  }
+
+  .learning-focus-actions {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
   .learning-hub-banner {
     flex-direction: column;
     align-items: flex-start;
@@ -403,6 +483,7 @@
 
   .learning-hub-main-link,
   .learning-hub-card-head a,
+  .learning-hub-secondary-link,
   .ragent-series-nav-head a {
     padding: 0.48rem 0.82rem;
     font-size: 0.84rem;

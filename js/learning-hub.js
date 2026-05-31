@@ -41,6 +41,13 @@
     loading: null
   }
 
+  const normalizeText = value => (value || '').replace(/\s+/g, ' ').trim()
+
+  const parseHot100Order = title => {
+    const match = title.match(/^Hot100：[^\d]*?(\d+)/)
+    return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER
+  }
+
   const escapeHtml = value => value
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -111,6 +118,26 @@
     `
   }
 
+  const pickCurrentFocus = posts => {
+    const plan = posts.find(post => post.title.includes('学习计划'))
+    const ragentSeries = posts
+      .filter(post => post.title.startsWith('Ragent学习笔记'))
+      .sort((a, b) => a.title.localeCompare(b.title, 'zh-Hans-CN'))
+
+    const latestRagent = ragentSeries[ragentSeries.length - 1]
+    const progressSnippet = plan?.text.match(/当前阶段[^。]*。|下一步[^。]*。/g)?.slice(0, 2).join(' ') || ''
+
+    return {
+      title: '最近在学',
+      lead: latestRagent ? latestRagent.title : 'Agent 开发学习主线',
+      description: progressSnippet || '当前主线还是 Ragent 项目学习，先把基础扫盲、文档预处理和后续知识库链路持续串起来。',
+      primaryHref: latestRagent?.url || '/blog/categories/ragent/',
+      primaryText: latestRagent ? '继续当前主线' : '进入 Ragent 专题',
+      secondaryHref: plan?.url || '/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/',
+      secondaryText: '查看学习计划'
+    }
+  }
+
   const renderHomeHub = posts => {
     const recentPosts = document.querySelector('#recent-posts')
     if (!recentPosts) return
@@ -123,10 +150,23 @@
 
     if (!sectionData.length) return
 
+    const focus = pickCurrentFocus(posts)
+
     const hub = document.createElement('section')
     hub.id = 'learning-hub'
     hub.className = 'learning-hub'
     hub.innerHTML = `
+      <div class="learning-focus">
+        <div class="learning-focus-main">
+          <span class="learning-hub-eyebrow">${focus.title}</span>
+          <h2>${escapeHtml(focus.lead)}</h2>
+          <p>${escapeHtml(focus.description)}</p>
+        </div>
+        <div class="learning-focus-actions">
+          <a class="learning-hub-main-link" href="${focus.primaryHref}">${focus.primaryText}</a>
+          <a class="learning-hub-secondary-link" href="${focus.secondaryHref}">${focus.secondaryText}</a>
+        </div>
+      </div>
       <div class="learning-hub-banner">
         <div>
           <span class="learning-hub-eyebrow">学习中控台</span>
@@ -190,10 +230,58 @@
     articleContainer.insertAdjacentElement('afterend', seriesNav)
   }
 
+  const renderHot100SeriesNav = posts => {
+    const articleTitle = document.querySelector('.post-title')?.textContent?.trim()
+    const articleContainer = document.querySelector('#article-container')
+    if (!articleTitle || !articleContainer) return
+    if (!articleTitle.startsWith('Hot100：')) return
+    if (document.querySelector('#hot100-series-nav')) return
+
+    const series = posts
+      .filter(post => post.title.startsWith('Hot100：'))
+      .sort((a, b) => parseHot100Order(a.title) - parseHot100Order(b.title))
+
+    const currentIndex = series.findIndex(post => post.title === articleTitle)
+    if (currentIndex === -1) return
+
+    const prev = currentIndex > 0 ? series[currentIndex - 1] : null
+    const next = currentIndex < series.length - 1 ? series[currentIndex + 1] : null
+
+    const seriesNav = document.createElement('section')
+    seriesNav.id = 'hot100-series-nav'
+    seriesNav.className = 'series-nav-block hot100-series-nav'
+    seriesNav.innerHTML = `
+      <div class="ragent-series-nav-head">
+        <div>
+          <span class="ragent-series-nav-eyebrow">题目导航</span>
+          <h3>Hot100 复习路线</h3>
+        </div>
+        <a href="/blog/tags/Hot100/">查看全部题目</a>
+      </div>
+      <div class="ragent-series-nav-grid">
+        <div class="ragent-series-nav-card ${prev ? '' : 'is-disabled'}">
+          <span class="ragent-series-nav-label">上一题</span>
+          ${prev ? `<a href="${prev.url}">${escapeHtml(prev.title)}</a>` : '<span>已经是当前专题起点</span>'}
+        </div>
+        <div class="ragent-series-nav-card ragent-series-current">
+          <span class="ragent-series-nav-label">当前</span>
+          <strong>${escapeHtml(articleTitle)}</strong>
+        </div>
+        <div class="ragent-series-nav-card ${next ? '' : 'is-disabled'}">
+          <span class="ragent-series-nav-label">下一题</span>
+          ${next ? `<a href="${next.url}">${escapeHtml(next.title)}</a>` : '<span>后续继续补题</span>'}
+        </div>
+      </div>
+    `
+
+    articleContainer.insertAdjacentElement('afterend', seriesNav)
+  }
+
   const boot = async () => {
     const posts = await loadPosts()
     renderHomeHub(posts)
     renderRagentSeriesNav(posts)
+    renderHot100SeriesNav(posts)
   }
 
   document.addEventListener('DOMContentLoaded', boot)
