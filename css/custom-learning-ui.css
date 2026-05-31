@@ -29,7 +29,7 @@
   min-height: 300px;
   background-color: #082f32;
   background-size: cover;
-  background-position: center 46%;
+  background-position: center center;
 }
 
 #page-header::before {
