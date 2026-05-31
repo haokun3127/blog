@@ -1,0 +1,157 @@
+/* Content-first UI tweaks for the study blog. */
+:root {
+  --study-accent: #0f766e;
+  --study-border: rgba(15, 23, 42, 0.08);
+  --study-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+#page-header.full_page {
+  min-height: 360px;
+}
+
+#page-header::before {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.34) 0%, rgba(15, 23, 42, 0.56) 100%);
+}
+
+#site-info {
+  width: min(860px, calc(100% - 2rem));
+}
+
+#site-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+#site-subtitle {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+#nav #search-button .search {
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#nav #search-button .search:hover {
+  background: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+}
+
+#content-inner {
+  max-width: 1440px;
+}
+
+#recent-posts.recent-posts {
+  margin-top: -2rem;
+}
+
+#recent-posts .recent-post-items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+#recent-posts .recent-post-item {
+  width: 100%;
+  margin: 0;
+  border: 1px solid var(--study-border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--study-shadow);
+  background: var(--card-bg);
+}
+
+#recent-posts .recent-post-item .recent-post-info {
+  padding: 1rem 1.1rem 1.1rem;
+}
+
+#recent-posts .recent-post-item .article-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.45;
+}
+
+#recent-posts .recent-post-item .content {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--font-color);
+  opacity: 0.82;
+}
+
+#recent-posts .recent-post-item .post_cover {
+  margin: 0;
+}
+
+#recent-posts .recent-post-item .post_cover img.post-bg {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+#recent-posts .recent-post-item:first-child {
+  border-color: rgba(15, 118, 110, 0.25);
+  background: linear-gradient(180deg, rgba(15, 118, 110, 0.04) 0%, rgba(255, 255, 255, 0) 100%), var(--card-bg);
+}
+
+#aside-content .card-widget {
+  border-radius: 8px;
+  border: 1px solid var(--study-border);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+#aside-content .card-announcement {
+  border-left: 4px solid var(--study-accent);
+}
+
+#aside-content .item-headline span {
+  font-size: 0.98rem;
+}
+
+#aside-content .aside-list > .aside-list-item .thumbnail img {
+  border-radius: 6px;
+}
+
+#local-search .search-dialog {
+  width: min(760px, calc(100vw - 1.5rem));
+  border-radius: 8px;
+}
+
+#local-search .local-search-input input {
+  border-radius: 8px;
+  border: 1px solid var(--study-border);
+  padding: 0.9rem 1rem;
+}
+
+#pagination .page-number.current,
+#pagination .extend:hover,
+#pagination .page-number:hover {
+  background: var(--study-accent);
+}
+
+@media screen and (max-width: 1024px) {
+  #recent-posts .recent-post-items {
+    grid-template-columns: 1fr;
+  }
+
+  #content-inner {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #page-header.full_page {
+    min-height: 300px;
+  }
+
+  #site-title {
+    font-size: 2rem;
+  }
+
+  #recent-posts.recent-posts {
+    margin-top: -1rem;
+  }
+}
