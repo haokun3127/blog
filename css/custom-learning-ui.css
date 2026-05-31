@@ -85,11 +85,21 @@
 
 #recent-posts .recent-post-item .post_cover {
   margin: 0;
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.03) 0%, rgba(15, 23, 42, 0.07) 100%);
 }
 
 #recent-posts .recent-post-item .post_cover img.post-bg {
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  width: 100%;
+  height: auto;
+  max-height: 320px;
+  aspect-ratio: auto;
+  object-fit: contain;
+  object-position: center;
 }
 
 #recent-posts .recent-post-item:first-child {
@@ -140,6 +150,10 @@
   #content-inner {
     max-width: 100%;
   }
+
+  #recent-posts .recent-post-item .post_cover img.post-bg {
+    max-height: 360px;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -153,5 +167,9 @@
 
   #recent-posts.recent-posts {
     margin-top: -1rem;
+  }
+
+  #recent-posts .recent-post-item .post_cover img.post-bg {
+    max-height: 240px;
   }
 }
