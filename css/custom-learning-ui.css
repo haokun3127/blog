@@ -4,6 +4,20 @@
   --study-border: rgba(15, 23, 42, 0.08);
 }
 
+@media screen and (min-width: 1201px) {
+  .layout {
+    max-width: 1280px;
+  }
+
+  .layout > div:first-child {
+    width: calc(100% - 340px);
+  }
+
+  #aside-content {
+    width: 340px;
+  }
+}
+
 #page-header.full_page {
   min-height: 320px;
 }
@@ -26,7 +40,7 @@
 }
 
 #learning-hub {
-  margin: 0 0 1rem;
+  margin: 0 0 1.1rem;
 }
 
 .learning-focus {
@@ -109,19 +123,6 @@
 .learning-hub-secondary-link:hover {
   color: var(--study-accent) !important;
   background: #fff;
-}
-
-#recent-posts .recent-post-item .post_cover {
-  padding: 0;
-  overflow: hidden;
-}
-
-#recent-posts .recent-post-item .post_cover img.post-bg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  transform: none !important;
 }
 
 .ragent-series-nav,
@@ -215,6 +216,63 @@
   background: var(--study-accent);
 }
 
+@media screen and (min-width: 901px) {
+  #recent-posts .recent-post-item {
+    align-items: center;
+    min-height: 176px;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  #recent-posts .recent-post-item .post_cover {
+    flex: 0 0 240px;
+    width: 240px;
+    min-width: 240px;
+    height: 135px;
+    margin-left: 20px;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 6px;
+    background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(15, 23, 42, 0.04));
+  }
+
+  #recent-posts .recent-post-item .post_cover img.post-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transform: none !important;
+    border-radius: 6px;
+  }
+
+  #recent-posts .recent-post-item > .recent-post-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: calc(100% - 260px);
+    padding: 1rem 1.25rem;
+  }
+
+  #recent-posts .recent-post-item > .recent-post-info > .article-title {
+    margin-bottom: 0.2rem;
+    font-size: 1.12rem;
+    line-height: 1.45;
+  }
+
+  #recent-posts .recent-post-item > .recent-post-info > .article-meta-wrap {
+    margin: 0.18rem 0 0.38rem;
+    font-size: 0.82rem;
+  }
+
+  #recent-posts .recent-post-item > .recent-post-info > .content {
+    color: var(--font-color);
+    opacity: 0.82;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    -webkit-line-clamp: 2;
+  }
+}
+
 @media screen and (max-width: 1024px) {
   .ragent-series-nav-grid {
     grid-template-columns: 1fr;
@@ -261,6 +319,16 @@
   }
 
   #recent-posts .recent-post-item .post_cover {
-    padding: 0;
+    padding: 0.7rem;
+    background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(15, 23, 42, 0.04));
+  }
+
+  #recent-posts .recent-post-item .post_cover img.post-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transform: none !important;
+    border-radius: 6px;
   }
 }
