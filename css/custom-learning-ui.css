@@ -112,20 +112,16 @@
 }
 
 #recent-posts .recent-post-item .post_cover {
-  padding: 14px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  padding: 0;
+  overflow: hidden;
 }
 
 #recent-posts .recent-post-item .post_cover img.post-bg {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center top;
   transform: none !important;
-  transition: none !important;
 }
 
 .ragent-series-nav,
@@ -265,6 +261,6 @@
   }
 
   #recent-posts .recent-post-item .post_cover {
-    padding: 10px 10px 0;
+    padding: 0;
   }
 }
