@@ -1,41 +1,6 @@
 (function () {
   const SEARCH_XML_PATH = '/blog/search.xml'
 
-  const sections = [
-    {
-      key: 'ragent',
-      title: 'Ragent 学习笔记',
-      description: '从大模型、Prompt、RAG 到文档解析和分块，按学习顺序继续推进。',
-      match: post => post.title.startsWith('Ragent学习笔记'),
-      moreText: '进入 Ragent 专题',
-      moreHref: '/blog/categories/ragent/'
-    },
-    {
-      key: 'hot100',
-      title: 'Hot100 算法复习',
-      description: '按题型回看哈希、二分和后续专题，适合短时复习和刷题回顾。',
-      match: post => post.title.startsWith('Hot100：'),
-      moreText: '进入 Hot100',
-      moreHref: '/blog/tags/Hot100/'
-    },
-    {
-      key: 'paper',
-      title: '论文笔记',
-      description: '推荐系统与大模型相关论文整理，适合做知识扩展和面试素材补充。',
-      match: post => post.title.startsWith('论文笔记：'),
-      moreText: '进入论文笔记',
-      moreHref: '/blog/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/'
-    },
-    {
-      key: 'plan',
-      title: '学习计划与路线',
-      description: '学习节奏、阶段目标和进度记录，方便随时校准当前主线任务。',
-      match: post => post.title.includes('学习计划') || post.title.includes('学习路线'),
-      moreText: '查看学习计划',
-      moreHref: '/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/'
-    }
-  ]
-
   const state = {
     posts: null,
     loading: null
@@ -105,34 +70,6 @@
     return state.loading
   }
 
-  const createHubCard = section => {
-    const items = section.items.slice(0, 3).map(post => {
-      const excerpt = escapeHtml((post.text || '').slice(0, 88)) + ((post.text || '').length > 88 ? '...' : '')
-      return `
-        <a class="learning-hub-item" href="${post.url}">
-          <span class="learning-hub-item-title">${escapeHtml(post.title)}</span>
-          <span class="learning-hub-item-excerpt">${excerpt}</span>
-        </a>
-      `
-    }).join('')
-
-    return `
-      <section class="learning-hub-card learning-hub-${section.key}">
-        <div class="learning-hub-card-head">
-          <div class="learning-hub-card-title-row">
-            <h3>${section.title}</h3>
-            <span class="learning-hub-count">${section.items.length} 篇</span>
-          </div>
-          <a href="${section.moreHref}">${section.moreText}</a>
-        </div>
-        <p class="learning-hub-card-desc">${section.description}</p>
-        <div class="learning-hub-items">
-          ${items || '<div class="learning-hub-empty">暂时还没有内容</div>'}
-        </div>
-      </section>
-    `
-  }
-
   const extractProgressLines = text => {
     const normalized = normalizeText(text)
     const current = normalized.match(/当前阶段：[^。]*。?/)
@@ -165,13 +102,6 @@
     if (!recentPosts) return
     if (document.querySelector('#learning-hub')) return
 
-    const sectionData = sections.map(section => ({
-      ...section,
-      items: posts.filter(section.match).slice().sort((a, b) => b.url.localeCompare(a.url))
-    })).filter(section => section.items.length > 0)
-
-    if (!sectionData.length) return
-
     const focus = pickCurrentFocus(posts)
 
     const hub = document.createElement('section')
@@ -190,17 +120,6 @@
           <a class="learning-hub-main-link" href="${focus.primaryHref}">${focus.primaryText}</a>
           <a class="learning-hub-secondary-link" href="${focus.secondaryHref}">${focus.secondaryText}</a>
         </div>
-      </div>
-      <div class="learning-hub-banner">
-        <div>
-          <span class="learning-hub-eyebrow">学习中控台</span>
-          <h2>按主题进入，而不只是按时间翻页</h2>
-          <p>把正在学的主线、算法复习和论文扩展拆成清晰入口，回看会轻松很多。</p>
-        </div>
-        <a class="learning-hub-main-link" href="/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/">查看当前学习计划</a>
-      </div>
-      <div class="learning-hub-grid">
-        ${sectionData.map(createHubCard).join('')}
       </div>
     `
 
@@ -307,54 +226,9 @@
     articleContainer.insertAdjacentElement('afterend', seriesNav)
   }
 
-  const classifyPost = title => {
-    if (title.startsWith('Ragent学习笔记')) {
-      return { text: 'Ragent', className: 'is-ragent' }
-    }
-    if (title.startsWith('Hot100：')) {
-      return { text: 'Hot100', className: 'is-hot100' }
-    }
-    if (title.startsWith('论文笔记：')) {
-      return { text: '论文', className: 'is-paper' }
-    }
-    if (title.includes('学习计划')) {
-      return { text: '计划', className: 'is-plan' }
-    }
-    return null
-  }
-
-  const enhanceRecentPosts = posts => {
-    const items = document.querySelectorAll('#recent-posts .recent-post-item')
-    if (!items.length) return
-
-    const postMap = new Map(posts.map(post => [post.title, post]))
-
-    items.forEach(item => {
-      const titleLink = item.querySelector('.article-title')
-      const info = item.querySelector('.recent-post-info')
-      if (!titleLink || !info) return
-      if (info.querySelector('.learning-card-meta')) return
-
-      const title = normalizeText(titleLink.textContent)
-      const post = postMap.get(title)
-      const badge = classifyPost(title)
-      if (!post || !badge) return
-
-      const meta = document.createElement('div')
-      meta.className = 'learning-card-meta'
-      meta.innerHTML = `
-        <span class="learning-card-badge ${badge.className}">${badge.text}</span>
-        <span class="learning-card-date">${post.url.match(/\/(\d{4})\/(\d{2})\/(\d{2})\//)?.slice(1).join('-') || ''}</span>
-      `
-
-      info.insertBefore(meta, titleLink)
-    })
-  }
-
   const boot = async () => {
     const posts = await loadPosts()
     renderHomeHub(posts)
-    enhanceRecentPosts(posts)
     renderRagentSeriesNav(posts)
     renderHot100SeriesNav(posts)
   }
