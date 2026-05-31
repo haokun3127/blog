@@ -18,18 +18,31 @@
   }
 }
 
-#page-header.full_page {
-  min-height: 520px;
-  background-color: #082f32;
-  background-size: contain;
-  background-position: center bottom;
-}
-
 #page-header.post-bg {
   min-height: 520px;
   background-color: #082f32;
   background-size: contain;
   background-position: center top;
+}
+
+#page-header.not-top-img {
+  margin-bottom: 0;
+  height: 72px;
+  background: #fff;
+  box-shadow: 0 1px 12px rgba(15, 23, 42, 0.06);
+}
+
+#page-header.not-top-img #nav {
+  color: var(--font-color);
+  text-shadow: none;
+  background: rgba(255, 255, 255, 0.94);
+}
+
+#page-header.not-top-img #nav a,
+#page-header.not-top-img #search-button .site-page,
+#page-header.not-top-img #toggle-menu .site-page {
+  color: var(--font-color);
+  text-shadow: none;
 }
 
 #page-header::before {
@@ -318,12 +331,6 @@
   .ragent-series-nav-head {
     align-items: flex-start;
     flex-direction: column;
-  }
-
-  #page-header.full_page {
-    min-height: 360px;
-    background-size: contain;
-    background-position: center bottom;
   }
 
   #page-header.post-bg {
