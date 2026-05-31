@@ -43,6 +43,17 @@
 
   const normalizeText = value => (value || '').replace(/\s+/g, ' ').trim()
 
+  const parseDateFromUrl = url => {
+    const match = (url || '').match(/\/(\d{4})\/(\d{2})\/(\d{2})\//)
+    if (!match) return 0
+    return Number(`${match[1]}${match[2]}${match[3]}`)
+  }
+
+  const parseRagentOrder = title => {
+    const match = title.match(/^Ragent学习笔记(\d+)/)
+    return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER
+  }
+
   const parseHot100Order = title => {
     const match = title.match(/^Hot100：[^\d]*?(\d+)/)
     return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER
@@ -70,7 +81,8 @@
       return {
         title,
         url,
-        text
+        text,
+        dateValue: parseDateFromUrl(url)
       }
     }).filter(post => post.title)
   }
@@ -107,7 +119,10 @@
     return `
       <section class="learning-hub-card learning-hub-${section.key}">
         <div class="learning-hub-card-head">
-          <h3>${section.title}</h3>
+          <div class="learning-hub-card-title-row">
+            <h3>${section.title}</h3>
+            <span class="learning-hub-count">${section.items.length} 篇</span>
+          </div>
           <a href="${section.moreHref}">${section.moreText}</a>
         </div>
         <p class="learning-hub-card-desc">${section.description}</p>
@@ -118,19 +133,26 @@
     `
   }
 
+  const extractProgressLines = text => {
+    const normalized = normalizeText(text)
+    const current = normalized.match(/当前阶段：[^。]*。?/)
+    const next = normalized.match(/下一步：[^。]*。?/)
+    return [current?.[0], next?.[0]].filter(Boolean)
+  }
+
   const pickCurrentFocus = posts => {
     const plan = posts.find(post => post.title.includes('学习计划'))
     const ragentSeries = posts
       .filter(post => post.title.startsWith('Ragent学习笔记'))
-      .sort((a, b) => a.title.localeCompare(b.title, 'zh-Hans-CN'))
+      .sort((a, b) => parseRagentOrder(a.title) - parseRagentOrder(b.title))
 
     const latestRagent = ragentSeries[ragentSeries.length - 1]
-    const progressSnippet = plan?.text.match(/当前阶段[^。]*。|下一步[^。]*。/g)?.slice(0, 2).join(' ') || ''
+    const progressLines = plan ? extractProgressLines(plan.text) : []
 
     return {
       title: '最近在学',
       lead: latestRagent ? latestRagent.title : 'Agent 开发学习主线',
-      description: progressSnippet || '当前主线还是 Ragent 项目学习，先把基础扫盲、文档预处理和后续知识库链路持续串起来。',
+      lines: progressLines.length ? progressLines : ['当前主线还是 Ragent 项目学习，先把基础扫盲、文档预处理和后续知识库链路持续串起来。'],
       primaryHref: latestRagent?.url || '/blog/categories/ragent/',
       primaryText: latestRagent ? '继续当前主线' : '进入 Ragent 专题',
       secondaryHref: plan?.url || '/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/',
@@ -160,7 +182,9 @@
         <div class="learning-focus-main">
           <span class="learning-hub-eyebrow">${focus.title}</span>
           <h2>${escapeHtml(focus.lead)}</h2>
-          <p>${escapeHtml(focus.description)}</p>
+          <div class="learning-focus-list">
+            ${focus.lines.map(line => `<p>${escapeHtml(line)}</p>`).join('')}
+          </div>
         </div>
         <div class="learning-focus-actions">
           <a class="learning-hub-main-link" href="${focus.primaryHref}">${focus.primaryText}</a>
@@ -193,6 +217,7 @@
     const series = posts
       .filter(post => post.title.startsWith('Ragent学习笔记'))
       .sort((a, b) => a.title.localeCompare(b.title, 'zh-Hans-CN'))
+      .sort((a, b) => parseRagentOrder(a.title) - parseRagentOrder(b.title))
 
     const currentIndex = series.findIndex(post => post.title === articleTitle)
     if (currentIndex === -1) return
@@ -239,7 +264,12 @@
 
     const series = posts
       .filter(post => post.title.startsWith('Hot100：'))
-      .sort((a, b) => parseHot100Order(a.title) - parseHot100Order(b.title))
+      .sort((a, b) => {
+        if (a.dateValue !== b.dateValue) return a.dateValue - b.dateValue
+        const byNumber = parseHot100Order(a.title) - parseHot100Order(b.title)
+        if (byNumber !== 0) return byNumber
+        return a.title.localeCompare(b.title, 'zh-Hans-CN')
+      })
 
     const currentIndex = series.findIndex(post => post.title === articleTitle)
     if (currentIndex === -1) return
@@ -277,9 +307,54 @@
     articleContainer.insertAdjacentElement('afterend', seriesNav)
   }
 
+  const classifyPost = title => {
+    if (title.startsWith('Ragent学习笔记')) {
+      return { text: 'Ragent', className: 'is-ragent' }
+    }
+    if (title.startsWith('Hot100：')) {
+      return { text: 'Hot100', className: 'is-hot100' }
+    }
+    if (title.startsWith('论文笔记：')) {
+      return { text: '论文', className: 'is-paper' }
+    }
+    if (title.includes('学习计划')) {
+      return { text: '计划', className: 'is-plan' }
+    }
+    return null
+  }
+
+  const enhanceRecentPosts = posts => {
+    const items = document.querySelectorAll('#recent-posts .recent-post-item')
+    if (!items.length) return
+
+    const postMap = new Map(posts.map(post => [post.title, post]))
+
+    items.forEach(item => {
+      const titleLink = item.querySelector('.article-title')
+      const info = item.querySelector('.recent-post-info')
+      if (!titleLink || !info) return
+      if (info.querySelector('.learning-card-meta')) return
+
+      const title = normalizeText(titleLink.textContent)
+      const post = postMap.get(title)
+      const badge = classifyPost(title)
+      if (!post || !badge) return
+
+      const meta = document.createElement('div')
+      meta.className = 'learning-card-meta'
+      meta.innerHTML = `
+        <span class="learning-card-badge ${badge.className}">${badge.text}</span>
+        <span class="learning-card-date">${post.url.match(/\/(\d{4})\/(\d{2})\/(\d{2})\//)?.slice(1).join('-') || ''}</span>
+      `
+
+      info.insertBefore(meta, titleLink)
+    })
+  }
+
   const boot = async () => {
     const posts = await loadPosts()
     renderHomeHub(posts)
+    enhanceRecentPosts(posts)
     renderRagentSeriesNav(posts)
     renderHot100SeriesNav(posts)
   }

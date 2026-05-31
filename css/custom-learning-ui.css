@@ -72,6 +72,15 @@
   line-height: 1.65;
 }
 
+.learning-focus-list {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.learning-focus-list p {
+  margin: 0;
+}
+
 .learning-focus-actions {
   display: flex;
   align-items: flex-end;
@@ -172,10 +181,28 @@
   gap: 0.8rem;
 }
 
+.learning-hub-card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
 .learning-hub-card-head h3,
 .ragent-series-nav-head h3 {
   margin: 0;
   font-size: 1.02rem;
+}
+
+.learning-hub-count {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.48rem;
+  border-radius: 999px;
+  background: rgba(15, 118, 110, 0.08);
+  color: var(--study-accent);
+  font-size: 0.76rem;
+  font-weight: 600;
 }
 
 .learning-hub-card-desc {
@@ -251,6 +278,50 @@
 
 #recent-posts .recent-post-item .recent-post-info {
   padding: 0.9rem 1rem 1rem;
+}
+
+.learning-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.42rem;
+}
+
+.learning-card-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.learning-card-badge.is-ragent {
+  background: rgba(15, 118, 110, 0.1);
+  color: var(--study-accent);
+}
+
+.learning-card-badge.is-hot100 {
+  background: rgba(234, 88, 12, 0.1);
+  color: #c2410c;
+}
+
+.learning-card-badge.is-paper {
+  background: rgba(37, 99, 235, 0.1);
+  color: #1d4ed8;
+}
+
+.learning-card-badge.is-plan {
+  background: rgba(109, 40, 217, 0.1);
+  color: #7c3aed;
+}
+
+.learning-card-date {
+  color: var(--font-color);
+  opacity: 0.58;
+  font-size: 0.76rem;
 }
 
 #recent-posts .recent-post-item .article-title {
@@ -497,6 +568,11 @@
 
   .learning-hub-card-head,
   .ragent-series-nav-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .learning-card-meta {
     align-items: flex-start;
     flex-direction: column;
   }
