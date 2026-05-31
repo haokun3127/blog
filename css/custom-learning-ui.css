@@ -19,11 +19,21 @@
 }
 
 #page-header.full_page {
-  min-height: 320px;
+  min-height: 520px;
+  background-color: #082f32;
+  background-size: contain;
+  background-position: center bottom;
+}
+
+#page-header.post-bg {
+  min-height: 520px;
+  background-color: #082f32;
+  background-size: contain;
+  background-position: center top;
 }
 
 #page-header::before {
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.28) 0%, rgba(15, 23, 42, 0.52) 100%);
+  background: linear-gradient(180deg, rgba(8, 47, 50, 0.62) 0%, rgba(8, 47, 50, 0.38) 46%, rgba(255, 255, 255, 0) 100%);
 }
 
 #site-info {
@@ -311,7 +321,15 @@
   }
 
   #page-header.full_page {
-    min-height: 280px;
+    min-height: 360px;
+    background-size: contain;
+    background-position: center bottom;
+  }
+
+  #page-header.post-bg {
+    min-height: 360px;
+    background-size: contain;
+    background-position: center top;
   }
 
   #site-title {
