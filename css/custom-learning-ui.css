@@ -1,8 +1,7 @@
-/* Cleaner, calmer UI tweaks for the study blog. */
+/* Minimal study blog enhancements. Keep the theme layout intact. */
 :root {
   --study-accent: #0f766e;
   --study-border: rgba(15, 23, 42, 0.08);
-  --study-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
 }
 
 #page-header.full_page {
@@ -26,18 +25,6 @@
   font-size: 1rem;
 }
 
-#content-inner {
-  max-width: 1320px;
-}
-
-#recent-posts {
-  width: calc(100% - 350px);
-}
-
-#aside-content {
-  width: 330px;
-}
-
 #learning-hub {
   margin: 0 0 1rem;
 }
@@ -50,8 +37,7 @@
   padding: 1rem 1.1rem;
   border: 1px solid rgba(15, 118, 110, 0.14);
   border-radius: 8px;
-  background: linear-gradient(135deg, rgba(15, 118, 110, 0.07) 0%, rgba(255, 255, 255, 0.98) 70%);
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.04);
+  background: linear-gradient(135deg, rgba(15, 118, 110, 0.06) 0%, rgba(255, 255, 255, 0.98) 72%);
 }
 
 .learning-hub-eyebrow,
@@ -65,7 +51,7 @@
 
 .learning-focus-main h2 {
   margin: 0 0 0.4rem;
-  font-size: 1.22rem;
+  font-size: 1.18rem;
   line-height: 1.4;
 }
 
@@ -116,7 +102,7 @@
 
 .learning-hub-secondary-link {
   color: var(--study-accent);
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   border: 1px solid rgba(15, 118, 110, 0.14);
 }
 
@@ -125,83 +111,16 @@
   background: #fff;
 }
 
-#recent-posts.recent-posts {
-  margin-top: -0.4rem;
-}
-
-#recent-posts .recent-post-items {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-#recent-posts .recent-post-item {
-  width: 100%;
-  margin: 0;
-  border: 1px solid var(--study-border);
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: var(--study-shadow);
-  background: var(--card-bg);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-}
-
-#recent-posts .recent-post-item:hover {
-  transform: translateY(-2px);
-  border-color: rgba(15, 118, 110, 0.14);
-  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.07);
-}
-
 #recent-posts .recent-post-item .post_cover {
-  margin: 0;
-  width: 100%;
-  height: 220px;
   padding: 14px;
   box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.02) 0%, rgba(15, 23, 42, 0.06) 100%);
 }
 
 #recent-posts .recent-post-item .post_cover img.post-bg {
-  width: 100%;
-  height: 100%;
   object-fit: contain;
   object-position: center;
   transform: none !important;
   transition: none !important;
-}
-
-#recent-posts .recent-post-item .recent-post-info {
-  padding: 0.95rem 1rem 1rem;
-}
-
-#recent-posts .recent-post-item .article-title {
-  display: -webkit-box;
-  min-height: 2.9rem;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-height: 1.42;
-  font-size: 1.04rem;
-}
-
-#recent-posts .recent-post-item .article-meta-wrap {
-  margin: 0.4rem 0 0.55rem;
-  font-size: 0.82rem;
-  opacity: 0.82;
-}
-
-#recent-posts .recent-post-item .content {
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  color: var(--font-color);
-  opacity: 0.74;
-  font-size: 0.93rem;
-  line-height: 1.62;
 }
 
 .ragent-series-nav,
@@ -211,7 +130,6 @@
   border: 1px solid var(--study-border);
   border-radius: 8px;
   background: var(--card-bg);
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
 }
 
 .ragent-series-nav-head {
@@ -275,47 +193,8 @@
   opacity: 0.62;
 }
 
-#aside-content .card-widget {
-  border-radius: 8px;
-  border: 1px solid var(--study-border);
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
-}
-
 #aside-content .card-announcement {
   border-left: 4px solid var(--study-accent);
-}
-
-#aside-content .sticky_layout {
-  display: grid;
-  gap: 0.9rem;
-}
-
-#aside-content .item-headline span {
-  font-size: 0.95rem;
-}
-
-#aside-content .card-recent-post .aside-list > .aside-list-item {
-  gap: 0.75rem;
-  padding: 0.2rem 0;
-}
-
-#aside-content .card-recent-post .aside-list > .aside-list-item .thumbnail {
-  width: 80px;
-  min-width: 80px;
-  height: 56px;
-}
-
-#aside-content .card-recent-post .aside-list > .aside-list-item .thumbnail img {
-  border-radius: 6px;
-}
-
-#aside-content .card-recent-post .aside-list > .aside-list-item .content .title {
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  font-size: 0.91rem;
-  line-height: 1.45;
 }
 
 #local-search .search-dialog {
@@ -335,35 +214,9 @@
   background: var(--study-accent);
 }
 
-@media screen and (max-width: 1200px) {
-  #content-inner {
-    max-width: 1180px;
-  }
-
-  #recent-posts {
-    width: calc(100% - 320px);
-  }
-
-  #aside-content {
-    width: 300px;
-  }
-}
-
 @media screen and (max-width: 1024px) {
-  #recent-posts .recent-post-items,
   .ragent-series-nav-grid {
     grid-template-columns: 1fr;
-  }
-
-  #content-inner,
-  #recent-posts,
-  #aside-content {
-    max-width: 100%;
-    width: 100%;
-  }
-
-  #recent-posts .recent-post-item .post_cover {
-    height: 230px;
   }
 }
 
@@ -374,7 +227,7 @@
   }
 
   .learning-focus-main h2 {
-    font-size: 1.12rem;
+    font-size: 1.1rem;
   }
 
   .learning-focus-actions {
@@ -407,11 +260,6 @@
   }
 
   #recent-posts .recent-post-item .post_cover {
-    height: 188px;
     padding: 10px;
-  }
-
-  #recent-posts .recent-post-item .recent-post-info {
-    padding: 0.84rem 0.92rem 0.96rem;
   }
 }

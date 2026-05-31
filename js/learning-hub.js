@@ -123,7 +123,7 @@
       </div>
     `
 
-    recentPosts.parentNode.insertBefore(hub, recentPosts)
+    recentPosts.prepend(hub)
   }
 
   const renderRagentSeriesNav = posts => {
