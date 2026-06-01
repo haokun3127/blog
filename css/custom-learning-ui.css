@@ -220,6 +220,10 @@
   border-left: 4px solid var(--study-accent);
 }
 
+#aside-core-tags {
+  border-left: 4px solid rgba(15, 23, 42, 0.18);
+}
+
 #aside-content.article-toc-first > .sticky_layout {
   margin-top: 0;
 }
@@ -263,6 +267,29 @@
   flex-shrink: 0;
   color: var(--study-accent);
   font-size: 0.76rem;
+}
+
+.aside-core-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.48rem;
+}
+
+.aside-core-tag-list a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0.32rem 0.68rem;
+  border-radius: 999px;
+  color: rgba(15, 23, 42, 0.78);
+  background: rgba(15, 23, 42, 0.055);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.aside-core-tag-list a:hover {
+  color: var(--study-accent) !important;
+  background: rgba(15, 118, 110, 0.09);
 }
 
 #aside-content .card-tag-cloud a {

@@ -188,6 +188,38 @@
     }
   }
 
+  const renderCoreTagNav = () => {
+    const aside = document.querySelector('#aside-content')
+    const sticky = aside?.querySelector('.sticky_layout')
+    if (!aside) return
+    if (document.querySelector('#aside-core-tags')) return
+
+    const card = document.createElement('div')
+    card.id = 'aside-core-tags'
+    card.className = 'card-widget aside-core-tags'
+    card.innerHTML = `
+      <div class="item-headline">
+        <i class="fas fa-layer-group"></i>
+        <span>核心主题</span>
+      </div>
+      <div class="aside-core-tag-list">
+        <a href="/blog/ragent/">Ragent</a>
+        <a href="/blog/hot100/">Hot100</a>
+        <a href="/blog/tags/论文笔记/">论文笔记</a>
+        <a href="/blog/tags/Git/">开发工具</a>
+      </div>
+    `
+
+    const categories = aside.querySelector('.card-categories')
+    if (categories) {
+      categories.insertAdjacentElement('afterend', card)
+    } else if (sticky) {
+      sticky.appendChild(card)
+    } else {
+      aside.appendChild(card)
+    }
+  }
+
   const renderRagentSeriesNav = posts => {
     const articleTitle = document.querySelector('.post-title')?.textContent?.trim()
     const articleContainer = document.querySelector('#article-container')
@@ -303,6 +335,7 @@
     tuneArticleAside()
     renderHomeHub(posts)
     renderAsideLearningNav()
+    renderCoreTagNav()
     renderRagentSeriesNav(posts)
     renderHot100SeriesNav(posts)
     markPostCards()
