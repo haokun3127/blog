@@ -126,6 +126,46 @@
     recentPosts.prepend(hub)
   }
 
+  const renderAsideLearningNav = () => {
+    const aside = document.querySelector('#aside-content')
+    const sticky = aside?.querySelector('.sticky_layout')
+    if (!aside) return
+    if (document.querySelector('#aside-learning-nav')) return
+
+    const nav = document.createElement('div')
+    nav.id = 'aside-learning-nav'
+    nav.className = 'card-widget aside-learning-nav'
+    nav.innerHTML = `
+      <div class="item-headline">
+        <i class="fas fa-compass"></i>
+        <span>学习入口</span>
+      </div>
+      <div class="aside-learning-links">
+        <a href="/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/">
+          <span>Agent 学习计划</span>
+          <small>打卡进度</small>
+        </a>
+        <a href="/blog/categories/ragent/">
+          <span>Ragent 笔记</span>
+          <small>项目主线</small>
+        </a>
+        <a href="/blog/tags/Hot100/">
+          <span>Hot100</span>
+          <small>算法复习</small>
+        </a>
+      </div>
+    `
+
+    const announcement = aside.querySelector('.card-announcement')
+    if (announcement) {
+      announcement.insertAdjacentElement('beforebegin', nav)
+    } else if (sticky) {
+      sticky.prepend(nav)
+    } else {
+      aside.appendChild(nav)
+    }
+  }
+
   const renderRagentSeriesNav = posts => {
     const articleTitle = document.querySelector('.post-title')?.textContent?.trim()
     const articleContainer = document.querySelector('#article-container')
@@ -229,6 +269,7 @@
   const boot = async () => {
     const posts = await loadPosts()
     renderHomeHub(posts)
+    renderAsideLearningNav()
     renderRagentSeriesNav(posts)
     renderHot100SeriesNav(posts)
   }

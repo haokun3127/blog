@@ -214,6 +214,57 @@
   border-left: 4px solid var(--study-accent);
 }
 
+#aside-learning-nav {
+  border-left: 4px solid var(--study-accent);
+}
+
+.aside-learning-links {
+  display: grid;
+  gap: 0.62rem;
+}
+
+.aside-learning-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 44px;
+  padding: 0.58rem 0.72rem;
+  border: 1px solid rgba(15, 118, 110, 0.12);
+  border-radius: 8px;
+  color: var(--font-color);
+  background: rgba(15, 118, 110, 0.045);
+}
+
+.aside-learning-links a:hover {
+  color: var(--study-accent) !important;
+  background: rgba(15, 118, 110, 0.075);
+}
+
+.aside-learning-links span {
+  font-weight: 600;
+}
+
+.aside-learning-links small {
+  flex-shrink: 0;
+  color: var(--study-accent);
+  font-size: 0.76rem;
+}
+
+#aside-content .card-tag-cloud a {
+  margin: 0.18rem 0.2rem;
+  padding: 0.22rem 0.48rem;
+  border-radius: 999px;
+  color: rgba(15, 23, 42, 0.72) !important;
+  background: rgba(15, 23, 42, 0.045);
+  font-size: 0.88rem !important;
+}
+
+#aside-content .card-tag-cloud a:hover {
+  color: var(--study-accent) !important;
+  background: rgba(15, 118, 110, 0.09);
+}
+
 #local-search .search-dialog {
   width: min(760px, calc(100vw - 1.5rem));
   border-radius: 8px;
