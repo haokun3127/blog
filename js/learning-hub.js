@@ -90,7 +90,7 @@
       title: '最近在学',
       lead: latestRagent ? latestRagent.title : 'Agent 开发学习主线',
       lines: progressLines.length ? progressLines : ['当前主线还是 Ragent 项目学习，先把基础扫盲、文档预处理和后续知识库链路持续串起来。'],
-      primaryHref: latestRagent?.url || '/blog/categories/ragent/',
+      primaryHref: latestRagent?.url || '/blog/categories/Ragent/',
       primaryText: latestRagent ? '继续当前主线' : '进入 Ragent 专题',
       secondaryHref: plan?.url || '/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/',
       secondaryText: '查看学习计划'
@@ -145,7 +145,7 @@
           <span>Agent 学习计划</span>
           <small>打卡进度</small>
         </a>
-        <a href="/blog/categories/ragent/">
+        <a href="/blog/categories/Ragent/">
           <span>Ragent 笔记</span>
           <small>项目主线</small>
         </a>
@@ -193,7 +193,7 @@
           <span class="ragent-series-nav-eyebrow">系列导航</span>
           <h3>Ragent 学习路线</h3>
         </div>
-        <a href="/blog/categories/ragent/">查看全部笔记</a>
+        <a href="/blog/categories/Ragent/">查看全部笔记</a>
       </div>
       <div class="ragent-series-nav-grid">
         <div class="ragent-series-nav-card ${prev ? '' : 'is-disabled'}">

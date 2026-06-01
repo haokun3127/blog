@@ -10,14 +10,14 @@
   <rights>All rights reserved 2026, 好困3127</rights>
   <subtitle>闲来无事</subtitle>
   <title>好困的博客</title>
-  <updated>2026-05-30T08:41:26.777Z</updated>
+  <updated>2026-06-01T04:58:19.825Z</updated>
   <entry>
     <author>
       <name>好困3127</name>
     </author>
-    <category term="ragent" scheme="https://haokun3127.github.io/blog/categories/ragent/"/>
+    <category term="Ragent" scheme="https://haokun3127.github.io/blog/categories/Ragent/"/>
+    <category term="Ragent" scheme="https://haokun3127.github.io/blog/tags/Ragent/"/>
     <category term="RAG" scheme="https://haokun3127.github.io/blog/tags/RAG/"/>
-    <category term="ragent" scheme="https://haokun3127.github.io/blog/tags/ragent/"/>
     <category term="学习笔记" scheme="https://haokun3127.github.io/blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <category term="Chunk" scheme="https://haokun3127.github.io/blog/tags/Chunk/"/>
     <category term="文档分块" scheme="https://haokun3127.github.io/blog/tags/%E6%96%87%E6%A1%A3%E5%88%86%E5%9D%97/"/>
@@ -29,15 +29,15 @@
     <published>2026-05-30T09:00:00.000Z</published>
     <summary>整理《AI大模型Ragent项目》第6小节：数据分块 Chunk 策略与实践，系统梳理 Chunk 在 RAG 链路中的位置、为什么要分块、chunkSize 和 overlap 的取舍、固定分块、递归分块、语义分块以及企业级分块策略。</summary>
     <title>Ragent学习笔记06：数据分块 Chunk 策略与实践</title>
-    <updated>2026-05-30T08:41:26.777Z</updated>
+    <updated>2026-06-01T04:58:19.825Z</updated>
   </entry>
   <entry>
     <author>
       <name>好困3127</name>
     </author>
-    <category term="ragent" scheme="https://haokun3127.github.io/blog/categories/ragent/"/>
+    <category term="Ragent" scheme="https://haokun3127.github.io/blog/categories/Ragent/"/>
+    <category term="Ragent" scheme="https://haokun3127.github.io/blog/tags/Ragent/"/>
     <category term="RAG" scheme="https://haokun3127.github.io/blog/tags/RAG/"/>
-    <category term="ragent" scheme="https://haokun3127.github.io/blog/tags/ragent/"/>
     <category term="学习笔记" scheme="https://haokun3127.github.io/blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <category term="Apache Tika" scheme="https://haokun3127.github.io/blog/tags/Apache-Tika/"/>
     <category term="文档解析" scheme="https://haokun3127.github.io/blog/tags/%E6%96%87%E6%A1%A3%E8%A7%A3%E6%9E%90/"/>
@@ -49,15 +49,15 @@
     <published>2026-05-30T08:00:00.000Z</published>
     <summary>整理《AI大模型Ragent项目》第5小节：用 Apache Tika 解析文档，系统梳理文档解析在 RAG 入库链路中的位置、Apache Tika 的作用、MIME 类型、正文提取、元数据提取、OCR 边界以及嵌入式与独立服务部署方式。</summary>
     <title>Ragent学习笔记05：用 Apache Tika 解析文档</title>
-    <updated>2026-05-30T07:46:21.091Z</updated>
+    <updated>2026-06-01T04:58:19.824Z</updated>
   </entry>
   <entry>
     <author>
       <name>好困3127</name>
     </author>
-    <category term="ragent" scheme="https://haokun3127.github.io/blog/categories/ragent/"/>
+    <category term="Ragent" scheme="https://haokun3127.github.io/blog/categories/Ragent/"/>
+    <category term="Ragent" scheme="https://haokun3127.github.io/blog/tags/Ragent/"/>
     <category term="RAG" scheme="https://haokun3127.github.io/blog/tags/RAG/"/>
-    <category term="ragent" scheme="https://haokun3127.github.io/blog/tags/ragent/"/>
     <category term="AI大模型" scheme="https://haokun3127.github.io/blog/tags/AI%E5%A4%A7%E6%A8%A1%E5%9E%8B/"/>
     <category term="学习笔记" scheme="https://haokun3127.github.io/blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <content>
@@ -68,15 +68,15 @@
     <published>2026-05-29T07:00:00.000Z</published>
     <summary>整理《AI大模型Ragent项目》第4小节：什么是 RAG，梳理 RAG 的核心概念、出现原因、完整流程、工程难点、适用场景以及它在 Ragent 项目中的位置。</summary>
     <title>Ragent学习笔记04：什么是 RAG</title>
-    <updated>2026-05-29T07:50:54.609Z</updated>
+    <updated>2026-06-01T04:58:19.823Z</updated>
   </entry>
   <entry>
     <author>
       <name>好困3127</name>
     </author>
-    <category term="ragent" scheme="https://haokun3127.github.io/blog/categories/ragent/"/>
+    <category term="Ragent" scheme="https://haokun3127.github.io/blog/categories/Ragent/"/>
+    <category term="Ragent" scheme="https://haokun3127.github.io/blog/tags/Ragent/"/>
     <category term="RAG" scheme="https://haokun3127.github.io/blog/tags/RAG/"/>
-    <category term="ragent" scheme="https://haokun3127.github.io/blog/tags/ragent/"/>
     <category term="AI大模型" scheme="https://haokun3127.github.io/blog/tags/AI%E5%A4%A7%E6%A8%A1%E5%9E%8B/"/>
     <category term="学习笔记" scheme="https://haokun3127.github.io/blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <category term="Prompt" scheme="https://haokun3127.github.io/blog/tags/Prompt/"/>
@@ -88,14 +88,14 @@
     <published>2026-05-29T04:00:00.000Z</published>
     <summary>整理《AI大模型Ragent项目》第3小节：Prompt 工程入门，按个人学习和复习思路梳理 Prompt 的作用、五要素框架、RAG 场景写法、引用规则、兜底策略、Prompt 注入防护和完整模板。</summary>
     <title>Ragent学习笔记03：Prompt 工程入门</title>
-    <updated>2026-05-29T06:38:00.628Z</updated>
+    <updated>2026-06-01T04:58:19.822Z</updated>
   </entry>
   <entry>
     <author>
       <name>好困3127</name>
     </author>
-    <category term="ragent" scheme="https://haokun3127.github.io/blog/categories/ragent/"/>
-    <category term="ragent" scheme="https://haokun3127.github.io/blog/tags/ragent/"/>
+    <category term="Ragent" scheme="https://haokun3127.github.io/blog/categories/Ragent/"/>
+    <category term="Ragent" scheme="https://haokun3127.github.io/blog/tags/Ragent/"/>
     <category term="AI大模型" scheme="https://haokun3127.github.io/blog/tags/AI%E5%A4%A7%E6%A8%A1%E5%9E%8B/"/>
     <category term="学习笔记" scheme="https://haokun3127.github.io/blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <category term="API" scheme="https://haokun3127.github.io/blog/tags/API/"/>
@@ -108,15 +108,15 @@
     <published>2026-05-28T13:55:00.000Z</published>
     <summary>整理《AI大模型Ragent项目》第2小节：调用大模型API的学习笔记，梳理 OpenAI 兼容协议、SiliconFlow、messages 角色机制、非流式调用、流式调用和 SSE 响应解析。</summary>
     <title>Ragent学习笔记02：调用大模型 API</title>
-    <updated>2026-05-29T06:18:29.597Z</updated>
+    <updated>2026-06-01T04:58:19.821Z</updated>
   </entry>
   <entry>
     <author>
       <name>好困3127</name>
     </author>
-    <category term="ragent" scheme="https://haokun3127.github.io/blog/categories/ragent/"/>
+    <category term="Ragent" scheme="https://haokun3127.github.io/blog/categories/Ragent/"/>
+    <category term="Ragent" scheme="https://haokun3127.github.io/blog/tags/Ragent/"/>
     <category term="RAG" scheme="https://haokun3127.github.io/blog/tags/RAG/"/>
-    <category term="ragent" scheme="https://haokun3127.github.io/blog/tags/ragent/"/>
     <category term="AI大模型" scheme="https://haokun3127.github.io/blog/tags/AI%E5%A4%A7%E6%A8%A1%E5%9E%8B/"/>
     <category term="学习笔记" scheme="https://haokun3127.github.io/blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <content>
@@ -127,7 +127,7 @@
     <published>2026-05-28T06:55:00.000Z</published>
     <summary>整理《AI大模型Ragent项目》第1小节：认识大模型的学习笔记，梳理大模型、训练阶段、Chat模型、Token、上下文窗口、Temperature、量化、深度思考和API调用等基础概念。</summary>
     <title>Ragent学习笔记01：认识大模型</title>
-    <updated>2026-05-29T06:18:29.595Z</updated>
+    <updated>2026-06-01T04:58:19.820Z</updated>
   </entry>
   <entry>
     <author>

@@ -975,6 +975,237 @@
       </tags>
   </entry>
   <entry>
+    <title>Hot100：哈希2-字母异位词分组</title>
+    <url>/blog/2025/10/20/Hot100%EF%BC%9A%E5%93%88%E5%B8%8C2-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/</url>
+    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个字符串数组 <code>strs</code>，将字母异位词组合在一起。可以按任意顺序返回结果。</p>
+<p>字母异位词指的是：由相同字母重新排列得到的字符串，每个字母出现次数也必须相同。</p>
+<p>示例：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">输入：strs = [&quot;eat&quot;,&quot;tea&quot;,&quot;tan&quot;,&quot;ate&quot;,&quot;nat&quot;,&quot;bat&quot;]</span><br><span class="line">输出：[[&quot;bat&quot;],[&quot;nat&quot;,&quot;tan&quot;],[&quot;ate&quot;,&quot;eat&quot;,&quot;tea&quot;]]</span><br></pre></td></tr></table></figure>
+
+<p>提示：</p>
+<ul>
+<li><code>1 &lt;= strs.length &lt;= 10^4</code></li>
+<li><code>0 &lt;= strs[i].length &lt;= 100</code></li>
+<li><code>strs[i]</code> 只包含小写字母</li>
+</ul>
+<h2 id="复习导览"><a href="#复习导览" class="headerlink" title="复习导览"></a>复习导览</h2><p>这道题要抓住一句话：<strong>一组字母异位词必须拥有同一个分组标识。</strong></p>
+<p>比如：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&quot;eat&quot; -&gt; 排序后 &quot;aet&quot;</span><br><span class="line">&quot;tea&quot; -&gt; 排序后 &quot;aet&quot;</span><br><span class="line">&quot;ate&quot; -&gt; 排序后 &quot;aet&quot;</span><br></pre></td></tr></table></figure>
+
+<p>它们排序后的结果一样，所以可以用 <code>&quot;aet&quot;</code> 作为这一组的 key。</p>
+<table>
+<thead>
+<tr>
+<th>复习点</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>题型</td>
+<td>哈希表分组</td>
+</tr>
+<tr>
+<td>关键动作</td>
+<td>给每个字符串生成统一 key</td>
+</tr>
+<tr>
+<td>推荐解法</td>
+<td>排序字符串作为 key</td>
+</tr>
+<tr>
+<td>优化解法</td>
+<td>统计 26 个字母次数作为 key</td>
+</tr>
+<tr>
+<td>时间复杂度</td>
+<td>排序法 <code>O(n * k log k)</code>，计数法 <code>O(n * k)</code></td>
+</tr>
+<tr>
+<td>最容易错的点</td>
+<td><code>char[]</code> 不能直接用 <code>toString()</code> 当 key</td>
+</tr>
+</tbody></table>
+<p>其中 <code>n</code> 是字符串数量，<code>k</code> 是字符串最大长度。</p>
+<h2 id="破题思路"><a href="#破题思路" class="headerlink" title="破题思路"></a>破题思路</h2><p>要把异位词放到同一组，关键是找到它们的共同特征。</p>
+<p>异位词的共同特征有两个：</p>
+<ul>
+<li>字母种类相同。</li>
+<li>每个字母出现次数相同。</li>
+</ul>
+<p>所以有两种常见 key：</p>
+<table>
+<thead>
+<tr>
+<th>key 设计</th>
+<th>示例</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>排序后的字符串</td>
+<td><code>&quot;eat&quot;</code> -&gt; <code>&quot;aet&quot;</code></td>
+<td>代码简单，容易写对</td>
+</tr>
+<tr>
+<td>字母次数编码</td>
+<td><code>&quot;eat&quot;</code> -&gt; <code>a1e1t1</code></td>
+<td>不需要排序，时间更优</td>
+</tr>
+</tbody></table>
+<p>复习时建议先牢牢记住排序法，因为它最直观；再理解计数法为什么更快。</p>
+<h2 id="解法一：排序-HashMap"><a href="#解法一：排序-HashMap" class="headerlink" title="解法一：排序 + HashMap"></a>解法一：排序 + HashMap</h2><h3 id="核心流程"><a href="#核心流程" class="headerlink" title="核心流程"></a>核心流程</h3><ol>
+<li>创建 <code>Map&lt;String, List&lt;String&gt;&gt;</code>。</li>
+<li>遍历每个字符串 <code>str</code>。</li>
+<li>把 <code>str</code> 转成字符数组并排序。</li>
+<li>用排序后的字符串作为 key。</li>
+<li>把原字符串加入这个 key 对应的列表。</li>
+<li>最后返回 <code>map.values()</code>。</li>
+</ol>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; <span class="title function_">groupAnagrams</span><span class="params">(String[] strs)</span> &#123;</span><br><span class="line">        Map&lt;String, List&lt;String&gt;&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (String str : strs) &#123;</span><br><span class="line">            <span class="type">char</span>[] chars = str.toCharArray();</span><br><span class="line">            Arrays.sort(chars);</span><br><span class="line">            <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(chars);</span><br><span class="line"></span><br><span class="line">            map.computeIfAbsent(key, k -&gt; <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;()).add(str);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(map.values());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="代码逐行理解"><a href="#代码逐行理解" class="headerlink" title="代码逐行理解"></a>代码逐行理解</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span>[] chars = str.toCharArray();</span><br><span class="line">Arrays.sort(chars);</span><br><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(chars);</span><br></pre></td></tr></table></figure>
+
+<p>这三行是排序法的核心。它把不同顺序的异位词统一成同一个 key。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&quot;eat&quot; -&gt; [&#x27;e&#x27;,&#x27;a&#x27;,&#x27;t&#x27;] -&gt; [&#x27;a&#x27;,&#x27;e&#x27;,&#x27;t&#x27;] -&gt; &quot;aet&quot;</span><br><span class="line">&quot;tea&quot; -&gt; [&#x27;t&#x27;,&#x27;e&#x27;,&#x27;a&#x27;] -&gt; [&#x27;a&#x27;,&#x27;e&#x27;,&#x27;t&#x27;] -&gt; &quot;aet&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">map.computeIfAbsent(key, k -&gt; <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;()).add(str);</span><br></pre></td></tr></table></figure>
+
+<p>这行可以拆开理解：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (!map.containsKey(key)) &#123;</span><br><span class="line">    map.put(key, <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;());</span><br><span class="line">&#125;</span><br><span class="line">map.get(key).add(str);</span><br></pre></td></tr></table></figure>
+
+<p>也就是说：如果这个分组还不存在，就先创建一个空列表；然后把当前字符串加入对应分组。</p>
+<h2 id="手推过程"><a href="#手推过程" class="headerlink" title="手推过程"></a>手推过程</h2><p>以 <code>[&quot;eat&quot;,&quot;tea&quot;,&quot;tan&quot;,&quot;ate&quot;,&quot;nat&quot;,&quot;bat&quot;]</code> 为例：</p>
+<table>
+<thead>
+<tr>
+<th>原字符串</th>
+<th>排序后 key</th>
+<th>加入分组后 map</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&quot;eat&quot;</code></td>
+<td><code>&quot;aet&quot;</code></td>
+<td><code>aet -&gt; [eat]</code></td>
+</tr>
+<tr>
+<td><code>&quot;tea&quot;</code></td>
+<td><code>&quot;aet&quot;</code></td>
+<td><code>aet -&gt; [eat, tea]</code></td>
+</tr>
+<tr>
+<td><code>&quot;tan&quot;</code></td>
+<td><code>&quot;ant&quot;</code></td>
+<td><code>ant -&gt; [tan]</code></td>
+</tr>
+<tr>
+<td><code>&quot;ate&quot;</code></td>
+<td><code>&quot;aet&quot;</code></td>
+<td><code>aet -&gt; [eat, tea, ate]</code></td>
+</tr>
+<tr>
+<td><code>&quot;nat&quot;</code></td>
+<td><code>&quot;ant&quot;</code></td>
+<td><code>ant -&gt; [tan, nat]</code></td>
+</tr>
+<tr>
+<td><code>&quot;bat&quot;</code></td>
+<td><code>&quot;abt&quot;</code></td>
+<td><code>abt -&gt; [bat]</code></td>
+</tr>
+</tbody></table>
+<p>最终返回：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">[[eat, tea, ate], [tan, nat], [bat]]</span><br></pre></td></tr></table></figure>
+
+<p>顺序不固定，因为 <code>HashMap</code> 本身不保证遍历顺序。</p>
+<h2 id="解法二：计数-HashMap"><a href="#解法二：计数-HashMap" class="headerlink" title="解法二：计数 + HashMap"></a>解法二：计数 + HashMap</h2><p>排序法每个字符串都要排序，时间是 <code>O(k log k)</code>。由于题目说字符串只包含小写字母，可以用长度为 26 的数组统计字母次数。</p>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; <span class="title function_">groupAnagrams</span><span class="params">(String[] strs)</span> &#123;</span><br><span class="line">        Map&lt;String, List&lt;String&gt;&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (String str : strs) &#123;</span><br><span class="line">            <span class="type">int</span>[] count = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">26</span>];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; str.length(); i++) &#123;</span><br><span class="line">                count[str.charAt(i) - <span class="string">&#x27;a&#x27;</span>]++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">StringBuilder</span> <span class="variable">keyBuilder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">26</span>; i++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (count[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                    keyBuilder.append((<span class="type">char</span>) (<span class="string">&#x27;a&#x27;</span> + i));</span><br><span class="line">                    keyBuilder.append(count[i]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> keyBuilder.toString();</span><br><span class="line">            map.computeIfAbsent(key, k -&gt; <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;()).add(str);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(map.values());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="计数-key-的理解"><a href="#计数-key-的理解" class="headerlink" title="计数 key 的理解"></a>计数 key 的理解</h3><p>例如：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&quot;eat&quot;</span><br><span class="line">e 出现 1 次</span><br><span class="line">a 出现 1 次</span><br><span class="line">t 出现 1 次</span><br><span class="line">key = &quot;a1e1t1&quot;</span><br></pre></td></tr></table></figure>
+
+<p><code>&quot;tea&quot;</code> 和 <code>&quot;ate&quot;</code> 统计后也是 <code>&quot;a1e1t1&quot;</code>，所以会进入同一组。</p>
+<h2 id="两种解法对比"><a href="#两种解法对比" class="headerlink" title="两种解法对比"></a>两种解法对比</h2><table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>排序法</th>
+<th>计数法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>key</td>
+<td>排序后的字符串</td>
+<td>字母出现次数编码</td>
+</tr>
+<tr>
+<td>时间复杂度</td>
+<td><code>O(n * k log k)</code></td>
+<td><code>O(n * k)</code></td>
+</tr>
+<tr>
+<td>空间复杂度</td>
+<td><code>O(n * k)</code></td>
+<td><code>O(n * k)</code></td>
+</tr>
+<tr>
+<td>优点</td>
+<td>直观，容易写</td>
+<td>避免排序，更快</td>
+</tr>
+<tr>
+<td>注意点</td>
+<td><code>new String(chars)</code></td>
+<td>key 必须有分隔或字母标记</td>
+</tr>
+</tbody></table>
+<p>为什么计数法 key 需要字母标记？</p>
+<p>如果只拼数字，可能出现歧义。例如不同计数组合都可能拼成相似字符串。加上字母后，<code>a1b11</code> 和 <code>a11b1</code> 就能区分开。</p>
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><p>排序法：</p>
+<ul>
+<li>时间复杂度：<code>O(n * k log k)</code>。每个字符串排序需要 <code>O(k log k)</code>。</li>
+<li>空间复杂度：<code>O(n * k)</code>。哈希表中要存储所有字符串分组。</li>
+</ul>
+<p>计数法：</p>
+<ul>
+<li>时间复杂度：<code>O(n * (k + 26))</code>，通常写作 <code>O(n * k)</code>。</li>
+<li>空间复杂度：<code>O(n * k)</code>。额外的 <code>count[26]</code> 是常数空间。</li>
+</ul>
+<h2 id="易错点"><a href="#易错点" class="headerlink" title="易错点"></a>易错点</h2><h3 id="1-用-chars-toString-当-key"><a href="#1-用-chars-toString-当-key" class="headerlink" title="1. 用 chars.toString() 当 key"></a>1. 用 <code>chars.toString()</code> 当 key</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 错误</span></span><br><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> chars.toString();</span><br></pre></td></tr></table></figure>
+
+<p>这样拿到的不是字符内容，而是数组对象的字符串表示。</p>
+<p>正确写法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(chars);</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-忘记把字符串放进对应列表"><a href="#2-忘记把字符串放进对应列表" class="headerlink" title="2. 忘记把字符串放进对应列表"></a>2. 忘记把字符串放进对应列表</h3><p>哈希表分组题的固定模板是：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">map.computeIfAbsent(key, k -&gt; <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;()).add(value);</span><br></pre></td></tr></table></figure>
+
+<p>如果不用 <code>computeIfAbsent</code>，也可以这样写：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; list = map.getOrDefault(key, <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;());</span><br><span class="line">list.add(str);</span><br><span class="line">map.put(key, list);</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-认为输出顺序必须和示例一样"><a href="#3-认为输出顺序必须和示例一样" class="headerlink" title="3. 认为输出顺序必须和示例一样"></a>3. 认为输出顺序必须和示例一样</h3><p>题目说可以按任意顺序返回，所以分组顺序、组内顺序通常不要求完全一致。</p>
+<h3 id="4-没有注意字符范围"><a href="#4-没有注意字符范围" class="headerlink" title="4. 没有注意字符范围"></a>4. 没有注意字符范围</h3><p>计数法这里能用 <code>int[26]</code>，是因为题目限制了只包含小写字母。如果有大写字母、数字或 Unicode 字符，就不能直接套这个版本。</p>
+<h2 id="复盘清单"><a href="#复盘清单" class="headerlink" title="复盘清单"></a>复盘清单</h2><p>复习这道题时，重点确认自己能回答这些问题：</p>
+<ul>
+<li>为什么排序后的字符串可以作为同组 key？</li>
+<li><code>HashMap</code> 的 key 和 value 分别是什么？</li>
+<li><code>computeIfAbsent</code> 这行代码在做什么？</li>
+<li>为什么 <code>char[]</code> 要用 <code>new String(chars)</code>？</li>
+<li>计数法为什么能把时间复杂度降到 <code>O(n * k)</code>？</li>
+<li>如果字符串里有大写字母，计数法要怎么调整？</li>
+</ul>
+<h2 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h2><p>字母异位词分组的核心是“给同类字符串生成同一个 key”。排序法用排序结果做 key，计数法用字母次数做 key，本质都是用哈希表完成分组。</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>LeetCode</tag>
+        <tag>Hot100</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hot100：哈希3-最长连续序列</title>
     <url>/blog/2025/10/21/Hot100%EF%BC%9A%E5%93%88%E5%B8%8C3-%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/</url>
     <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个未排序的整数数组 <code>nums</code>，找出数字连续的最长序列长度。</p>
@@ -1554,244 +1785,13 @@
 </ul>
 ]]></content>
       <categories>
-        <category>ragent</category>
+        <category>Ragent</category>
       </categories>
       <tags>
+        <tag>Ragent</tag>
         <tag>RAG</tag>
-        <tag>ragent</tag>
         <tag>AI大模型</tag>
         <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hot100：哈希2-字母异位词分组</title>
-    <url>/blog/2025/10/20/Hot100%EF%BC%9A%E5%93%88%E5%B8%8C2-%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/</url>
-    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个字符串数组 <code>strs</code>，将字母异位词组合在一起。可以按任意顺序返回结果。</p>
-<p>字母异位词指的是：由相同字母重新排列得到的字符串，每个字母出现次数也必须相同。</p>
-<p>示例：</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">输入：strs = [&quot;eat&quot;,&quot;tea&quot;,&quot;tan&quot;,&quot;ate&quot;,&quot;nat&quot;,&quot;bat&quot;]</span><br><span class="line">输出：[[&quot;bat&quot;],[&quot;nat&quot;,&quot;tan&quot;],[&quot;ate&quot;,&quot;eat&quot;,&quot;tea&quot;]]</span><br></pre></td></tr></table></figure>
-
-<p>提示：</p>
-<ul>
-<li><code>1 &lt;= strs.length &lt;= 10^4</code></li>
-<li><code>0 &lt;= strs[i].length &lt;= 100</code></li>
-<li><code>strs[i]</code> 只包含小写字母</li>
-</ul>
-<h2 id="复习导览"><a href="#复习导览" class="headerlink" title="复习导览"></a>复习导览</h2><p>这道题要抓住一句话：<strong>一组字母异位词必须拥有同一个分组标识。</strong></p>
-<p>比如：</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&quot;eat&quot; -&gt; 排序后 &quot;aet&quot;</span><br><span class="line">&quot;tea&quot; -&gt; 排序后 &quot;aet&quot;</span><br><span class="line">&quot;ate&quot; -&gt; 排序后 &quot;aet&quot;</span><br></pre></td></tr></table></figure>
-
-<p>它们排序后的结果一样，所以可以用 <code>&quot;aet&quot;</code> 作为这一组的 key。</p>
-<table>
-<thead>
-<tr>
-<th>复习点</th>
-<th>内容</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>题型</td>
-<td>哈希表分组</td>
-</tr>
-<tr>
-<td>关键动作</td>
-<td>给每个字符串生成统一 key</td>
-</tr>
-<tr>
-<td>推荐解法</td>
-<td>排序字符串作为 key</td>
-</tr>
-<tr>
-<td>优化解法</td>
-<td>统计 26 个字母次数作为 key</td>
-</tr>
-<tr>
-<td>时间复杂度</td>
-<td>排序法 <code>O(n * k log k)</code>，计数法 <code>O(n * k)</code></td>
-</tr>
-<tr>
-<td>最容易错的点</td>
-<td><code>char[]</code> 不能直接用 <code>toString()</code> 当 key</td>
-</tr>
-</tbody></table>
-<p>其中 <code>n</code> 是字符串数量，<code>k</code> 是字符串最大长度。</p>
-<h2 id="破题思路"><a href="#破题思路" class="headerlink" title="破题思路"></a>破题思路</h2><p>要把异位词放到同一组，关键是找到它们的共同特征。</p>
-<p>异位词的共同特征有两个：</p>
-<ul>
-<li>字母种类相同。</li>
-<li>每个字母出现次数相同。</li>
-</ul>
-<p>所以有两种常见 key：</p>
-<table>
-<thead>
-<tr>
-<th>key 设计</th>
-<th>示例</th>
-<th>特点</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>排序后的字符串</td>
-<td><code>&quot;eat&quot;</code> -&gt; <code>&quot;aet&quot;</code></td>
-<td>代码简单，容易写对</td>
-</tr>
-<tr>
-<td>字母次数编码</td>
-<td><code>&quot;eat&quot;</code> -&gt; <code>a1e1t1</code></td>
-<td>不需要排序，时间更优</td>
-</tr>
-</tbody></table>
-<p>复习时建议先牢牢记住排序法，因为它最直观；再理解计数法为什么更快。</p>
-<h2 id="解法一：排序-HashMap"><a href="#解法一：排序-HashMap" class="headerlink" title="解法一：排序 + HashMap"></a>解法一：排序 + HashMap</h2><h3 id="核心流程"><a href="#核心流程" class="headerlink" title="核心流程"></a>核心流程</h3><ol>
-<li>创建 <code>Map&lt;String, List&lt;String&gt;&gt;</code>。</li>
-<li>遍历每个字符串 <code>str</code>。</li>
-<li>把 <code>str</code> 转成字符数组并排序。</li>
-<li>用排序后的字符串作为 key。</li>
-<li>把原字符串加入这个 key 对应的列表。</li>
-<li>最后返回 <code>map.values()</code>。</li>
-</ol>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; <span class="title function_">groupAnagrams</span><span class="params">(String[] strs)</span> &#123;</span><br><span class="line">        Map&lt;String, List&lt;String&gt;&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (String str : strs) &#123;</span><br><span class="line">            <span class="type">char</span>[] chars = str.toCharArray();</span><br><span class="line">            Arrays.sort(chars);</span><br><span class="line">            <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(chars);</span><br><span class="line"></span><br><span class="line">            map.computeIfAbsent(key, k -&gt; <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;()).add(str);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(map.values());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="代码逐行理解"><a href="#代码逐行理解" class="headerlink" title="代码逐行理解"></a>代码逐行理解</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span>[] chars = str.toCharArray();</span><br><span class="line">Arrays.sort(chars);</span><br><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(chars);</span><br></pre></td></tr></table></figure>
-
-<p>这三行是排序法的核心。它把不同顺序的异位词统一成同一个 key。</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&quot;eat&quot; -&gt; [&#x27;e&#x27;,&#x27;a&#x27;,&#x27;t&#x27;] -&gt; [&#x27;a&#x27;,&#x27;e&#x27;,&#x27;t&#x27;] -&gt; &quot;aet&quot;</span><br><span class="line">&quot;tea&quot; -&gt; [&#x27;t&#x27;,&#x27;e&#x27;,&#x27;a&#x27;] -&gt; [&#x27;a&#x27;,&#x27;e&#x27;,&#x27;t&#x27;] -&gt; &quot;aet&quot;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">map.computeIfAbsent(key, k -&gt; <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;()).add(str);</span><br></pre></td></tr></table></figure>
-
-<p>这行可以拆开理解：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (!map.containsKey(key)) &#123;</span><br><span class="line">    map.put(key, <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;());</span><br><span class="line">&#125;</span><br><span class="line">map.get(key).add(str);</span><br></pre></td></tr></table></figure>
-
-<p>也就是说：如果这个分组还不存在，就先创建一个空列表；然后把当前字符串加入对应分组。</p>
-<h2 id="手推过程"><a href="#手推过程" class="headerlink" title="手推过程"></a>手推过程</h2><p>以 <code>[&quot;eat&quot;,&quot;tea&quot;,&quot;tan&quot;,&quot;ate&quot;,&quot;nat&quot;,&quot;bat&quot;]</code> 为例：</p>
-<table>
-<thead>
-<tr>
-<th>原字符串</th>
-<th>排序后 key</th>
-<th>加入分组后 map</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>&quot;eat&quot;</code></td>
-<td><code>&quot;aet&quot;</code></td>
-<td><code>aet -&gt; [eat]</code></td>
-</tr>
-<tr>
-<td><code>&quot;tea&quot;</code></td>
-<td><code>&quot;aet&quot;</code></td>
-<td><code>aet -&gt; [eat, tea]</code></td>
-</tr>
-<tr>
-<td><code>&quot;tan&quot;</code></td>
-<td><code>&quot;ant&quot;</code></td>
-<td><code>ant -&gt; [tan]</code></td>
-</tr>
-<tr>
-<td><code>&quot;ate&quot;</code></td>
-<td><code>&quot;aet&quot;</code></td>
-<td><code>aet -&gt; [eat, tea, ate]</code></td>
-</tr>
-<tr>
-<td><code>&quot;nat&quot;</code></td>
-<td><code>&quot;ant&quot;</code></td>
-<td><code>ant -&gt; [tan, nat]</code></td>
-</tr>
-<tr>
-<td><code>&quot;bat&quot;</code></td>
-<td><code>&quot;abt&quot;</code></td>
-<td><code>abt -&gt; [bat]</code></td>
-</tr>
-</tbody></table>
-<p>最终返回：</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">[[eat, tea, ate], [tan, nat], [bat]]</span><br></pre></td></tr></table></figure>
-
-<p>顺序不固定，因为 <code>HashMap</code> 本身不保证遍历顺序。</p>
-<h2 id="解法二：计数-HashMap"><a href="#解法二：计数-HashMap" class="headerlink" title="解法二：计数 + HashMap"></a>解法二：计数 + HashMap</h2><p>排序法每个字符串都要排序，时间是 <code>O(k log k)</code>。由于题目说字符串只包含小写字母，可以用长度为 26 的数组统计字母次数。</p>
-<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; <span class="title function_">groupAnagrams</span><span class="params">(String[] strs)</span> &#123;</span><br><span class="line">        Map&lt;String, List&lt;String&gt;&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (String str : strs) &#123;</span><br><span class="line">            <span class="type">int</span>[] count = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">26</span>];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; str.length(); i++) &#123;</span><br><span class="line">                count[str.charAt(i) - <span class="string">&#x27;a&#x27;</span>]++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">StringBuilder</span> <span class="variable">keyBuilder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">26</span>; i++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (count[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                    keyBuilder.append((<span class="type">char</span>) (<span class="string">&#x27;a&#x27;</span> + i));</span><br><span class="line">                    keyBuilder.append(count[i]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> keyBuilder.toString();</span><br><span class="line">            map.computeIfAbsent(key, k -&gt; <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;()).add(str);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(map.values());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="计数-key-的理解"><a href="#计数-key-的理解" class="headerlink" title="计数 key 的理解"></a>计数 key 的理解</h3><p>例如：</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&quot;eat&quot;</span><br><span class="line">e 出现 1 次</span><br><span class="line">a 出现 1 次</span><br><span class="line">t 出现 1 次</span><br><span class="line">key = &quot;a1e1t1&quot;</span><br></pre></td></tr></table></figure>
-
-<p><code>&quot;tea&quot;</code> 和 <code>&quot;ate&quot;</code> 统计后也是 <code>&quot;a1e1t1&quot;</code>，所以会进入同一组。</p>
-<h2 id="两种解法对比"><a href="#两种解法对比" class="headerlink" title="两种解法对比"></a>两种解法对比</h2><table>
-<thead>
-<tr>
-<th>对比项</th>
-<th>排序法</th>
-<th>计数法</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>key</td>
-<td>排序后的字符串</td>
-<td>字母出现次数编码</td>
-</tr>
-<tr>
-<td>时间复杂度</td>
-<td><code>O(n * k log k)</code></td>
-<td><code>O(n * k)</code></td>
-</tr>
-<tr>
-<td>空间复杂度</td>
-<td><code>O(n * k)</code></td>
-<td><code>O(n * k)</code></td>
-</tr>
-<tr>
-<td>优点</td>
-<td>直观，容易写</td>
-<td>避免排序，更快</td>
-</tr>
-<tr>
-<td>注意点</td>
-<td><code>new String(chars)</code></td>
-<td>key 必须有分隔或字母标记</td>
-</tr>
-</tbody></table>
-<p>为什么计数法 key 需要字母标记？</p>
-<p>如果只拼数字，可能出现歧义。例如不同计数组合都可能拼成相似字符串。加上字母后，<code>a1b11</code> 和 <code>a11b1</code> 就能区分开。</p>
-<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><p>排序法：</p>
-<ul>
-<li>时间复杂度：<code>O(n * k log k)</code>。每个字符串排序需要 <code>O(k log k)</code>。</li>
-<li>空间复杂度：<code>O(n * k)</code>。哈希表中要存储所有字符串分组。</li>
-</ul>
-<p>计数法：</p>
-<ul>
-<li>时间复杂度：<code>O(n * (k + 26))</code>，通常写作 <code>O(n * k)</code>。</li>
-<li>空间复杂度：<code>O(n * k)</code>。额外的 <code>count[26]</code> 是常数空间。</li>
-</ul>
-<h2 id="易错点"><a href="#易错点" class="headerlink" title="易错点"></a>易错点</h2><h3 id="1-用-chars-toString-当-key"><a href="#1-用-chars-toString-当-key" class="headerlink" title="1. 用 chars.toString() 当 key"></a>1. 用 <code>chars.toString()</code> 当 key</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 错误</span></span><br><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> chars.toString();</span><br></pre></td></tr></table></figure>
-
-<p>这样拿到的不是字符内容，而是数组对象的字符串表示。</p>
-<p>正确写法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(chars);</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-忘记把字符串放进对应列表"><a href="#2-忘记把字符串放进对应列表" class="headerlink" title="2. 忘记把字符串放进对应列表"></a>2. 忘记把字符串放进对应列表</h3><p>哈希表分组题的固定模板是：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">map.computeIfAbsent(key, k -&gt; <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;()).add(value);</span><br></pre></td></tr></table></figure>
-
-<p>如果不用 <code>computeIfAbsent</code>，也可以这样写：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; list = map.getOrDefault(key, <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;());</span><br><span class="line">list.add(str);</span><br><span class="line">map.put(key, list);</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-认为输出顺序必须和示例一样"><a href="#3-认为输出顺序必须和示例一样" class="headerlink" title="3. 认为输出顺序必须和示例一样"></a>3. 认为输出顺序必须和示例一样</h3><p>题目说可以按任意顺序返回，所以分组顺序、组内顺序通常不要求完全一致。</p>
-<h3 id="4-没有注意字符范围"><a href="#4-没有注意字符范围" class="headerlink" title="4. 没有注意字符范围"></a>4. 没有注意字符范围</h3><p>计数法这里能用 <code>int[26]</code>，是因为题目限制了只包含小写字母。如果有大写字母、数字或 Unicode 字符，就不能直接套这个版本。</p>
-<h2 id="复盘清单"><a href="#复盘清单" class="headerlink" title="复盘清单"></a>复盘清单</h2><p>复习这道题时，重点确认自己能回答这些问题：</p>
-<ul>
-<li>为什么排序后的字符串可以作为同组 key？</li>
-<li><code>HashMap</code> 的 key 和 value 分别是什么？</li>
-<li><code>computeIfAbsent</code> 这行代码在做什么？</li>
-<li>为什么 <code>char[]</code> 要用 <code>new String(chars)</code>？</li>
-<li>计数法为什么能把时间复杂度降到 <code>O(n * k)</code>？</li>
-<li>如果字符串里有大写字母，计数法要怎么调整？</li>
-</ul>
-<h2 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h2><p>字母异位词分组的核心是“给同类字符串生成同一个 key”。排序法用排序结果做 key，计数法用字母次数做 key，本质都是用哈希表完成分组。</p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-        <tag>LeetCode</tag>
-        <tag>Hot100</tag>
       </tags>
   </entry>
   <entry>
@@ -2319,11 +2319,11 @@
 </ul>
 ]]></content>
       <categories>
-        <category>ragent</category>
+        <category>Ragent</category>
       </categories>
       <tags>
+        <tag>Ragent</tag>
         <tag>RAG</tag>
-        <tag>ragent</tag>
         <tag>AI大模型</tag>
         <tag>学习笔记</tag>
         <tag>Prompt</tag>
@@ -2682,14 +2682,296 @@
 </ul>
 ]]></content>
       <categories>
-        <category>ragent</category>
+        <category>Ragent</category>
       </categories>
       <tags>
-        <tag>ragent</tag>
+        <tag>Ragent</tag>
         <tag>AI大模型</tag>
         <tag>学习笔记</tag>
         <tag>API</tag>
         <tag>SSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ragent学习笔记05：用 Apache Tika 解析文档</title>
+    <url>/blog/2026/05/30/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005-%E7%94%A8ApacheTika%E8%A7%A3%E6%9E%90%E6%96%87%E6%A1%A3/</url>
+    <content><![CDATA[<h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》第5小节：用 Apache Tika 解析文档</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》第5小节：用Apache Tika解析文档.html</code></li>
+</ul>
+<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>这一节正式进入 RAG 文档预处理链路。前面我们已经知道，RAG 的核心是“先检索，再生成”，但系统要想检索，前提是资料已经变成可处理、可切分、可向量化的文本。</p>
+<p>问题在于，企业里的知识资料并不是天然干净的纯文本。真实场景里常见的是 PDF、Word、PPT、Excel、Markdown、网页抓取内容、扫描件和图片型文档。它们虽然都“能打开看”，但内部结构完全不同。对机器来说，这些文件往往不是一段现成的文本，而是一套复杂格式、标签结构、版式信息甚至图片内容的组合。</p>
+<p>Apache Tika 的作用，就是把这些复杂文件统一接到同一个解析入口上，尽量抽取出正文文本和元数据，为后续的 Chunk、Embedding、向量检索做准备。</p>
+<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>作用</th>
+<th>这一节要掌握什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文档解析</td>
+<td>把复杂文件转成可处理文本</td>
+<td>是 RAG 入库的起点</td>
+</tr>
+<tr>
+<td>Apache Tika</td>
+<td>统一识别和解析多种文档格式</td>
+<td>提供通用解析能力</td>
+</tr>
+<tr>
+<td>MIME 类型</td>
+<td>判断文件真实类型</td>
+<td>不能只看后缀名</td>
+</tr>
+<tr>
+<td>正文提取</td>
+<td>抽取文件里的可读文本</td>
+<td>给分块和向量化用</td>
+</tr>
+<tr>
+<td>元数据提取</td>
+<td>抽取作者、标题、页数、时间等信息</td>
+<td>给过滤、展示、溯源用</td>
+</tr>
+<tr>
+<td>OCR</td>
+<td>从图片中识别文字</td>
+<td>解决扫描件和图片型 PDF</td>
+</tr>
+<tr>
+<td>部署方式</td>
+<td>嵌入式或独立服务</td>
+<td>看规模、稳定性、资源隔离需求</td>
+</tr>
+</tbody></table>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="1-为什么文档解析是-RAG-的第一步"><a href="#1-为什么文档解析是-RAG-的第一步" class="headerlink" title="1. 为什么文档解析是 RAG 的第一步"></a>1. 为什么文档解析是 RAG 的第一步</h3><p>RAG 的后续流程通常是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">文件 -&gt; 解析 -&gt; 分块 -&gt; 向量化 -&gt; 建索引 -&gt; 检索 -&gt; 生成回答</span><br></pre></td></tr></table></figure>
+
+<p>这里“解析”必须排在最前面，因为后面的所有能力几乎都依赖它的输出结果。</p>
+<p>如果解析阶段做不好，后面会连锁出问题：</p>
+<ul>
+<li>文本抽取不完整：后面分块时就会缺内容</li>
+<li>标题层级丢失：Chunk 边界会切得很乱</li>
+<li>页码或来源信息丢失：回答时没法溯源</li>
+<li>表格内容抽坏：检索时可能命中错误语义</li>
+<li>扫描件没做 OCR：向量化时几乎没有有效文本</li>
+</ul>
+<p>也就是说，RAG 不是“有个 PDF 就能上传，有个向量库就能回答”。文件先得变成机器能理解的文本结构，这一步就是文档解析。</p>
+<h3 id="2-为什么“能打开看”不等于“能拿来做-RAG”"><a href="#2-为什么“能打开看”不等于“能拿来做-RAG”" class="headerlink" title="2. 为什么“能打开看”不等于“能拿来做 RAG”"></a>2. 为什么“能打开看”不等于“能拿来做 RAG”</h3><p>很多文件对人来说很自然，但对程序来说并不直接等于文本。</p>
+<p>举几个典型例子：</p>
+<ul>
+<li>PDF：有的 PDF 是文字流，有的 PDF 本质是图片</li>
+<li>Word：正文、标题、表格、页眉页脚都混在文档结构里</li>
+<li>PPT：文字是分散在多个文本框里的，不是自然连续文本</li>
+<li>Excel：内容是单元格网格，不是线性段落</li>
+<li>HTML：正文里混有标签、脚本、导航、广告和样式信息</li>
+</ul>
+<p>所以“读文件”不是简单 <code>read()</code> 一下字节就结束，而是要做下面几件事：</p>
+<ol>
+<li>识别文件真实类型</li>
+<li>找到对应的解析器</li>
+<li>尽量提取正文</li>
+<li>同时抽取元数据</li>
+<li>在需要时补 OCR</li>
+<li>输出后续处理链路可以接住的结果</li>
+</ol>
+<p>Apache Tika 就是在做这层统一抽象。</p>
+<h3 id="3-Apache-Tika-是什么"><a href="#3-Apache-Tika-是什么" class="headerlink" title="3. Apache Tika 是什么"></a>3. Apache Tika 是什么</h3><p>Apache Tika 可以理解为一个“通用文档解析入口”。它把很多底层文档解析库封装起来，对外提供比较统一的文件识别和内容抽取能力。</p>
+<p>它解决的主要问题有两个：</p>
+<ul>
+<li>识别文件类型</li>
+<li>抽取文本和元数据</li>
+</ul>
+<p>对于 RAG 系统来说，它的价值不在于“某一种格式解析得最强”，而在于：</p>
+<ul>
+<li>覆盖文件类型广</li>
+<li>接入方式统一</li>
+<li>适合做入库前的第一层通用解析</li>
+</ul>
+<p>这很符合企业知识库的实际需求，因为上传的资料种类通常非常杂，不可能每种格式都单独开发一套解析入口。</p>
+<h3 id="4-Tika-在-RAG-链路里负责什么，不负责什么"><a href="#4-Tika-在-RAG-链路里负责什么，不负责什么" class="headerlink" title="4. Tika 在 RAG 链路里负责什么，不负责什么"></a>4. Tika 在 RAG 链路里负责什么，不负责什么</h3><p>这一点很重要。</p>
+<p>Tika 负责的是“把文件初步变成结构化可处理内容”，但它不是万能的文档智能理解系统。</p>
+<p>它更擅长做的事情：</p>
+<ul>
+<li>判断文件类型</li>
+<li>提取可读正文</li>
+<li>提取元数据</li>
+<li>把不同格式文件统一接入</li>
+</ul>
+<p>它不擅长或者不能单独解决的事情：</p>
+<ul>
+<li>高质量版面理解</li>
+<li>特别复杂的表格语义还原</li>
+<li>图片里的文字识别本身</li>
+<li>文档业务结构的深层语义理解</li>
+</ul>
+<p>所以系统设计上应该这样理解：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Tika = 通用解析层</span><br><span class="line">OCR / 版面理解 / 表格增强 = 额外增强层</span><br><span class="line">Chunk / Embedding / 检索 = 后续 RAG 处理层</span><br></pre></td></tr></table></figure>
+
+<p>这能避免一个常见误区：以为接入了 Tika，文档理解问题就彻底解决了。实际上它解决的是“先把文件转成通用文本”的问题，不是“把文档语义完美还原”的问题。</p>
+<h3 id="5-MIME-类型为什么重要"><a href="#5-MIME-类型为什么重要" class="headerlink" title="5. MIME 类型为什么重要"></a>5. MIME 类型为什么重要</h3><p>很多人刚接触文件上传时，会下意识只看文件后缀，比如：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">.pdf</span><br><span class="line">.docx</span><br><span class="line">.pptx</span><br><span class="line">.xlsx</span><br></pre></td></tr></table></figure>
+
+<p>但后缀名不可靠，原因很简单：</p>
+<ul>
+<li>用户可以随便改后缀</li>
+<li>有些文件没有标准后缀</li>
+<li>有些文件扩展名和真实内容不一致</li>
+</ul>
+<p>所以更稳的做法是看 MIME 类型。你可以把 MIME 类型理解成“文件的真实身份证”。</p>
+<p>例如：</p>
+<ul>
+<li><code>application/pdf</code></li>
+<li><code>application/vnd.openxmlformats-officedocument.wordprocessingml.document</code></li>
+<li><code>text/html</code></li>
+<li><code>text/plain</code></li>
+</ul>
+<p>在 RAG 系统里，先识别 MIME 类型有几个好处：</p>
+<ul>
+<li>决定走哪个解析器</li>
+<li>判断是不是支持的格式</li>
+<li>提前拦截异常文件</li>
+<li>记录文档类型，便于后续管理和排错</li>
+</ul>
+<p>这也是为什么课程里强调：不要只看文件后缀，要识别文件真实类型。</p>
+<h3 id="6-正文提取是后续分块的输入"><a href="#6-正文提取是后续分块的输入" class="headerlink" title="6. 正文提取是后续分块的输入"></a>6. 正文提取是后续分块的输入</h3><p>对 RAG 来说，最核心的解析结果就是正文文本。</p>
+<p>因为后面要做：</p>
+<ul>
+<li>按段落或字符分块</li>
+<li>计算 Embedding</li>
+<li>存入向量库</li>
+<li>在用户提问时做相似度检索</li>
+</ul>
+<p>所以解析出来的正文质量会直接影响检索质量。</p>
+<p>如果正文提取有这些问题：</p>
+<ul>
+<li>丢段落</li>
+<li>段落顺序错乱</li>
+<li>表格内容粘连</li>
+<li>标题和正文混在一起</li>
+<li>OCR 结果错误太多</li>
+</ul>
+<p>后面的 Chunk 就会切得不合理，Embedding 表达也会失真，最终问答质量自然下降。</p>
+<p>从这个角度看，正文提取不是一个边缘步骤，而是整个 RAG 质量链路的前置条件。</p>
+<h3 id="7-元数据提取为什么不能忽略"><a href="#7-元数据提取为什么不能忽略" class="headerlink" title="7. 元数据提取为什么不能忽略"></a>7. 元数据提取为什么不能忽略</h3><p>很多人在做最简版 RAG 时，只关注“能不能抽到正文”，但企业场景里元数据同样重要。</p>
+<p>常见元数据包括：</p>
+<ul>
+<li>文件名</li>
+<li>标题</li>
+<li>作者</li>
+<li>创建时间</li>
+<li>修改时间</li>
+<li>页数</li>
+<li>文件类型</li>
+<li>来源地址</li>
+<li>所属知识库</li>
+<li>所属部门</li>
+<li>权限范围</li>
+</ul>
+<p>这些元数据在 RAG 里通常有四类用途：</p>
+<ol>
+<li><p>检索过滤<br>例如只搜某个知识库、某个部门、某个时间范围的文档。</p>
+</li>
+<li><p>结果展示<br>回答时要告诉用户“这段内容来自哪份文档”。</p>
+</li>
+<li><p>溯源定位<br>如果答案错了，要能回头定位原始文档和原始 chunk。</p>
+</li>
+<li><p>权限控制<br>不同用户未必能搜同一批资料。</p>
+</li>
+</ol>
+<p>所以更准确的理解是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">正文 = 用来检索和生成</span><br><span class="line">元数据 = 用来过滤、管理、展示和溯源</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-OCR-的边界：为什么扫描件更难"><a href="#8-OCR-的边界：为什么扫描件更难" class="headerlink" title="8. OCR 的边界：为什么扫描件更难"></a>8. OCR 的边界：为什么扫描件更难</h3><p>如果 PDF 本质上是图片，或者上传的是扫描版文件，那么普通文本抽取往往拿不到有效正文。这时就需要 OCR。</p>
+<p>OCR 的作用是把图片里的文字识别出来，但它会带来新的问题：</p>
+<ul>
+<li>成本更高</li>
+<li>速度更慢</li>
+<li>错误率更高</li>
+<li>版面还原能力有限</li>
+</ul>
+<p>所以在系统设计里，OCR 一般不应该默认对所有文件都开，而应该按场景判断：</p>
+<ul>
+<li>文件是不是图片型 PDF</li>
+<li>文件内容是否几乎提取不到文本</li>
+<li>当前业务值不值得为这类文件付 OCR 成本</li>
+</ul>
+<p>这也是课程里很重要的一层思考：企业级 RAG 不是“功能越多越好”，而是要考虑性能、成本和准确率的平衡。</p>
+<h3 id="9-嵌入式与独立服务：部署方式怎么选"><a href="#9-嵌入式与独立服务：部署方式怎么选" class="headerlink" title="9. 嵌入式与独立服务：部署方式怎么选"></a>9. 嵌入式与独立服务：部署方式怎么选</h3><p>课程里还提到了 Tika 的两种典型使用方式：</p>
+<ul>
+<li>作为 Java 依赖直接嵌入业务进程</li>
+<li>作为独立解析服务部署</li>
+</ul>
+<p>这两种方式都能用，但适合的场景不同。</p>
+<h4 id="嵌入式方式"><a href="#嵌入式方式" class="headerlink" title="嵌入式方式"></a>嵌入式方式</h4><p>优点：</p>
+<ul>
+<li>接入简单</li>
+<li>调用链短</li>
+<li>本地开发方便</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>大文件解析会占业务服务内存和 CPU</li>
+<li>复杂文档可能拖慢主进程</li>
+<li>资源隔离差</li>
+</ul>
+<p>适合：</p>
+<ul>
+<li>早期原型</li>
+<li>文件量不大</li>
+<li>单体系统</li>
+</ul>
+<h4 id="独立服务方式"><a href="#独立服务方式" class="headerlink" title="独立服务方式"></a>独立服务方式</h4><p>优点：</p>
+<ul>
+<li>可以隔离解析资源</li>
+<li>可以单独扩容</li>
+<li>更适合异步处理和大文件场景</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>部署和调用更复杂</li>
+<li>需要额外服务治理</li>
+</ul>
+<p>适合：</p>
+<ul>
+<li>企业级知识库</li>
+<li>文档量大</li>
+<li>解析格式复杂</li>
+<li>上传高并发</li>
+</ul>
+<p>对 Ragent 这种面向企业级 Agentic RAG 的项目来说，独立服务化思路通常更贴近生产环境，因为文档解析本身就是一个资源消耗较大的环节。</p>
+<h3 id="10-这一节在整个-RAG-学习顺序中的位置"><a href="#10-这一节在整个-RAG-学习顺序中的位置" class="headerlink" title="10. 这一节在整个 RAG 学习顺序中的位置"></a>10. 这一节在整个 RAG 学习顺序中的位置</h3><p>这一节最好不要孤立看，它和后面两节其实是一条连续链路：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">第5小节：先把文件解析成文本和元数据</span><br><span class="line">第6小节：再把文本切成合理 Chunk</span><br><span class="line">第7小节：再把 metadata 管起来用于过滤和溯源</span><br></pre></td></tr></table></figure>
+
+<p>所以你学完第 5 小节后，接着学 Chunk 和元数据会非常顺。因为这三节本来就是在回答同一个问题：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">企业文档到底怎样一步步变成可检索知识？</span><br></pre></td></tr></table></figure>
+
+<h2 id="学习重点"><a href="#学习重点" class="headerlink" title="学习重点"></a>学习重点</h2><ul>
+<li>文档解析是 RAG 入库链路的第一步，直接影响后面的分块、向量化和检索质量。</li>
+<li>Apache Tika 提供的是“通用解析层”，价值在于统一接入多种文件格式。</li>
+<li>MIME 类型比文件后缀更可靠，决定了解析路径是否正确。</li>
+<li>正文提取给 Chunk 和 Embedding 用，元数据提取给过滤、溯源、展示和权限控制用。</li>
+<li>扫描件和图片型 PDF 往往需要 OCR，但 OCR 会带来成本和误差。</li>
+<li>嵌入式还是独立服务，要看文件规模、资源消耗和生产稳定性要求。</li>
+</ul>
+<h2 id="易混点整理"><a href="#易混点整理" class="headerlink" title="易混点整理"></a>易混点整理</h2><h3 id="1-“文件能打开”不等于“能做-RAG”"><a href="#1-“文件能打开”不等于“能做-RAG”" class="headerlink" title="1. “文件能打开”不等于“能做 RAG”"></a>1. “文件能打开”不等于“能做 RAG”</h3><p>人能看懂文档，不代表程序能直接拿到结构化文本。PDF、PPT、Excel、扫描件都需要专门解析。</p>
+<h3 id="2-文件后缀不等于真实文件类型"><a href="#2-文件后缀不等于真实文件类型" class="headerlink" title="2. 文件后缀不等于真实文件类型"></a>2. 文件后缀不等于真实文件类型</h3><p>不能只凭 <code>.pdf</code>、<code>.docx</code> 判断文件格式，要结合 MIME 类型识别真实类型。</p>
+<h3 id="3-Tika-不等于-OCR"><a href="#3-Tika-不等于-OCR" class="headerlink" title="3. Tika 不等于 OCR"></a>3. Tika 不等于 OCR</h3><p>Tika 负责统一解析入口，OCR 负责图片文字识别。图片型 PDF 场景下，往往需要额外 OCR 能力。</p>
+<h3 id="4-只抽正文，不管元数据，会让后续能力变弱"><a href="#4-只抽正文，不管元数据，会让后续能力变弱" class="headerlink" title="4. 只抽正文，不管元数据，会让后续能力变弱"></a>4. 只抽正文，不管元数据，会让后续能力变弱</h3><p>没有元数据，后面做过滤、引用来源、权限隔离、问题排查都会很吃力。</p>
+<h3 id="5-解析做完不等于直接能检索"><a href="#5-解析做完不等于直接能检索" class="headerlink" title="5. 解析做完不等于直接能检索"></a>5. 解析做完不等于直接能检索</h3><p>解析后还要经过 Chunk、Embedding、索引、检索，才能真正进入 RAG 可用状态。</p>
+<h2 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h2><p>Apache Tika 这一节讲清楚了企业级 RAG 入库链路的起点：系统不能把复杂文档直接喂给模型，而是要先通过通用解析层，把多格式文件变成“正文文本 + 元数据”，这样后面的分块、向量化、检索和回答才有可靠基础。</p>
+]]></content>
+      <categories>
+        <category>Ragent</category>
+      </categories>
+      <tags>
+        <tag>Ragent</tag>
+        <tag>RAG</tag>
+        <tag>学习笔记</tag>
+        <tag>Apache Tika</tag>
+        <tag>文档解析</tag>
       </tags>
   </entry>
   <entry>
@@ -3302,295 +3584,13 @@
 </ul>
 ]]></content>
       <categories>
-        <category>ragent</category>
+        <category>Ragent</category>
       </categories>
       <tags>
+        <tag>Ragent</tag>
         <tag>RAG</tag>
-        <tag>ragent</tag>
         <tag>AI大模型</tag>
         <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ragent学习笔记05：用 Apache Tika 解析文档</title>
-    <url>/blog/2026/05/30/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005-%E7%94%A8ApacheTika%E8%A7%A3%E6%9E%90%E6%96%87%E6%A1%A3/</url>
-    <content><![CDATA[<h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
-<li>《AI大模型Ragent项目》第5小节：用 Apache Tika 解析文档</li>
-<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》第5小节：用Apache Tika解析文档.html</code></li>
-</ul>
-<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>这一节正式进入 RAG 文档预处理链路。前面我们已经知道，RAG 的核心是“先检索，再生成”，但系统要想检索，前提是资料已经变成可处理、可切分、可向量化的文本。</p>
-<p>问题在于，企业里的知识资料并不是天然干净的纯文本。真实场景里常见的是 PDF、Word、PPT、Excel、Markdown、网页抓取内容、扫描件和图片型文档。它们虽然都“能打开看”，但内部结构完全不同。对机器来说，这些文件往往不是一段现成的文本，而是一套复杂格式、标签结构、版式信息甚至图片内容的组合。</p>
-<p>Apache Tika 的作用，就是把这些复杂文件统一接到同一个解析入口上，尽量抽取出正文文本和元数据，为后续的 Chunk、Embedding、向量检索做准备。</p>
-<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
-<thead>
-<tr>
-<th>概念</th>
-<th>作用</th>
-<th>这一节要掌握什么</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>文档解析</td>
-<td>把复杂文件转成可处理文本</td>
-<td>是 RAG 入库的起点</td>
-</tr>
-<tr>
-<td>Apache Tika</td>
-<td>统一识别和解析多种文档格式</td>
-<td>提供通用解析能力</td>
-</tr>
-<tr>
-<td>MIME 类型</td>
-<td>判断文件真实类型</td>
-<td>不能只看后缀名</td>
-</tr>
-<tr>
-<td>正文提取</td>
-<td>抽取文件里的可读文本</td>
-<td>给分块和向量化用</td>
-</tr>
-<tr>
-<td>元数据提取</td>
-<td>抽取作者、标题、页数、时间等信息</td>
-<td>给过滤、展示、溯源用</td>
-</tr>
-<tr>
-<td>OCR</td>
-<td>从图片中识别文字</td>
-<td>解决扫描件和图片型 PDF</td>
-</tr>
-<tr>
-<td>部署方式</td>
-<td>嵌入式或独立服务</td>
-<td>看规模、稳定性、资源隔离需求</td>
-</tr>
-</tbody></table>
-<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="1-为什么文档解析是-RAG-的第一步"><a href="#1-为什么文档解析是-RAG-的第一步" class="headerlink" title="1. 为什么文档解析是 RAG 的第一步"></a>1. 为什么文档解析是 RAG 的第一步</h3><p>RAG 的后续流程通常是：</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">文件 -&gt; 解析 -&gt; 分块 -&gt; 向量化 -&gt; 建索引 -&gt; 检索 -&gt; 生成回答</span><br></pre></td></tr></table></figure>
-
-<p>这里“解析”必须排在最前面，因为后面的所有能力几乎都依赖它的输出结果。</p>
-<p>如果解析阶段做不好，后面会连锁出问题：</p>
-<ul>
-<li>文本抽取不完整：后面分块时就会缺内容</li>
-<li>标题层级丢失：Chunk 边界会切得很乱</li>
-<li>页码或来源信息丢失：回答时没法溯源</li>
-<li>表格内容抽坏：检索时可能命中错误语义</li>
-<li>扫描件没做 OCR：向量化时几乎没有有效文本</li>
-</ul>
-<p>也就是说，RAG 不是“有个 PDF 就能上传，有个向量库就能回答”。文件先得变成机器能理解的文本结构，这一步就是文档解析。</p>
-<h3 id="2-为什么“能打开看”不等于“能拿来做-RAG”"><a href="#2-为什么“能打开看”不等于“能拿来做-RAG”" class="headerlink" title="2. 为什么“能打开看”不等于“能拿来做 RAG”"></a>2. 为什么“能打开看”不等于“能拿来做 RAG”</h3><p>很多文件对人来说很自然，但对程序来说并不直接等于文本。</p>
-<p>举几个典型例子：</p>
-<ul>
-<li>PDF：有的 PDF 是文字流，有的 PDF 本质是图片</li>
-<li>Word：正文、标题、表格、页眉页脚都混在文档结构里</li>
-<li>PPT：文字是分散在多个文本框里的，不是自然连续文本</li>
-<li>Excel：内容是单元格网格，不是线性段落</li>
-<li>HTML：正文里混有标签、脚本、导航、广告和样式信息</li>
-</ul>
-<p>所以“读文件”不是简单 <code>read()</code> 一下字节就结束，而是要做下面几件事：</p>
-<ol>
-<li>识别文件真实类型</li>
-<li>找到对应的解析器</li>
-<li>尽量提取正文</li>
-<li>同时抽取元数据</li>
-<li>在需要时补 OCR</li>
-<li>输出后续处理链路可以接住的结果</li>
-</ol>
-<p>Apache Tika 就是在做这层统一抽象。</p>
-<h3 id="3-Apache-Tika-是什么"><a href="#3-Apache-Tika-是什么" class="headerlink" title="3. Apache Tika 是什么"></a>3. Apache Tika 是什么</h3><p>Apache Tika 可以理解为一个“通用文档解析入口”。它把很多底层文档解析库封装起来，对外提供比较统一的文件识别和内容抽取能力。</p>
-<p>它解决的主要问题有两个：</p>
-<ul>
-<li>识别文件类型</li>
-<li>抽取文本和元数据</li>
-</ul>
-<p>对于 RAG 系统来说，它的价值不在于“某一种格式解析得最强”，而在于：</p>
-<ul>
-<li>覆盖文件类型广</li>
-<li>接入方式统一</li>
-<li>适合做入库前的第一层通用解析</li>
-</ul>
-<p>这很符合企业知识库的实际需求，因为上传的资料种类通常非常杂，不可能每种格式都单独开发一套解析入口。</p>
-<h3 id="4-Tika-在-RAG-链路里负责什么，不负责什么"><a href="#4-Tika-在-RAG-链路里负责什么，不负责什么" class="headerlink" title="4. Tika 在 RAG 链路里负责什么，不负责什么"></a>4. Tika 在 RAG 链路里负责什么，不负责什么</h3><p>这一点很重要。</p>
-<p>Tika 负责的是“把文件初步变成结构化可处理内容”，但它不是万能的文档智能理解系统。</p>
-<p>它更擅长做的事情：</p>
-<ul>
-<li>判断文件类型</li>
-<li>提取可读正文</li>
-<li>提取元数据</li>
-<li>把不同格式文件统一接入</li>
-</ul>
-<p>它不擅长或者不能单独解决的事情：</p>
-<ul>
-<li>高质量版面理解</li>
-<li>特别复杂的表格语义还原</li>
-<li>图片里的文字识别本身</li>
-<li>文档业务结构的深层语义理解</li>
-</ul>
-<p>所以系统设计上应该这样理解：</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Tika = 通用解析层</span><br><span class="line">OCR / 版面理解 / 表格增强 = 额外增强层</span><br><span class="line">Chunk / Embedding / 检索 = 后续 RAG 处理层</span><br></pre></td></tr></table></figure>
-
-<p>这能避免一个常见误区：以为接入了 Tika，文档理解问题就彻底解决了。实际上它解决的是“先把文件转成通用文本”的问题，不是“把文档语义完美还原”的问题。</p>
-<h3 id="5-MIME-类型为什么重要"><a href="#5-MIME-类型为什么重要" class="headerlink" title="5. MIME 类型为什么重要"></a>5. MIME 类型为什么重要</h3><p>很多人刚接触文件上传时，会下意识只看文件后缀，比如：</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">.pdf</span><br><span class="line">.docx</span><br><span class="line">.pptx</span><br><span class="line">.xlsx</span><br></pre></td></tr></table></figure>
-
-<p>但后缀名不可靠，原因很简单：</p>
-<ul>
-<li>用户可以随便改后缀</li>
-<li>有些文件没有标准后缀</li>
-<li>有些文件扩展名和真实内容不一致</li>
-</ul>
-<p>所以更稳的做法是看 MIME 类型。你可以把 MIME 类型理解成“文件的真实身份证”。</p>
-<p>例如：</p>
-<ul>
-<li><code>application/pdf</code></li>
-<li><code>application/vnd.openxmlformats-officedocument.wordprocessingml.document</code></li>
-<li><code>text/html</code></li>
-<li><code>text/plain</code></li>
-</ul>
-<p>在 RAG 系统里，先识别 MIME 类型有几个好处：</p>
-<ul>
-<li>决定走哪个解析器</li>
-<li>判断是不是支持的格式</li>
-<li>提前拦截异常文件</li>
-<li>记录文档类型，便于后续管理和排错</li>
-</ul>
-<p>这也是为什么课程里强调：不要只看文件后缀，要识别文件真实类型。</p>
-<h3 id="6-正文提取是后续分块的输入"><a href="#6-正文提取是后续分块的输入" class="headerlink" title="6. 正文提取是后续分块的输入"></a>6. 正文提取是后续分块的输入</h3><p>对 RAG 来说，最核心的解析结果就是正文文本。</p>
-<p>因为后面要做：</p>
-<ul>
-<li>按段落或字符分块</li>
-<li>计算 Embedding</li>
-<li>存入向量库</li>
-<li>在用户提问时做相似度检索</li>
-</ul>
-<p>所以解析出来的正文质量会直接影响检索质量。</p>
-<p>如果正文提取有这些问题：</p>
-<ul>
-<li>丢段落</li>
-<li>段落顺序错乱</li>
-<li>表格内容粘连</li>
-<li>标题和正文混在一起</li>
-<li>OCR 结果错误太多</li>
-</ul>
-<p>后面的 Chunk 就会切得不合理，Embedding 表达也会失真，最终问答质量自然下降。</p>
-<p>从这个角度看，正文提取不是一个边缘步骤，而是整个 RAG 质量链路的前置条件。</p>
-<h3 id="7-元数据提取为什么不能忽略"><a href="#7-元数据提取为什么不能忽略" class="headerlink" title="7. 元数据提取为什么不能忽略"></a>7. 元数据提取为什么不能忽略</h3><p>很多人在做最简版 RAG 时，只关注“能不能抽到正文”，但企业场景里元数据同样重要。</p>
-<p>常见元数据包括：</p>
-<ul>
-<li>文件名</li>
-<li>标题</li>
-<li>作者</li>
-<li>创建时间</li>
-<li>修改时间</li>
-<li>页数</li>
-<li>文件类型</li>
-<li>来源地址</li>
-<li>所属知识库</li>
-<li>所属部门</li>
-<li>权限范围</li>
-</ul>
-<p>这些元数据在 RAG 里通常有四类用途：</p>
-<ol>
-<li><p>检索过滤<br>例如只搜某个知识库、某个部门、某个时间范围的文档。</p>
-</li>
-<li><p>结果展示<br>回答时要告诉用户“这段内容来自哪份文档”。</p>
-</li>
-<li><p>溯源定位<br>如果答案错了，要能回头定位原始文档和原始 chunk。</p>
-</li>
-<li><p>权限控制<br>不同用户未必能搜同一批资料。</p>
-</li>
-</ol>
-<p>所以更准确的理解是：</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">正文 = 用来检索和生成</span><br><span class="line">元数据 = 用来过滤、管理、展示和溯源</span><br></pre></td></tr></table></figure>
-
-<h3 id="8-OCR-的边界：为什么扫描件更难"><a href="#8-OCR-的边界：为什么扫描件更难" class="headerlink" title="8. OCR 的边界：为什么扫描件更难"></a>8. OCR 的边界：为什么扫描件更难</h3><p>如果 PDF 本质上是图片，或者上传的是扫描版文件，那么普通文本抽取往往拿不到有效正文。这时就需要 OCR。</p>
-<p>OCR 的作用是把图片里的文字识别出来，但它会带来新的问题：</p>
-<ul>
-<li>成本更高</li>
-<li>速度更慢</li>
-<li>错误率更高</li>
-<li>版面还原能力有限</li>
-</ul>
-<p>所以在系统设计里，OCR 一般不应该默认对所有文件都开，而应该按场景判断：</p>
-<ul>
-<li>文件是不是图片型 PDF</li>
-<li>文件内容是否几乎提取不到文本</li>
-<li>当前业务值不值得为这类文件付 OCR 成本</li>
-</ul>
-<p>这也是课程里很重要的一层思考：企业级 RAG 不是“功能越多越好”，而是要考虑性能、成本和准确率的平衡。</p>
-<h3 id="9-嵌入式与独立服务：部署方式怎么选"><a href="#9-嵌入式与独立服务：部署方式怎么选" class="headerlink" title="9. 嵌入式与独立服务：部署方式怎么选"></a>9. 嵌入式与独立服务：部署方式怎么选</h3><p>课程里还提到了 Tika 的两种典型使用方式：</p>
-<ul>
-<li>作为 Java 依赖直接嵌入业务进程</li>
-<li>作为独立解析服务部署</li>
-</ul>
-<p>这两种方式都能用，但适合的场景不同。</p>
-<h4 id="嵌入式方式"><a href="#嵌入式方式" class="headerlink" title="嵌入式方式"></a>嵌入式方式</h4><p>优点：</p>
-<ul>
-<li>接入简单</li>
-<li>调用链短</li>
-<li>本地开发方便</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>大文件解析会占业务服务内存和 CPU</li>
-<li>复杂文档可能拖慢主进程</li>
-<li>资源隔离差</li>
-</ul>
-<p>适合：</p>
-<ul>
-<li>早期原型</li>
-<li>文件量不大</li>
-<li>单体系统</li>
-</ul>
-<h4 id="独立服务方式"><a href="#独立服务方式" class="headerlink" title="独立服务方式"></a>独立服务方式</h4><p>优点：</p>
-<ul>
-<li>可以隔离解析资源</li>
-<li>可以单独扩容</li>
-<li>更适合异步处理和大文件场景</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>部署和调用更复杂</li>
-<li>需要额外服务治理</li>
-</ul>
-<p>适合：</p>
-<ul>
-<li>企业级知识库</li>
-<li>文档量大</li>
-<li>解析格式复杂</li>
-<li>上传高并发</li>
-</ul>
-<p>对 Ragent 这种面向企业级 Agentic RAG 的项目来说，独立服务化思路通常更贴近生产环境，因为文档解析本身就是一个资源消耗较大的环节。</p>
-<h3 id="10-这一节在整个-RAG-学习顺序中的位置"><a href="#10-这一节在整个-RAG-学习顺序中的位置" class="headerlink" title="10. 这一节在整个 RAG 学习顺序中的位置"></a>10. 这一节在整个 RAG 学习顺序中的位置</h3><p>这一节最好不要孤立看，它和后面两节其实是一条连续链路：</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">第5小节：先把文件解析成文本和元数据</span><br><span class="line">第6小节：再把文本切成合理 Chunk</span><br><span class="line">第7小节：再把 metadata 管起来用于过滤和溯源</span><br></pre></td></tr></table></figure>
-
-<p>所以你学完第 5 小节后，接着学 Chunk 和元数据会非常顺。因为这三节本来就是在回答同一个问题：</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">企业文档到底怎样一步步变成可检索知识？</span><br></pre></td></tr></table></figure>
-
-<h2 id="学习重点"><a href="#学习重点" class="headerlink" title="学习重点"></a>学习重点</h2><ul>
-<li>文档解析是 RAG 入库链路的第一步，直接影响后面的分块、向量化和检索质量。</li>
-<li>Apache Tika 提供的是“通用解析层”，价值在于统一接入多种文件格式。</li>
-<li>MIME 类型比文件后缀更可靠，决定了解析路径是否正确。</li>
-<li>正文提取给 Chunk 和 Embedding 用，元数据提取给过滤、溯源、展示和权限控制用。</li>
-<li>扫描件和图片型 PDF 往往需要 OCR，但 OCR 会带来成本和误差。</li>
-<li>嵌入式还是独立服务，要看文件规模、资源消耗和生产稳定性要求。</li>
-</ul>
-<h2 id="易混点整理"><a href="#易混点整理" class="headerlink" title="易混点整理"></a>易混点整理</h2><h3 id="1-“文件能打开”不等于“能做-RAG”"><a href="#1-“文件能打开”不等于“能做-RAG”" class="headerlink" title="1. “文件能打开”不等于“能做 RAG”"></a>1. “文件能打开”不等于“能做 RAG”</h3><p>人能看懂文档，不代表程序能直接拿到结构化文本。PDF、PPT、Excel、扫描件都需要专门解析。</p>
-<h3 id="2-文件后缀不等于真实文件类型"><a href="#2-文件后缀不等于真实文件类型" class="headerlink" title="2. 文件后缀不等于真实文件类型"></a>2. 文件后缀不等于真实文件类型</h3><p>不能只凭 <code>.pdf</code>、<code>.docx</code> 判断文件格式，要结合 MIME 类型识别真实类型。</p>
-<h3 id="3-Tika-不等于-OCR"><a href="#3-Tika-不等于-OCR" class="headerlink" title="3. Tika 不等于 OCR"></a>3. Tika 不等于 OCR</h3><p>Tika 负责统一解析入口，OCR 负责图片文字识别。图片型 PDF 场景下，往往需要额外 OCR 能力。</p>
-<h3 id="4-只抽正文，不管元数据，会让后续能力变弱"><a href="#4-只抽正文，不管元数据，会让后续能力变弱" class="headerlink" title="4. 只抽正文，不管元数据，会让后续能力变弱"></a>4. 只抽正文，不管元数据，会让后续能力变弱</h3><p>没有元数据，后面做过滤、引用来源、权限隔离、问题排查都会很吃力。</p>
-<h3 id="5-解析做完不等于直接能检索"><a href="#5-解析做完不等于直接能检索" class="headerlink" title="5. 解析做完不等于直接能检索"></a>5. 解析做完不等于直接能检索</h3><p>解析后还要经过 Chunk、Embedding、索引、检索，才能真正进入 RAG 可用状态。</p>
-<h2 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h2><p>Apache Tika 这一节讲清楚了企业级 RAG 入库链路的起点：系统不能把复杂文档直接喂给模型，而是要先通过通用解析层，把多格式文件变成“正文文本 + 元数据”，这样后面的分块、向量化、检索和回答才有可靠基础。</p>
-]]></content>
-      <categories>
-        <category>ragent</category>
-      </categories>
-      <tags>
-        <tag>RAG</tag>
-        <tag>ragent</tag>
-        <tag>学习笔记</tag>
-        <tag>Apache Tika</tag>
-        <tag>文档解析</tag>
       </tags>
   </entry>
   <entry>
@@ -3853,11 +3853,11 @@
 <h2 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h2><p>第 6 小节讲清楚了 RAG 入库链路里最容易被低估、但又最关键的一步：文档解析后的文本不能直接整篇入库，而要切成“语义尽量完整、长度尽量合适、便于检索召回”的 Chunk，这一步的质量会直接影响后面的向量化、检索和最终回答效果。</p>
 ]]></content>
       <categories>
-        <category>ragent</category>
+        <category>Ragent</category>
       </categories>
       <tags>
+        <tag>Ragent</tag>
         <tag>RAG</tag>
-        <tag>ragent</tag>
         <tag>学习笔记</tag>
         <tag>Chunk</tag>
         <tag>文档分块</tag>
@@ -4054,155 +4054,6 @@
       </categories>
       <tags>
         <tag>小程序开发</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>论文笔记：CoLLM</title>
-    <url>/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ACoLLM/</url>
-    <content><![CDATA[<h2 id="论文信息"><a href="#论文信息" class="headerlink" title="论文信息"></a>论文信息</h2><table>
-<thead>
-<tr>
-<th>字段</th>
-<th>内容</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>论文标题</td>
-<td>CoLLM: Integrating Collaborative Embeddings into Large Language Models for Recommendation</td>
-</tr>
-<tr>
-<td>期刊&#x2F;会议</td>
-<td>原笔记未注明，仅记录发表日期为 2025-06-14</td>
-</tr>
-<tr>
-<td>发表日期</td>
-<td>2025-06-14</td>
-</tr>
-<tr>
-<td>作者</td>
-<td>Yang Zhang；Fuli Feng；Jizhi Zhang；Keqin Bao；Qifan Wang；Xiangnan He</td>
-</tr>
-<tr>
-<td>核心主题</td>
-<td>将传统协同信息以独立模态形式注入 LLM 推荐框架</td>
-</tr>
-<tr>
-<td>关键词</td>
-<td>CoLLM、LLMRec、Collaborative Information、Warm-start、Cold-start</td>
-</tr>
-<tr>
-<td>原文 PDF</td>
-<td>Zhang 等 - 2025 - CoLLM Integrating Collaborative Embeddings into Large Language Models for Recommendation.pdf</td>
-</tr>
-<tr>
-<td>笔记创建日期</td>
-<td>2026&#x2F;04&#x2F;09</td>
-</tr>
-</tbody></table>
-<h2 id="摘要速览"><a href="#摘要速览" class="headerlink" title="摘要速览"></a>摘要速览</h2><p>CoLLM 聚焦于一个很关键但常被忽略的问题：现有 LLM 推荐方法更擅长利用文本语义处理冷启动，却没有充分吸收传统推荐系统中的协同信息，因此在热启动场景下常常不如矩阵分解或图模型。本文把协同 embedding 视为一种独立模态，通过映射层对齐到 LLM 的 token 空间，在不修改 LLM 主体结构的前提下，让大模型同时具备文本推理能力与协同建模优势。实验表明，CoLLM 在 ML-1M 和 Amazon-Book 上都优于传统模型和 TALLRec，并在冷、热场景之间取得了更好的平衡。</p>
-<table>
-<thead>
-<tr>
-<th>项目</th>
-<th>内容</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>英文摘要</td>
-<td>Leveraging Large Language Models as recommenders, referred to as LLMRec, is gaining traction and brings novel dynamics for modeling user preferences, particularly for cold-start users. However, existing LLMRec approaches primarily focus on text semantics and overlook the crucial aspect of incorporating collaborative information from user-item interactions, leading to potentially sub-optimal performance in warm-start scenarios. To ensure superior recommendations across both warm and cold scenarios, we introduce CoLLM, an innovative LLMRec approach that explicitly integrates collaborative information for recommendations. CoLLM treats collaborative information as a distinct modality, directly encoding it from well-established traditional collaborative models, and then tunes a mapping module to align this collaborative information with the LLM’s input text token space for recommendations. By externally integrating traditional models, CoLLM ensures effective collaborative information modeling without modifying the LLM itself, providing the flexibility to adopt diverse collaborative information modeling mechanisms. Extensive experimentation validates that CoLLM adeptly integrates collaborative information into LLMs, resulting in enhanced recommendation performance.</td>
-</tr>
-<tr>
-<td>中文摘要翻译</td>
-<td>现有 LLMRec 方法在冷启动场景中能借助文本语义取得不错效果，但往往忽略用户与物品交互中蕴含的协同信息，因此在热启动场景容易出现性能瓶颈。CoLLM 将协同信息视作独立模态，直接从传统协同模型中提取表示，再通过映射模块将其对齐到 LLM 输入空间，从而在不改动 LLM 主体的前提下完成融合。实验结果表明，该方法能够有效提升推荐性能，并兼顾冷启动与热启动场景。</td>
-</tr>
-</tbody></table>
-<h2 id="文章基本框架"><a href="#文章基本框架" class="headerlink" title="文章基本框架"></a>文章基本框架</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><blockquote>
-<p>如果说 TALLRec 解决了 LLM “能不能做推荐”，那么 CoLLM 进一步追问的是：LLM 能不能在保住语义泛化优势的同时，补齐传统推荐系统最强的协同建模能力。</p>
-</blockquote>
-<ul>
-<li><strong>LLMRec 的偏科问题</strong>：现有 LLM 推荐方法依赖文本提示和语义推理，在冷启动用户或物品上往往表现不错，但这种优势并不能直接迁移到热启动场景。</li>
-<li><strong>协同信息缺失</strong>：传统推荐模型的强项在于从大规模交互数据中挖掘协同信号，而把用户和物品完全转成文本后，这部分信息会被显著削弱。</li>
-<li><strong>热启动表现不足</strong>：当用户和物品已经拥有丰富历史交互时，纯文本驱动的 LLMRec 反而可能落后于 MF、LightGCN 等经典方法。</li>
-</ul>
-<h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><blockquote>
-<p>本文的核心目标是把“协同信息”作为一种可以被 LLM 理解的新模态，让推荐模型在冷启动和热启动场景下都保持竞争力。</p>
-</blockquote>
-<ul>
-<li><strong>显式注入协同信号</strong>：不再只依赖文本描述，而是把传统推荐模型学到的 user&#x2F;item embedding 直接接入 LLM。</li>
-<li><strong>保持模型轻量与灵活</strong>：作者不修改 LLM 主干结构，也不扩充庞大的 ID 词表，而是通过一个小型映射层完成跨模态对齐。</li>
-<li><strong>兼顾泛化与效果</strong>：既要保留 LLM 的语义理解优势，也要吸收传统协同模型在热启动场景中的稳定收益。</li>
-</ul>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><blockquote>
-<p>CoLLM 证明了“LLM + 外挂协同信息”是一条务实且有效的推荐路线。</p>
-</blockquote>
-<ul>
-<li>提出了一套两阶段微调框架，把 MF、LightGCN、DIN 等传统协同模型与 Vicuna-7B 结合起来。</li>
-<li>在整体指标上，CoLLM 超越了传统 SOTA 和纯 LLMRec 方法，同时显著缓解了 LLMRec 在热启动场景中的短板。</li>
-</ul>
-<h2 id="结果与讨论"><a href="#结果与讨论" class="headerlink" title="结果与讨论"></a>结果与讨论</h2><h3 id="数据以及数据来源"><a href="#数据以及数据来源" class="headerlink" title="数据以及数据来源"></a>数据以及数据来源</h3><ul>
-<li><strong>数据集</strong>：使用 ML-1M 和 Amazon-Book 两个经典推荐数据集。</li>
-<li><strong>数据划分</strong>：采用严格的时间戳切分，避免信息泄露，并将任务处理为隐式反馈二分类问题。</li>
-<li><strong>冷热拆分</strong>：测试集进一步划分为 Warm 与 Cold 子集，用来检验模型在不同数据稠密度场景下的表现差异。</li>
-</ul>
-<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><blockquote>
-<p>CoLLM 的思路很直接：让传统推荐模型负责提取协同表示，让 LLM 负责理解文本上下文并做最终推理。</p>
-</blockquote>
-<h4 id="协同信息编码模块（CIE-Collaborative-Information-Encoding）"><a href="#协同信息编码模块（CIE-Collaborative-Information-Encoding）" class="headerlink" title="协同信息编码模块（CIE: Collaborative Information Encoding）"></a>协同信息编码模块（CIE: Collaborative Information Encoding）</h4><ul>
-<li><strong>协同模型</strong> <code>f_psi</code>：使用 MF、LightGCN 或 DIN 等传统模型，把用户和物品编码成低维协同 embedding。</li>
-<li><strong>映射层</strong> <code>g_phi</code>：通过一个 MLP 将协同 embedding 映射到 LLM 的词向量空间，充当“翻译器”。</li>
-<li><strong>混合输入方式</strong>：最终输入被组织为文本 token 与协同向量交织的序列，使 LLM 能在统一空间中处理两类信息。</li>
-</ul>
-<h4 id="两阶段解耦微调（Two-Step-Tuning）"><a href="#两阶段解耦微调（Two-Step-Tuning）" class="headerlink" title="两阶段解耦微调（Two-Step Tuning）"></a>两阶段解耦微调（Two-Step Tuning）</h4><ul>
-<li><p><strong>Step 1: 文本能力与任务对齐</strong></p>
-<ul>
-<li>暂时屏蔽协同 embedding，只用文本提示微调 LoRA。</li>
-<li>目标是先让 LLM 理解推荐任务本身，并稳住冷启动场景中的文本推理能力。</li>
-</ul>
-</li>
-<li><p><strong>Step 2: 协同信号对齐</strong></p>
-<ul>
-<li>冻结 LLM 与 LoRA，仅更新 CIE 中的映射层，必要时可联合微调协同模型。</li>
-<li>目标是把传统协同信号对齐到 LLM 已经适配好的表示空间中。</li>
-</ul>
-</li>
-</ul>
-<h3 id="结论分析"><a href="#结论分析" class="headerlink" title="结论分析"></a>结论分析</h3><ul>
-<li><strong>整体性能（RQ1）</strong>：无论底层协同模型选用 MF、LightGCN 还是 DIN，CoLLM 都优于纯传统模型和 TALLRec，说明“语义 + 协同”组合确实有效。</li>
-<li><strong>冷热场景对比</strong>：在 Warm 子集上，CoLLM 明显修复了 TALLRec 的短板；在 Cold 子集上，又基本保留了 TALLRec 的优势。</li>
-<li><strong>消融与效率（RQ2）</strong>：去掉 CIE 后性能显著下降，而直接引入 ID token 的朴素做法甚至会带来负收益。两阶段训练带来的额外开销相对可控，文中报告训练时间约增加 15.5%，推理耗时约增加 12.5%。</li>
-</ul>
-<h2 id="文章亮点思考"><a href="#文章亮点思考" class="headerlink" title="文章亮点思考"></a>文章亮点思考</h2><h3 id="本文有什么优缺点？"><a href="#本文有什么优缺点？" class="headerlink" title="本文有什么优缺点？"></a>本文有什么优缺点？</h3><ul>
-<li><p><strong>优点</strong></p>
-<ul>
-<li><strong>问题抓得准</strong>：文章非常敏锐地指出了 LLMRec 在热启动场景中的核心弱点，不是简单追求“大模型更强”，而是回到推荐系统最本质的协同信号上。</li>
-<li><strong>设计足够克制</strong>：作者没有硬改 LLM 结构，而是用轻量映射层做对齐，这让方案兼具研究价值和工程可落地性。</li>
-<li><strong>可插拔性强</strong>：CIE 模块能兼容多种传统推荐模型，说明 CoLLM 更像一个融合框架，而不是只绑定某一种底座。</li>
-</ul>
-</li>
-<li><p><strong>缺点 &#x2F; 疑问</strong></p>
-<ul>
-<li><strong>在线推理成本仍高</strong>：即使加入协同信息后效果提升明显，LLM 级别的推理延迟在真实工业重排场景里仍然是压力点。</li>
-<li><strong>两阶段训练可能次优</strong>：Step 2 只对齐映射层，没有和 LoRA 共同端到端联合优化，可能限制最终上限。</li>
-</ul>
-</li>
-</ul>
-<h3 id="可以如何改进？"><a href="#可以如何改进？" class="headerlink" title="可以如何改进？"></a>可以如何改进？</h3><ol>
-<li><strong>端到端联合优化</strong>：让文本表示、协同表示和映射层在统一目标下协同训练，减少阶段间割裂。</li>
-<li><strong>动态门控机制</strong>：针对极端冷启动样本，引入 gating 模块动态决定当前应更依赖文本语义还是协同信号。</li>
-<li><strong>面向部署的轻量化设计</strong>：可以进一步探索蒸馏、缓存协同表示或只在精排阶段调用 LLM，以降低线上时延。</li>
-</ol>
-<h3 id="这篇文章为什么重要？"><a href="#这篇文章为什么重要？" class="headerlink" title="这篇文章为什么重要？"></a>这篇文章为什么重要？</h3><p>这篇文章的重要性在于，它把 LLM 推荐研究从“把推荐问题翻译成文本”推进到了“如何把非文本协同知识高效接入 LLM”。CoLLM 没有否定传统推荐模型，而是把它们当作成熟的外部专家来协同工作。这种思路既尊重了推荐系统长期积累的方法论，也为后续多模态推荐、结构化信号接入大模型提供了非常自然的范式。</p>
-]]></content>
-      <categories>
-        <category>论文笔记</category>
-        <category>推荐系统</category>
-      </categories>
-      <tags>
-        <tag>论文笔记</tag>
-        <tag>推荐系统</tag>
-        <tag>大语言模型</tag>
-        <tag>协同过滤</tag>
-        <tag>CoLLM</tag>
       </tags>
   </entry>
   <entry>
@@ -4982,6 +4833,155 @@
       </tags>
   </entry>
   <entry>
+    <title>论文笔记：CoLLM</title>
+    <url>/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ACoLLM/</url>
+    <content><![CDATA[<h2 id="论文信息"><a href="#论文信息" class="headerlink" title="论文信息"></a>论文信息</h2><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>论文标题</td>
+<td>CoLLM: Integrating Collaborative Embeddings into Large Language Models for Recommendation</td>
+</tr>
+<tr>
+<td>期刊&#x2F;会议</td>
+<td>原笔记未注明，仅记录发表日期为 2025-06-14</td>
+</tr>
+<tr>
+<td>发表日期</td>
+<td>2025-06-14</td>
+</tr>
+<tr>
+<td>作者</td>
+<td>Yang Zhang；Fuli Feng；Jizhi Zhang；Keqin Bao；Qifan Wang；Xiangnan He</td>
+</tr>
+<tr>
+<td>核心主题</td>
+<td>将传统协同信息以独立模态形式注入 LLM 推荐框架</td>
+</tr>
+<tr>
+<td>关键词</td>
+<td>CoLLM、LLMRec、Collaborative Information、Warm-start、Cold-start</td>
+</tr>
+<tr>
+<td>原文 PDF</td>
+<td>Zhang 等 - 2025 - CoLLM Integrating Collaborative Embeddings into Large Language Models for Recommendation.pdf</td>
+</tr>
+<tr>
+<td>笔记创建日期</td>
+<td>2026&#x2F;04&#x2F;09</td>
+</tr>
+</tbody></table>
+<h2 id="摘要速览"><a href="#摘要速览" class="headerlink" title="摘要速览"></a>摘要速览</h2><p>CoLLM 聚焦于一个很关键但常被忽略的问题：现有 LLM 推荐方法更擅长利用文本语义处理冷启动，却没有充分吸收传统推荐系统中的协同信息，因此在热启动场景下常常不如矩阵分解或图模型。本文把协同 embedding 视为一种独立模态，通过映射层对齐到 LLM 的 token 空间，在不修改 LLM 主体结构的前提下，让大模型同时具备文本推理能力与协同建模优势。实验表明，CoLLM 在 ML-1M 和 Amazon-Book 上都优于传统模型和 TALLRec，并在冷、热场景之间取得了更好的平衡。</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>英文摘要</td>
+<td>Leveraging Large Language Models as recommenders, referred to as LLMRec, is gaining traction and brings novel dynamics for modeling user preferences, particularly for cold-start users. However, existing LLMRec approaches primarily focus on text semantics and overlook the crucial aspect of incorporating collaborative information from user-item interactions, leading to potentially sub-optimal performance in warm-start scenarios. To ensure superior recommendations across both warm and cold scenarios, we introduce CoLLM, an innovative LLMRec approach that explicitly integrates collaborative information for recommendations. CoLLM treats collaborative information as a distinct modality, directly encoding it from well-established traditional collaborative models, and then tunes a mapping module to align this collaborative information with the LLM’s input text token space for recommendations. By externally integrating traditional models, CoLLM ensures effective collaborative information modeling without modifying the LLM itself, providing the flexibility to adopt diverse collaborative information modeling mechanisms. Extensive experimentation validates that CoLLM adeptly integrates collaborative information into LLMs, resulting in enhanced recommendation performance.</td>
+</tr>
+<tr>
+<td>中文摘要翻译</td>
+<td>现有 LLMRec 方法在冷启动场景中能借助文本语义取得不错效果，但往往忽略用户与物品交互中蕴含的协同信息，因此在热启动场景容易出现性能瓶颈。CoLLM 将协同信息视作独立模态，直接从传统协同模型中提取表示，再通过映射模块将其对齐到 LLM 输入空间，从而在不改动 LLM 主体的前提下完成融合。实验结果表明，该方法能够有效提升推荐性能，并兼顾冷启动与热启动场景。</td>
+</tr>
+</tbody></table>
+<h2 id="文章基本框架"><a href="#文章基本框架" class="headerlink" title="文章基本框架"></a>文章基本框架</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><blockquote>
+<p>如果说 TALLRec 解决了 LLM “能不能做推荐”，那么 CoLLM 进一步追问的是：LLM 能不能在保住语义泛化优势的同时，补齐传统推荐系统最强的协同建模能力。</p>
+</blockquote>
+<ul>
+<li><strong>LLMRec 的偏科问题</strong>：现有 LLM 推荐方法依赖文本提示和语义推理，在冷启动用户或物品上往往表现不错，但这种优势并不能直接迁移到热启动场景。</li>
+<li><strong>协同信息缺失</strong>：传统推荐模型的强项在于从大规模交互数据中挖掘协同信号，而把用户和物品完全转成文本后，这部分信息会被显著削弱。</li>
+<li><strong>热启动表现不足</strong>：当用户和物品已经拥有丰富历史交互时，纯文本驱动的 LLMRec 反而可能落后于 MF、LightGCN 等经典方法。</li>
+</ul>
+<h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><blockquote>
+<p>本文的核心目标是把“协同信息”作为一种可以被 LLM 理解的新模态，让推荐模型在冷启动和热启动场景下都保持竞争力。</p>
+</blockquote>
+<ul>
+<li><strong>显式注入协同信号</strong>：不再只依赖文本描述，而是把传统推荐模型学到的 user&#x2F;item embedding 直接接入 LLM。</li>
+<li><strong>保持模型轻量与灵活</strong>：作者不修改 LLM 主干结构，也不扩充庞大的 ID 词表，而是通过一个小型映射层完成跨模态对齐。</li>
+<li><strong>兼顾泛化与效果</strong>：既要保留 LLM 的语义理解优势，也要吸收传统协同模型在热启动场景中的稳定收益。</li>
+</ul>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><blockquote>
+<p>CoLLM 证明了“LLM + 外挂协同信息”是一条务实且有效的推荐路线。</p>
+</blockquote>
+<ul>
+<li>提出了一套两阶段微调框架，把 MF、LightGCN、DIN 等传统协同模型与 Vicuna-7B 结合起来。</li>
+<li>在整体指标上，CoLLM 超越了传统 SOTA 和纯 LLMRec 方法，同时显著缓解了 LLMRec 在热启动场景中的短板。</li>
+</ul>
+<h2 id="结果与讨论"><a href="#结果与讨论" class="headerlink" title="结果与讨论"></a>结果与讨论</h2><h3 id="数据以及数据来源"><a href="#数据以及数据来源" class="headerlink" title="数据以及数据来源"></a>数据以及数据来源</h3><ul>
+<li><strong>数据集</strong>：使用 ML-1M 和 Amazon-Book 两个经典推荐数据集。</li>
+<li><strong>数据划分</strong>：采用严格的时间戳切分，避免信息泄露，并将任务处理为隐式反馈二分类问题。</li>
+<li><strong>冷热拆分</strong>：测试集进一步划分为 Warm 与 Cold 子集，用来检验模型在不同数据稠密度场景下的表现差异。</li>
+</ul>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><blockquote>
+<p>CoLLM 的思路很直接：让传统推荐模型负责提取协同表示，让 LLM 负责理解文本上下文并做最终推理。</p>
+</blockquote>
+<h4 id="协同信息编码模块（CIE-Collaborative-Information-Encoding）"><a href="#协同信息编码模块（CIE-Collaborative-Information-Encoding）" class="headerlink" title="协同信息编码模块（CIE: Collaborative Information Encoding）"></a>协同信息编码模块（CIE: Collaborative Information Encoding）</h4><ul>
+<li><strong>协同模型</strong> <code>f_psi</code>：使用 MF、LightGCN 或 DIN 等传统模型，把用户和物品编码成低维协同 embedding。</li>
+<li><strong>映射层</strong> <code>g_phi</code>：通过一个 MLP 将协同 embedding 映射到 LLM 的词向量空间，充当“翻译器”。</li>
+<li><strong>混合输入方式</strong>：最终输入被组织为文本 token 与协同向量交织的序列，使 LLM 能在统一空间中处理两类信息。</li>
+</ul>
+<h4 id="两阶段解耦微调（Two-Step-Tuning）"><a href="#两阶段解耦微调（Two-Step-Tuning）" class="headerlink" title="两阶段解耦微调（Two-Step Tuning）"></a>两阶段解耦微调（Two-Step Tuning）</h4><ul>
+<li><p><strong>Step 1: 文本能力与任务对齐</strong></p>
+<ul>
+<li>暂时屏蔽协同 embedding，只用文本提示微调 LoRA。</li>
+<li>目标是先让 LLM 理解推荐任务本身，并稳住冷启动场景中的文本推理能力。</li>
+</ul>
+</li>
+<li><p><strong>Step 2: 协同信号对齐</strong></p>
+<ul>
+<li>冻结 LLM 与 LoRA，仅更新 CIE 中的映射层，必要时可联合微调协同模型。</li>
+<li>目标是把传统协同信号对齐到 LLM 已经适配好的表示空间中。</li>
+</ul>
+</li>
+</ul>
+<h3 id="结论分析"><a href="#结论分析" class="headerlink" title="结论分析"></a>结论分析</h3><ul>
+<li><strong>整体性能（RQ1）</strong>：无论底层协同模型选用 MF、LightGCN 还是 DIN，CoLLM 都优于纯传统模型和 TALLRec，说明“语义 + 协同”组合确实有效。</li>
+<li><strong>冷热场景对比</strong>：在 Warm 子集上，CoLLM 明显修复了 TALLRec 的短板；在 Cold 子集上，又基本保留了 TALLRec 的优势。</li>
+<li><strong>消融与效率（RQ2）</strong>：去掉 CIE 后性能显著下降，而直接引入 ID token 的朴素做法甚至会带来负收益。两阶段训练带来的额外开销相对可控，文中报告训练时间约增加 15.5%，推理耗时约增加 12.5%。</li>
+</ul>
+<h2 id="文章亮点思考"><a href="#文章亮点思考" class="headerlink" title="文章亮点思考"></a>文章亮点思考</h2><h3 id="本文有什么优缺点？"><a href="#本文有什么优缺点？" class="headerlink" title="本文有什么优缺点？"></a>本文有什么优缺点？</h3><ul>
+<li><p><strong>优点</strong></p>
+<ul>
+<li><strong>问题抓得准</strong>：文章非常敏锐地指出了 LLMRec 在热启动场景中的核心弱点，不是简单追求“大模型更强”，而是回到推荐系统最本质的协同信号上。</li>
+<li><strong>设计足够克制</strong>：作者没有硬改 LLM 结构，而是用轻量映射层做对齐，这让方案兼具研究价值和工程可落地性。</li>
+<li><strong>可插拔性强</strong>：CIE 模块能兼容多种传统推荐模型，说明 CoLLM 更像一个融合框架，而不是只绑定某一种底座。</li>
+</ul>
+</li>
+<li><p><strong>缺点 &#x2F; 疑问</strong></p>
+<ul>
+<li><strong>在线推理成本仍高</strong>：即使加入协同信息后效果提升明显，LLM 级别的推理延迟在真实工业重排场景里仍然是压力点。</li>
+<li><strong>两阶段训练可能次优</strong>：Step 2 只对齐映射层，没有和 LoRA 共同端到端联合优化，可能限制最终上限。</li>
+</ul>
+</li>
+</ul>
+<h3 id="可以如何改进？"><a href="#可以如何改进？" class="headerlink" title="可以如何改进？"></a>可以如何改进？</h3><ol>
+<li><strong>端到端联合优化</strong>：让文本表示、协同表示和映射层在统一目标下协同训练，减少阶段间割裂。</li>
+<li><strong>动态门控机制</strong>：针对极端冷启动样本，引入 gating 模块动态决定当前应更依赖文本语义还是协同信号。</li>
+<li><strong>面向部署的轻量化设计</strong>：可以进一步探索蒸馏、缓存协同表示或只在精排阶段调用 LLM，以降低线上时延。</li>
+</ol>
+<h3 id="这篇文章为什么重要？"><a href="#这篇文章为什么重要？" class="headerlink" title="这篇文章为什么重要？"></a>这篇文章为什么重要？</h3><p>这篇文章的重要性在于，它把 LLM 推荐研究从“把推荐问题翻译成文本”推进到了“如何把非文本协同知识高效接入 LLM”。CoLLM 没有否定传统推荐模型，而是把它们当作成熟的外部专家来协同工作。这种思路既尊重了推荐系统长期积累的方法论，也为后续多模态推荐、结构化信号接入大模型提供了非常自然的范式。</p>
+]]></content>
+      <categories>
+        <category>论文笔记</category>
+        <category>推荐系统</category>
+      </categories>
+      <tags>
+        <tag>论文笔记</tag>
+        <tag>推荐系统</tag>
+        <tag>大语言模型</tag>
+        <tag>协同过滤</tag>
+        <tag>CoLLM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>论文笔记：GNPR-SID</title>
     <url>/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9AGNPR-SID/</url>
     <content><![CDATA[<h2 id="论文信息"><a href="#论文信息" class="headerlink" title="论文信息"></a>论文信息</h2><table>
@@ -5131,6 +5131,195 @@
         <tag>POI 推荐</tag>
         <tag>Semantic ID</tag>
         <tag>GNPR-SID</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>论文笔记：TALLRec</title>
+    <url>/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ATALLRec/</url>
+    <content><![CDATA[<h2 id="论文信息"><a href="#论文信息" class="headerlink" title="论文信息"></a>论文信息</h2><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>论文标题</td>
+<td>TALLRec: An Effective and Efficient Tuning Framework to Align Large Language Model with Recommendation</td>
+</tr>
+<tr>
+<td>期刊&#x2F;会议</td>
+<td>原笔记记为期刊&#x2F;会议，未单独区分</td>
+</tr>
+<tr>
+<td>发表日期</td>
+<td>2023-09-14</td>
+</tr>
+<tr>
+<td>作者</td>
+<td>Keqin Bao；Jizhi Zhang；Yang Zhang；Wenjie Wang；Fuli Feng；Xiangnan He</td>
+</tr>
+<tr>
+<td>核心主题</td>
+<td>通过高效微调让 LLM 与推荐任务对齐</td>
+</tr>
+<tr>
+<td>关键词</td>
+<td>TALLRec、LoRA、Few-shot、Instruction Tuning、Cross-domain Recommendation</td>
+</tr>
+<tr>
+<td>原文 PDF</td>
+<td>原笔记使用 Zotero 本地链接，公开网页中暂不放置外部链接</td>
+</tr>
+<tr>
+<td>笔记创建日期</td>
+<td>2025&#x2F;12&#x2F;8 12:52:14</td>
+</tr>
+</tbody></table>
+<h2 id="摘要速览"><a href="#摘要速览" class="headerlink" title="摘要速览"></a>摘要速览</h2><p>大语言模型在多个领域展现出强大的能力，但直接通过 Prompt 让 LLM 处理推荐任务时，效果往往并不理想。本文提出 TALLRec，通过“通用指令微调 + 推荐任务微调”的两阶段流程，并结合 LoRA 实现轻量训练，让 LLaMA-7B 能在单张 RTX 3090 上完成推荐任务适配。实验表明，该方法即使在少于 100 个训练样本的设置下，依然能显著提升推荐效果，并具备较强的跨域泛化能力。</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>英文摘要</td>
+<td>Large Language Models have demonstrated remarkable performance across diverse domains, prompting researchers to explore their potential in recommendation systems. However, direct prompting remains suboptimal because of the large gap between language modeling tasks and recommendation tasks, together with the lack of recommendation data during pre-training. To bridge this gap, the paper proposes TALLRec, an efficient tuning framework for aligning LLMs with recommendations. Experiments show that TALLRec can significantly enhance recommendation capability in movie and book domains even with fewer than 100 training samples, can run on a single RTX 3090 with LLaMA-7B, and also exhibits robust cross-domain generalization.</td>
+</tr>
+<tr>
+<td>中文摘要翻译</td>
+<td>大语言模型在多个领域展现了卓越性能，促使研究者探索其在推荐系统中的潜力。早期方法主要依赖上下文学习和提示词，但由于 LLM 训练任务与推荐任务之间存在巨大差异，且预训练阶段缺乏推荐数据，直接应用的效果并不理想。为此，本文提出 TALLRec，一种高效的微调框架，用于将 LLM 与推荐任务对齐。实验表明，即使在少于 100 个训练样本的设置下，TALLRec 也能显著提升电影和图书领域的推荐能力，并且能在单张 RTX 3090 上基于 LLaMA-7B 运行，同时表现出较强的跨域泛化能力。</td>
+</tr>
+</tbody></table>
+<h2 id="文章基本框架"><a href="#文章基本框架" class="headerlink" title="文章基本框架"></a>文章基本框架</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><blockquote>
+<p>现有的 LLM + Rec 尝试主要依赖上下文学习，即把 LLM 当作黑盒工具来使用，但效果并不理想。</p>
+</blockquote>
+<ul>
+<li><strong>直接 Prompt 的失效</strong>：研究发现，直接通过 API 询问 LLM 用户是否喜欢某个物品，模型往往会拒绝回答或者表现出明显的正向偏差。如果不做微调，其预测性能接近随机猜测，AUC 约为 0.5。</li>
+<li><strong>训练任务鸿沟</strong>：LLM 预训练时的任务是通用语言生成，而推荐任务通常涉及根据隐式反馈序列预测偏好，两者之间存在明显的 Task Gap。</li>
+<li><strong>数据缺失</strong>：LLM 在预训练阶段接触到的专业推荐数据非常有限。</li>
+</ul>
+<h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><blockquote>
+<p>本研究的核心目的是构建一个大型推荐语言模型，通过高效微调手段，让通用 LLM 真正“懂”推荐。</p>
+</blockquote>
+<ul>
+<li><strong>对齐（Alignment）</strong>：把推荐数据转成指令格式，通过监督微调强迫模型适应推荐系统的输入输出模式。</li>
+<li><strong>高效性（Efficiency）</strong>：用 LoRA 降低全量微调的成本，使 7B 参数模型也能在消费级显卡上训练。</li>
+<li><strong>少样本能力（Few-shot）</strong>：验证模型在极度缺乏数据时，是否依然具备较好的推荐学习能力。</li>
+</ul>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><blockquote>
+<p>TALLRec 证明了“微调”优于“免训练提示”。</p>
+</blockquote>
+<ul>
+<li>在电影和图书数据集上，TALLRec 在少样本设置下显著优于传统序列推荐模型以及未微调的 LLM。</li>
+<li>模型展现出较强的跨域泛化能力，在一个领域微调后可以迁移到另一个领域并保持不错效果。</li>
+</ul>
+<h2 id="结果与讨论"><a href="#结果与讨论" class="headerlink" title="结果与讨论"></a>结果与讨论</h2><h3 id="数据以及数据来源"><a href="#数据以及数据来源" class="headerlink" title="数据以及数据来源"></a>数据以及数据来源</h3><ul>
+<li><strong>Movie（电影）</strong>：基于 MovieLens 100K 处理，包含用户评分和电影文本描述，评分大于 3 视为“喜欢”。</li>
+<li><strong>Book（图书）</strong>：基于 BookCrossing 处理，包含书名、作者等文本信息，评分大于 5 视为“喜欢”。</li>
+<li><strong>样本构造</strong>：每个用户历史交互序列长度截断为 10，构建二分类任务，预测用户是否喜欢目标物品。</li>
+</ul>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><blockquote>
+<p>TALLRec 的核心可以概括为：两阶段微调 + LoRA。</p>
+</blockquote>
+<h4 id="推荐数据的指令化（Rec-tuning-Task-Formulation）"><a href="#推荐数据的指令化（Rec-tuning-Task-Formulation）" class="headerlink" title="推荐数据的指令化（Rec-tuning Task Formulation）"></a>推荐数据的指令化（Rec-tuning Task Formulation）</h4><p>为了让 LLM 理解推荐任务，作者将传统的 <code>(User History, Target Item) -&gt; Label</code> 数据重构为指令格式：</p>
+<ul>
+<li><strong>Task Instruction</strong>：明确告诉模型任务目标，例如“给定用户历史交互，请判断用户是否会喜欢目标新电影，只能回答 Yes 或 No”。</li>
+<li><strong>Task Input</strong>：<ul>
+<li>用户喜欢过的物品</li>
+<li>用户不喜欢的物品</li>
+<li>待预测的目标物品</li>
+</ul>
+</li>
+<li><strong>Task Output</strong>：强制限制为 <code>Yes</code> 或 <code>No</code></li>
+</ul>
+<h4 id="两阶段微调流程（Two-Tuning-Stages）"><a href="#两阶段微调流程（Two-Tuning-Stages）" class="headerlink" title="两阶段微调流程（Two Tuning Stages）"></a>两阶段微调流程（Two Tuning Stages）</h4><ul>
+<li><p><strong>逻辑层面：从“续写故事”到“做选择题”</strong></p>
+<ul>
+<li>LLM 本质上是一个 Next Token Prediction 模型。</li>
+<li>微调前，如果直接问它“用户喜欢《教父》，会喜欢《钢铁侠》吗？”，模型可能会开始聊天，而不是给出结构化答案。</li>
+<li>微调的目的，就是让它学会在这种推荐提示下稳定输出 <code>Yes</code> 或 <code>No</code>。</li>
+</ul>
+</li>
+<li><p><strong>阶段一：Alpaca Tuning（通用能力唤醒）</strong></p>
+<ul>
+<li>使用 Alpaca 提供的通用 Self-instruct 数据微调 LLaMA。</li>
+<li>目的：让模型先学会“遵循指令”的通用范式。</li>
+</ul>
+</li>
+<li><p><strong>阶段二：Rec-Tuning（推荐能力注入）</strong></p>
+<ul>
+<li>使用构造好的推荐指令数据进行微调。</li>
+<li>目的：让模型适应推荐系统里的偏好判断逻辑。</li>
+</ul>
+</li>
+</ul>
+<h4 id="轻量级实现（Lightweight-via-LoRA）"><a href="#轻量级实现（Lightweight-via-LoRA）" class="headerlink" title="轻量级实现（Lightweight via LoRA）"></a>轻量级实现（Lightweight via LoRA）</h4><ul>
+<li><strong>全量微调（Full Fine-tuning）</strong>：需要更新全部参数，显存和算力成本很高。</li>
+<li><strong>LoRA 微调（TALLRec 的核心）</strong>：<ul>
+<li><strong>冻结</strong>：主干模型参数保持不动。</li>
+<li><strong>旁路</strong>：在原有权重旁边加上一个低秩适配模块。</li>
+<li><strong>训练</strong>：只更新这部分额外参数，而不改动原模型主体。</li>
+</ul>
+</li>
+<li><strong>效果</strong>：最终输出可以理解为“大模型原始能力 + LoRA 学到的推荐知识”。</li>
+<li><strong>优势</strong>：仅需训练原参数量的一小部分，大幅降低硬件门槛。</li>
+</ul>
+<h3 id="结论分析"><a href="#结论分析" class="headerlink" title="结论分析"></a>结论分析</h3><ul>
+<li><p><strong>性能对比（RQ1）</strong></p>
+<ul>
+<li>直接询问 GPT-3.5 的 AUC 仅为 0.5 左右，基本等于随机猜测。</li>
+<li>TALLRec 在 64-shot 设置下的 AUC 远超传统模型，说明微调是必须的，而且 LLM 在极少数据下也具备不错的学习效率。</li>
+</ul>
+</li>
+<li><p><strong>消融实验（RQ2）</strong></p>
+<ul>
+<li>去掉推荐微调后效果最差，说明推荐数据注入是核心。</li>
+<li>在样本极少时，Alpaca Tuning 也能明显提升效果，说明通用指令微调可以作为热身步骤。</li>
+</ul>
+</li>
+<li><p><strong>跨域泛化（RQ3）</strong></p>
+<ul>
+<li>用电影数据训练出的 TALLRec，在图书测试集上的表现与专门用图书数据训练的模型相当。</li>
+<li>这说明模型学到的是通用的偏好判断逻辑，而不是简单记住特定领域知识。</li>
+</ul>
+</li>
+</ul>
+<h2 id="文章亮点思考"><a href="#文章亮点思考" class="headerlink" title="文章亮点思考"></a>文章亮点思考</h2><h3 id="本文有什么优缺点？"><a href="#本文有什么优缺点？" class="headerlink" title="本文有什么优缺点？"></a>本文有什么优缺点？</h3><ul>
+<li><p><strong>优点</strong></p>
+<ul>
+<li><strong>开创性</strong>：这是较早系统探索“微调 LLM 做推荐”的代表性工作之一，明确指出了仅靠 Prompting 的局限性。</li>
+<li><strong>低门槛</strong>：强调 LoRA 和 Few-shot，明确说明单卡 RTX 3090 就能训练，复现门槛较低。</li>
+<li><strong>泛化性强</strong>：实验显示 LLM 相比传统 ID 模型，在跨域迁移和冷启动场景里更具潜力。</li>
+</ul>
+</li>
+<li><p><strong>缺点 &#x2F; 局限</strong></p>
+<ul>
+<li><strong>任务单一</strong>：目前主要处理二分类判别任务，但实际推荐系统更关注排序与召回。</li>
+<li><strong>输入长度限制</strong>：只使用最近 10 个交互物品，长期兴趣信息会被截断。</li>
+<li><strong>基座模型规模有限</strong>：仅使用 7B 级别模型，更大模型是否会涌现出更强推荐能力仍未充分探索。</li>
+</ul>
+</li>
+</ul>
+<h3 id="可以如何改进？"><a href="#可以如何改进？" class="headerlink" title="可以如何改进？"></a>可以如何改进？</h3><ol>
+<li><strong>多任务微调</strong>：除了输出 Yes &#x2F; No，还可以同时训练模型生成推荐理由、预测评分，甚至直接生成下一个物品标题。</li>
+<li><strong>更强的负采样策略</strong>：加入 Hard Negatives，提升模型的细粒度判别能力。</li>
+<li><strong>混合训练</strong>：把传统 ID Embedding 中的协同信号以 Projector 等方式注入到 LLM 中，结合文本泛化能力与 ID 精准性。</li>
+</ol>
+<h3 id="这篇文章为什么重要？"><a href="#这篇文章为什么重要？" class="headerlink" title="这篇文章为什么重要？"></a>这篇文章为什么重要？</h3><p>这篇文章的重要性在于它用扎实的实验说明了一个关键事实：直接拿通用 LLM 做推荐并不可靠，但只要给它少量专业数据并通过微调进行任务对齐，它就有机会超越传统推荐模型。它基本确立了“LLM + Instruction Tuning + LoRA”这条在推荐系统领域很有代表性的研究路线，为后续工作打下了基础。</p>
+]]></content>
+      <categories>
+        <category>论文笔记</category>
+        <category>推荐系统</category>
+      </categories>
+      <tags>
+        <tag>论文笔记</tag>
+        <tag>推荐系统</tag>
+        <tag>大语言模型</tag>
+        <tag>LoRA</tag>
+        <tag>TALLRec</tag>
       </tags>
   </entry>
   <entry>
@@ -5377,195 +5566,6 @@
         <tag>大语言模型</tag>
         <tag>Instruction Tuning</tag>
         <tag>InstructRec</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>论文笔记：TALLRec</title>
-    <url>/blog/2026/04/09/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%EF%BC%9ATALLRec/</url>
-    <content><![CDATA[<h2 id="论文信息"><a href="#论文信息" class="headerlink" title="论文信息"></a>论文信息</h2><table>
-<thead>
-<tr>
-<th>字段</th>
-<th>内容</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>论文标题</td>
-<td>TALLRec: An Effective and Efficient Tuning Framework to Align Large Language Model with Recommendation</td>
-</tr>
-<tr>
-<td>期刊&#x2F;会议</td>
-<td>原笔记记为期刊&#x2F;会议，未单独区分</td>
-</tr>
-<tr>
-<td>发表日期</td>
-<td>2023-09-14</td>
-</tr>
-<tr>
-<td>作者</td>
-<td>Keqin Bao；Jizhi Zhang；Yang Zhang；Wenjie Wang；Fuli Feng；Xiangnan He</td>
-</tr>
-<tr>
-<td>核心主题</td>
-<td>通过高效微调让 LLM 与推荐任务对齐</td>
-</tr>
-<tr>
-<td>关键词</td>
-<td>TALLRec、LoRA、Few-shot、Instruction Tuning、Cross-domain Recommendation</td>
-</tr>
-<tr>
-<td>原文 PDF</td>
-<td>原笔记使用 Zotero 本地链接，公开网页中暂不放置外部链接</td>
-</tr>
-<tr>
-<td>笔记创建日期</td>
-<td>2025&#x2F;12&#x2F;8 12:52:14</td>
-</tr>
-</tbody></table>
-<h2 id="摘要速览"><a href="#摘要速览" class="headerlink" title="摘要速览"></a>摘要速览</h2><p>大语言模型在多个领域展现出强大的能力，但直接通过 Prompt 让 LLM 处理推荐任务时，效果往往并不理想。本文提出 TALLRec，通过“通用指令微调 + 推荐任务微调”的两阶段流程，并结合 LoRA 实现轻量训练，让 LLaMA-7B 能在单张 RTX 3090 上完成推荐任务适配。实验表明，该方法即使在少于 100 个训练样本的设置下，依然能显著提升推荐效果，并具备较强的跨域泛化能力。</p>
-<table>
-<thead>
-<tr>
-<th>项目</th>
-<th>内容</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>英文摘要</td>
-<td>Large Language Models have demonstrated remarkable performance across diverse domains, prompting researchers to explore their potential in recommendation systems. However, direct prompting remains suboptimal because of the large gap between language modeling tasks and recommendation tasks, together with the lack of recommendation data during pre-training. To bridge this gap, the paper proposes TALLRec, an efficient tuning framework for aligning LLMs with recommendations. Experiments show that TALLRec can significantly enhance recommendation capability in movie and book domains even with fewer than 100 training samples, can run on a single RTX 3090 with LLaMA-7B, and also exhibits robust cross-domain generalization.</td>
-</tr>
-<tr>
-<td>中文摘要翻译</td>
-<td>大语言模型在多个领域展现了卓越性能，促使研究者探索其在推荐系统中的潜力。早期方法主要依赖上下文学习和提示词，但由于 LLM 训练任务与推荐任务之间存在巨大差异，且预训练阶段缺乏推荐数据，直接应用的效果并不理想。为此，本文提出 TALLRec，一种高效的微调框架，用于将 LLM 与推荐任务对齐。实验表明，即使在少于 100 个训练样本的设置下，TALLRec 也能显著提升电影和图书领域的推荐能力，并且能在单张 RTX 3090 上基于 LLaMA-7B 运行，同时表现出较强的跨域泛化能力。</td>
-</tr>
-</tbody></table>
-<h2 id="文章基本框架"><a href="#文章基本框架" class="headerlink" title="文章基本框架"></a>文章基本框架</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><blockquote>
-<p>现有的 LLM + Rec 尝试主要依赖上下文学习，即把 LLM 当作黑盒工具来使用，但效果并不理想。</p>
-</blockquote>
-<ul>
-<li><strong>直接 Prompt 的失效</strong>：研究发现，直接通过 API 询问 LLM 用户是否喜欢某个物品，模型往往会拒绝回答或者表现出明显的正向偏差。如果不做微调，其预测性能接近随机猜测，AUC 约为 0.5。</li>
-<li><strong>训练任务鸿沟</strong>：LLM 预训练时的任务是通用语言生成，而推荐任务通常涉及根据隐式反馈序列预测偏好，两者之间存在明显的 Task Gap。</li>
-<li><strong>数据缺失</strong>：LLM 在预训练阶段接触到的专业推荐数据非常有限。</li>
-</ul>
-<h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><blockquote>
-<p>本研究的核心目的是构建一个大型推荐语言模型，通过高效微调手段，让通用 LLM 真正“懂”推荐。</p>
-</blockquote>
-<ul>
-<li><strong>对齐（Alignment）</strong>：把推荐数据转成指令格式，通过监督微调强迫模型适应推荐系统的输入输出模式。</li>
-<li><strong>高效性（Efficiency）</strong>：用 LoRA 降低全量微调的成本，使 7B 参数模型也能在消费级显卡上训练。</li>
-<li><strong>少样本能力（Few-shot）</strong>：验证模型在极度缺乏数据时，是否依然具备较好的推荐学习能力。</li>
-</ul>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><blockquote>
-<p>TALLRec 证明了“微调”优于“免训练提示”。</p>
-</blockquote>
-<ul>
-<li>在电影和图书数据集上，TALLRec 在少样本设置下显著优于传统序列推荐模型以及未微调的 LLM。</li>
-<li>模型展现出较强的跨域泛化能力，在一个领域微调后可以迁移到另一个领域并保持不错效果。</li>
-</ul>
-<h2 id="结果与讨论"><a href="#结果与讨论" class="headerlink" title="结果与讨论"></a>结果与讨论</h2><h3 id="数据以及数据来源"><a href="#数据以及数据来源" class="headerlink" title="数据以及数据来源"></a>数据以及数据来源</h3><ul>
-<li><strong>Movie（电影）</strong>：基于 MovieLens 100K 处理，包含用户评分和电影文本描述，评分大于 3 视为“喜欢”。</li>
-<li><strong>Book（图书）</strong>：基于 BookCrossing 处理，包含书名、作者等文本信息，评分大于 5 视为“喜欢”。</li>
-<li><strong>样本构造</strong>：每个用户历史交互序列长度截断为 10，构建二分类任务，预测用户是否喜欢目标物品。</li>
-</ul>
-<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><blockquote>
-<p>TALLRec 的核心可以概括为：两阶段微调 + LoRA。</p>
-</blockquote>
-<h4 id="推荐数据的指令化（Rec-tuning-Task-Formulation）"><a href="#推荐数据的指令化（Rec-tuning-Task-Formulation）" class="headerlink" title="推荐数据的指令化（Rec-tuning Task Formulation）"></a>推荐数据的指令化（Rec-tuning Task Formulation）</h4><p>为了让 LLM 理解推荐任务，作者将传统的 <code>(User History, Target Item) -&gt; Label</code> 数据重构为指令格式：</p>
-<ul>
-<li><strong>Task Instruction</strong>：明确告诉模型任务目标，例如“给定用户历史交互，请判断用户是否会喜欢目标新电影，只能回答 Yes 或 No”。</li>
-<li><strong>Task Input</strong>：<ul>
-<li>用户喜欢过的物品</li>
-<li>用户不喜欢的物品</li>
-<li>待预测的目标物品</li>
-</ul>
-</li>
-<li><strong>Task Output</strong>：强制限制为 <code>Yes</code> 或 <code>No</code></li>
-</ul>
-<h4 id="两阶段微调流程（Two-Tuning-Stages）"><a href="#两阶段微调流程（Two-Tuning-Stages）" class="headerlink" title="两阶段微调流程（Two Tuning Stages）"></a>两阶段微调流程（Two Tuning Stages）</h4><ul>
-<li><p><strong>逻辑层面：从“续写故事”到“做选择题”</strong></p>
-<ul>
-<li>LLM 本质上是一个 Next Token Prediction 模型。</li>
-<li>微调前，如果直接问它“用户喜欢《教父》，会喜欢《钢铁侠》吗？”，模型可能会开始聊天，而不是给出结构化答案。</li>
-<li>微调的目的，就是让它学会在这种推荐提示下稳定输出 <code>Yes</code> 或 <code>No</code>。</li>
-</ul>
-</li>
-<li><p><strong>阶段一：Alpaca Tuning（通用能力唤醒）</strong></p>
-<ul>
-<li>使用 Alpaca 提供的通用 Self-instruct 数据微调 LLaMA。</li>
-<li>目的：让模型先学会“遵循指令”的通用范式。</li>
-</ul>
-</li>
-<li><p><strong>阶段二：Rec-Tuning（推荐能力注入）</strong></p>
-<ul>
-<li>使用构造好的推荐指令数据进行微调。</li>
-<li>目的：让模型适应推荐系统里的偏好判断逻辑。</li>
-</ul>
-</li>
-</ul>
-<h4 id="轻量级实现（Lightweight-via-LoRA）"><a href="#轻量级实现（Lightweight-via-LoRA）" class="headerlink" title="轻量级实现（Lightweight via LoRA）"></a>轻量级实现（Lightweight via LoRA）</h4><ul>
-<li><strong>全量微调（Full Fine-tuning）</strong>：需要更新全部参数，显存和算力成本很高。</li>
-<li><strong>LoRA 微调（TALLRec 的核心）</strong>：<ul>
-<li><strong>冻结</strong>：主干模型参数保持不动。</li>
-<li><strong>旁路</strong>：在原有权重旁边加上一个低秩适配模块。</li>
-<li><strong>训练</strong>：只更新这部分额外参数，而不改动原模型主体。</li>
-</ul>
-</li>
-<li><strong>效果</strong>：最终输出可以理解为“大模型原始能力 + LoRA 学到的推荐知识”。</li>
-<li><strong>优势</strong>：仅需训练原参数量的一小部分，大幅降低硬件门槛。</li>
-</ul>
-<h3 id="结论分析"><a href="#结论分析" class="headerlink" title="结论分析"></a>结论分析</h3><ul>
-<li><p><strong>性能对比（RQ1）</strong></p>
-<ul>
-<li>直接询问 GPT-3.5 的 AUC 仅为 0.5 左右，基本等于随机猜测。</li>
-<li>TALLRec 在 64-shot 设置下的 AUC 远超传统模型，说明微调是必须的，而且 LLM 在极少数据下也具备不错的学习效率。</li>
-</ul>
-</li>
-<li><p><strong>消融实验（RQ2）</strong></p>
-<ul>
-<li>去掉推荐微调后效果最差，说明推荐数据注入是核心。</li>
-<li>在样本极少时，Alpaca Tuning 也能明显提升效果，说明通用指令微调可以作为热身步骤。</li>
-</ul>
-</li>
-<li><p><strong>跨域泛化（RQ3）</strong></p>
-<ul>
-<li>用电影数据训练出的 TALLRec，在图书测试集上的表现与专门用图书数据训练的模型相当。</li>
-<li>这说明模型学到的是通用的偏好判断逻辑，而不是简单记住特定领域知识。</li>
-</ul>
-</li>
-</ul>
-<h2 id="文章亮点思考"><a href="#文章亮点思考" class="headerlink" title="文章亮点思考"></a>文章亮点思考</h2><h3 id="本文有什么优缺点？"><a href="#本文有什么优缺点？" class="headerlink" title="本文有什么优缺点？"></a>本文有什么优缺点？</h3><ul>
-<li><p><strong>优点</strong></p>
-<ul>
-<li><strong>开创性</strong>：这是较早系统探索“微调 LLM 做推荐”的代表性工作之一，明确指出了仅靠 Prompting 的局限性。</li>
-<li><strong>低门槛</strong>：强调 LoRA 和 Few-shot，明确说明单卡 RTX 3090 就能训练，复现门槛较低。</li>
-<li><strong>泛化性强</strong>：实验显示 LLM 相比传统 ID 模型，在跨域迁移和冷启动场景里更具潜力。</li>
-</ul>
-</li>
-<li><p><strong>缺点 &#x2F; 局限</strong></p>
-<ul>
-<li><strong>任务单一</strong>：目前主要处理二分类判别任务，但实际推荐系统更关注排序与召回。</li>
-<li><strong>输入长度限制</strong>：只使用最近 10 个交互物品，长期兴趣信息会被截断。</li>
-<li><strong>基座模型规模有限</strong>：仅使用 7B 级别模型，更大模型是否会涌现出更强推荐能力仍未充分探索。</li>
-</ul>
-</li>
-</ul>
-<h3 id="可以如何改进？"><a href="#可以如何改进？" class="headerlink" title="可以如何改进？"></a>可以如何改进？</h3><ol>
-<li><strong>多任务微调</strong>：除了输出 Yes &#x2F; No，还可以同时训练模型生成推荐理由、预测评分，甚至直接生成下一个物品标题。</li>
-<li><strong>更强的负采样策略</strong>：加入 Hard Negatives，提升模型的细粒度判别能力。</li>
-<li><strong>混合训练</strong>：把传统 ID Embedding 中的协同信号以 Projector 等方式注入到 LLM 中，结合文本泛化能力与 ID 精准性。</li>
-</ol>
-<h3 id="这篇文章为什么重要？"><a href="#这篇文章为什么重要？" class="headerlink" title="这篇文章为什么重要？"></a>这篇文章为什么重要？</h3><p>这篇文章的重要性在于它用扎实的实验说明了一个关键事实：直接拿通用 LLM 做推荐并不可靠，但只要给它少量专业数据并通过微调进行任务对齐，它就有机会超越传统推荐模型。它基本确立了“LLM + Instruction Tuning + LoRA”这条在推荐系统领域很有代表性的研究路线，为后续工作打下了基础。</p>
-]]></content>
-      <categories>
-        <category>论文笔记</category>
-        <category>推荐系统</category>
-      </categories>
-      <tags>
-        <tag>论文笔记</tag>
-        <tag>推荐系统</tag>
-        <tag>大语言模型</tag>
-        <tag>LoRA</tag>
-        <tag>TALLRec</tag>
       </tags>
   </entry>
 </search>
