@@ -320,6 +320,28 @@
     articleContainer.insertAdjacentElement('afterend', seriesNav)
   }
 
+  const pickCardKeywords = title => {
+    if (title.startsWith('Ragent学习笔记06')) return ['RAG', 'Chunk', '文档分块']
+    if (title.startsWith('Ragent学习笔记05')) return ['RAG', 'Tika', '文档解析']
+    if (title.startsWith('Ragent学习笔记04')) return ['RAG', '检索增强', '知识库']
+    if (title.startsWith('Ragent学习笔记03')) return ['Prompt', '角色设定', '输出约束']
+    if (title.startsWith('Ragent学习笔记02')) return ['API', '模型调用', '参数']
+    if (title.startsWith('Ragent学习笔记01')) return ['大模型', '训练阶段', '量化']
+    if (title.includes('两数之和')) return ['HashMap', '补数', '一次遍历']
+    if (title.includes('字母异位词')) return ['HashMap', '分组', '排序']
+    if (title.includes('最长连续序列')) return ['HashSet', '起点判断', 'O(n)']
+    if (title.includes('搜索插入位置')) return ['二分查找', 'left', '边界']
+    if (title.startsWith('论文笔记：')) return ['论文笔记', '推荐系统', 'LLM']
+    if (title.includes('学习计划/进度')) return ['学习计划', 'Ragent', 'Hot100']
+    if (title.includes('Git')) return ['Git', 'GitHub', '版本控制']
+    return ['学习记录']
+  }
+
+  const renderCardKeywords = title => {
+    const keywords = pickCardKeywords(title)
+    return keywords.map(keyword => `<span>${escapeHtml(keyword)}</span>`).join('')
+  }
+
   const markPostCards = () => {
     document.querySelectorAll('#recent-posts .recent-post-item').forEach(card => {
       const title = card.querySelector('.article-title')?.textContent?.trim() || ''
@@ -327,6 +349,14 @@
       card.classList.toggle('series-hot100', title.startsWith('Hot100：'))
       card.classList.toggle('series-paper', title.startsWith('论文笔记：'))
       card.classList.toggle('series-plan', title.includes('学习计划/进度'))
+
+      if (!card.querySelector('.study-card-keywords')) {
+        const info = card.querySelector('.recent-post-info')
+        const keywordRow = document.createElement('div')
+        keywordRow.className = 'study-card-keywords'
+        keywordRow.innerHTML = renderCardKeywords(title)
+        info?.appendChild(keywordRow)
+      }
     })
   }
 

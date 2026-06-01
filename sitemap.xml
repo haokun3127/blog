@@ -323,20 +323,6 @@
   </url>
   
   <url>
-    <loc>https://haokun3127.github.io/blog/tags/API/</loc>
-    <lastmod>2026-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://haokun3127.github.io/blog/tags/SSE/</loc>
-    <lastmod>2026-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://haokun3127.github.io/blog/tags/Apache-Tika/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -365,14 +351,28 @@
   </url>
   
   <url>
-    <loc>https://haokun3127.github.io/blog/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91/</loc>
+    <loc>https://haokun3127.github.io/blog/tags/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://haokun3127.github.io/blog/tags/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91/</loc>
+    <loc>https://haokun3127.github.io/blog/tags/API/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/tags/SSE/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -435,20 +435,6 @@
   </url>
   
   <url>
-    <loc>https://haokun3127.github.io/blog/tags/LoRA/</loc>
-    <lastmod>2026-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://haokun3127.github.io/blog/tags/TALLRec/</loc>
-    <lastmod>2026-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://haokun3127.github.io/blog/tags/Instruction-Tuning/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -457,6 +443,20 @@
   
   <url>
     <loc>https://haokun3127.github.io/blog/tags/InstructRec/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/tags/LoRA/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/tags/TALLRec/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -493,14 +493,14 @@
   </url>
   
   <url>
-    <loc>https://haokun3127.github.io/blog/categories/%E5%89%8D%E7%AB%AF/</loc>
+    <loc>https://haokun3127.github.io/blog/categories/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://haokun3127.github.io/blog/categories/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91/</loc>
+    <loc>https://haokun3127.github.io/blog/categories/%E5%89%8D%E7%AB%AF/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

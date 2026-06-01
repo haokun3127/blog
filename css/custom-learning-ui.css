@@ -323,12 +323,43 @@
   background: var(--study-accent);
 }
 
+#recent-posts .recent-post-item > .recent-post-info::before {
+  display: inline-flex;
+  align-self: flex-start;
+  margin: 0 0 0.55rem;
+  padding: 0.34rem 0.68rem;
+  border-radius: 999px;
+  color: var(--study-accent);
+  background: rgba(15, 118, 110, 0.08);
+  font-size: 0.78rem;
+  font-weight: 600;
+  content: "学习笔记";
+}
+
+#recent-posts .recent-post-item.series-hot100 > .recent-post-info::before,
+#recent-posts .recent-post-item:has(.article-meta__categories[href*="/categories/算法/"]) > .recent-post-info::before {
+  color: #c2410c;
+  background: rgba(234, 88, 12, 0.09);
+  content: "Hot100 复习";
+}
+
+#recent-posts .recent-post-item.series-paper > .recent-post-info::before,
+#recent-posts .recent-post-item:has(.article-meta__categories[href*="/categories/论文笔记/"]) > .recent-post-info::before {
+  color: var(--study-paper);
+  background: rgba(79, 70, 229, 0.09);
+  content: "论文笔记";
+}
+
+#recent-posts .recent-post-item.series-plan > .recent-post-info::before {
+  content: "学习计划";
+}
+
 @media screen and (min-width: 901px) {
   #recent-posts .recent-post-item {
     display: flex !important;
     flex-direction: row !important;
     align-items: center;
-    min-height: 236px;
+    min-height: 252px;
     height: auto;
     border-radius: 8px;
     overflow: hidden;
@@ -372,25 +403,43 @@
   }
 
   #recent-posts .recent-post-item > .recent-post-info > .article-meta-wrap {
-    margin: 0.16rem 0 0;
+    margin: 0.16rem 0 0.46rem;
     font-size: 0.82rem;
   }
 
   #recent-posts .recent-post-item > .recent-post-info > .content {
-    display: none;
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 0.16rem 0 0;
+    color: var(--font-color);
+    opacity: 0.78;
+    font-size: 0.91rem;
+    line-height: 1.62;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 
-  #recent-posts .recent-post-item > .recent-post-info::after {
+  #recent-posts .recent-post-item > .recent-post-info::before {
+    order: -1;
+  }
+
+  .study-card-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.78rem;
+  }
+
+  .study-card-keywords span {
     display: inline-flex;
-    align-self: flex-start;
-    margin-top: 0.85rem;
-    padding: 0.34rem 0.68rem;
+    align-items: center;
+    min-height: 28px;
+    padding: 0.24rem 0.58rem;
     border-radius: 999px;
-    color: var(--study-accent);
-    background: rgba(15, 118, 110, 0.08);
-    font-size: 0.78rem;
+    color: rgba(15, 23, 42, 0.72);
+    background: rgba(15, 23, 42, 0.055);
+    font-size: 0.76rem;
     font-weight: 600;
-    content: "学习笔记";
   }
 
   #recent-posts .recent-post-item.series-ragent {
@@ -402,11 +451,14 @@
     border-left: 4px solid var(--study-hot100);
   }
 
-  #recent-posts .recent-post-item.series-hot100 > .recent-post-info::after,
-  #recent-posts .recent-post-item:has(.article-meta__categories[href*="/categories/算法/"]) > .recent-post-info::after {
+  #recent-posts .recent-post-item.series-hot100 > .recent-post-info::before,
+  #recent-posts .recent-post-item:has(.article-meta__categories[href*="/categories/算法/"]) > .recent-post-info::before {
+  }
+
+  #recent-posts .recent-post-item.series-hot100 .study-card-keywords span,
+  #recent-posts .recent-post-item:has(.article-meta__categories[href*="/categories/算法/"]) .study-card-keywords span {
     color: #c2410c;
-    background: rgba(234, 88, 12, 0.09);
-    content: "Hot100 复习";
+    background: rgba(234, 88, 12, 0.08);
   }
 
   #recent-posts .recent-post-item.series-paper,
@@ -414,21 +466,23 @@
     border-left: 4px solid var(--study-paper);
   }
 
-  #recent-posts .recent-post-item.series-paper > .recent-post-info::after,
-  #recent-posts .recent-post-item:has(.article-meta__categories[href*="/categories/论文笔记/"]) > .recent-post-info::after {
-    color: var(--study-paper);
-    background: rgba(79, 70, 229, 0.09);
-    content: "论文笔记";
+  #recent-posts .recent-post-item.series-paper > .recent-post-info::before,
+  #recent-posts .recent-post-item:has(.article-meta__categories[href*="/categories/论文笔记/"]) > .recent-post-info::before {
   }
 
-  #recent-posts .recent-post-item.series-plan > .recent-post-info::after {
-    content: "学习计划";
+  #recent-posts .recent-post-item.series-paper .study-card-keywords span,
+  #recent-posts .recent-post-item:has(.article-meta__categories[href*="/categories/论文笔记/"]) .study-card-keywords span {
+    color: var(--study-paper);
+    background: rgba(79, 70, 229, 0.08);
+  }
+
+  #recent-posts .recent-post-item.series-plan > .recent-post-info::before {
   }
 }
 
 @media screen and (min-width: 901px) and (max-width: 1180px) {
   #recent-posts .recent-post-item {
-    min-height: 208px;
+    min-height: 232px;
   }
 
   #recent-posts .recent-post-item .post_cover {
@@ -514,6 +568,29 @@
   }
 
   #recent-posts .recent-post-item > .recent-post-info > .content {
-    display: none;
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 0.35rem 0 0;
+    opacity: 0.78;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .study-card-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.36rem;
+    margin-top: 0.68rem;
+  }
+
+  .study-card-keywords span {
+    min-height: 26px;
+    padding: 0.22rem 0.52rem;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.055);
+    font-size: 0.74rem;
+    font-weight: 600;
   }
 }
