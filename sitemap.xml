@@ -29,16 +29,7 @@
   </url>
   
   <url>
-    <loc>https://haokun3127.github.io/blog/2026/06/01/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007-%E5%85%83%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BD%9C%E7%94%A8%E4%B8%8E%E7%AE%A1%E7%90%86/</loc>
-    
-    <lastmod>2026-06-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://haokun3127.github.io/blog/hot100/index.html</loc>
+    <loc>https://haokun3127.github.io/blog/2026/06/01/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008-%E4%BB%8E%E6%96%87%E6%9C%AC%E5%88%B0%E5%90%91%E9%87%8F%E4%B9%8B%E7%90%86%E8%A7%A3Embedding/</loc>
     
     <lastmod>2026-06-01</lastmod>
     
@@ -65,24 +56,6 @@
   </url>
   
   <url>
-    <loc>https://haokun3127.github.io/blog/2026/05/29/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004-%E4%BB%80%E4%B9%88%E6%98%AFRAG/</loc>
-    
-    <lastmod>2026-06-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://haokun3127.github.io/blog/2026/05/29/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-Prompt%E5%B7%A5%E7%A8%8B%E5%85%A5%E9%97%A8/</loc>
-    
-    <lastmod>2026-06-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://haokun3127.github.io/blog/2026/05/28/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002-%E8%B0%83%E7%94%A8%E5%A4%A7%E6%A8%A1%E5%9E%8BAPI/</loc>
     
     <lastmod>2026-06-01</lastmod>
@@ -93,6 +66,42 @@
   
   <url>
     <loc>https://haokun3127.github.io/blog/2026/05/28/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E8%AE%A4%E8%AF%86%E5%A4%A7%E6%A8%A1%E5%9E%8B/</loc>
+    
+    <lastmod>2026-06-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/2026/06/01/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007-%E5%85%83%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BD%9C%E7%94%A8%E4%B8%8E%E7%AE%A1%E7%90%86/</loc>
+    
+    <lastmod>2026-06-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/hot100/index.html</loc>
+    
+    <lastmod>2026-06-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/2026/05/29/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004-%E4%BB%80%E4%B9%88%E6%98%AFRAG/</loc>
+    
+    <lastmod>2026-06-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/2026/05/29/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-Prompt%E5%B7%A5%E7%A8%8B%E5%85%A5%E9%97%A8/</loc>
     
     <lastmod>2026-06-01</lastmod>
     
@@ -227,6 +236,34 @@
 
   
   <url>
+    <loc>https://haokun3127.github.io/blog/tags/LeetCode/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/tags/Hot100/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/tags/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://haokun3127.github.io/blog/tags/Ragent/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -276,34 +313,6 @@
   </url>
   
   <url>
-    <loc>https://haokun3127.github.io/blog/tags/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2026-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://haokun3127.github.io/blog/tags/LeetCode/</loc>
-    <lastmod>2026-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://haokun3127.github.io/blog/tags/Hot100/</loc>
-    <lastmod>2026-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://haokun3127.github.io/blog/tags/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/</loc>
-    <lastmod>2026-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://haokun3127.github.io/blog/tags/HashSet/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -326,6 +335,41 @@
   
   <url>
     <loc>https://haokun3127.github.io/blog/tags/Prompt/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/tags/API/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/tags/SSE/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/tags/Embedding/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/tags/%E5%90%91%E9%87%8F%E6%A3%80%E7%B4%A2/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -360,28 +404,21 @@
   </url>
   
   <url>
+    <loc>https://haokun3127.github.io/blog/tags/Metadata/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/tags/%E7%9F%A5%E8%AF%86%E5%BA%93/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://haokun3127.github.io/blog/tags/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91/</loc>
-    <lastmod>2026-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://haokun3127.github.io/blog/tags/API/</loc>
-    <lastmod>2026-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://haokun3127.github.io/blog/tags/SSE/</loc>
-    <lastmod>2026-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://haokun3127.github.io/blog/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -444,20 +481,6 @@
   </url>
   
   <url>
-    <loc>https://haokun3127.github.io/blog/tags/Instruction-Tuning/</loc>
-    <lastmod>2026-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://haokun3127.github.io/blog/tags/InstructRec/</loc>
-    <lastmod>2026-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://haokun3127.github.io/blog/tags/LoRA/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -472,20 +495,27 @@
   </url>
   
   <url>
-    <loc>https://haokun3127.github.io/blog/tags/Metadata/</loc>
+    <loc>https://haokun3127.github.io/blog/tags/Instruction-Tuning/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://haokun3127.github.io/blog/tags/%E7%9F%A5%E8%AF%86%E5%BA%93/</loc>
+    <loc>https://haokun3127.github.io/blog/tags/InstructRec/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
 
+  
+  <url>
+    <loc>https://haokun3127.github.io/blog/categories/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
   <url>
     <loc>https://haokun3127.github.io/blog/categories/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/</loc>
@@ -502,13 +532,6 @@
   </url>
   
   <url>
-    <loc>https://haokun3127.github.io/blog/categories/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2026-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://haokun3127.github.io/blog/categories/Ragent/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -516,14 +539,14 @@
   </url>
   
   <url>
-    <loc>https://haokun3127.github.io/blog/categories/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91/</loc>
+    <loc>https://haokun3127.github.io/blog/categories/%E5%89%8D%E7%AB%AF/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://haokun3127.github.io/blog/categories/%E5%89%8D%E7%AB%AF/</loc>
+    <loc>https://haokun3127.github.io/blog/categories/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91/</loc>
     <lastmod>2026-06-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

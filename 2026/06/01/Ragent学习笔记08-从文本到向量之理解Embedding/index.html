@@ -1,0 +1,582 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Ragent学习笔记08：从文本到向量之理解 Embedding | 好困的博客</title><meta name="author" content="好困3127"><meta name="copyright" content="好困3127"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="整理《AI大模型Ragent项目》第8小节：从文本到向量之理解 Embedding，系统梳理关键词检索的局限、语义向量、余弦相似度、Embedding API、批量向量化、元数据关系和重新向量化场景。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ragent学习笔记08：从文本到向量之理解 Embedding">
+<meta property="og:url" content="https://haokun3127.github.io/blog/2026/06/01/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008-%E4%BB%8E%E6%96%87%E6%9C%AC%E5%88%B0%E5%90%91%E9%87%8F%E4%B9%8B%E7%90%86%E8%A7%A3Embedding/index.html">
+<meta property="og:site_name" content="好困的博客">
+<meta property="og:description" content="整理《AI大模型Ragent项目》第8小节：从文本到向量之理解 Embedding，系统梳理关键词检索的局限、语义向量、余弦相似度、Embedding API、批量向量化、元数据关系和重新向量化场景。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://haokun3127.github.io/blog/img/ragent-note-08-embedding.png">
+<meta property="article:published_time" content="2026-06-01T14:20:00.000Z">
+<meta property="article:modified_time" content="2026-06-01T08:33:24.857Z">
+<meta property="article:author" content="好困3127">
+<meta property="article:tag" content="Ragent">
+<meta property="article:tag" content="RAG">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="Embedding">
+<meta property="article:tag" content="向量检索">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://haokun3127.github.io/blog/img/ragent-note-08-embedding.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Ragent学习笔记08：从文本到向量之理解 Embedding",
+  "url": "https://haokun3127.github.io/blog/2026/06/01/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008-%E4%BB%8E%E6%96%87%E6%9C%AC%E5%88%B0%E5%90%91%E9%87%8F%E4%B9%8B%E7%90%86%E8%A7%A3Embedding/",
+  "image": "https://haokun3127.github.io/blog/img/ragent-note-08-embedding.png",
+  "datePublished": "2026-06-01T14:20:00.000Z",
+  "dateModified": "2026-06-01T08:33:24.857Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "好困3127",
+      "url": "https://haokun3127.github.io/blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/blog/img/favicon.svg"><link rel="canonical" href="https://haokun3127.github.io/blog/2026/06/01/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008-%E4%BB%8E%E6%96%87%E6%9C%AC%E5%88%B0%E5%90%91%E9%87%8F%E4%B9%8B%E7%90%86%E8%A7%A3Embedding/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/blog/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0f172a')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/blog/',
+  algolia: undefined,
+  localSearch: {"path":"/blog/search.xml","preload":true,"top_n_per_article":2,"unescape":false,"pagination":{"enable":true,"hitsPerPage":10},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Ragent学习笔记08：从文本到向量之理解 Embedding',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/blog/css/custom-learning-ui.css"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/blog/atom.xml" title="好困的博客" type="application/atom+xml">
+</head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">20</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/"><i class="fa-fw fas fa-route"></i><span> 学习计划</span></a></div><div class="menus_item"><a class="site-page" href="/blog/ragent/"><i class="fa-fw fas fa-book-open"></i><span> Ragent笔记</span></a></div><div class="menus_item"><a class="site-page" href="/blog/hot100/"><i class="fa-fw fas fa-code"></i><span> Hot100</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/blog/img/ragent-note-08-embedding.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/blog/"><span class="site-name">好困的博客</span></a><a class="nav-page-title" href="/blog/"><span class="site-name">Ragent学习笔记08：从文本到向量之理解 Embedding</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/"><i class="fa-fw fas fa-route"></i><span> 学习计划</span></a></div><div class="menus_item"><a class="site-page" href="/blog/ragent/"><i class="fa-fw fas fa-book-open"></i><span> Ragent笔记</span></a></div><div class="menus_item"><a class="site-page" href="/blog/hot100/"><i class="fa-fw fas fa-code"></i><span> Hot100</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Ragent学习笔记08：从文本到向量之理解 Embedding</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-01T14:20:00.000Z" title="发表于 2026-06-01 22:20:00">2026-06-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-01T08:33:24.857Z" title="更新于 2026-06-01 16:33:24">2026-06-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/blog/categories/Ragent/">Ragent</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》第8小节：从文本到向量之理解Embedding</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》第8小节：从文本到向量之理解Embedding.html</code></li>
+</ul>
+<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>第 5 小节解决“怎么把文件解析成文本”，第 6 小节解决“怎么把长文本切成 Chunk”，第 7 小节解决“怎么给 Chunk 加来源、权限和治理信息”。第 8 小节继续往下走，解决的是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">文本已经准备好了，怎么让计算机按照语义相似度找到它？</span><br></pre></td></tr></table></figure>
+
+<p>关键词检索只能看字面是否匹配。用户问“买了一周还能退吗”，文档里写的是“自签收之日起 7 天内可申请七天无理由退货”，关键词不一定完全对得上，但语义上明显相关。Embedding 的作用，就是把文本变成向量，让系统可以按语义相似度检索。</p>
+<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>作用</th>
+<th>复习重点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Embedding</td>
+<td>把文本转换成向量表示</td>
+<td>RAG 语义检索的基础</td>
+</tr>
+<tr>
+<td>向量</td>
+<td>一组浮点数数组</td>
+<td>可以理解成文本在语义空间里的坐标</td>
+</tr>
+<tr>
+<td>语义相似度</td>
+<td>判断两个文本含义是否接近</td>
+<td>不是看字面完全相同，而是看含义接近</td>
+</tr>
+<tr>
+<td>余弦相似度</td>
+<td>衡量两个向量方向是否接近</td>
+<td>越接近 1，通常表示越相似</td>
+</tr>
+<tr>
+<td>Embedding 模型</td>
+<td>负责把文本编码成向量</td>
+<td>模型、维度、语言效果会影响召回质量</td>
+</tr>
+<tr>
+<td>批量向量化</td>
+<td>一批文本一起调用 Embedding API</td>
+<td>用于提高入库效率</td>
+</tr>
+<tr>
+<td>重新向量化</td>
+<td>重新生成 Chunk 向量</td>
+<td>换模型、改文档、改分块策略时要考虑</td>
+</tr>
+</tbody></table>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="1-为什么关键词检索不够用"><a href="#1-为什么关键词检索不够用" class="headerlink" title="1. 为什么关键词检索不够用"></a>1. 为什么关键词检索不够用</h3><p>传统搜索常见思路是关键词匹配。比如文档里出现“七天无理由退货”，用户也搜“七天无理由退货”，这类情况很好处理。</p>
+<p>但真实问答里，用户表达非常灵活：</p>
+<table>
+<thead>
+<tr>
+<th>用户问法</th>
+<th>文档写法</th>
+<th>关键词检索问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>买了一周还能退吗？</td>
+<td>自签收之日起 7 天内可申请七天无理由退货</td>
+<td>“买了一周”和“7 天内”不完全同词</td>
+</tr>
+<tr>
+<td>试用期工资怎么算？</td>
+<td>试用期内工资为正式工资的 80%</td>
+<td>关键词可能缺少“工资比例”</td>
+</tr>
+<tr>
+<td>新员工多久转正？</td>
+<td>新员工试用期为 3 个月</td>
+<td>“转正”和“试用期”是关联概念</td>
+</tr>
+<tr>
+<td>发票能重新开吗？</td>
+<td>支持发票抬头修改</td>
+<td>“重新开”和“抬头修改”字面不同</td>
+</tr>
+</tbody></table>
+<p>关键词检索的问题在于：它更关注“词有没有出现”，而不是“意思是不是接近”。Embedding 正是为了解决语义层面的匹配问题。</p>
+<h3 id="2-Embedding-是什么"><a href="#2-Embedding-是什么" class="headerlink" title="2. Embedding 是什么"></a>2. Embedding 是什么</h3><p>Embedding 可以理解为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">把自然语言文本转换成一组数字向量。</span><br></pre></td></tr></table></figure>
+
+<p>例如一句话：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">七天无理由退货</span><br></pre></td></tr></table></figure>
+
+<p>经过 Embedding 模型后，可能变成类似这样的数组：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[0.023, -0.015, 0.089, ...]</span><br></pre></td></tr></table></figure>
+
+<p>真实向量通常不是 3 维，而是几百维、上千维甚至更多。每一维不一定能被人类直接解释，但整体向量可以表示文本的语义特征。</p>
+<p>可以把它想成一个语义空间：含义接近的文本，向量位置或方向更接近；含义无关的文本，向量距离更远。</p>
+<h3 id="3-语义相似性怎么体现"><a href="#3-语义相似性怎么体现" class="headerlink" title="3. 语义相似性怎么体现"></a>3. 语义相似性怎么体现</h3><p><img src="/blog/img/ragent-note-08-semantic-similarity.png" alt="Embedding 语义相似性演示"></p>
+<p>这张图很直观：</p>
+<ul>
+<li>“七天无理由退货”和“买了一周还能退吗”虽然字面不同，但语义接近，向量相似度很高。</li>
+<li>“七天无理由退货”和“今天天气真好”语义无关，向量相似度很低。</li>
+</ul>
+<p>这也是 RAG 检索比简单关键词搜索更适合问答场景的原因。用户通常不会严格按照文档原话提问，Embedding 能把“不同说法、相同含义”的内容拉近。</p>
+<h3 id="4-向量维度是什么"><a href="#4-向量维度是什么" class="headerlink" title="4. 向量维度是什么"></a>4. 向量维度是什么</h3><p>向量维度就是这组数字的长度。</p>
+<p>比如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">3 维向量： [0.1, 0.2, 0.3]</span><br><span class="line">1024 维向量： [0.01, -0.03, 0.08, ... 共 1024 个数字]</span><br></pre></td></tr></table></figure>
+
+<p>不同 Embedding 模型输出的维度可能不同。维度会影响几个方面：</p>
+<table>
+<thead>
+<tr>
+<th>维度相关问题</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>向量库字段设计</td>
+<td>向量数据库的字段维度必须和模型输出维度一致</td>
+</tr>
+<tr>
+<td>存储成本</td>
+<td>维度越高，每条向量占用空间越大</td>
+</tr>
+<tr>
+<td>检索性能</td>
+<td>维度越高，计算和索引成本通常越高</td>
+</tr>
+<tr>
+<td>表达能力</td>
+<td>维度更高不一定绝对更好，还要看模型训练质量</td>
+</tr>
+</tbody></table>
+<p>一个很重要的工程点：换 Embedding 模型时，要确认新旧模型的向量维度是否一致。即使维度一致，也不代表语义空间兼容，通常仍然需要重新向量化。</p>
+<h3 id="5-余弦相似度"><a href="#5-余弦相似度" class="headerlink" title="5. 余弦相似度"></a>5. 余弦相似度</h3><p>向量生成后，需要计算“两个向量有多像”。文本检索里常见指标是余弦相似度。</p>
+<p>它关注的是两个向量方向是否接近，而不是长度是否一样。直观理解：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">方向越一致 -&gt; 语义越接近 -&gt; 相似度越高</span><br><span class="line">方向差异越大 -&gt; 语义越远 -&gt; 相似度越低</span><br></pre></td></tr></table></figure>
+
+<p>常见理解：</p>
+<table>
+<thead>
+<tr>
+<th>相似度</th>
+<th>粗略含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>接近 1</td>
+<td>很相似</td>
+</tr>
+<tr>
+<td>接近 0</td>
+<td>相关性弱</td>
+</tr>
+<tr>
+<td>小于 0</td>
+<td>方向相反，通常可以理解为很不相关</td>
+</tr>
+</tbody></table>
+<p>但相似度分数不是绝对真理。不同模型、不同数据集、不同问题类型下，分数分布可能不同。项目里通常要结合测试集、业务问题和召回效果来调阈值，而不是看到 <code>0.8</code> 就机械判断一定相关。</p>
+<h3 id="6-一次向量检索的核心流程"><a href="#6-一次向量检索的核心流程" class="headerlink" title="6. 一次向量检索的核心流程"></a>6. 一次向量检索的核心流程</h3><p><img src="/blog/img/ragent-note-08-vector-retrieval-flow.png" alt="向量检索三阶段流程"></p>
+<p>这张图把在线检索流程拆成三步：</p>
+<ol>
+<li>向量编码：用户问题先经过 Embedding 模型，变成 Query 向量。</li>
+<li>ANN 检索：向量数据库根据 Query 向量做近似最近邻检索，返回相似度最高的候选 Chunk。</li>
+<li>元数据过滤：再根据权限、时间范围、分类标签等条件做过滤，得到最终可用结果。</li>
+</ol>
+<p>这里的 ANN 是 Approximate Nearest Neighbor，近似最近邻检索。因为真实系统里可能有几十万、几百万甚至更多向量，不可能每次都暴力逐条计算相似度，所以向量数据库会通过索引结构提高检索效率。</p>
+<p>第 8 节先理解这个三阶段即可，具体向量数据库和索引原理会在第 9 节继续展开。</p>
+<h3 id="7-RAG-入库时怎么使用-Embedding"><a href="#7-RAG-入库时怎么使用-Embedding" class="headerlink" title="7. RAG 入库时怎么使用 Embedding"></a>7. RAG 入库时怎么使用 Embedding</h3><p>离线入库链路可以这样串起来：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">原始文档</span><br><span class="line">-&gt; Tika 解析正文</span><br><span class="line">-&gt; 文本分块 Chunk</span><br><span class="line">-&gt; 补充 Metadata</span><br><span class="line">-&gt; Chunk 文本调用 Embedding 模型</span><br><span class="line">-&gt; 得到向量</span><br><span class="line">-&gt; 写入向量数据库</span><br></pre></td></tr></table></figure>
+
+<p>存入向量数据库时，通常不是只存一个向量，而是一条完整记录：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>内容</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code> &#x2F; <code>chunk_id</code></td>
+<td>Chunk 唯一标识</td>
+<td>更新、删除、定位</td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td>Chunk 原文</td>
+<td>后续拼 Prompt 给大模型</td>
+</tr>
+<tr>
+<td><code>vector</code></td>
+<td>Embedding 向量</td>
+<td>用于相似度检索</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td>来源、权限、页码、版本等</td>
+<td>用于过滤、引用和治理</td>
+</tr>
+</tbody></table>
+<p>所以第 7 节和第 8 节不是割裂的。元数据不参与向量化，但必须和向量一起存储。否则向量检索能召回文本，却没法做权限过滤、引用展示和问题定位。</p>
+<h3 id="8-查询时怎么使用-Embedding"><a href="#8-查询时怎么使用-Embedding" class="headerlink" title="8. 查询时怎么使用 Embedding"></a>8. 查询时怎么使用 Embedding</h3><p>在线问答时，用户问题也要向量化：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">用户问题</span><br><span class="line">-&gt; 调用 Embedding 模型生成 Query 向量</span><br><span class="line">-&gt; 到向量数据库检索相似 Chunk</span><br><span class="line">-&gt; 拿到 Chunk 正文 + 元数据</span><br><span class="line">-&gt; 过滤、重排、拼 Prompt</span><br><span class="line">-&gt; LLM 生成答案</span><br></pre></td></tr></table></figure>
+
+<p>也就是说，Embedding 模型在两个阶段都会用到：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>输入</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>入库阶段</td>
+<td>文档 Chunk</td>
+<td>Chunk 向量</td>
+</tr>
+<tr>
+<td>查询阶段</td>
+<td>用户 Query</td>
+<td>Query 向量</td>
+</tr>
+</tbody></table>
+<p>入库向量和查询向量必须来自同一个 Embedding 模型或兼容模型。否则两边不在同一个语义空间里，相似度计算就没有意义。</p>
+<h3 id="9-Embedding-API-的基本形态"><a href="#9-Embedding-API-的基本形态" class="headerlink" title="9. Embedding API 的基本形态"></a>9. Embedding API 的基本形态</h3><p>Embedding API 的输入通常是一段或多段文本，输出是一组向量。</p>
+<p>简化请求可以理解为：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;model&quot;</span><span class="punctuation">:</span> <span class="string">&quot;embedding-model-name&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;七天无理由退货&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;买了一周还能退吗&quot;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>简化响应可以理解为：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;data&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;embedding&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="number">0.023</span><span class="punctuation">,</span> <span class="number">-0.015</span><span class="punctuation">,</span> <span class="number">0.089</span><span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;embedding&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="number">0.021</span><span class="punctuation">,</span> <span class="number">-0.018</span><span class="punctuation">,</span> <span class="number">0.091</span><span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>实际项目里还要关注：</p>
+<ul>
+<li>API Key 鉴权。</li>
+<li>单次请求最大文本长度。</li>
+<li>单次请求最多多少条文本。</li>
+<li>请求频率限制。</li>
+<li>返回向量维度。</li>
+<li>失败重试和超时控制。</li>
+</ul>
+<h3 id="10-Embedding-模型怎么选"><a href="#10-Embedding-模型怎么选" class="headerlink" title="10. Embedding 模型怎么选"></a>10. Embedding 模型怎么选</h3><p>选 Embedding 模型不是只看“谁更热门”。在 RAG 项目里更应该看这些维度：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>中文效果</td>
+<td>中文语义、同义表达、业务术语能否召回</td>
+</tr>
+<tr>
+<td>向量维度</td>
+<td>是否符合向量数据库设计和成本预算</td>
+</tr>
+<tr>
+<td>领域适配</td>
+<td>对代码、法律、客服、金融等特定领域是否稳定</td>
+</tr>
+<tr>
+<td>调用成本</td>
+<td>入库和查询都会调用，数据量大时成本明显</td>
+</tr>
+<tr>
+<td>延迟</td>
+<td>查询阶段会影响用户等待时间</td>
+</tr>
+<tr>
+<td>部署方式</td>
+<td>云端 API 省事，本地部署更可控</td>
+</tr>
+<tr>
+<td>兼容性</td>
+<td>模型升级后是否需要重建索引</td>
+</tr>
+</tbody></table>
+<p>课程里提到云端 API 和本地部署的取舍。简单记：</p>
+<ul>
+<li>项目初期、数据量不大、想快速验证效果：云端 API 更省事。</li>
+<li>数据量大、安全要求高、对延迟敏感：本地部署更有优势。</li>
+</ul>
+<h3 id="11-批量向量化为什么重要"><a href="#11-批量向量化为什么重要" class="headerlink" title="11. 批量向量化为什么重要"></a>11. 批量向量化为什么重要</h3><p>真实知识库不会只有几个 Chunk，而可能有几万、几十万甚至更多。</p>
+<p>如果每个 Chunk 都单独调一次 API，会出现几个问题：</p>
+<ul>
+<li>请求次数太多，吞吐低。</li>
+<li>网络开销大。</li>
+<li>容易触发限流。</li>
+<li>失败重试难管理。</li>
+<li>整体入库时间过长。</li>
+</ul>
+<p>所以入库阶段通常要做批量向量化：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">所有 Chunk</span><br><span class="line">-&gt; 按 batchSize 分批</span><br><span class="line">-&gt; 每批调用 Embedding API</span><br><span class="line">-&gt; 失败批次重试</span><br><span class="line">-&gt; 成功后写入向量数据库</span><br></pre></td></tr></table></figure>
+
+<p>批量处理要考虑几个工程点：</p>
+<table>
+<thead>
+<tr>
+<th>工程点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>batchSize</td>
+<td>太小吞吐低，太大可能超过 API 限制</td>
+</tr>
+<tr>
+<td>限流</td>
+<td>云端 API 通常有 QPS 或 TPM 限制</td>
+</tr>
+<tr>
+<td>重试</td>
+<td>网络失败、服务抖动要能自动重试</td>
+</tr>
+<tr>
+<td>幂等</td>
+<td>同一批重复执行不能产生脏数据</td>
+</tr>
+<tr>
+<td>进度记录</td>
+<td>大文档入库失败后能从断点继续</td>
+</tr>
+<tr>
+<td>错误隔离</td>
+<td>某个 Chunk 异常不能拖垮整批任务</td>
+</tr>
+</tbody></table>
+<h3 id="12-什么时候需要重新向量化"><a href="#12-什么时候需要重新向量化" class="headerlink" title="12. 什么时候需要重新向量化"></a>12. 什么时候需要重新向量化</h3><p>向量化不是一次做完永久有效。下面几种情况需要特别注意。</p>
+<h4 id="12-1-换-Embedding-模型"><a href="#12-1-换-Embedding-模型" class="headerlink" title="12.1 换 Embedding 模型"></a>12.1 换 Embedding 模型</h4><p>不同模型生成的向量通常不兼容。</p>
+<p>即使两个模型都输出 1024 维向量，它们的语义空间也可能完全不同。模型 A 的向量不能随便和模型 B 的向量一起算相似度。</p>
+<p>结论：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">换 Embedding 模型 = 重新向量化 + 重建向量索引</span><br></pre></td></tr></table></figure>
+
+<h4 id="12-2-文档内容更新"><a href="#12-2-文档内容更新" class="headerlink" title="12.2 文档内容更新"></a>12.2 文档内容更新</h4><p>如果原文从“7 天内可退”改成“15 天内可退”，对应 Chunk 文本已经变了，旧向量也不再准确。</p>
+<p>常见处理：</p>
+<ol>
+<li>根据 <code>doc_id</code> 找到旧 Chunk。</li>
+<li>删除旧向量或标记失效。</li>
+<li>重新解析、分块、补元数据。</li>
+<li>重新生成向量并入库。</li>
+</ol>
+<p>这也再次说明第 7 节的 <code>doc_id</code> 很重要。没有文档标识，就很难批量找到某份文档对应的所有旧向量。</p>
+<h4 id="12-3-分块策略调整"><a href="#12-3-分块策略调整" class="headerlink" title="12.3 分块策略调整"></a>12.3 分块策略调整</h4><p>如果 <code>chunkSize</code>、<code>overlap</code> 或分块算法改变了，Chunk 内容会变化，向量自然也要重建。</p>
+<p>比如原来 500 字一块，后来改成 300 字一块，同一份文档会切出完全不同的 Chunk 集合。旧向量已经对应不上新的 Chunk。</p>
+<h4 id="12-4-模型版本升级"><a href="#12-4-模型版本升级" class="headerlink" title="12.4 模型版本升级"></a>12.4 模型版本升级</h4><p>同一个模型不同版本也可能不兼容。实际项目里最好在元数据里记录：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;embedding_model&quot;</span><span class="punctuation">:</span> <span class="string">&quot;xxx-embedding&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;embedding_model_version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;v1&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;embedding_dimension&quot;</span><span class="punctuation">:</span> <span class="number">1024</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>这样后续排查召回问题、灰度升级模型、重建索引时都更清楚。</p>
+<h3 id="13-Embedding-的边界"><a href="#13-Embedding-的边界" class="headerlink" title="13. Embedding 的边界"></a>13. Embedding 的边界</h3><p>Embedding 很重要，但它不是万能的。</p>
+<p>它能解决：</p>
+<ul>
+<li>用户问法和文档说法不同。</li>
+<li>同义表达召回。</li>
+<li>语义相近内容匹配。</li>
+<li>大规模文本的候选召回。</li>
+</ul>
+<p>它不能单独解决：</p>
+<ul>
+<li>权限过滤。</li>
+<li>版本时效判断。</li>
+<li>多条结果冲突。</li>
+<li>复杂推理。</li>
+<li>答案生成和表达。</li>
+<li>引用来源展示。</li>
+</ul>
+<p>所以 RAG 通常不是“Embedding + 向量库”就结束了。后面还需要元数据过滤、Rerank、Prompt 拼装、LLM 生成、引用溯源和质量评估。</p>
+<h2 id="学习重点"><a href="#学习重点" class="headerlink" title="学习重点"></a>学习重点</h2><ul>
+<li>Embedding 是把文本变成向量，让系统能做语义相似检索。</li>
+<li>关键词检索看字面匹配，Embedding 检索看语义接近。</li>
+<li>入库阶段和查询阶段要使用同一个或兼容的 Embedding 模型。</li>
+<li>向量数据库里通常要一起保存 <code>content</code>、<code>vector</code> 和 <code>metadata</code>。</li>
+<li>余弦相似度常用来衡量向量方向是否接近，但阈值需要结合业务测试调。</li>
+<li>换模型、改文档、改分块策略，都可能需要重新向量化。</li>
+</ul>
+<h2 id="易混点整理"><a href="#易混点整理" class="headerlink" title="易混点整理"></a>易混点整理</h2><table>
+<thead>
+<tr>
+<th>易混点</th>
+<th>正确理解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Embedding 是生成答案吗？</td>
+<td>不是。Embedding 只负责把文本编码成向量，答案仍由 LLM 生成</td>
+</tr>
+<tr>
+<td>相似度高就一定正确吗？</td>
+<td>不一定。还需要权限、时间、业务标签、Rerank 和模型判断</td>
+</tr>
+<tr>
+<td>元数据会参与向量化吗？</td>
+<td>通常不参与，但要和向量一起存储，用于过滤和展示</td>
+</tr>
+<tr>
+<td>换 Embedding 模型能直接复用旧向量吗？</td>
+<td>通常不行，需要重新向量化</td>
+</tr>
+<tr>
+<td>向量维度越高越好吗？</td>
+<td>不一定。要看模型质量、成本、存储和检索性能</td>
+</tr>
+</tbody></table>
+<h2 id="和前后章节的关系"><a href="#和前后章节的关系" class="headerlink" title="和前后章节的关系"></a>和前后章节的关系</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">第5节 Apache Tika：把文件变成文本</span><br><span class="line">第6节 Chunk：把长文本切成片段</span><br><span class="line">第7节 Metadata：给片段加来源、权限和治理信息</span><br><span class="line">第8节 Embedding：把片段变成可检索的向量</span><br><span class="line">第9节 Vector DB：把向量高效存起来并支持快速检索</span><br></pre></td></tr></table></figure>
+
+<p>到第 8 节为止，RAG 的数据准备链路已经基本闭环。下一节的重点会转到“向量生成之后怎么存、怎么索引、怎么快速查”。</p>
+<h2 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h2><p>Embedding 让 RAG 从“按关键词找文本”升级为“按语义找知识片段”，是向量检索能够成立的前提。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog">好困3127</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog/2026/06/01/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008-%E4%BB%8E%E6%96%87%E6%9C%AC%E5%88%B0%E5%90%91%E9%87%8F%E4%B9%8B%E7%90%86%E8%A7%A3Embedding/">https://haokun3127.github.io/blog/2026/06/01/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008-%E4%BB%8E%E6%96%87%E6%9C%AC%E5%88%B0%E5%90%91%E9%87%8F%E4%B9%8B%E7%90%86%E8%A7%A3Embedding/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://haokun3127.github.io/blog" target="_blank">好困的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/blog/tags/Ragent/">Ragent</a><a class="post-meta__tags" href="/blog/tags/RAG/">RAG</a><a class="post-meta__tags" href="/blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><a class="post-meta__tags" href="/blog/tags/Embedding/">Embedding</a><a class="post-meta__tags" href="/blog/tags/%E5%90%91%E9%87%8F%E6%A3%80%E7%B4%A2/">向量检索</a></div><div class="post-share"><div class="social-share" data-image="/blog/img/ragent-note-08-embedding.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/blog/2026/06/01/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007-%E5%85%83%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BD%9C%E7%94%A8%E4%B8%8E%E7%AE%A1%E7%90%86/" title="Ragent学习笔记07：元数据的作用与管理"><img class="cover" src="/blog/img/ragent-note-07-metadata.png" onerror="onerror=null;src='/blog/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Ragent学习笔记07：元数据的作用与管理</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》第7小节：元数据的作用与管理，系统梳理元数据在 RAG 中的作用、常见字段、引用追溯、权限过滤、版本管理、人工纠错和字段设计原则。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/blog/2026/05/28/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001-%E8%AE%A4%E8%AF%86%E5%A4%A7%E6%A8%A1%E5%9E%8B/" title="Ragent学习笔记01：认识大模型"><img class="cover" src="/blog/img/ragent-note-01-llm.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-28</div><div class="info-item-2">Ragent学习笔记01：认识大模型</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》第1小节：认识大模型的学习笔记，梳理大模型、训练阶段、Chat模型、Token、上下文窗口、Temperature、量化、深度思考和API调用等基础概念。</div></div></div></a><a class="pagination-related" href="/blog/2026/05/29/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003-Prompt%E5%B7%A5%E7%A8%8B%E5%85%A5%E9%97%A8/" title="Ragent学习笔记03：Prompt 工程入门"><img class="cover" src="/blog/img/ragent-note-03-prompt.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-29</div><div class="info-item-2">Ragent学习笔记03：Prompt 工程入门</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》第3小节：Prompt 工程入门，按个人学习和复习思路梳理 Prompt 的作用、五要素框架、RAG 场景写法、引用规则、兜底策略、Prompt 注入防护和完整模板。</div></div></div></a><a class="pagination-related" href="/blog/2026/05/29/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004-%E4%BB%80%E4%B9%88%E6%98%AFRAG/" title="Ragent学习笔记04：什么是 RAG"><img class="cover" src="/blog/img/ragent-note-04-rag.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-29</div><div class="info-item-2">Ragent学习笔记04：什么是 RAG</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》第4小节：什么是 RAG，梳理 RAG 的核心概念、出现原因、完整流程、工程难点、适用场景以及它在 Ragent 项目中的位置。</div></div></div></a><a class="pagination-related" href="/blog/2026/05/30/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005-%E7%94%A8ApacheTika%E8%A7%A3%E6%9E%90%E6%96%87%E6%A1%A3/" title="Ragent学习笔记05：用 Apache Tika 解析文档"><img class="cover" src="/blog/img/ragent-note-05-tika.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-30</div><div class="info-item-2">Ragent学习笔记05：用 Apache Tika 解析文档</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》第5小节：用 Apache Tika 解析文档，系统梳理文档解析在 RAG 入库链路中的位置、Apache Tika 的作用、MIME 类型、正文提取、元数据提取、OCR 边界以及嵌入式与独立服务部署方式。</div></div></div></a><a class="pagination-related" href="/blog/2026/05/30/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006-%E6%95%B0%E6%8D%AE%E5%88%86%E5%9D%97Chunk%E7%AD%96%E7%95%A5%E4%B8%8E%E5%AE%9E%E8%B7%B5/" title="Ragent学习笔记06：数据分块 Chunk 策略与实践"><img class="cover" src="/blog/img/ragent-note-06-chunk.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-30</div><div class="info-item-2">Ragent学习笔记06：数据分块 Chunk 策略与实践</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》第6小节：数据分块 Chunk 策略与实践，系统梳理 Chunk 在 RAG 链路中的位置、为什么要分块、chunkSize 和 overlap 的取舍、固定分块、递归分块、语义分块以及企业级分块策略。</div></div></div></a><a class="pagination-related" href="/blog/2026/06/01/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007-%E5%85%83%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BD%9C%E7%94%A8%E4%B8%8E%E7%AE%A1%E7%90%86/" title="Ragent学习笔记07：元数据的作用与管理"><img class="cover" src="/blog/img/ragent-note-07-metadata.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-01</div><div class="info-item-2">Ragent学习笔记07：元数据的作用与管理</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》第7小节：元数据的作用与管理，系统梳理元数据在 RAG 中的作用、常见字段、引用追溯、权限过滤、版本管理、人工纠错和字段设计原则。</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">好困3127</div><div class="author-info-description">Java 后端 · Agent/RAG · 算法复盘</div><div class="site-data"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">20</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/haokun3127"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/haokun3127" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1039746386@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=1039746386" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #12B7F5;"></i></a><a class="social-icon" href="/blog/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #ee802f;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这里主要放 Ragent 学习笔记、Agent 开发计划和算法复盘。右侧入口按主线和专题回看，搜索适合查具体知识点。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8A%E6%97%A5%E5%AD%A6%E4%B9%A0%E6%9D%90%E6%96%99"><span class="toc-number">1.</span> <span class="toc-text">今日学习材料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%A7%88"><span class="toc-number">2.</span> <span class="toc-text">学习导览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%A5%E8%AF%86%E9%80%9F%E8%A7%88"><span class="toc-number">3.</span> <span class="toc-text">知识速览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E7%AC%94%E8%AE%B0"><span class="toc-number">4.</span> <span class="toc-text">详细笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%B3%E9%94%AE%E8%AF%8D%E6%A3%80%E7%B4%A2%E4%B8%8D%E5%A4%9F%E7%94%A8"><span class="toc-number">4.1.</span> <span class="toc-text">1. 为什么关键词检索不够用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Embedding-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">4.2.</span> <span class="toc-text">2. Embedding 是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%AF%AD%E4%B9%89%E7%9B%B8%E4%BC%BC%E6%80%A7%E6%80%8E%E4%B9%88%E4%BD%93%E7%8E%B0"><span class="toc-number">4.3.</span> <span class="toc-text">3. 语义相似性怎么体现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%90%91%E9%87%8F%E7%BB%B4%E5%BA%A6%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">4.4.</span> <span class="toc-text">4. 向量维度是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%BD%99%E5%BC%A6%E7%9B%B8%E4%BC%BC%E5%BA%A6"><span class="toc-number">4.5.</span> <span class="toc-text">5. 余弦相似度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E4%B8%80%E6%AC%A1%E5%90%91%E9%87%8F%E6%A3%80%E7%B4%A2%E7%9A%84%E6%A0%B8%E5%BF%83%E6%B5%81%E7%A8%8B"><span class="toc-number">4.6.</span> <span class="toc-text">6. 一次向量检索的核心流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-RAG-%E5%85%A5%E5%BA%93%E6%97%B6%E6%80%8E%E4%B9%88%E4%BD%BF%E7%94%A8-Embedding"><span class="toc-number">4.7.</span> <span class="toc-text">7. RAG 入库时怎么使用 Embedding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E6%9F%A5%E8%AF%A2%E6%97%B6%E6%80%8E%E4%B9%88%E4%BD%BF%E7%94%A8-Embedding"><span class="toc-number">4.8.</span> <span class="toc-text">8. 查询时怎么使用 Embedding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-Embedding-API-%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%BD%A2%E6%80%81"><span class="toc-number">4.9.</span> <span class="toc-text">9. Embedding API 的基本形态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-Embedding-%E6%A8%A1%E5%9E%8B%E6%80%8E%E4%B9%88%E9%80%89"><span class="toc-number">4.10.</span> <span class="toc-text">10. Embedding 模型怎么选</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E6%89%B9%E9%87%8F%E5%90%91%E9%87%8F%E5%8C%96%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E8%A6%81"><span class="toc-number">4.11.</span> <span class="toc-text">11. 批量向量化为什么重要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E9%87%8D%E6%96%B0%E5%90%91%E9%87%8F%E5%8C%96"><span class="toc-number">4.12.</span> <span class="toc-text">12. 什么时候需要重新向量化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#12-1-%E6%8D%A2-Embedding-%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.12.1.</span> <span class="toc-text">12.1 换 Embedding 模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-2-%E6%96%87%E6%A1%A3%E5%86%85%E5%AE%B9%E6%9B%B4%E6%96%B0"><span class="toc-number">4.12.2.</span> <span class="toc-text">12.2 文档内容更新</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-3-%E5%88%86%E5%9D%97%E7%AD%96%E7%95%A5%E8%B0%83%E6%95%B4"><span class="toc-number">4.12.3.</span> <span class="toc-text">12.3 分块策略调整</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-4-%E6%A8%A1%E5%9E%8B%E7%89%88%E6%9C%AC%E5%8D%87%E7%BA%A7"><span class="toc-number">4.12.4.</span> <span class="toc-text">12.4 模型版本升级</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-Embedding-%E7%9A%84%E8%BE%B9%E7%95%8C"><span class="toc-number">4.13.</span> <span class="toc-text">13. Embedding 的边界</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E9%87%8D%E7%82%B9"><span class="toc-number">5.</span> <span class="toc-text">学习重点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%93%E6%B7%B7%E7%82%B9%E6%95%B4%E7%90%86"><span class="toc-number">6.</span> <span class="toc-text">易混点整理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%92%8C%E5%89%8D%E5%90%8E%E7%AB%A0%E8%8A%82%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">7.</span> <span class="toc-text">和前后章节的关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="toc-number">8.</span> <span class="toc-text">一句话总结</span></a></li></ol></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 好困3127</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/blog/js/utils.js?v=5.5.1"></script><script src="/blog/js/main.js?v=5.5.1"></script><div class="js-pjax"></div><script src="/blog/js/learning-hub.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章、标签或关键词" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/blog/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>
