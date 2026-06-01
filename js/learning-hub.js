@@ -90,7 +90,7 @@
       title: '最近在学',
       lead: latestRagent ? latestRagent.title : 'Agent 开发学习主线',
       lines: progressLines.length ? progressLines : ['当前主线还是 Ragent 项目学习，先把基础扫盲、文档预处理和后续知识库链路持续串起来。'],
-      primaryHref: latestRagent?.url || '/blog/categories/Ragent/',
+      primaryHref: latestRagent?.url || '/blog/ragent/',
       primaryText: latestRagent ? '继续当前主线' : '进入 Ragent 专题',
       secondaryHref: plan?.url || '/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/',
       secondaryText: '查看学习计划'
@@ -126,6 +126,22 @@
     recentPosts.prepend(hub)
   }
 
+  const tuneArticleAside = () => {
+    const aside = document.querySelector('#aside-content')
+    const sticky = aside?.querySelector('.sticky_layout')
+    const cardToc = aside?.querySelector('#card-toc')
+    if (!aside || !sticky || !cardToc) return
+
+    if (aside.firstElementChild !== sticky) {
+      aside.prepend(sticky)
+    }
+
+    if (sticky.firstElementChild !== cardToc) {
+      sticky.prepend(cardToc)
+    }
+    aside.classList.add('article-toc-first')
+  }
+
   const renderAsideLearningNav = () => {
     const aside = document.querySelector('#aside-content')
     const sticky = aside?.querySelector('.sticky_layout')
@@ -141,20 +157,26 @@
         <span>学习入口</span>
       </div>
       <div class="aside-learning-links">
+        <a href="/blog/ragent/">
+          <span>Ragent 地图</span>
+          <small>项目主线</small>
+        </a>
+        <a href="/blog/hot100/">
+          <span>Hot100 路线</span>
+          <small>算法题库</small>
+        </a>
         <a href="/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/">
           <span>Agent 学习计划</span>
           <small>打卡进度</small>
         </a>
-        <a href="/blog/categories/Ragent/">
-          <span>Ragent 笔记</span>
-          <small>项目主线</small>
-        </a>
-        <a href="/blog/tags/Hot100/">
-          <span>Hot100</span>
-          <small>算法复习</small>
-        </a>
       </div>
     `
+
+    const cardToc = aside.querySelector('#card-toc')
+    if (cardToc) {
+      cardToc.insertAdjacentElement('afterend', nav)
+      return
+    }
 
     const announcement = aside.querySelector('.card-announcement')
     if (announcement) {
@@ -193,7 +215,7 @@
           <span class="ragent-series-nav-eyebrow">系列导航</span>
           <h3>Ragent 学习路线</h3>
         </div>
-        <a href="/blog/categories/Ragent/">查看全部笔记</a>
+        <a href="/blog/ragent/">查看学习地图</a>
       </div>
       <div class="ragent-series-nav-grid">
         <div class="ragent-series-nav-card ${prev ? '' : 'is-disabled'}">
@@ -245,7 +267,7 @@
           <span class="ragent-series-nav-eyebrow">题目导航</span>
           <h3>Hot100 复习路线</h3>
         </div>
-        <a href="/blog/tags/Hot100/">查看全部题目</a>
+        <a href="/blog/hot100/">查看题型路线</a>
       </div>
       <div class="ragent-series-nav-grid">
         <div class="ragent-series-nav-card ${prev ? '' : 'is-disabled'}">
@@ -266,12 +288,24 @@
     articleContainer.insertAdjacentElement('afterend', seriesNav)
   }
 
+  const markPostCards = () => {
+    document.querySelectorAll('#recent-posts .recent-post-item').forEach(card => {
+      const title = card.querySelector('.article-title')?.textContent?.trim() || ''
+      card.classList.toggle('series-ragent', title.startsWith('Ragent学习笔记'))
+      card.classList.toggle('series-hot100', title.startsWith('Hot100：'))
+      card.classList.toggle('series-paper', title.startsWith('论文笔记：'))
+      card.classList.toggle('series-plan', title.includes('学习计划/进度'))
+    })
+  }
+
   const boot = async () => {
     const posts = await loadPosts()
+    tuneArticleAside()
     renderHomeHub(posts)
     renderAsideLearningNav()
     renderRagentSeriesNav(posts)
     renderHot100SeriesNav(posts)
+    markPostCards()
   }
 
   document.addEventListener('DOMContentLoaded', boot)
