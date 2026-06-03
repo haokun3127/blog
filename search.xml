@@ -1076,16 +1076,24 @@
 <li>把原字符串加入这个 key 对应的列表。</li>
 <li>最后返回 <code>map.values()</code>。</li>
 </ol>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; <span class="title function_">groupAnagrams</span><span class="params">(String[] strs)</span> &#123;</span><br><span class="line">        Map&lt;String, List&lt;String&gt;&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (String str : strs) &#123;</span><br><span class="line">            <span class="type">char</span>[] chars = str.toCharArray();</span><br><span class="line">            Arrays.sort(chars);</span><br><span class="line">            <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(chars);</span><br><span class="line"></span><br><span class="line">            map.computeIfAbsent(key, k -&gt; <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;()).add(str);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(map.values());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> TestHot100;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Hash_GroupAnagrams1</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        String[] strs = &#123;<span class="string">&quot;eat&quot;</span>, <span class="string">&quot;tea&quot;</span>, <span class="string">&quot;tan&quot;</span>, <span class="string">&quot;ate&quot;</span>, <span class="string">&quot;nat&quot;</span>, <span class="string">&quot;bat&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="type">Hash_GroupAnagrams1</span> <span class="variable">g</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Hash_GroupAnagrams1</span>();</span><br><span class="line"></span><br><span class="line">        List&lt;List&lt;String&gt;&gt; l = g.groupAnagrams(strs);</span><br><span class="line"></span><br><span class="line">        System.out.println(l);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; <span class="title function_">groupAnagrams</span><span class="params">(String[] strs)</span> &#123;</span><br><span class="line">        Map&lt;String, List&lt;String&gt;&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (String str : strs) &#123;</span><br><span class="line">            <span class="type">char</span>[] arr = str.toCharArray();</span><br><span class="line">            Arrays.sort(arr);</span><br><span class="line">            <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(arr);</span><br><span class="line">            List&lt;String&gt; list = map.getOrDefault(key, <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;());</span><br><span class="line">            list.add(str);</span><br><span class="line">            map.put(key, list);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 返回哈希表中所有值的集合（即所有字母异位词分组）</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(map.values());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>这份代码比 LeetCode 提交版多了一个 <code>main</code> 方法，作用是方便你在本地直接测试。真正解决题目的核心逻辑，还是 <code>groupAnagrams</code> 这个方法。</p>
 <h2 id="代码逐行理解"><a href="#代码逐行理解" class="headerlink" title="代码逐行理解"></a>代码逐行理解</h2><p>先看完整代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; <span class="title function_">groupAnagrams</span><span class="params">(String[] strs)</span> &#123;</span><br><span class="line">        Map&lt;String, List&lt;String&gt;&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (String str : strs) &#123;</span><br><span class="line">            <span class="type">char</span>[] chars = str.toCharArray();</span><br><span class="line">            Arrays.sort(chars);</span><br><span class="line">            <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(chars);</span><br><span class="line"></span><br><span class="line">            map.computeIfAbsent(key, k -&gt; <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;()).add(str);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(map.values());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> TestHot100;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Hash_GroupAnagrams1</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        String[] strs = &#123;<span class="string">&quot;eat&quot;</span>, <span class="string">&quot;tea&quot;</span>, <span class="string">&quot;tan&quot;</span>, <span class="string">&quot;ate&quot;</span>, <span class="string">&quot;nat&quot;</span>, <span class="string">&quot;bat&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="type">Hash_GroupAnagrams1</span> <span class="variable">g</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Hash_GroupAnagrams1</span>();</span><br><span class="line"></span><br><span class="line">        List&lt;List&lt;String&gt;&gt; l = g.groupAnagrams(strs);</span><br><span class="line"></span><br><span class="line">        System.out.println(l);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; <span class="title function_">groupAnagrams</span><span class="params">(String[] strs)</span> &#123;</span><br><span class="line">        Map&lt;String, List&lt;String&gt;&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (String str : strs) &#123;</span><br><span class="line">            <span class="type">char</span>[] arr = str.toCharArray();</span><br><span class="line">            Arrays.sort(arr);</span><br><span class="line">            <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(arr);</span><br><span class="line">            List&lt;String&gt; list = map.getOrDefault(key, <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;());</span><br><span class="line">            list.add(str);</span><br><span class="line">            map.put(key, list);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(map.values());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>可以把它理解成两件事：</p>
 <ul>
 <li>先把每个字符串变成统一的 key。</li>
 <li>再把相同 key 的原字符串收集到同一个列表里。</li>
 </ul>
+<p>其中 <code>main</code> 方法只是测试入口：</p>
+<ul>
+<li>先准备测试数据 <code>strs</code>。</li>
+<li>再调用 <code>groupAnagrams(strs)</code>。</li>
+<li>最后把结果打印出来。</li>
+</ul>
+<p>真正的解题逻辑，都在 <code>groupAnagrams</code> 里。</p>
 <p>下面按顺序来看。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Map&lt;String, List&lt;String&gt;&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br></pre></td></tr></table></figure>
 
@@ -1104,35 +1112,49 @@
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">[&quot;eat&quot;,&quot;tea&quot;,&quot;tan&quot;,&quot;ate&quot;,&quot;nat&quot;,&quot;bat&quot;]</span><br></pre></td></tr></table></figure>
 
 <p>那循环就会按顺序处理 <code>eat</code>、<code>tea</code>、<code>tan</code>、<code>ate</code>、<code>nat</code>、<code>bat</code>。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span>[] chars = str.toCharArray();</span><br><span class="line">Arrays.sort(chars);</span><br><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(chars);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span>[] arr = str.toCharArray();</span><br><span class="line">Arrays.sort(arr);</span><br><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(arr);</span><br></pre></td></tr></table></figure>
 
 <p>这三行是整个排序法的核心，它们的作用就是：<strong>把不同顺序的异位词统一成同一个 key。</strong></p>
 <p>先看第一行：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span>[] chars = str.toCharArray();</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span>[] arr = str.toCharArray();</span><br></pre></td></tr></table></figure>
 
 <p>把字符串拆成字符数组。</p>
 <p>这样做是因为 <code>String</code> 本身不能直接排序，所以要先转成 <code>char[]</code>。</p>
 <p>再看第二行：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Arrays.sort(chars);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Arrays.sort(arr);</span><br></pre></td></tr></table></figure>
 
 <p>把字符数组按字典序排好。</p>
 <p>最后一行：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(chars);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(arr);</span><br></pre></td></tr></table></figure>
 
 <p>把排好序的字符数组重新变回字符串，这个字符串就是当前单词的分组标识 <code>key</code>。</p>
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&quot;eat&quot; -&gt; [&#x27;e&#x27;,&#x27;a&#x27;,&#x27;t&#x27;] -&gt; [&#x27;a&#x27;,&#x27;e&#x27;,&#x27;t&#x27;] -&gt; &quot;aet&quot;</span><br><span class="line">&quot;tea&quot; -&gt; [&#x27;t&#x27;,&#x27;e&#x27;,&#x27;a&#x27;] -&gt; [&#x27;a&#x27;,&#x27;e&#x27;,&#x27;t&#x27;] -&gt; &quot;aet&quot;</span><br></pre></td></tr></table></figure>
 
 <p>你会发现，原来顺序不同的字符串，排序后都变成了一样的 <code>&quot;aet&quot;</code>。</p>
 <p>这就是为什么它们能进入同一组。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">map.computeIfAbsent(key, k -&gt; <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;()).add(str);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; list = map.getOrDefault(key, <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;());</span><br><span class="line">list.add(str);</span><br><span class="line">map.put(key, list);</span><br></pre></td></tr></table></figure>
 
-<p>这一句是“放入分组”的操作，可以拆开理解：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (!map.containsKey(key)) &#123;</span><br><span class="line">    map.put(key, <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;());</span><br><span class="line">&#125;</span><br><span class="line">map.get(key).add(str);</span><br></pre></td></tr></table></figure>
+<p>这三句是“放入分组”的操作，建议连起来理解。</p>
+<p>先看第一句：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; list = map.getOrDefault(key, <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;());</span><br></pre></td></tr></table></figure>
 
-<p>也就是说：</p>
+<p>它的意思是：</p>
 <ul>
-<li>如果这个 <code>key</code> 第一次出现，就先创建一个空列表。</li>
-<li>然后把当前原字符串 <code>str</code> 放进这个 <code>key</code> 对应的列表里。</li>
+<li>如果 <code>map</code> 里已经有这个 <code>key</code>，就把原来的那组列表取出来。</li>
+<li>如果还没有这个 <code>key</code>，就先给它准备一个新的空列表。</li>
+</ul>
+<p>再看第二句：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">list.add(str);</span><br></pre></td></tr></table></figure>
+
+<p>把当前字符串 <code>str</code> 加入这个列表。</p>
+<p>最后第三句：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">map.put(key, list);</span><br></pre></td></tr></table></figure>
+
+<p>把更新后的列表重新放回 <code>map</code> 中。</p>
+<p>这里也有一个容易忽略的小点：</p>
+<ul>
+<li>如果这个 <code>key</code> 原来不存在，那么这一步就是把新列表正式存进哈希表。</li>
+<li>如果这个 <code>key</code> 原来已经存在，那么这里相当于把更新后的同一个列表再放回去，逻辑上也是没问题的。</li>
 </ul>
 <p>这里有个很重要的小细节：</p>
 <p><strong>加入列表的是原字符串 <code>str</code>，不是排序后的 <code>key</code>。</strong></p>
@@ -1238,7 +1260,7 @@
 </tr>
 <tr>
 <td>注意点</td>
-<td><code>new String(chars)</code></td>
+<td><code>new String(arr)</code></td>
 <td>key 必须有分隔或字母标记</td>
 </tr>
 </tbody></table>
@@ -1254,26 +1276,27 @@
 <li>时间复杂度：<code>O(n * (k + 26))</code>，通常写作 <code>O(n * k)</code>。</li>
 <li>空间复杂度：<code>O(n * k)</code>。额外的 <code>count[26]</code> 是常数空间。</li>
 </ul>
-<h2 id="易错点"><a href="#易错点" class="headerlink" title="易错点"></a>易错点</h2><h3 id="1-用-chars-toString-当-key"><a href="#1-用-chars-toString-当-key" class="headerlink" title="1. 用 chars.toString() 当 key"></a>1. 用 <code>chars.toString()</code> 当 key</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 错误</span></span><br><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> chars.toString();</span><br></pre></td></tr></table></figure>
+<h2 id="易错点"><a href="#易错点" class="headerlink" title="易错点"></a>易错点</h2><h3 id="1-用-chars-toString-当-key"><a href="#1-用-chars-toString-当-key" class="headerlink" title="1. 用 chars.toString() 当 key"></a>1. 用 <code>chars.toString()</code> 当 key</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 错误</span></span><br><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> arr.toString();</span><br></pre></td></tr></table></figure>
 
 <p>这样拿到的不是字符内容，而是数组对象的字符串表示。</p>
 <p>正确写法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(chars);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(arr);</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-忘记把字符串放进对应列表"><a href="#2-忘记把字符串放进对应列表" class="headerlink" title="2. 忘记把字符串放进对应列表"></a>2. 忘记把字符串放进对应列表</h3><p>哈希表分组题的固定模板是：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">map.computeIfAbsent(key, k -&gt; <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;()).add(value);</span><br></pre></td></tr></table></figure>
-
-<p>如果不用 <code>computeIfAbsent</code>，也可以这样写：</p>
+<h3 id="2-忘记把字符串放进对应列表"><a href="#2-忘记把字符串放进对应列表" class="headerlink" title="2. 忘记把字符串放进对应列表"></a>2. 忘记把字符串放进对应列表</h3><p>按照你这份代码的写法，分组的核心就是这三步：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; list = map.getOrDefault(key, <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;());</span><br><span class="line">list.add(str);</span><br><span class="line">map.put(key, list);</span><br></pre></td></tr></table></figure>
 
+<p>如果少了 <code>list.add(str)</code>，当前字符串就不会真正进入分组。</p>
+<p>如果少了 <code>map.put(key, list)</code>，那么当 <code>key</code> 第一次出现时，新建的空列表就不会被放回哈希表里。</p>
+<p>补充一下：很多题解会把这三步压缩成一行 <code>computeIfAbsent(...)</code>，本质上做的事情是一样的，只是写法更简洁。</p>
 <h3 id="3-认为输出顺序必须和示例一样"><a href="#3-认为输出顺序必须和示例一样" class="headerlink" title="3. 认为输出顺序必须和示例一样"></a>3. 认为输出顺序必须和示例一样</h3><p>题目说可以按任意顺序返回，所以分组顺序、组内顺序通常不要求完全一致。</p>
 <h3 id="4-没有注意字符范围"><a href="#4-没有注意字符范围" class="headerlink" title="4. 没有注意字符范围"></a>4. 没有注意字符范围</h3><p>计数法这里能用 <code>int[26]</code>，是因为题目限制了只包含小写字母。如果有大写字母、数字或 Unicode 字符，就不能直接套这个版本。</p>
 <h2 id="复盘清单"><a href="#复盘清单" class="headerlink" title="复盘清单"></a>复盘清单</h2><p>复习这道题时，重点确认自己能回答这些问题：</p>
 <ul>
 <li>为什么排序后的字符串可以作为同组 key？</li>
 <li><code>HashMap</code> 的 key 和 value 分别是什么？</li>
-<li><code>computeIfAbsent</code> 这行代码在做什么？</li>
-<li>为什么 <code>char[]</code> 要用 <code>new String(chars)</code>？</li>
+<li><code>getOrDefault(key, new ArrayList&lt;&gt;())</code> 这行代码在做什么？</li>
+<li>为什么 <code>list.add(str)</code> 之后还要 <code>map.put(key, list)</code>？</li>
+<li>为什么 <code>char[]</code> 要用 <code>new String(arr)</code>？</li>
 <li>计数法为什么能把时间复杂度降到 <code>O(n * k)</code>？</li>
 <li>如果字符串里有大写字母，计数法要怎么调整？</li>
 </ul>
