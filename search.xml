@@ -9360,7 +9360,7 @@
 <td>返回可用于模型调用的 messages</td>
 </tr>
 </tbody></table>
-<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="1-为什么不能所有东西都用-Tools"><a href="#1-为什么不能所有东西都用-Tools" class="headerlink" title="1. 为什么不能所有东西都用 Tools"></a>1. 为什么不能所有东西都用 Tools</h3><p>Tools 的定位是执行操作，比如查订单、下单、发邮件、提交退货申请。它可以读数据，也可以写数据，甚至触发外部流程。</p>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="为什么不能所有东西都用-Tools"><a href="#为什么不能所有东西都用-Tools" class="headerlink" title="为什么不能所有东西都用 Tools"></a>为什么不能所有东西都用 Tools</h3><p>Tools 的定位是执行操作，比如查订单、下单、发邮件、提交退货申请。它可以读数据，也可以写数据，甚至触发外部流程。</p>
 <p>但有些场景只是读取资料：</p>
 <table>
 <thead>
@@ -9396,7 +9396,7 @@
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Server 暴露数据；</span><br><span class="line">Client 或 Host 主动读取；</span><br><span class="line">读到之后由 Host 决定是否拼进模型上下文。</span><br></pre></td></tr></table></figure>
 
 <p>注意：MCP 只负责定义资源如何被发现和读取，不负责自动把资源塞进 Prompt。资源读出来以后怎么用，仍然是 Host 应用的编排策略。</p>
-<h3 id="2-Resources-和-Tools-的核心区别"><a href="#2-Resources-和-Tools-的核心区别" class="headerlink" title="2. Resources 和 Tools 的核心区别"></a>2. Resources 和 Tools 的核心区别</h3><p>Resources 与 Tools 最容易混，复习时可以从“副作用”和“控制方”两个角度区分。</p>
+<h3 id="Resources-和-Tools-的核心区别"><a href="#Resources-和-Tools-的核心区别" class="headerlink" title="Resources 和 Tools 的核心区别"></a>Resources 和 Tools 的核心区别</h3><p>Resources 与 Tools 最容易混，复习时可以从“副作用”和“控制方”两个角度区分。</p>
 <table>
 <thead>
 <tr>
@@ -9443,7 +9443,7 @@
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">customer://users/user_12345/profile</span><br><span class="line">customer://users/user_12345/recent-orders</span><br><span class="line">docs://return-policy</span><br><span class="line">docs://vip-privileges</span><br></pre></td></tr></table></figure>
 
 <p>用户说“我买的东西有问题想退”时，模型已经拿到会员等级、近期订单、退货政策和 VIP 权益，不需要再先调用一堆工具。这能减少延迟，也能减少漏查关键信息的风险。</p>
-<h3 id="3-Resources-适合什么场景"><a href="#3-Resources-适合什么场景" class="headerlink" title="3. Resources 适合什么场景"></a>3. Resources 适合什么场景</h3><p>Resources 的价值不是“能读数据”，因为 Java 后端本来就能通过 Feign、Dubbo、gRPC、数据库或配置中心读数据。</p>
+<h3 id="Resources-适合什么场景"><a href="#Resources-适合什么场景" class="headerlink" title="Resources 适合什么场景"></a>Resources 适合什么场景</h3><p>Resources 的价值不是“能读数据”，因为 Java 后端本来就能通过 Feign、Dubbo、gRPC、数据库或配置中心读数据。</p>
 <p>它真正有价值的场景是：</p>
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">同一份数据需要被多个 MCP Client 复用。</span><br></pre></td></tr></table></figure>
 
@@ -9452,16 +9452,16 @@
 
 <p>这时资源读取逻辑写在 Server 端一次，所有 Client 通过统一的 <code>resources/read</code> 协议访问，不需要每个 Client 单独写一套数据获取逻辑。</p>
 <p>如果只有一个 Java 后端作为唯一 Client，并且已有成熟微服务调用链路，那么 Resources 不是必选项，直接在后端查数据、拼上下文也完全合理。</p>
-<h3 id="4-两种资源类型：直接资源与资源模板"><a href="#4-两种资源类型：直接资源与资源模板" class="headerlink" title="4. 两种资源类型：直接资源与资源模板"></a>4. 两种资源类型：直接资源与资源模板</h3><p>MCP Resources 分两类：Direct Resources 和 Resource Templates。</p>
-<h4 id="4-1-直接资源"><a href="#4-1-直接资源" class="headerlink" title="4.1 直接资源"></a>4.1 直接资源</h4><p>直接资源有固定 URI，指向确定的数据。</p>
+<h3 id="两种资源类型：直接资源与资源模板"><a href="#两种资源类型：直接资源与资源模板" class="headerlink" title="两种资源类型：直接资源与资源模板"></a>两种资源类型：直接资源与资源模板</h3><p>MCP Resources 分两类：Direct Resources 和 Resource Templates。</p>
+<h4 id="直接资源"><a href="#直接资源" class="headerlink" title="直接资源"></a>直接资源</h4><p>直接资源有固定 URI，指向确定的数据。</p>
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">docs://product-manual</span><br><span class="line">docs://return-policy</span><br><span class="line">config://app/settings</span><br><span class="line">status://health</span><br></pre></td></tr></table></figure>
 
 <p>它适合数量有限、地址固定、不依赖业务参数的数据，比如系统公告、服务条款、退货政策、应用配置。</p>
-<h4 id="4-2-资源模板"><a href="#4-2-资源模板" class="headerlink" title="4.2 资源模板"></a>4.2 资源模板</h4><p>资源模板的 URI 里带参数，读取时需要填入具体变量。</p>
+<h4 id="资源模板"><a href="#资源模板" class="headerlink" title="资源模板"></a>资源模板</h4><p>资源模板的 URI 里带参数，读取时需要填入具体变量。</p>
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">order://users/&#123;userId&#125;/orders/&#123;orderId&#125;</span><br><span class="line">customer://users/&#123;userId&#125;/profile</span><br><span class="line">db://tables/&#123;tableName&#125;/schema</span><br><span class="line">logs://&#123;date&#125;/service/&#123;serviceName&#125;</span><br></pre></td></tr></table></figure>
 
 <p>它适合数量动态、依赖业务参数的数据。比如订单详情不可能每一单都注册一个固定资源，用模板更合理。</p>
-<h4 id="4-3-怎么选"><a href="#4-3-怎么选" class="headerlink" title="4.3 怎么选"></a>4.3 怎么选</h4><table>
+<h4 id="怎么选"><a href="#怎么选" class="headerlink" title="怎么选"></a>怎么选</h4><table>
 <thead>
 <tr>
 <th>场景</th>
@@ -9503,7 +9503,7 @@
 <p>判断标准很简单：</p>
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">固定地址读固定资料，用 Direct Resource；</span><br><span class="line">需要传参才能定位资料，用 Resource Template。</span><br></pre></td></tr></table></figure>
 
-<h3 id="5-Resources-的协议交互"><a href="#5-Resources-的协议交互" class="headerlink" title="5. Resources 的协议交互"></a>5. Resources 的协议交互</h3><p>Resources 的核心协议方法有四个：</p>
+<h3 id="Resources-的协议交互"><a href="#Resources-的协议交互" class="headerlink" title="Resources 的协议交互"></a>Resources 的协议交互</h3><p>Resources 的核心协议方法有四个：</p>
 <table>
 <thead>
 <tr>
@@ -9538,7 +9538,7 @@
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Client -&gt; Server：resources/list，看看有哪些固定资源</span><br><span class="line">Client -&gt; Server：resources/templates/list，看看有哪些资源模板</span><br><span class="line">Client -&gt; Server：resources/read，读取某个具体 URI</span><br><span class="line">Server -&gt; Client：返回 contents</span><br></pre></td></tr></table></figure>
 
 <p><code>contents</code> 可以返回文本，也可以返回二进制。大多数 RAG 和知识库场景中，文本内容就够用了；图片、PDF 等非文本数据才需要二进制内容。</p>
-<h3 id="6-资源变更订阅"><a href="#6-资源变更订阅" class="headerlink" title="6. 资源变更订阅"></a>6. 资源变更订阅</h3><p>有些资源会变化，比如应用配置、系统状态、数据库表结构、用户资料。如果 Client 想及时知道资源变化，可以使用资源订阅。</p>
+<h3 id="资源变更订阅"><a href="#资源变更订阅" class="headerlink" title="资源变更订阅"></a>资源变更订阅</h3><p>有些资源会变化，比如应用配置、系统状态、数据库表结构、用户资料。如果 Client 想及时知道资源变化，可以使用资源订阅。</p>
 <p><img src="/blog/img/ragent-note-14-resource-subscribe.png" alt="MCP Resources 订阅与通知流程"></p>
 <p>订阅流程可以拆成两步：</p>
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">1. Client 调用 resources/subscribe，订阅某个 URI。</span><br><span class="line">2. Server 发现资源变化后，发送 notifications/resources/updated。</span><br></pre></td></tr></table></figure>
@@ -9570,7 +9570,7 @@
 </tr>
 </tbody></table>
 <p>如果资源内容基本不变，就不需要强行上订阅。订阅适合频繁变化、Client 又确实需要及时感知的资源。</p>
-<h3 id="7-Prompts-是什么"><a href="#7-Prompts-是什么" class="headerlink" title="7. Prompts 是什么"></a>7. Prompts 是什么</h3><p>Prompts 是 MCP 的第三类能力，它解决的不是“怎么写 Prompt”，而是“写好的 Prompt 怎么被多个 Client 复用”。</p>
+<h3 id="Prompts-是什么"><a href="#Prompts-是什么" class="headerlink" title="Prompts 是什么"></a>Prompts 是什么</h3><p>Prompts 是 MCP 的第三类能力，它解决的不是“怎么写 Prompt”，而是“写好的 Prompt 怎么被多个 Client 复用”。</p>
 <p>一句话：</p>
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Server 预定义 Prompt 模板；</span><br><span class="line">Client 传入参数；</span><br><span class="line">Server 返回一组完整 messages。</span><br></pre></td></tr></table></figure>
 
@@ -9578,7 +9578,7 @@
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">角色定义；</span><br><span class="line">只基于参考资料回答；</span><br><span class="line">没有资料时如何兜底；</span><br><span class="line">引用来源如何标注；</span><br><span class="line">答案结构怎么组织。</span><br></pre></td></tr></table></figure>
 
 <p>如果每个 Client 都自己拼这套 Prompt，很容易出现版本不一致、规则漏写、参数校验不统一的问题。Prompts 把这套模板放在 MCP Server 上，所有 Client 都可以通过协议获取。</p>
-<h3 id="8-Prompts-和直接写-Prompt-的区别"><a href="#8-Prompts-和直接写-Prompt-的区别" class="headerlink" title="8. Prompts 和直接写 Prompt 的区别"></a>8. Prompts 和直接写 Prompt 的区别</h3><table>
+<h3 id="Prompts-和直接写-Prompt-的区别"><a href="#Prompts-和直接写-Prompt-的区别" class="headerlink" title="Prompts 和直接写 Prompt 的区别"></a>Prompts 和直接写 Prompt 的区别</h3><table>
 <thead>
 <tr>
 <th>维度</th>
@@ -9619,7 +9619,7 @@
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">怎样把这个好 Prompt 标准化地分发给多个 Client？</span><br></pre></td></tr></table></figure>
 
 <p>所以二者不是替代关系，而是上下游关系。Prompt 工程产出模板，MCP Prompts 负责复用模板。</p>
-<h3 id="9-Prompts-的协议交互"><a href="#9-Prompts-的协议交互" class="headerlink" title="9. Prompts 的协议交互"></a>9. Prompts 的协议交互</h3><p>Prompts 的核心方法只有两个：</p>
+<h3 id="Prompts-的协议交互"><a href="#Prompts-的协议交互" class="headerlink" title="Prompts 的协议交互"></a>Prompts 的协议交互</h3><p>Prompts 的核心方法只有两个：</p>
 <table>
 <thead>
 <tr>
@@ -9646,7 +9646,7 @@
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">一组已经组装好的 user / assistant messages；</span><br><span class="line">Client 可以把它发给模型，也可以继续加工后再发。</span><br></pre></td></tr></table></figure>
 
 <p>注意：Prompts 提供的是模板和消息结构，不是自动调用模型。最终是否调用模型、使用哪个模型、是否再追加上下文，都由 Client 或 Host 决定。</p>
-<h3 id="10-Spring-AI-中的实现思路"><a href="#10-Spring-AI-中的实现思路" class="headerlink" title="10. Spring AI 中的实现思路"></a>10. Spring AI 中的实现思路</h3><p>在 Spring AI 的 MCP 集成里，可以用注解定义资源和模板。</p>
+<h3 id="Spring-AI-中的实现思路"><a href="#Spring-AI-中的实现思路" class="headerlink" title="Spring AI 中的实现思路"></a>Spring AI 中的实现思路</h3><p>在 Spring AI 的 MCP 集成里，可以用注解定义资源和模板。</p>
 <p>Resources 常见写法是使用 <code>@McpResource</code>：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@McpResource(</span></span><br><span class="line"><span class="meta">    uri = &quot;docs://return-policy&quot;,</span></span><br><span class="line"><span class="meta">    name = &quot;退货政策&quot;,</span></span><br><span class="line"><span class="meta">    description = &quot;公司退货政策文档&quot;,</span></span><br><span class="line"><span class="meta">    mimeType = &quot;text/plain&quot;</span></span><br><span class="line"><span class="meta">)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">returnPolicy</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        退货时限：自收货之日起 7 天内可申请无理由退货。</span></span><br><span class="line"><span class="string">        退货条件：商品未拆封、未损坏、配件齐全。</span></span><br><span class="line"><span class="string">        退款方式：原路退回。</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -9670,7 +9670,7 @@
 <td>课程里提到主要是 <code>user</code>、<code>assistant</code>，系统指令可放进 user 消息开头</td>
 </tr>
 </tbody></table>
-<h3 id="11-Tools-Resources-Prompts-怎么选"><a href="#11-Tools-Resources-Prompts-怎么选" class="headerlink" title="11. Tools &#x2F; Resources &#x2F; Prompts 怎么选"></a>11. Tools &#x2F; Resources &#x2F; Prompts 怎么选</h3><p>三者互补，不是竞争关系。</p>
+<h3 id="Tools-Resources-Prompts-怎么选"><a href="#Tools-Resources-Prompts-怎么选" class="headerlink" title="Tools &#x2F; Resources &#x2F; Prompts 怎么选"></a>Tools &#x2F; Resources &#x2F; Prompts 怎么选</h3><p>三者互补，不是竞争关系。</p>
 <table>
 <thead>
 <tr>
@@ -9748,7 +9748,7 @@
 <td><code>knowledge-qa</code>、<code>doc-summary</code></td>
 </tr>
 </tbody></table>
-<h3 id="12-本节和-RAG-的关系"><a href="#12-本节和-RAG-的关系" class="headerlink" title="12. 本节和 RAG 的关系"></a>12. 本节和 RAG 的关系</h3><p>RAG 系统里不只有检索增强，还会有很多上下文增强和交互模板。</p>
+<h3 id="本节和-RAG-的关系"><a href="#本节和-RAG-的关系" class="headerlink" title="本节和 RAG 的关系"></a>本节和 RAG 的关系</h3><p>RAG 系统里不只有检索增强，还会有很多上下文增强和交互模板。</p>
 <p>Resources 可以用于稳定上下文：</p>
 <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">系统配置；</span><br><span class="line">用户画像；</span><br><span class="line">权限范围；</span><br><span class="line">数据库结构；</span><br><span class="line">固定政策文档。</span><br></pre></td></tr></table></figure>
 

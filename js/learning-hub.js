@@ -31,6 +31,12 @@
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;')
 
+  const decodeHtml = value => {
+    const textarea = document.createElement('textarea')
+    textarea.innerHTML = value || ''
+    return textarea.value
+  }
+
   const parseSearchXml = xmlText => {
     const parser = new DOMParser()
     const xml = parser.parseFromString(xmlText, 'text/xml')
@@ -111,9 +117,9 @@
       <div class="learning-focus">
         <div class="learning-focus-main">
           <span class="learning-hub-eyebrow">${focus.title}</span>
-          <h2>${escapeHtml(focus.lead)}</h2>
+          <h2>${escapeHtml(decodeHtml(focus.lead))}</h2>
           <div class="learning-focus-list">
-            ${focus.lines.map(line => `<p>${escapeHtml(line)}</p>`).join('')}
+            ${focus.lines.map(line => `<p>${escapeHtml(decodeHtml(line))}</p>`).join('')}
           </div>
         </div>
         <div class="learning-focus-actions">
