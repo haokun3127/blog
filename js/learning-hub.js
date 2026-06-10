@@ -24,6 +24,74 @@
     return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER
   }
 
+  const trimRagentTitle = title => normalizeText(title)
+    .replace(/^Ragent学习笔记\d+\s*[-：:]\s*/, '')
+    .replace(/^Ragent学习笔记\d+/, '')
+
+  const trimHot100Title = title => normalizeText(title)
+    .replace(/^Hot100：\s*/, '')
+
+  const padUnit = value => String(value).padStart(2, '0')
+
+  const pickSeriesDescriptor = title => {
+    const normalizedTitle = normalizeText(title)
+
+    if (normalizedTitle.startsWith('Ragent学习笔记')) {
+      const order = parseRagentOrder(normalizedTitle)
+      return {
+        type: 'ragent',
+        series: 'Ragent',
+        unit: order === Number.MAX_SAFE_INTEGER ? 'NOTE' : `NOTE ${padUnit(order)}`,
+        title: trimRagentTitle(normalizedTitle) || normalizedTitle,
+        href: '/blog/ragent/',
+        hrefText: 'Ragent 地图'
+      }
+    }
+
+    if (normalizedTitle.startsWith('Hot100：')) {
+      const order = parseHot100Order(normalizedTitle)
+      return {
+        type: 'hot100',
+        series: 'Hot100',
+        unit: order === Number.MAX_SAFE_INTEGER ? 'TOPIC' : `TOPIC ${padUnit(order)}`,
+        title: trimHot100Title(normalizedTitle) || normalizedTitle,
+        href: '/blog/hot100/',
+        hrefText: 'Hot100 路线'
+      }
+    }
+
+    if (normalizedTitle.startsWith('论文笔记：')) {
+      return {
+        type: 'paper',
+        series: 'Paper',
+        unit: 'READING',
+        title: normalizedTitle.replace(/^论文笔记：\s*/, ''),
+        href: '/blog/tags/论文笔记/',
+        hrefText: '论文笔记'
+      }
+    }
+
+    if (normalizedTitle.includes('学习计划/进度')) {
+      return {
+        type: 'plan',
+        series: 'Plan',
+        unit: 'ROADMAP',
+        title: normalizedTitle,
+        href: '/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/',
+        hrefText: '学习计划'
+      }
+    }
+
+    return {
+      type: 'note',
+      series: 'Note',
+      unit: 'LOG',
+      title: normalizedTitle,
+      href: '/blog/archives/',
+      hrefText: '归档'
+    }
+  }
+
   const escapeHtml = value => value
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -95,6 +163,11 @@
     const latestRagent = ragentSeries[ragentSeries.length - 1]
     const latestHot100 = hot100Series[hot100Series.length - 1]
     const progressLines = plan ? extractProgressLines(plan.text) : []
+    const latestRagentInfo = latestRagent ? pickSeriesDescriptor(latestRagent.title) : null
+    const latestHot100Info = latestHot100 ? pickSeriesDescriptor(latestHot100.title) : null
+    const ragentDone = ragentSeries.length
+    const hot100Done = hot100Series.length
+    const ragentStage = ragentDone >= 14 ? 'MCP 扩展' : ragentDone >= 8 ? 'RAG 检索基础' : 'AI & RAG 扫盲'
 
     return {
       title: '最近在学',
@@ -113,6 +186,35 @@
         { label: 'Ragent 地图', href: '/blog/ragent/', meta: latestRagent ? `更新到 ${latestRagent.title.match(/Ragent学习笔记\d+/)?.[0] || '当前章节'}` : '项目主线' },
         { label: 'Hot100 路线', href: '/blog/hot100/', meta: latestHot100 ? '最近复习移动零' : '算法题库' },
         { label: 'Agent 计划', href: plan?.url || '/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/', meta: '打卡进度' }
+      ],
+      roadmap: [
+        { label: 'AI 基础', value: Math.min(ragentDone, 4), total: 4, done: ragentDone >= 4 },
+        { label: '文档处理', value: Math.max(Math.min(ragentDone - 4, 3), 0), total: 3, done: ragentDone >= 7 },
+        { label: '向量检索', value: Math.max(Math.min(ragentDone - 7, 4), 0), total: 4, done: ragentDone >= 11 },
+        { label: 'MCP / Agent', value: Math.max(Math.min(ragentDone - 11, 4), 0), total: 4, done: ragentDone >= 15 }
+      ],
+      commands: [
+        {
+          tone: 'ragent',
+          label: '当前主线',
+          title: latestRagentInfo ? latestRagentInfo.unit : 'RAGENT',
+          text: latestRagentInfo ? latestRagentInfo.title : ragentStage,
+          href: latestRagent?.url || '/blog/ragent/'
+        },
+        {
+          tone: 'hot100',
+          label: '最近复习',
+          title: latestHot100Info ? latestHot100Info.unit : 'HOT100',
+          text: latestHot100Info ? latestHot100Info.title : `已整理 ${hot100Done} 题`,
+          href: latestHot100?.url || '/blog/hot100/'
+        },
+        {
+          tone: 'plan',
+          label: '打卡计划',
+          title: 'ROADMAP',
+          text: ragentStage,
+          href: plan?.url || '/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/'
+        }
       ]
     }
   }
@@ -135,6 +237,14 @@
             <h2>${escapeHtml(decodeHtml(focus.lead))}</h2>
             <div class="learning-focus-list">
               ${focus.lines.map(line => `<p>${escapeHtml(decodeHtml(line))}</p>`).join('')}
+            </div>
+            <div class="learning-roadmap" aria-label="Ragent 阶段进度">
+              ${focus.roadmap.map(item => `
+                <div class="learning-roadmap-item ${item.done ? 'is-done' : ''}">
+                  <span>${escapeHtml(item.label)}</span>
+                  <small>${item.value}/${item.total}</small>
+                </div>
+              `).join('')}
             </div>
           </div>
           <div class="learning-focus-actions">
@@ -163,9 +273,65 @@
           </div>
         </div>
       </div>
+      <div class="learning-command-strip">
+        ${focus.commands.map(item => `
+          <a class="learning-command-card command-${item.tone}" href="${item.href}">
+            <span>${escapeHtml(item.label)}</span>
+            <strong>${escapeHtml(item.title)}</strong>
+            <small>${escapeHtml(decodeHtml(item.text))}</small>
+          </a>
+        `).join('')}
+      </div>
+      <div class="learning-list-label">latest study notes</div>
     `
 
     recentPosts.prepend(hub)
+  }
+
+  const renderAsideStudyStatus = posts => {
+    const aside = document.querySelector('#aside-content')
+    if (!aside) return
+    if (document.querySelector('#aside-study-status')) return
+
+    const focus = pickCurrentFocus(posts)
+    const ragentCount = focus.stats.find(item => item.label === 'Ragent 笔记')?.value || 0
+    const hot100Count = focus.stats.find(item => item.label === 'Hot100 题')?.value || 0
+    const ragentPercent = Math.min(Math.round((ragentCount / 30) * 100), 100)
+    const hot100Percent = Math.min(Math.round((hot100Count / 20) * 100), 100)
+
+    const card = document.createElement('div')
+    card.id = 'aside-study-status'
+    card.className = 'card-widget aside-study-status'
+    card.innerHTML = `
+      <div class="item-headline">
+        <i class="fas fa-signal"></i>
+        <span>学习状态</span>
+      </div>
+      <div class="aside-status-stack">
+        <a href="/blog/ragent/" class="aside-status-row">
+          <span>Ragent</span>
+          <strong>${ragentCount}</strong>
+          <small>notes</small>
+          <i style="--status-width:${ragentPercent}%"></i>
+        </a>
+        <a href="/blog/hot100/" class="aside-status-row hot100">
+          <span>Hot100</span>
+          <strong>${hot100Count}</strong>
+          <small>problems</small>
+          <i style="--status-width:${hot100Percent}%"></i>
+        </a>
+      </div>
+    `
+
+    const profile = aside.querySelector('.card-info')
+    const learningNav = aside.querySelector('#aside-learning-nav')
+    if (learningNav) {
+      learningNav.insertAdjacentElement('beforebegin', card)
+    } else if (profile) {
+      profile.insertAdjacentElement('afterend', card)
+    } else {
+      aside.prepend(card)
+    }
   }
 
   const tuneArticleAside = () => {
@@ -363,6 +529,14 @@
   }
 
   const pickCardKeywords = title => {
+    if (title.startsWith('Ragent学习笔记14')) return ['MCP', 'Resources', 'Prompts']
+    if (title.startsWith('Ragent学习笔记13')) return ['MCP', '协议', '工具生态']
+    if (title.startsWith('Ragent学习笔记12')) return ['Function Call', '工具调用', '参数抽取']
+    if (title.startsWith('Ragent学习笔记11')) return ['生成策略', '幻觉抑制', '可信回答']
+    if (title.startsWith('Ragent学习笔记10')) return ['向量检索', '召回优化', 'TopK']
+    if (title.startsWith('Ragent学习笔记09')) return ['向量数据库', 'Pgvector', 'Milvus']
+    if (title.startsWith('Ragent学习笔记08')) return ['Embedding', '语义向量', '相似度']
+    if (title.startsWith('Ragent学习笔记07')) return ['元数据', '过滤', '管理']
     if (title.startsWith('Ragent学习笔记06')) return ['RAG', 'Chunk', '文档分块']
     if (title.startsWith('Ragent学习笔记05')) return ['RAG', 'Tika', '文档解析']
     if (title.startsWith('Ragent学习笔记04')) return ['RAG', '检索增强', '知识库']
@@ -387,12 +561,29 @@
   const markPostCards = () => {
     document.querySelectorAll('#recent-posts .recent-post-item').forEach((card, index) => {
       const title = card.querySelector('.article-title')?.textContent?.trim() || ''
+      const descriptor = pickSeriesDescriptor(title)
       card.classList.toggle('series-ragent', title.startsWith('Ragent学习笔记'))
       card.classList.toggle('series-hot100', title.startsWith('Hot100：'))
       card.classList.toggle('series-paper', title.startsWith('论文笔记：'))
       card.classList.toggle('series-plan', title.includes('学习计划/进度'))
+      card.dataset.studySeries = descriptor.type
+      card.dataset.studyUnit = descriptor.unit
       card.classList.toggle('is-featured-study-card', index === 0)
       card.style.setProperty('--study-reveal-index', index)
+
+      if (!card.querySelector('.study-card-topline')) {
+        const info = card.querySelector('.recent-post-info')
+        const titleElement = card.querySelector('.article-title')
+        const topline = document.createElement('div')
+        topline.className = 'study-card-topline'
+        topline.innerHTML = `
+          <span class="study-card-series">${escapeHtml(descriptor.series)}</span>
+          <span class="study-card-unit">${escapeHtml(descriptor.unit)}</span>
+        `
+        if (info && titleElement) {
+          info.insertBefore(topline, titleElement)
+        }
+      }
 
       if (!card.querySelector('.study-card-keywords')) {
         const info = card.querySelector('.recent-post-info')
@@ -404,6 +595,46 @@
     })
   }
 
+  const renderArticleCommandBar = () => {
+    const articleTitle = document.querySelector('.post-title')?.textContent?.trim()
+    const articleContainer = document.querySelector('#article-container')
+    const post = document.querySelector('#post')
+    if (!articleTitle || !articleContainer || !post) return
+    if (document.querySelector('#article-command-bar')) return
+
+    const descriptor = pickSeriesDescriptor(articleTitle)
+    if (!['ragent', 'hot100', 'paper', 'plan'].includes(descriptor.type)) return
+
+    const bar = document.createElement('section')
+    bar.id = 'article-command-bar'
+    bar.className = `article-command-bar article-command-${descriptor.type}`
+    bar.innerHTML = `
+      <div class="article-command-meta">
+        <span>${escapeHtml(descriptor.series)}</span>
+        <strong>${escapeHtml(descriptor.unit)}</strong>
+        <small>${escapeHtml(descriptor.title)}</small>
+      </div>
+      <div class="article-command-actions">
+        <a href="${descriptor.href}">${escapeHtml(descriptor.hrefText)}</a>
+        <a href="/blog/archives/">归档</a>
+      </div>
+    `
+
+    post.insertBefore(bar, articleContainer)
+  }
+
+  const markActiveRoutes = () => {
+    const currentPath = window.location.pathname.replace(/\/$/, '')
+    const links = document.querySelectorAll('#nav a[href], .aside-learning-links a[href], .learning-focus-lanes a[href], .learning-command-card[href]')
+
+    links.forEach(link => {
+      const url = new URL(link.getAttribute('href'), window.location.origin)
+      const linkPath = url.pathname.replace(/\/$/, '')
+      const isCurrent = currentPath === linkPath || (linkPath !== '/blog' && currentPath.startsWith(`${linkPath}/`))
+      link.classList.toggle('is-current-route', isCurrent)
+    })
+  }
+
   const applyStudyReveal = () => {
     const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
     const targets = [
@@ -411,7 +642,9 @@
       '#recent-posts .recent-post-item',
       '#aside-content .card-widget',
       '.ragent-series-nav',
-      '.series-nav-block'
+      '.series-nav-block',
+      '.learning-command-card',
+      '.article-command-bar'
     ]
 
     const elements = Array.from(document.querySelectorAll(targets.join(',')))
@@ -454,10 +687,13 @@
     tuneArticleAside()
     renderHomeHub(posts)
     renderAsideLearningNav()
+    renderAsideStudyStatus(posts)
     renderCoreTagNav()
+    renderArticleCommandBar(posts)
     renderRagentSeriesNav(posts)
     renderHot100SeriesNav(posts)
     markPostCards()
+    markActiveRoutes()
     applyStudyReveal()
   }
 
