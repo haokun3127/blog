@@ -88,8 +88,12 @@
     const ragentSeries = posts
       .filter(post => post.title.startsWith('Ragent学习笔记'))
       .sort((a, b) => parseRagentOrder(a.title) - parseRagentOrder(b.title))
+    const hot100Series = posts
+      .filter(post => post.title.startsWith('Hot100：'))
+      .sort((a, b) => parseHot100Order(a.title) - parseHot100Order(b.title))
 
     const latestRagent = ragentSeries[ragentSeries.length - 1]
+    const latestHot100 = hot100Series[hot100Series.length - 1]
     const progressLines = plan ? extractProgressLines(plan.text) : []
 
     return {
@@ -99,7 +103,17 @@
       primaryHref: latestRagent?.url || '/blog/ragent/',
       primaryText: latestRagent ? '继续当前主线' : '进入 Ragent 专题',
       secondaryHref: plan?.url || '/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/',
-      secondaryText: '查看学习计划'
+      secondaryText: '查看学习计划',
+      stats: [
+        { value: ragentSeries.length, label: 'Ragent 笔记', note: '项目主线' },
+        { value: hot100Series.length, label: 'Hot100 题', note: '算法复盘' },
+        { value: posts.filter(post => post.title.startsWith('论文笔记：')).length, label: '论文笔记', note: '推荐系统' }
+      ],
+      lanes: [
+        { label: 'Ragent 地图', href: '/blog/ragent/', meta: latestRagent ? `更新到 ${latestRagent.title.match(/Ragent学习笔记\d+/)?.[0] || '当前章节'}` : '项目主线' },
+        { label: 'Hot100 路线', href: '/blog/hot100/', meta: latestHot100 ? '最近复习移动零' : '算法题库' },
+        { label: 'Agent 计划', href: plan?.url || '/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/', meta: '打卡进度' }
+      ]
     }
   }
 
@@ -115,16 +129,38 @@
     hub.className = 'learning-hub'
     hub.innerHTML = `
       <div class="learning-focus">
-        <div class="learning-focus-main">
-          <span class="learning-hub-eyebrow">${focus.title}</span>
-          <h2>${escapeHtml(decodeHtml(focus.lead))}</h2>
-          <div class="learning-focus-list">
-            ${focus.lines.map(line => `<p>${escapeHtml(decodeHtml(line))}</p>`).join('')}
+        <div class="learning-focus-core">
+          <div class="learning-focus-main">
+            <span class="learning-hub-eyebrow">${focus.title}</span>
+            <h2>${escapeHtml(decodeHtml(focus.lead))}</h2>
+            <div class="learning-focus-list">
+              ${focus.lines.map(line => `<p>${escapeHtml(decodeHtml(line))}</p>`).join('')}
+            </div>
+          </div>
+          <div class="learning-focus-actions">
+            <a class="learning-hub-main-link" href="${focus.primaryHref}">${focus.primaryText}</a>
+            <a class="learning-hub-secondary-link" href="${focus.secondaryHref}">${focus.secondaryText}</a>
           </div>
         </div>
-        <div class="learning-focus-actions">
-          <a class="learning-hub-main-link" href="${focus.primaryHref}">${focus.primaryText}</a>
-          <a class="learning-hub-secondary-link" href="${focus.secondaryHref}">${focus.secondaryText}</a>
+        <div class="learning-focus-panel" aria-label="学习进度概览">
+          <div class="learning-focus-panel-title">学习坐标</div>
+          <div class="learning-focus-stats">
+            ${focus.stats.map(item => `
+              <div class="learning-focus-stat">
+                <strong>${item.value}</strong>
+                <span>${escapeHtml(item.label)}</span>
+                <small>${escapeHtml(item.note)}</small>
+              </div>
+            `).join('')}
+          </div>
+          <div class="learning-focus-lanes">
+            ${focus.lanes.map(item => `
+              <a href="${item.href}">
+                <span>${escapeHtml(item.label)}</span>
+                <small>${escapeHtml(item.meta)}</small>
+              </a>
+            `).join('')}
+          </div>
         </div>
       </div>
     `
@@ -355,6 +391,7 @@
       card.classList.toggle('series-hot100', title.startsWith('Hot100：'))
       card.classList.toggle('series-paper', title.startsWith('论文笔记：'))
       card.classList.toggle('series-plan', title.includes('学习计划/进度'))
+      card.classList.toggle('is-featured-study-card', index === 0)
       card.style.setProperty('--study-reveal-index', index)
 
       if (!card.querySelector('.study-card-keywords')) {
