@@ -349,12 +349,13 @@
   }
 
   const markPostCards = () => {
-    document.querySelectorAll('#recent-posts .recent-post-item').forEach(card => {
+    document.querySelectorAll('#recent-posts .recent-post-item').forEach((card, index) => {
       const title = card.querySelector('.article-title')?.textContent?.trim() || ''
       card.classList.toggle('series-ragent', title.startsWith('Ragent学习笔记'))
       card.classList.toggle('series-hot100', title.startsWith('Hot100：'))
       card.classList.toggle('series-paper', title.startsWith('论文笔记：'))
       card.classList.toggle('series-plan', title.includes('学习计划/进度'))
+      card.style.setProperty('--study-reveal-index', index)
 
       if (!card.querySelector('.study-card-keywords')) {
         const info = card.querySelector('.recent-post-info')
@@ -366,6 +367,51 @@
     })
   }
 
+  const applyStudyReveal = () => {
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
+    const targets = [
+      '#learning-hub',
+      '#recent-posts .recent-post-item',
+      '#aside-content .card-widget',
+      '.ragent-series-nav',
+      '.series-nav-block'
+    ]
+
+    const elements = Array.from(document.querySelectorAll(targets.join(',')))
+      .filter(element => !element.dataset.studyRevealReady)
+
+    if (!elements.length) return
+
+    elements.forEach((element, index) => {
+      element.dataset.studyRevealReady = 'true'
+      if (!element.style.getPropertyValue('--study-reveal-index')) {
+        element.style.setProperty('--study-reveal-index', index)
+      }
+      element.classList.add('study-reveal')
+      if (element.getBoundingClientRect().top < window.innerHeight * 0.92) {
+        element.classList.add('is-visible')
+      }
+    })
+
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      elements.forEach(element => element.classList.add('is-visible'))
+      return
+    }
+
+    const observer = new IntersectionObserver((entries, currentObserver) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return
+        entry.target.classList.add('is-visible')
+        currentObserver.unobserve(entry.target)
+      })
+    }, {
+      rootMargin: '0px 0px -8% 0px',
+      threshold: 0.08
+    })
+
+    elements.forEach(element => observer.observe(element))
+  }
+
   const boot = async () => {
     const posts = await loadPosts()
     tuneArticleAside()
@@ -375,6 +421,7 @@
     renderRagentSeriesNav(posts)
     renderHot100SeriesNav(posts)
     markPostCards()
+    applyStudyReveal()
   }
 
   document.addEventListener('DOMContentLoaded', boot)
