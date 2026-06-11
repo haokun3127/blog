@@ -566,9 +566,10 @@
       card.classList.toggle('series-hot100', title.startsWith('Hot100：'))
       card.classList.toggle('series-paper', title.startsWith('论文笔记：'))
       card.classList.toggle('series-plan', title.includes('学习计划/进度'))
+      card.classList.add('is-study-preview-card')
       card.dataset.studySeries = descriptor.type
       card.dataset.studyUnit = descriptor.unit
-      card.classList.toggle('is-featured-study-card', index === 0)
+      card.classList.remove('is-featured-study-card')
       card.style.setProperty('--study-reveal-index', index)
 
       if (!card.querySelector('.study-card-topline')) {
@@ -592,6 +593,45 @@
         keywordRow.innerHTML = renderCardKeywords(title)
         info?.appendChild(keywordRow)
       }
+    })
+  }
+
+  const applyCardSpotlights = () => {
+    const supportsFinePointer = window.matchMedia?.('(pointer: fine)')?.matches
+    if (!supportsFinePointer) return
+
+    document.querySelectorAll('#recent-posts .recent-post-item').forEach(card => {
+      if (card.dataset.studySpotlightReady) return
+      card.dataset.studySpotlightReady = 'true'
+
+      let frame = 0
+      let pointerEvent = null
+
+      const paint = () => {
+        frame = 0
+        if (!pointerEvent) return
+
+        const rect = card.getBoundingClientRect()
+        const x = Math.min(100, Math.max(0, ((pointerEvent.clientX - rect.left) / rect.width) * 100))
+        const y = Math.min(100, Math.max(0, ((pointerEvent.clientY - rect.top) / rect.height) * 100))
+        card.style.setProperty('--study-card-x', `${x.toFixed(1)}%`)
+        card.style.setProperty('--study-card-y', `${y.toFixed(1)}%`)
+      }
+
+      card.addEventListener('pointermove', event => {
+        pointerEvent = event
+        if (!frame) frame = window.requestAnimationFrame(paint)
+      })
+
+      card.addEventListener('pointerleave', () => {
+        pointerEvent = null
+        if (frame) {
+          window.cancelAnimationFrame(frame)
+          frame = 0
+        }
+        card.style.removeProperty('--study-card-x')
+        card.style.removeProperty('--study-card-y')
+      })
     })
   }
 
@@ -693,6 +733,7 @@
     renderRagentSeriesNav(posts)
     renderHot100SeriesNav(posts)
     markPostCards()
+    applyCardSpotlights()
     markActiveRoutes()
     applyStudyReveal()
   }
