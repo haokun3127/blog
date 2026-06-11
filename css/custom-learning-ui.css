@@ -3719,3 +3719,56 @@ body {
     word-break: break-all !important;
   }
 }
+
+/* V7: widen the article reading surface without turning notes into long newspaper lines. */
+@media screen and (min-width: 1201px) {
+  .post #content-inner.layout,
+  #content-inner.layout:has(#post) {
+    --article-aside-width: 328px;
+    --article-layout-gap: 1.38rem;
+    max-width: 1500px !important;
+    gap: var(--article-layout-gap) !important;
+  }
+
+  .post #content-inner.layout > div:first-child,
+  #content-inner.layout:has(#post) > div:first-child {
+    width: calc(100% - var(--article-aside-width) - var(--article-layout-gap)) !important;
+  }
+
+  .post #content-inner.layout #aside-content,
+  #content-inner.layout:has(#post) #aside-content {
+    width: var(--article-aside-width) !important;
+  }
+
+  .post #post,
+  #content-inner.layout:has(#post) #post {
+    padding-right: clamp(2.25rem, 3vw, 3.25rem) !important;
+    padding-left: clamp(2.25rem, 3vw, 3.25rem) !important;
+  }
+
+  .post #article-container,
+  #content-inner.layout:has(#post) #article-container {
+    max-width: min(100%, 108ch) !important;
+  }
+
+  .post #article-container table,
+  .post #article-container figure.highlight,
+  .post #article-container pre,
+  #content-inner.layout:has(#post) #article-container table,
+  #content-inner.layout:has(#post) #article-container figure.highlight,
+  #content-inner.layout:has(#post) #article-container pre {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 901px) and (max-width: 1200px) {
+  .post #content-inner.layout,
+  #content-inner.layout:has(#post) {
+    max-width: calc(100% - 1.6rem) !important;
+  }
+
+  .post #article-container,
+  #content-inner.layout:has(#post) #article-container {
+    max-width: min(100%, 102ch) !important;
+  }
+}
