@@ -10983,4 +10983,470 @@
         <tag>双指针</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Hot100：双指针4-接雨水</title>
+    <url>/blog/2026/06/13/Hot100%EF%BC%9A%E5%8F%8C%E6%8C%87%E9%92%884-%E6%8E%A5%E9%9B%A8%E6%B0%B4/</url>
+    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定 <code>n</code> 个非负整数，表示每个宽度为 <code>1</code> 的柱子的高度图，计算按这种排列的柱子，下雨之后最多能接多少雨水。</p>
+<p>示例：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">输入：height = [0,1,0,2,1,0,1,3,2,1,2,1]</span><br><span class="line">输出：6</span><br></pre></td></tr></table></figure>
+
+<p>这道题在 Hot100 里归到双指针。复习时可以先用动态规划理解原理，但最终要掌握双指针写法。</p>
+<p>参考入口：</p>
+<ul>
+<li><a href="https://leetcode.cn/problems/trapping-rain-water/solutions/9112/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-w-8">力扣题解：接雨水详细通俗的思路分析，多解法</a></li>
+<li><a href="https://leetcode.cn/problems/trapping-rain-water/">力扣题目：42. 接雨水</a></li>
+</ul>
+<h2 id="复习导览"><a href="#复习导览" class="headerlink" title="复习导览"></a>复习导览</h2><p>这道题要抓住一句话：<strong>每一列能接多少水，取决于它左边最高柱子和右边最高柱子中较矮的那个。</strong></p>
+<p>单列接水公式：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">water[i] = min(leftMax[i], rightMax[i]) - height[i]</span><br></pre></td></tr></table></figure>
+
+<p>如果结果小于等于 <code>0</code>，说明这一列接不到水。</p>
+<table>
+<thead>
+<tr>
+<th>复习点</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>题型</td>
+<td>双指针</td>
+</tr>
+<tr>
+<td>辅助理解</td>
+<td>动态规划 &#x2F; 前后缀最大值</td>
+</tr>
+<tr>
+<td>核心变量</td>
+<td><code>left</code>、<code>right</code>、<code>leftMax</code>、<code>rightMax</code>、<code>ans</code></td>
+</tr>
+<tr>
+<td>推荐主解法</td>
+<td>左右双指针向中间收缩</td>
+</tr>
+<tr>
+<td>移动规则</td>
+<td>哪边最高墙更矮，就先结算哪边</td>
+</tr>
+<tr>
+<td>时间复杂度</td>
+<td><code>O(n)</code></td>
+</tr>
+<tr>
+<td>空间复杂度</td>
+<td><code>O(1)</code></td>
+</tr>
+</tbody></table>
+<h2 id="先理解：一列能接多少水"><a href="#先理解：一列能接多少水" class="headerlink" title="先理解：一列能接多少水"></a>先理解：一列能接多少水</h2><p>接雨水不是看某根柱子自己有多高，而是看它左右两边有没有墙。</p>
+<p>对于位置 <code>i</code> 来说：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">左边最高柱子 = leftMax</span><br><span class="line">右边最高柱子 = rightMax</span><br><span class="line">当前柱子高度 = height[i]</span><br></pre></td></tr></table></figure>
+
+<p>这一列最多能接的水位高度是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">min(leftMax, rightMax)</span><br></pre></td></tr></table></figure>
+
+<p>因为水不能超过较矮的那堵墙。</p>
+<p>所以这一列能接的水是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">min(leftMax, rightMax) - height[i]</span><br></pre></td></tr></table></figure>
+
+<p>比如：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">leftMax = 2</span><br><span class="line">rightMax = 3</span><br><span class="line">height[i] = 1</span><br></pre></td></tr></table></figure>
+
+<p>那么这一列能接：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">min(2, 3) - 1 = 1</span><br></pre></td></tr></table></figure>
+
+<p>如果当前柱子本身已经很高：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">leftMax = 2</span><br><span class="line">rightMax = 3</span><br><span class="line">height[i] = 2</span><br></pre></td></tr></table></figure>
+
+<p>那么：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">min(2, 3) - 2 = 0</span><br></pre></td></tr></table></figure>
+
+<p>这一列接不到水。</p>
+<h2 id="动态规划辅助理解"><a href="#动态规划辅助理解" class="headerlink" title="动态规划辅助理解"></a>动态规划辅助理解</h2><p>动态规划版本不是最终主解法，但它最好理解。</p>
+<p>它提前准备两个数组：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span>[] leftMax = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line"><span class="type">int</span>[] rightMax = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br></pre></td></tr></table></figure>
+
+<p>含义是：</p>
+<table>
+<thead>
+<tr>
+<th>数组</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>leftMax[i]</code></td>
+<td>从 <code>0</code> 到 <code>i</code>，最高的柱子高度</td>
+</tr>
+<tr>
+<td><code>rightMax[i]</code></td>
+<td>从 <code>i</code> 到 <code>n - 1</code>，最高的柱子高度</td>
+</tr>
+</tbody></table>
+<p>然后每一列都按公式计算：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ans += Math.min(leftMax[i], rightMax[i]) - height[i];</span><br></pre></td></tr></table></figure>
+
+<p>完整代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">trap</span><span class="params">(<span class="type">int</span>[] height)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> height.length;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span>[] leftMax = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">        <span class="type">int</span>[] rightMax = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line"></span><br><span class="line">        leftMax[<span class="number">0</span>] = height[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">            leftMax[i] = Math.max(leftMax[i - <span class="number">1</span>], height[i]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        rightMax[n - <span class="number">1</span>] = height[n - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> n - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            rightMax[i] = Math.max(rightMax[i + <span class="number">1</span>], height[i]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">ans</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            ans += Math.min(leftMax[i], rightMax[i]) - height[i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个版本的好处是直观。</p>
+<p>坏处是用了两个数组，空间复杂度是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">O(n)</span><br></pre></td></tr></table></figure>
+
+<p>双指针版本就是把这两个数组压缩成两个变量：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">leftMax</span><br><span class="line">rightMax</span><br></pre></td></tr></table></figure>
+
+<h2 id="为什么可以用双指针"><a href="#为什么可以用双指针" class="headerlink" title="为什么可以用双指针"></a>为什么可以用双指针</h2><p>动态规划版需要提前知道每个位置的：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">左边最高</span><br><span class="line">右边最高</span><br></pre></td></tr></table></figure>
+
+<p>双指针版不提前存数组，而是一边移动一边维护：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">leftMax = Math.max(leftMax, height[left]);</span><br><span class="line">rightMax = Math.max(rightMax, height[right]);</span><br></pre></td></tr></table></figure>
+
+<p>关键问题是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">什么时候可以确定某一边能接多少水？</span><br></pre></td></tr></table></figure>
+
+<p>答案是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">哪边的最高墙更矮，就先结算哪边。</span><br></pre></td></tr></table></figure>
+
+<p>如果：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">leftMax &lt; rightMax</span><br></pre></td></tr></table></figure>
+
+<p>说明左边当前水位上限已经确定了。</p>
+<p>因为右边至少有一个 <code>rightMax</code>，而且它比 <code>leftMax</code> 高，所以左侧当前位置能接多少水，只取决于 <code>leftMax</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ans += leftMax - height[left];</span><br><span class="line">left++;</span><br></pre></td></tr></table></figure>
+
+<p>反过来，如果：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">leftMax &gt;= rightMax</span><br></pre></td></tr></table></figure>
+
+<p>说明右边当前水位上限已经确定了，可以结算右边：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ans += rightMax - height[right];</span><br><span class="line">right--;</span><br></pre></td></tr></table></figure>
+
+<h2 id="推荐解法：双指针"><a href="#推荐解法：双指针" class="headerlink" title="推荐解法：双指针"></a>推荐解法：双指针</h2><h3 id="核心流程"><a href="#核心流程" class="headerlink" title="核心流程"></a>核心流程</h3><ol>
+<li><code>left</code> 指向数组最左边。</li>
+<li><code>right</code> 指向数组最右边。</li>
+<li><code>leftMax</code> 记录目前左侧遇到过的最高柱子。</li>
+<li><code>rightMax</code> 记录目前右侧遇到过的最高柱子。</li>
+<li>每轮先更新 <code>leftMax</code> 和 <code>rightMax</code>。</li>
+<li>如果 <code>leftMax &lt; rightMax</code>，结算左边，<code>left++</code>。</li>
+<li>否则结算右边，<code>right--</code>。</li>
+<li>直到 <code>left &gt;= right</code> 结束。</li>
+</ol>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">trap</span><span class="params">(<span class="type">int</span>[] height)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">right</span> <span class="operator">=</span> height.length - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">leftMax</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">rightMax</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">ans</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">            leftMax = Math.max(leftMax, height[left]);</span><br><span class="line">            rightMax = Math.max(rightMax, height[right]);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (leftMax &lt; rightMax) &#123;</span><br><span class="line">                ans += leftMax - height[left];</span><br><span class="line">                left++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                ans += rightMax - height[right];</span><br><span class="line">                right--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="代码逐行理解"><a href="#代码逐行理解" class="headerlink" title="代码逐行理解"></a>代码逐行理解</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">right</span> <span class="operator">=</span> height.length - <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>left</code> 从左往右走。</p>
+<p><code>right</code> 从右往左走。</p>
+<p>两边一起向中间收缩。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">leftMax</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">rightMax</span> <span class="operator">=</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>leftMax</code> 表示从左侧已经扫描过的位置里，最高的柱子。</p>
+<p><code>rightMax</code> 表示从右侧已经扫描过的位置里，最高的柱子。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (left &lt; right) &#123;</span><br></pre></td></tr></table></figure>
+
+<p>只要左右指针还没有相遇，就继续结算。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">leftMax = Math.max(leftMax, height[left]);</span><br><span class="line">rightMax = Math.max(rightMax, height[right]);</span><br></pre></td></tr></table></figure>
+
+<p>每一轮先更新左右最高墙。</p>
+<p>这一步非常关键，因为后面接水量要用：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">leftMax - height[left]</span><br><span class="line">rightMax - height[right]</span><br></pre></td></tr></table></figure>
+
+<p>如果不先更新，就可能用旧的最高墙计算。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (leftMax &lt; rightMax) &#123;</span><br></pre></td></tr></table></figure>
+
+<p>如果左边最高墙更矮，说明左侧水位由 <code>leftMax</code> 决定。</p>
+<p>右边已经有更高的墙兜住，所以可以放心结算 <code>left</code> 位置。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ans += leftMax - height[left];</span><br><span class="line">left++;</span><br></pre></td></tr></table></figure>
+
+<p>当前位置能接的水就是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">leftMax - height[left]</span><br></pre></td></tr></table></figure>
+
+<p>然后左指针右移。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    ans += rightMax - height[right];</span><br><span class="line">    right--;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果右边最高墙更矮或者两边一样高，就结算右边。</p>
+<p>右侧当前位置能接的水是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">rightMax - height[right]</span><br></pre></td></tr></table></figure>
+
+<p>然后右指针左移。</p>
+<h2 id="为什么不会算出负数"><a href="#为什么不会算出负数" class="headerlink" title="为什么不会算出负数"></a>为什么不会算出负数</h2><p>代码里有：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">leftMax = Math.max(leftMax, height[left]);</span><br></pre></td></tr></table></figure>
+
+<p>所以更新之后一定有：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">leftMax &gt;= height[left]</span><br></pre></td></tr></table></figure>
+
+<p>因此：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">leftMax - height[left]</span><br></pre></td></tr></table></figure>
+
+<p>不会是负数。</p>
+<p>右边同理：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">rightMax &gt;= height[right]</span><br></pre></td></tr></table></figure>
+
+<p>所以：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">rightMax - height[right]</span><br></pre></td></tr></table></figure>
+
+<p>也不会是负数。</p>
+<h2 id="样例手推"><a href="#样例手推" class="headerlink" title="样例手推"></a>样例手推</h2><p>以：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">height = [0,1,0,2,1,0,1,3,2,1,2,1]</span><br></pre></td></tr></table></figure>
+
+<p>为例。</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>left</th>
+<th>right</th>
+<th>height[left]</th>
+<th>height[right]</th>
+<th>leftMax</th>
+<th>rightMax</th>
+<th>结算</th>
+<th>ans</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>0</td>
+<td>11</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>左边，<code>0 - 0</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>11</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>右边，<code>1 - 1</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>10</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>左边，<code>1 - 1</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>10</td>
+<td>0</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>左边，<code>1 - 0</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td>5</td>
+<td>3</td>
+<td>10</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>右边，<code>2 - 2</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td>6</td>
+<td>3</td>
+<td>9</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>右边，<code>2 - 1</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>7</td>
+<td>3</td>
+<td>8</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>右边，<code>2 - 2</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>8</td>
+<td>3</td>
+<td>7</td>
+<td>2</td>
+<td>3</td>
+<td>2</td>
+<td>3</td>
+<td>左边，<code>2 - 2</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>9</td>
+<td>4</td>
+<td>7</td>
+<td>1</td>
+<td>3</td>
+<td>2</td>
+<td>3</td>
+<td>左边，<code>2 - 1</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td>10</td>
+<td>5</td>
+<td>7</td>
+<td>0</td>
+<td>3</td>
+<td>2</td>
+<td>3</td>
+<td>左边，<code>2 - 0</code></td>
+<td>5</td>
+</tr>
+<tr>
+<td>11</td>
+<td>6</td>
+<td>7</td>
+<td>1</td>
+<td>3</td>
+<td>2</td>
+<td>3</td>
+<td>左边，<code>2 - 1</code></td>
+<td>6</td>
+</tr>
+</tbody></table>
+<p>最终：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">ans = 6</span><br></pre></td></tr></table></figure>
+
+<h2 id="和盛最多水的容器对比"><a href="#和盛最多水的容器对比" class="headerlink" title="和盛最多水的容器对比"></a>和盛最多水的容器对比</h2><p>这道题和“盛最多水的容器”都属于左右双指针，但目标不同。</p>
+<table>
+<thead>
+<tr>
+<th>题目</th>
+<th>目标</th>
+<th>指针移动依据</th>
+<th>核心变量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>盛最多水的容器</td>
+<td>找两条线形成的最大面积</td>
+<td>移动较短的板</td>
+<td><code>left</code>、<code>right</code>、<code>area</code></td>
+</tr>
+<tr>
+<td>接雨水</td>
+<td>统计每一列累计接水量</td>
+<td>哪边最高墙更矮，先结算哪边</td>
+<td><code>leftMax</code>、<code>rightMax</code>、<code>ans</code></td>
+</tr>
+</tbody></table>
+<p>盛最多水关注的是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">选两根柱子形成一个容器</span><br></pre></td></tr></table></figure>
+
+<p>接雨水关注的是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">每一列上方能存多少水</span><br></pre></td></tr></table></figure>
+
+<p>所以接雨水不能只看当前左右两根柱子，还要维护左右两侧历史最高墙。</p>
+<h2 id="为什么不是先学单调栈"><a href="#为什么不是先学单调栈" class="headerlink" title="为什么不是先学单调栈"></a>为什么不是先学单调栈</h2><p>接雨水也可以用单调栈做，但它的思路是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">遇到右边更高的柱子时，弹出中间低洼位置，计算一层水</span><br></pre></td></tr></table></figure>
+
+<p>这个思路更抽象，代码也更容易在宽度和高度上写错。</p>
+<p>对复习来说，建议顺序是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">先理解每一列公式</span><br><span class="line">再掌握动态规划辅助思路</span><br><span class="line">最后背熟双指针主解法</span><br></pre></td></tr></table></figure>
+
+<p>单调栈可以后面刷“柱状图最大矩形”或“每日温度”时再集中学。</p>
+<h2 id="边界情况"><a href="#边界情况" class="headerlink" title="边界情况"></a>边界情况</h2><h3 id="空数组"><a href="#空数组" class="headerlink" title="空数组"></a>空数组</h3><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">height = []</span><br></pre></td></tr></table></figure>
+
+<p>没有柱子，接不到水，返回 <code>0</code>。</p>
+<p>这份代码里：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">right</span> <span class="operator">=</span> height.length - <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>如果长度是 <code>0</code>，<code>right = -1</code>，循环条件：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">left &lt; right</span><br></pre></td></tr></table></figure>
+
+<p>不成立，直接返回 <code>0</code>。</p>
+<h3 id="只有一根或两根柱子"><a href="#只有一根或两根柱子" class="headerlink" title="只有一根或两根柱子"></a>只有一根或两根柱子</h3><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">height = [1]</span><br><span class="line">height = [1,2]</span><br></pre></td></tr></table></figure>
+
+<p>无法形成左右两边的墙，返回 <code>0</code>。</p>
+<h3 id="单调递增"><a href="#单调递增" class="headerlink" title="单调递增"></a>单调递增</h3><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">height = [0,1,2,3]</span><br></pre></td></tr></table></figure>
+
+<p>左边没有足够高的墙，接不到水。</p>
+<h3 id="单调递减"><a href="#单调递减" class="headerlink" title="单调递减"></a>单调递减</h3><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">height = [3,2,1,0]</span><br></pre></td></tr></table></figure>
+
+<p>右边没有足够高的墙，也接不到水。</p>
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><p>时间复杂度：<code>O(n)</code>。</p>
+<p><code>left</code> 和 <code>right</code> 都只向中间移动，每个位置最多被处理一次。</p>
+<p>空间复杂度：<code>O(1)</code>。</p>
+<p>只使用了：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">left、right、leftMax、rightMax、ans</span><br></pre></td></tr></table></figure>
+
+<p>没有额外数组。</p>
+<h2 id="易错点"><a href="#易错点" class="headerlink" title="易错点"></a>易错点</h2><table>
+<thead>
+<tr>
+<th>易错点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>不理解单列公式</td>
+<td>每列水量由左右最高墙中较矮者决定</td>
+</tr>
+<tr>
+<td>把 <code>height[left]</code> 和 <code>height[right]</code> 当移动依据</td>
+<td>双指针优化版判断的是 <code>leftMax</code> 和 <code>rightMax</code></td>
+</tr>
+<tr>
+<td>忘记先更新 <code>leftMax/rightMax</code></td>
+<td>可能用旧最高墙计算</td>
+</tr>
+<tr>
+<td>写成 <code>while (left &lt;= right)</code></td>
+<td>相遇位置没必要重复结算</td>
+</tr>
+<tr>
+<td>不知道为什么能结算较矮最高墙一侧</td>
+<td>因为另一侧已经有更高或相等的墙兜住</td>
+</tr>
+<tr>
+<td>和“盛最多水的容器”混淆</td>
+<td>盛水找最大面积，接雨水求每列累计水量</td>
+</tr>
+</tbody></table>
+<h2 id="面试表达"><a href="#面试表达" class="headerlink" title="面试表达"></a>面试表达</h2><p>如果面试官问：接雨水怎么做？</p>
+<p>可以这样回答：</p>
+<blockquote>
+<p>每个位置能接多少水，取决于它左边最高柱子和右边最高柱子中较矮的那个，即 <code>min(leftMax, rightMax) - height[i]</code>。为了把空间从 <code>O(n)</code> 优化到 <code>O(1)</code>，我用左右双指针维护 <code>leftMax</code> 和 <code>rightMax</code>。每一轮先更新左右最高墙，如果 <code>leftMax &lt; rightMax</code>，说明左侧当前位置的水位已经由 <code>leftMax</code> 确定，可以结算左边并右移；否则结算右边并左移。两个指针最多遍历数组一次，所以时间复杂度是 <code>O(n)</code>，空间复杂度是 <code>O(1)</code>。</p>
+</blockquote>
+<p>如果继续问：为什么 <code>leftMax &lt; rightMax</code> 时可以结算左边？</p>
+<p>可以这样回答：</p>
+<blockquote>
+<p>因为右边已经存在一个比 <code>leftMax</code> 更高的墙，所以左边当前位置的水位上限不会受右边限制，而是由 <code>leftMax</code> 决定。此时 <code>left</code> 位置能接的水就是 <code>leftMax - height[left]</code>，可以安全结算。</p>
+</blockquote>
+<h2 id="本题小结"><a href="#本题小结" class="headerlink" title="本题小结"></a>本题小结</h2><p>“接雨水”虽然有动态规划、双指针、单调栈多种解法，但复习主线建议这样记：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">每一列水量 = min(左边最高, 右边最高) - 当前高度</span><br><span class="line">动态规划：用两个数组存 leftMax/rightMax</span><br><span class="line">双指针：用两个变量压缩 leftMax/rightMax</span><br><span class="line">哪边最高墙更矮，就先结算哪边</span><br></pre></td></tr></table></figure>
+
+<p>这道题和“盛最多水的容器”一样属于左右双指针，但它更强调历史最高墙，而不是当前两根柱子本身。</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>LeetCode</tag>
+        <tag>Hot100</tag>
+        <tag>算法</tag>
+        <tag>双指针</tag>
+      </tags>
+  </entry>
 </search>
