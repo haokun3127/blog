@@ -4052,3 +4052,104 @@ html[data-theme='dark'] .hot100-hero-actions a:hover {
     min-height: auto;
   }
 }
+
+/* V5.8: varied backing plates behind contained cover images. */
+#recent-posts .recent-post-item {
+  --cover-plate-bg: #1f2937;
+  --cover-plate-grid: rgba(226, 232, 240, 0.052);
+  --cover-plate-glaze: rgba(255, 255, 255, 0.09);
+  --cover-plate-border: rgba(226, 232, 240, 0.13);
+  --cover-plate-shadow: rgba(15, 23, 42, 0.13);
+}
+
+#recent-posts .recent-post-item.series-ragent {
+  --cover-plate-bg: #1e3a5f;
+  --cover-plate-grid: rgba(147, 197, 253, 0.07);
+  --cover-plate-glaze: rgba(191, 219, 254, 0.12);
+  --cover-plate-border: rgba(147, 197, 253, 0.18);
+  --cover-plate-shadow: rgba(30, 58, 95, 0.2);
+}
+
+#recent-posts .recent-post-item.series-ragent:nth-of-type(3n + 1) {
+  --cover-plate-bg: #3b2f63;
+  --cover-plate-grid: rgba(216, 180, 254, 0.07);
+  --cover-plate-glaze: rgba(221, 214, 254, 0.12);
+  --cover-plate-border: rgba(196, 181, 253, 0.18);
+  --cover-plate-shadow: rgba(59, 47, 99, 0.2);
+}
+
+#recent-posts .recent-post-item.series-ragent:nth-of-type(3n + 2) {
+  --cover-plate-bg: #5b3a25;
+  --cover-plate-grid: rgba(253, 186, 116, 0.07);
+  --cover-plate-glaze: rgba(254, 215, 170, 0.12);
+  --cover-plate-border: rgba(251, 191, 36, 0.18);
+  --cover-plate-shadow: rgba(91, 58, 37, 0.2);
+}
+
+#recent-posts .recent-post-item.series-hot100 {
+  --cover-plate-bg: #4f2f46;
+  --cover-plate-grid: rgba(251, 113, 133, 0.065);
+  --cover-plate-glaze: rgba(254, 202, 202, 0.12);
+  --cover-plate-border: rgba(251, 146, 60, 0.2);
+  --cover-plate-shadow: rgba(127, 29, 29, 0.18);
+}
+
+#recent-posts .recent-post-item.series-hot100:nth-of-type(3n + 1) {
+  --cover-plate-bg: #6b4423;
+  --cover-plate-grid: rgba(251, 191, 36, 0.075);
+  --cover-plate-glaze: rgba(254, 215, 170, 0.13);
+  --cover-plate-border: rgba(251, 146, 60, 0.22);
+}
+
+#recent-posts .recent-post-item.series-hot100:nth-of-type(3n + 2) {
+  --cover-plate-bg: #2f3f73;
+  --cover-plate-grid: rgba(147, 197, 253, 0.07);
+  --cover-plate-glaze: rgba(191, 219, 254, 0.12);
+  --cover-plate-border: rgba(147, 197, 253, 0.2);
+}
+
+#recent-posts .recent-post-item.series-paper {
+  --cover-plate-bg: #36306c;
+  --cover-plate-grid: rgba(199, 210, 254, 0.07);
+  --cover-plate-glaze: rgba(224, 231, 255, 0.12);
+  --cover-plate-border: rgba(165, 180, 252, 0.2);
+  --cover-plate-shadow: rgba(49, 46, 129, 0.18);
+}
+
+#recent-posts .recent-post-item.series-paper:nth-of-type(2n) {
+  --cover-plate-bg: #63364b;
+  --cover-plate-grid: rgba(251, 207, 232, 0.07);
+  --cover-plate-glaze: rgba(252, 231, 243, 0.11);
+  --cover-plate-border: rgba(244, 114, 182, 0.18);
+}
+
+#recent-posts .recent-post-item.series-plan {
+  --cover-plate-bg: #334155;
+  --cover-plate-grid: rgba(203, 213, 225, 0.07);
+  --cover-plate-glaze: rgba(241, 245, 249, 0.11);
+  --cover-plate-border: rgba(148, 163, 184, 0.22);
+  --cover-plate-shadow: rgba(51, 65, 85, 0.18);
+}
+
+#recent-posts .recent-post-item .post_cover,
+#recent-posts .recent-post-item.is-study-preview-card .post_cover,
+#recent-posts .recent-post-item.is-featured-study-card .post_cover,
+#recent-posts .recent-post-item:not(.is-featured-study-card) .post_cover {
+  border-color: var(--cover-plate-border) !important;
+  background:
+    radial-gradient(circle at 76% 20%, var(--cover-plate-glaze), transparent 14rem),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 34%),
+    repeating-linear-gradient(0deg, transparent 0 22px, var(--cover-plate-grid) 22px 23px),
+    repeating-linear-gradient(90deg, transparent 0 22px, var(--cover-plate-grid) 22px 23px),
+    var(--cover-plate-bg) !important;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.13) inset,
+    0 18px 40px var(--cover-plate-shadow) !important;
+}
+
+#recent-posts .recent-post-item .post_cover img.post-bg,
+#recent-posts .recent-post-item.is-study-preview-card .post_cover img.post-bg,
+#recent-posts .recent-post-item.is-featured-study-card .post_cover img.post-bg,
+#recent-posts .recent-post-item:not(.is-featured-study-card) .post_cover img.post-bg {
+  background: transparent !important;
+}
