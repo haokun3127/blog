@@ -3826,3 +3826,34 @@ body {
     display: none !important;
   }
 }
+
+/* V7.2: desktop navigation belongs to the hero, not to the whole reading scroll. */
+@media screen and (min-width: 769px) {
+  #page-header #nav,
+  #page-header.nav-visible:not(.fixed) #nav,
+  #page-header.nav-fixed #nav,
+  #page-header.nav-fixed.fixed #nav,
+  #page-header.fixed #nav,
+  #page-header.not-top-img #nav,
+  #nav,
+  #nav.show {
+    position: absolute !important;
+    top: 0 !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  #page-header.nav-visible:not(.fixed) #nav,
+  #page-header.nav-fixed #nav,
+  #page-header.nav-fixed.fixed #nav,
+  #page-header.fixed #nav {
+    transition: opacity 220ms var(--study-ease), background-color 220ms var(--study-ease) !important;
+  }
+
+  #page-header.nav-visible:not(.fixed) + .layout > .aside-content > .sticky_layout,
+  #page-header.nav-fixed + .layout > .aside-content > .sticky_layout,
+  #page-header.nav-fixed.fixed + .layout > .aside-content > .sticky_layout,
+  #page-header.fixed + .layout > .aside-content > .sticky_layout {
+    top: 20px !important;
+  }
+}
