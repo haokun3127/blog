@@ -3772,3 +3772,57 @@ body {
     max-width: min(100%, 102ch) !important;
   }
 }
+
+/* V7.1: keep article sidebars calm and replace uneven nav underlines with pills. */
+@media screen and (min-width: 769px) {
+  #nav .menus_items .menus_item > a,
+  #nav #search-button > .search {
+    box-sizing: border-box !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 36px !important;
+    margin: 0 0.04rem !important;
+    padding: 0 0.58rem !important;
+    border: 1px solid transparent !important;
+    border-radius: 10px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+  }
+
+  #nav .menus_items .menus_item > a::after,
+  #nav #search-button > .search::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  #nav .menus_items .menus_item > a:hover,
+  #nav .menus_items .menus_item > a.is-current-route,
+  #nav #search-button > .search:hover {
+    border-color: rgba(118, 255, 235, 0.2) !important;
+    background: rgba(255, 255, 255, 0.09) !important;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset !important;
+    transform: none !important;
+  }
+
+  .post #aside-content.article-toc-first > .card-info,
+  .post #aside-content.article-toc-first > .card-announcement,
+  #content-inner.layout:has(#post) #aside-content.article-toc-first > .card-info,
+  #content-inner.layout:has(#post) #aside-content.article-toc-first > .card-announcement {
+    display: none !important;
+  }
+
+  .post #aside-content.article-toc-first > .sticky_layout,
+  #content-inner.layout:has(#post) #aside-content.article-toc-first > .sticky_layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .post #aside-content.article-toc-first > .sticky_layout > .card-info,
+  .post #aside-content.article-toc-first > .sticky_layout > .card-announcement,
+  #content-inner.layout:has(#post) #aside-content.article-toc-first > .sticky_layout > .card-info,
+  #content-inner.layout:has(#post) #aside-content.article-toc-first > .sticky_layout > .card-announcement {
+    display: none !important;
+  }
+}

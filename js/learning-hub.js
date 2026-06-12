@@ -325,7 +325,11 @@
 
     const profile = aside.querySelector('.card-info')
     const learningNav = aside.querySelector('#aside-learning-nav')
-    if (learningNav) {
+    const sticky = aside.querySelector('.sticky_layout')
+    const isArticlePage = Boolean(document.querySelector('#post #article-container'))
+    if (isArticlePage && sticky) {
+      sticky.appendChild(card)
+    } else if (learningNav) {
       learningNav.insertAdjacentElement('beforebegin', card)
     } else if (profile) {
       profile.insertAdjacentElement('afterend', card)
@@ -339,6 +343,7 @@
     const sticky = aside?.querySelector('.sticky_layout')
     const cardToc = aside?.querySelector('#card-toc')
     if (!aside || !sticky || !cardToc) return
+    const isArticlePage = Boolean(document.querySelector('#post #article-container'))
 
     if (aside.firstElementChild !== sticky) {
       aside.prepend(sticky)
@@ -347,6 +352,27 @@
     if (sticky.firstElementChild !== cardToc) {
       sticky.prepend(cardToc)
     }
+
+    if (isArticlePage) {
+      const profile = aside.querySelector('.card-info')
+      const announcement = aside.querySelector('.card-announcement')
+      const studyStatus = aside.querySelector('#aside-study-status')
+      const learningNav = aside.querySelector('#aside-learning-nav')
+      const coreTags = aside.querySelector('#aside-core-tags')
+
+      ;[profile, announcement].forEach(card => {
+        if (card && card.parentElement === sticky) {
+          sticky.insertAdjacentElement('afterend', card)
+        }
+      })
+
+      ;[learningNav, studyStatus, coreTags].forEach(card => {
+        if (card && card.parentElement !== sticky) {
+          sticky.appendChild(card)
+        }
+      })
+    }
+
     aside.classList.add('article-toc-first')
   }
 
@@ -382,7 +408,12 @@
 
     const cardToc = aside.querySelector('#card-toc')
     if (cardToc) {
-      cardToc.insertAdjacentElement('afterend', nav)
+      const sticky = cardToc.closest('.sticky_layout')
+      if (sticky && document.querySelector('#post #article-container')) {
+        sticky.appendChild(nav)
+      } else {
+        cardToc.insertAdjacentElement('afterend', nav)
+      }
       return
     }
 
