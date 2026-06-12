@@ -3857,3 +3857,198 @@ body {
     top: 20px !important;
   }
 }
+
+/* V7.3: Hot100 review dashboard page. */
+.hot100-dashboard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.34fr);
+  gap: 1rem;
+  margin: 0 0 1.6rem;
+}
+
+.hot100-hero-panel,
+.hot100-progress-card,
+.hot100-quick-grid > div {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(234, 88, 12, 0.16);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(234, 88, 12, 0.14), transparent 20rem),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 252, 0.78));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset, 0 16px 46px rgba(15, 23, 42, 0.08);
+}
+
+.hot100-hero-panel {
+  min-height: 230px;
+  padding: clamp(1.35rem, 3vw, 2.2rem);
+}
+
+.hot100-hero-panel::after {
+  position: absolute;
+  right: -5rem;
+  bottom: -6rem;
+  width: 17rem;
+  height: 17rem;
+  border: 1px solid rgba(234, 88, 12, 0.18);
+  border-radius: 50%;
+  background:
+    linear-gradient(90deg, rgba(234, 88, 12, 0.2) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(234, 88, 12, 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+  content: "";
+  opacity: 0.72;
+  transform: rotate(-8deg);
+}
+
+.hot100-hero-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hot100-eyebrow,
+.hot100-progress-card span,
+.hot100-quick-grid span {
+  display: block;
+  margin: 0 0 0.55rem;
+  color: var(--study-hot100);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.hot100-hero-panel h2 {
+  margin: 0 0 0.8rem !important;
+  border: 0 !important;
+  color: var(--study-ink) !important;
+  font-size: clamp(1.65rem, 3vw, 2.35rem) !important;
+  line-height: 1.12 !important;
+}
+
+.hot100-hero-panel h2::before {
+  display: none !important;
+}
+
+.hot100-hero-panel p {
+  max-width: 56ch;
+  margin: 0 !important;
+  color: var(--study-muted) !important;
+  font-size: 1rem !important;
+  line-height: 1.8 !important;
+}
+
+.hot100-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.35rem;
+}
+
+.hot100-hero-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 0.95rem;
+  border: 1px solid rgba(234, 88, 12, 0.24);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.72);
+  color: #9a3412 !important;
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-decoration: none !important;
+  transition:
+    transform 220ms var(--study-ease),
+    border-color 220ms var(--study-ease),
+    background-color 220ms var(--study-ease);
+}
+
+.hot100-hero-actions a:hover {
+  border-color: rgba(234, 88, 12, 0.38);
+  background: rgba(255, 247, 237, 0.96);
+  transform: translateY(-1px);
+}
+
+.hot100-progress-card {
+  display: flex;
+  min-height: 230px;
+  padding: 1.25rem;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hot100-progress-card strong {
+  display: block;
+  color: var(--study-ink);
+  font-size: clamp(2.4rem, 4vw, 3.25rem);
+  font-weight: 900;
+  line-height: 0.95;
+}
+
+.hot100-progress-card small,
+.hot100-quick-grid small {
+  display: block;
+  margin-top: 0.75rem;
+  color: var(--study-muted);
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.hot100-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin: 1rem 0 1.8rem;
+}
+
+.hot100-quick-grid > div {
+  padding: 1rem;
+}
+
+.hot100-quick-grid a,
+.hot100-quick-grid strong {
+  display: block;
+  color: var(--study-ink) !important;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1.45;
+  text-decoration: none !important;
+}
+
+.hot100-quick-grid a:hover {
+  color: var(--study-hot100) !important;
+}
+
+html[data-theme='dark'] .hot100-hero-panel,
+html[data-theme='dark'] .hot100-progress-card,
+html[data-theme='dark'] .hot100-quick-grid > div {
+  border-color: rgba(251, 146, 60, 0.18);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(251, 146, 60, 0.15), transparent 20rem),
+    linear-gradient(135deg, rgba(18, 26, 29, 0.94), rgba(8, 47, 50, 0.68));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 22px 58px rgba(0, 0, 0, 0.34);
+}
+
+html[data-theme='dark'] .hot100-hero-actions a {
+  border-color: rgba(251, 146, 60, 0.24);
+  background: rgba(15, 23, 42, 0.52);
+  color: #fed7aa !important;
+}
+
+html[data-theme='dark'] .hot100-hero-actions a:hover {
+  background: rgba(124, 45, 18, 0.34);
+}
+
+@media screen and (max-width: 900px) {
+  .hot100-dashboard,
+  .hot100-quick-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hot100-hero-panel,
+  .hot100-progress-card {
+    min-height: auto;
+  }
+}
