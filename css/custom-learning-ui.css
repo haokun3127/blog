@@ -3249,14 +3249,15 @@ body {
   #recent-posts .recent-post-item.is-study-preview-card > .recent-post-info > .article-title,
   #recent-posts .recent-post-item.is-featured-study-card > .recent-post-info > .article-title,
   #recent-posts .recent-post-item:not(.is-featured-study-card) > .recent-post-info > .article-title {
-    max-width: 18em !important;
+    width: 100% !important;
+    max-width: none !important;
     margin-bottom: 0.28rem !important;
     color: var(--study-ink) !important;
     font-size: clamp(1.28rem, 1.75vw, 1.62rem) !important;
     font-weight: 840 !important;
     line-height: 1.23 !important;
     letter-spacing: 0 !important;
-    text-wrap: balance !important;
+    text-wrap: wrap !important;
   }
 
   #recent-posts .recent-post-item > .recent-post-info > .article-meta-wrap {
