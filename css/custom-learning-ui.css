@@ -4153,3 +4153,19 @@ html[data-theme='dark'] .hot100-hero-actions a:hover {
 #recent-posts .recent-post-item:not(.is-featured-study-card) .post_cover img.post-bg {
   background: transparent !important;
 }
+
+/* V5.9: all current and future post covers fill their preview frame. */
+#recent-posts .recent-post-item .post_cover img.post-bg,
+#recent-posts .recent-post-item.is-study-preview-card .post_cover img.post-bg,
+#recent-posts .recent-post-item.is-featured-study-card .post_cover img.post-bg,
+#recent-posts .recent-post-item:not(.is-featured-study-card) .post_cover img.post-bg {
+  object-fit: cover !important;
+  object-position: center center !important;
+  transform: scale(1.002) !important;
+}
+
+#recent-posts .recent-post-item:hover .post_cover img.post-bg,
+#recent-posts .recent-post-item.is-study-preview-card:hover .post_cover img.post-bg,
+#recent-posts .recent-post-item.is-featured-study-card:hover .post_cover img.post-bg {
+  transform: scale(1.025) !important;
+}
