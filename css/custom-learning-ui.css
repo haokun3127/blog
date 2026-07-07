@@ -4170,3 +4170,27 @@ html[data-theme='dark'] .hot100-hero-actions a:hover {
 #recent-posts .recent-post-item.is-featured-study-card:hover .post_cover img.post-bg {
   transform: scale(1.025) !important;
 }
+
+/* V6.0: keep generated 16:9 covers fully visible while still filling the frame. */
+@media screen and (min-width: 901px) {
+  #recent-posts .recent-post-item .post_cover,
+  #recent-posts .recent-post-item.is-study-preview-card .post_cover,
+  #recent-posts .recent-post-item.is-featured-study-card .post_cover,
+  #recent-posts .recent-post-item:not(.is-featured-study-card) .post_cover {
+    aspect-ratio: 16 / 9 !important;
+    height: auto !important;
+    align-self: center !important;
+  }
+}
+
+#recent-posts .recent-post-item .post_cover img.post-bg,
+#recent-posts .recent-post-item.is-study-preview-card .post_cover img.post-bg,
+#recent-posts .recent-post-item.is-featured-study-card .post_cover img.post-bg,
+#recent-posts .recent-post-item:not(.is-featured-study-card) .post_cover img.post-bg,
+#recent-posts .recent-post-item:hover .post_cover img.post-bg,
+#recent-posts .recent-post-item.is-study-preview-card:hover .post_cover img.post-bg,
+#recent-posts .recent-post-item.is-featured-study-card:hover .post_cover img.post-bg {
+  object-fit: cover !important;
+  object-position: center center !important;
+  transform: none !important;
+}
