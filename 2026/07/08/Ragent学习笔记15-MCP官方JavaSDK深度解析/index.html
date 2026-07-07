@@ -1,0 +1,325 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Ragent学习笔记15：MCP 官方 Java SDK 深度解析 | 好困的博客</title><meta name="author" content="好困3127"><meta name="copyright" content="好困3127"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="整理《AI大模型Ragent项目》——MCP之官方Java-SDK深度解析，梳理官方 SDK 模块划分、Schema、Transport、Session、Client&#x2F;Server 四层架构，以及 Stdio、SSE、Streamable HTTP 三类传输方式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ragent学习笔记15：MCP 官方 Java SDK 深度解析">
+<meta property="og:url" content="https://haokun3127.github.io/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-MCP%E5%AE%98%E6%96%B9JavaSDK%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="好困的博客">
+<meta property="og:description" content="整理《AI大模型Ragent项目》——MCP之官方Java-SDK深度解析，梳理官方 SDK 模块划分、Schema、Transport、Session、Client&#x2F;Server 四层架构，以及 Stdio、SSE、Streamable HTTP 三类传输方式。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://haokun3127.github.io/blog/img/ragent-note-15-java-sdk.png">
+<meta property="article:published_time" content="2026-07-08T01:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-07T17:21:07.868Z">
+<meta property="article:author" content="好困3127">
+<meta property="article:tag" content="Ragent">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="MCP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://haokun3127.github.io/blog/img/ragent-note-15-java-sdk.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Ragent学习笔记15：MCP 官方 Java SDK 深度解析",
+  "url": "https://haokun3127.github.io/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-MCP%E5%AE%98%E6%96%B9JavaSDK%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/",
+  "image": "https://haokun3127.github.io/blog/img/ragent-note-15-java-sdk.png",
+  "datePublished": "2026-07-08T01:00:00.000Z",
+  "dateModified": "2026-07-07T17:21:07.868Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "好困3127",
+      "url": "https://haokun3127.github.io/blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/blog/img/favicon.svg"><link rel="canonical" href="https://haokun3127.github.io/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-MCP%E5%AE%98%E6%96%B9JavaSDK%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/blog/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0f172a')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/blog/',
+  algolia: undefined,
+  localSearch: {"path":"/blog/search.xml","preload":true,"top_n_per_article":2,"unescape":false,"pagination":{"enable":true,"hitsPerPage":10},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Ragent学习笔记15：MCP 官方 Java SDK 深度解析',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/blog/css/custom-learning-ui.css"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/blog/atom.xml" title="好困的博客" type="application/atom+xml">
+</head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">51</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/"><i class="fa-fw fas fa-route"></i><span> 学习计划</span></a></div><div class="menus_item"><a class="site-page" href="/blog/ragent/"><i class="fa-fw fas fa-book-open"></i><span> Ragent笔记</span></a></div><div class="menus_item"><a class="site-page" href="/blog/hot100/"><i class="fa-fw fas fa-code"></i><span> Hot100</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/blog/img/ragent-note-15-java-sdk.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/blog/"><span class="site-name">好困的博客</span></a><a class="nav-page-title" href="/blog/"><span class="site-name">Ragent学习笔记15：MCP 官方 Java SDK 深度解析</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/"><i class="fa-fw fas fa-route"></i><span> 学习计划</span></a></div><div class="menus_item"><a class="site-page" href="/blog/ragent/"><i class="fa-fw fas fa-book-open"></i><span> Ragent笔记</span></a></div><div class="menus_item"><a class="site-page" href="/blog/hot100/"><i class="fa-fw fas fa-code"></i><span> Hot100</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Ragent学习笔记15：MCP 官方 Java SDK 深度解析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-07-08T01:00:00.000Z" title="发表于 2026-07-08 09:00:00">2026-07-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-07-07T17:21:07.868Z" title="更新于 2026-07-08 01:21:07">2026-07-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/blog/categories/Ragent/">Ragent</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》——MCP之官方Java-SDK深度解析</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》——MCP之官方Java-SDK深度解析.html</code></li>
+</ul>
+<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>前面已经学过 MCP 的概念、Tools、Resources、Prompts。这一篇开始从 Java 工程视角看 MCP：官方 Java SDK 并不是一个“自动帮你做智能体”的框架，而是一套把 MCP 协议落到 Java 代码里的基础设施。</p>
+<p>可以把它理解成四层：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Schema：定义 MCP 消息长什么样</span><br><span class="line">Transport：负责消息怎么传</span><br><span class="line">Session：维护连接生命周期、请求响应匹配</span><br><span class="line">Client/Server：开发者真正使用的 API</span><br></pre></td></tr></table></figure>
+
+<p>也就是说，SDK 解决的是“协议怎么稳定通信”的问题，不直接解决“模型怎么判断该调哪个工具”的问题。</p>
+<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
+<thead>
+<tr>
+<th>模块</th>
+<th>作用</th>
+<th>复习重点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>mcp-core</code></td>
+<td>MCP 核心协议实现</td>
+<td>Schema、Session、Client、Server</td>
+</tr>
+<tr>
+<td><code>mcp-json-jackson2</code></td>
+<td>Jackson 2 序列化支持</td>
+<td>兼容旧项目</td>
+</tr>
+<tr>
+<td><code>mcp-json-jackson3</code></td>
+<td>Jackson 3 序列化支持</td>
+<td>适合新版本生态</td>
+</tr>
+<tr>
+<td>Stdio Transport</td>
+<td>stdin&#x2F;stdout 本地进程通信</td>
+<td>Claude Desktop 本地 MCP 常见方式</td>
+</tr>
+<tr>
+<td>SSE Transport</td>
+<td>SSE 推送 + HTTP POST</td>
+<td>传统 Web 环境的远程通信方案</td>
+</tr>
+<tr>
+<td>Streamable HTTP</td>
+<td>双向 HTTP 流式通信</td>
+<td>新版协议推荐的远程传输方案</td>
+</tr>
+<tr>
+<td>Session</td>
+<td>管理初始化、状态、请求响应配对</td>
+<td>多请求并发时靠 <code>id</code> 对齐响应</td>
+</tr>
+<tr>
+<td>Sync API</td>
+<td>同步调用</td>
+<td>简单、易理解，适合普通业务</td>
+</tr>
+<tr>
+<td>Async API</td>
+<td>异步调用</td>
+<td>适合高并发和响应式链路</td>
+</tr>
+</tbody></table>
+<h2 id="SDK-架构图"><a href="#SDK-架构图" class="headerlink" title="SDK 架构图"></a>SDK 架构图</h2><p><img src="/blog/img/ragent-note-15-sdk-layers.png" alt="MCP Java SDK 四层架构"></p>
+<p>这张图可以帮助记住 SDK 的分层关系：最底层是协议数据结构，中间是传输和会话管理，最上层才是开发者调用的 Client&#x2F;Server API。</p>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="modelcontextprotocol-是官方大本营"><a href="#modelcontextprotocol-是官方大本营" class="headerlink" title="modelcontextprotocol 是官方大本营"></a>modelcontextprotocol 是官方大本营</h3><p>MCP 官方生态里有规范文档，也有不同语言的 SDK。Java SDK 的定位是让 Java 项目能够实现 MCP Client 或 MCP Server。</p>
+<p>这里要区分两件事：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MCP 规范：规定 Host、Client、Server 怎么通信。</span><br><span class="line">MCP Java SDK：把规范里的对象、请求、响应、传输层封装成 Java API。</span><br></pre></td></tr></table></figure>
+
+<p>所以学习 SDK 时，不能只看怎么写工具注册代码，还要理解它背后是在处理 JSON-RPC 消息、连接生命周期和能力声明。</p>
+<h3 id="Schema-层：协议的字典"><a href="#Schema-层：协议的字典" class="headerlink" title="Schema 层：协议的字典"></a>Schema 层：协议的字典</h3><p><code>McpSchema</code> 可以理解成 MCP 协议在 Java 里的“字典”。协议中出现的工具、资源、Prompt、初始化请求、工具调用请求、工具调用响应，都会被映射成 Java 数据结构。</p>
+<p>常见对象可以这样记：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>对应场景</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Tool</code></td>
+<td>工具定义</td>
+<td>包含工具名、描述、参数 Schema</td>
+</tr>
+<tr>
+<td><code>CallToolRequest</code></td>
+<td><code>tools/call</code> 请求</td>
+<td>Client 请求 Server 执行某个工具</td>
+</tr>
+<tr>
+<td><code>CallToolResult</code></td>
+<td>工具执行结果</td>
+<td>Server 返回执行结果</td>
+</tr>
+<tr>
+<td><code>Resource</code></td>
+<td>资源定义</td>
+<td>包含 URI、名称、描述、MIME 类型</td>
+</tr>
+<tr>
+<td><code>Prompt</code></td>
+<td>Prompt 模板定义</td>
+<td>包含模板名称、描述和参数</td>
+</tr>
+<tr>
+<td><code>InitializeRequest</code></td>
+<td>初始化请求</td>
+<td>建立连接时进行能力协商</td>
+</tr>
+<tr>
+<td><code>InitializeResult</code></td>
+<td>初始化响应</td>
+<td>返回 Server 支持的能力</td>
+</tr>
+</tbody></table>
+<p>学习 MCP 时要注意：模型看到的“工具”只是上层表现，底层真正传输的是标准化的 JSON-RPC 消息。</p>
+<h3 id="Transport-层：消息怎么送"><a href="#Transport-层：消息怎么送" class="headerlink" title="Transport 层：消息怎么送"></a>Transport 层：消息怎么送</h3><p>Transport 只负责“送消息”，不负责理解消息。它不关心这是工具调用、资源读取还是 Prompt 获取，只负责把 JSON-RPC 从一端传到另一端。</p>
+<h4 id="Stdio-Transport"><a href="#Stdio-Transport" class="headerlink" title="Stdio Transport"></a>Stdio Transport</h4><p><img src="/blog/img/ragent-note-15-stdio-transport.png" alt="Stdio Transport 通信原理"></p>
+<p>Stdio 使用标准输入和标准输出通信。MCP Server 作为一个本地子进程启动，Client 往它的 stdin 写 JSON-RPC 请求，再从 stdout 读取响应。</p>
+<p>这种方式适合本地工具，比如 Claude Desktop 启动本地 Java MCP Server。优点是简单、没有网络依赖；缺点是只适合本地，不适合企业级远程部署。</p>
+<h4 id="SSE-Transport"><a href="#SSE-Transport" class="headerlink" title="SSE Transport"></a>SSE Transport</h4><p><img src="/blog/img/ragent-note-15-sse-transport.png" alt="SSE Transport 通信原理"></p>
+<p>SSE 本身是 Server 到 Client 的单向推送，所以 MCP SSE Transport 通常需要两条路径：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Server -&gt; Client：SSE 长连接推送响应和通知</span><br><span class="line">Client -&gt; Server：HTTP POST 发送请求</span><br></pre></td></tr></table></figure>
+
+<p>它比 Stdio 更适合远程通信，但链路会比纯本地进程复杂，需要考虑连接保持、断线重连、代理缓冲等问题。</p>
+<h4 id="Streamable-HTTP"><a href="#Streamable-HTTP" class="headerlink" title="Streamable HTTP"></a>Streamable HTTP</h4><p><img src="/blog/img/ragent-note-15-streamable-http.png" alt="Streamable HTTP Transport 通信原理"></p>
+<p>Streamable HTTP 是更适合远程 MCP 服务的方式。它让请求和响应都可以通过 HTTP 流式传输，不再依赖额外的 SSE 长连接。</p>
+<p>记忆方式：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">本地调试：Stdio</span><br><span class="line">兼容 Web：SSE</span><br><span class="line">生产远程：Streamable HTTP</span><br></pre></td></tr></table></figure>
+
+<h3 id="Session-层：维护一次-MCP-会话"><a href="#Session-层：维护一次-MCP-会话" class="headerlink" title="Session 层：维护一次 MCP 会话"></a>Session 层：维护一次 MCP 会话</h3><p>Transport 只负责传输，但一次 MCP 通信还需要管理状态。Session 主要负责三件事：</p>
+<ol>
+<li>连接初始化：通过 <code>initialize</code> 交换能力声明。</li>
+<li>请求响应配对：多个请求并发时，靠 JSON-RPC 的 <code>id</code> 找到对应响应。</li>
+<li>通知处理：处理工具列表变更、资源变更等不需要响应的消息。</li>
+</ol>
+<p>如果没有 Session 层，Client 发出多个请求后就很难知道哪个响应对应哪个请求。</p>
+<h3 id="Client-Server-层：开发者直接使用的-API"><a href="#Client-Server-层：开发者直接使用的-API" class="headerlink" title="Client&#x2F;Server 层：开发者直接使用的 API"></a>Client&#x2F;Server 层：开发者直接使用的 API</h3><p>SDK 最上层提供 <code>McpServer</code> 和 <code>McpClient</code>。开发者一般通过 Builder 模式配置服务信息、注册工具、注册资源、注册 Prompt，再启动 MCP Server。</p>
+<p>同步 API 更适合普通项目，写起来直观；异步 API 更适合高并发或响应式场景，但理解成本更高。</p>
+<h3 id="官方-SDK-和-Spring-AI-的关系"><a href="#官方-SDK-和-Spring-AI-的关系" class="headerlink" title="官方 SDK 和 Spring AI 的关系"></a>官方 SDK 和 Spring AI 的关系</h3><p>官方 SDK 更底层，负责协议实现；Spring AI MCP 集成更偏框架封装，负责和 Spring Boot 的自动配置、注解、Bean 生命周期结合。</p>
+<p>可以这样理解：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">官方 Java SDK：MCP 协议层基础能力。</span><br><span class="line">Spring AI MCP：基于 SDK 做 Spring 风格封装。</span><br></pre></td></tr></table></figure>
+
+<p>如果要理解 MCP 的底层通信，应该看官方 SDK；如果要快速在 Spring Boot 项目里暴露工具，Spring AI 会更方便。</p>
+<h2 id="复习抓手"><a href="#复习抓手" class="headerlink" title="复习抓手"></a>复习抓手</h2><p>这篇重点不是背类名，而是理解 MCP Java SDK 的分层：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Schema 定义消息</span><br><span class="line">Transport 传输消息</span><br><span class="line">Session 管理连接和请求响应关系</span><br><span class="line">Client/Server 提供开发接口</span><br></pre></td></tr></table></figure>
+
+<p>面试或项目讲解时可以这样说：</p>
+<blockquote>
+<p>MCP 官方 Java SDK 本质上是 MCP 协议在 Java 里的实现。它把 JSON-RPC 消息抽象成 Schema，把 stdin&#x2F;stdout、SSE、Streamable HTTP 抽象成 Transport，再通过 Session 管理初始化、能力协商和请求响应配对，最后提供 Client&#x2F;Server API 给业务系统注册工具、资源和 Prompt。</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog">好困3127</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-MCP%E5%AE%98%E6%96%B9JavaSDK%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/">https://haokun3127.github.io/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-MCP%E5%AE%98%E6%96%B9JavaSDK%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://haokun3127.github.io/blog" target="_blank">好困的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/blog/tags/Ragent/">Ragent</a><a class="post-meta__tags" href="/blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><a class="post-meta__tags" href="/blog/tags/MCP/">MCP</a></div><div class="post-share"><div class="social-share" data-image="/blog/img/ragent-note-15-java-sdk.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B016-%E5%A4%9A%E8%BD%AE%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BF%86%E8%AE%BE%E8%AE%A1/" title="Ragent学习笔记16：多轮对话记忆设计"><img class="cover" src="/blog/img/ragent-note-16-memory.png" onerror="onerror=null;src='/blog/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Ragent学习笔记16：多轮对话记忆设计</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》——多轮对话记忆设计，梳理大模型无状态本质、messages 数组、完整历史、滑动窗口、Token 截断、摘要压缩、混合记忆策略以及 RAG 场景下的 Token 预算分配。</div></div></div></a><a class="pagination-related" href="/blog/2026/06/13/Hot100%EF%BC%9A%E5%8F%8C%E6%8C%87%E9%92%884-%E6%8E%A5%E9%9B%A8%E6%B0%B4/" title="Hot100：双指针4-接雨水"><img class="cover" src="/blog/img/blog-cover-hot100-trapping-rain-water.png" onerror="onerror=null;src='/blog/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Hot100：双指针4-接雨水</div></div><div class="info-2"><div class="info-item-1">LeetCode Hot100 系列：接雨水复习日志，梳理每一列接水公式、动态规划辅助理解、双指针主解法、leftMax/rightMax 的含义、样例手推、复杂度和易错点。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/blog/2026/06/03/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013-MCP%E5%8D%8F%E8%AE%AE%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5/" title="Ragent学习笔记13：MCP 协议入门与实践"><img class="cover" src="/blog/img/ragent-note-13-mcp.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-03</div><div class="info-item-2">Ragent学习笔记13：MCP 协议入门与实践</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》第13小节：MCP 协议入门与实践，系统梳理 Function Call 的工具管理痛点、MCP 的 Host/Client/Server 架构、Tools/Resources/Prompts、MCP 与 Function Call 的关系、Stdio 与 Streamable HTTP 传输方式。</div></div></div></a><a class="pagination-related" href="/blog/2026/06/09/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014-MCP%E4%B8%AD%E7%9A%84Resources%E4%B8%8EPrompts/" title="Ragent学习笔记14：深入解析 MCP 中的 Resources 与 Prompts"><img class="cover" src="/blog/img/ragent-note-14-resources-prompts-v2.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-09</div><div class="info-item-2">Ragent学习笔记14：深入解析 MCP 中的 Resources 与 Prompts</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》——深入解析 MCP 中的 Resources 与 Prompts，系统梳理 Resources 与 Tools 的区别、直接资源与资源模板、资源订阅、Prompts 模板复用机制，以及 Tools / Resources / Prompts 的选型方法。</div></div></div></a><a class="pagination-related" href="/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B022-JSONRPC2%E6%A0%87%E5%87%86%E8%AF%B4%E6%98%8E/" title="Ragent学习笔记22：JSON-RPC 2.0 标准说明"><img class="cover" src="/blog/img/ragent-note-22-jsonrpc.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-08</div><div class="info-item-2">Ragent学习笔记22：JSON-RPC 2.0 标准说明</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》——MCP协议规范：JSON-RPC 2.0标准说明，梳理 Request、Notification、Response、Error、Batch、错误码和工程落地注意事项。</div></div></div></a><a class="pagination-related" href="/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B023-%E4%B8%BA%E4%BB%80%E4%B9%88MCP%E4%B8%8D%E4%BD%BF%E7%94%A8HTTP%E6%88%96gRPC/" title="Ragent学习笔记23：为什么 MCP 不使用 HTTP 或 gRPC"><img class="cover" src="/blog/img/ragent-note-23-mcp-http-grpc.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-08</div><div class="info-item-2">Ragent学习笔记23：为什么 MCP 不使用 HTTP 或 gRPC</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》——为什么MCP不使用HTTP或gRPC，梳理 HTTP、gRPC、JSON-RPC 2.0 的定位差异，以及 MCP 选择 JSON-RPC 的轻量、可读、传输无关、支持通知和批量调用等原因。</div></div></div></a><a class="pagination-related" href="/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B024-%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E6%8C%87%E5%8D%97/" title="Ragent学习笔记24：工具调用架构设计指南"><img class="cover" src="/blog/img/ragent-note-24-tool-architecture.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-08</div><div class="info-item-2">Ragent学习笔记24：工具调用架构设计指南</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》——工具调用架构设计指南，梳理工具定义原则、工具描述编写、参数设计模式、返回值格式规范，以及 Agent 工具调用在工程中的可控设计。</div></div></div></a><a class="pagination-related" href="/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B025-%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%B8%8E%E5%AE%89%E5%85%A8%E4%BF%9D%E9%9A%9C/" title="Ragent学习笔记25：工具调用稳定性与安全保障"><img class="cover" src="/blog/img/ragent-note-25-tool-safety.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-08</div><div class="info-item-2">Ragent学习笔记25：工具调用稳定性与安全保障</div></div><div class="info-2"><div class="info-item-1">整理《AI大模型Ragent项目》——工具调用稳定性与安全保障，梳理超时、重试、降级、熔断、权限控制、参数校验、脱敏、审计、监控告警和测试策略。</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">好困3127</div><div class="author-info-description">Java 后端 · Agent/RAG · 算法复盘</div><div class="site-data"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">51</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/haokun3127"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/haokun3127" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1039746386@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=1039746386" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #12B7F5;"></i></a><a class="social-icon" href="/blog/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #ee802f;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这里主要放 Ragent 学习笔记、Agent 开发计划和算法复盘。右侧入口按主线和专题回看，搜索适合查具体知识点。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8A%E6%97%A5%E5%AD%A6%E4%B9%A0%E6%9D%90%E6%96%99"><span class="toc-number">1.</span> <span class="toc-text">今日学习材料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%A7%88"><span class="toc-number">2.</span> <span class="toc-text">学习导览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%A5%E8%AF%86%E9%80%9F%E8%A7%88"><span class="toc-number">3.</span> <span class="toc-text">知识速览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SDK-%E6%9E%B6%E6%9E%84%E5%9B%BE"><span class="toc-number">4.</span> <span class="toc-text">SDK 架构图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E7%AC%94%E8%AE%B0"><span class="toc-number">5.</span> <span class="toc-text">详细笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#modelcontextprotocol-%E6%98%AF%E5%AE%98%E6%96%B9%E5%A4%A7%E6%9C%AC%E8%90%A5"><span class="toc-number">5.1.</span> <span class="toc-text">modelcontextprotocol 是官方大本营</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Schema-%E5%B1%82%EF%BC%9A%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%AD%97%E5%85%B8"><span class="toc-number">5.2.</span> <span class="toc-text">Schema 层：协议的字典</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Transport-%E5%B1%82%EF%BC%9A%E6%B6%88%E6%81%AF%E6%80%8E%E4%B9%88%E9%80%81"><span class="toc-number">5.3.</span> <span class="toc-text">Transport 层：消息怎么送</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Stdio-Transport"><span class="toc-number">5.3.1.</span> <span class="toc-text">Stdio Transport</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SSE-Transport"><span class="toc-number">5.3.2.</span> <span class="toc-text">SSE Transport</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Streamable-HTTP"><span class="toc-number">5.3.3.</span> <span class="toc-text">Streamable HTTP</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Session-%E5%B1%82%EF%BC%9A%E7%BB%B4%E6%8A%A4%E4%B8%80%E6%AC%A1-MCP-%E4%BC%9A%E8%AF%9D"><span class="toc-number">5.4.</span> <span class="toc-text">Session 层：维护一次 MCP 会话</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Client-Server-%E5%B1%82%EF%BC%9A%E5%BC%80%E5%8F%91%E8%80%85%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8%E7%9A%84-API"><span class="toc-number">5.5.</span> <span class="toc-text">Client&#x2F;Server 层：开发者直接使用的 API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%98%E6%96%B9-SDK-%E5%92%8C-Spring-AI-%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">5.6.</span> <span class="toc-text">官方 SDK 和 Spring AI 的关系</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E4%B9%A0%E6%8A%93%E6%89%8B"><span class="toc-number">6.</span> <span class="toc-text">复习抓手</span></a></li></ol></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 好困3127</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/blog/js/utils.js?v=5.5.1"></script><script src="/blog/js/main.js?v=5.5.1"></script><div class="js-pjax"></div><script src="/blog/js/learning-hub.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章、标签或关键词" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/blog/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>

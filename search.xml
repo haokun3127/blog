@@ -20,11 +20,11 @@
 <tbody><tr>
 <td>第一阶段</td>
 <td>AI&#x2F;RAG&#x2F;MCP 基础扫盲：大模型、API、Prompt、RAG、文档预处理、向量检索、Function Call、MCP、SSE</td>
-<td><span style="color: red;"><strong>进行中</strong></span></td>
-<td><span style="color: red;"><strong>Day 5 进行中：已完成 MCP Resources&#x2F;Prompts</strong></span></td>
+<td><span style="color: green;"><strong>已完成</strong></span></td>
+<td><span style="color: green;"><strong>已完成笔记01-25：基础扫盲、MCP 扩展、记忆&#x2F;重写&#x2F;意图、评估与 SSE</strong></span></td>
 <td>6天</td>
-<td>5.28-</td>
-<td>已完成 RAG 基础链路、生成策略、Function Call、MCP 入门，以及 Resources&#x2F;Prompts 深入解析；下一步学习 MCP Java SDK 与协议规范</td>
+<td>5.28-7.08</td>
+<td>已完成本地已下载文档范围内的学习日志整理，后续按计划进入项目启动、知识库建设和源码链路复盘</td>
 </tr>
 <tr>
 <td>第二阶段</td>
@@ -106,14 +106,14 @@
 <td>MCP 深入与协议规范</td>
 <td>MCP Resources&#x2F;Prompts、Java SDK、JSON-RPC、为什么不用 HTTP&#x2F;gRPC</td>
 <td>MCP 三类能力对比表；协议选型回答</td>
-<td><span style="color: red;"><strong>进行中</strong></span></td>
+<td><span style="color: green;"><strong>已完成</strong></span></td>
 </tr>
 <tr>
 <td>Day 6</td>
 <td>RAG 评估、SSE 与流式响应基础</td>
 <td>RAG 评估、SSE 协议、SpringBoot-SSE</td>
 <td>RAG 评估指标清单；SSE 链路图</td>
-<td>待开始</td>
+<td><span style="color: green;"><strong>已完成</strong></span></td>
 </tr>
 <tr>
 <td>Day 7</td>
@@ -218,35 +218,35 @@
 <td>多轮对话记忆与 Token 压缩</td>
 <td>多轮记忆、大模型不失忆、50 轮 Token 爆了怎么办</td>
 <td>记忆策略笔记；Token 压缩回答</td>
-<td>待开始</td>
+<td><span style="color: #b7791f;"><strong>文档笔记已提前完成</strong></span></td>
 </tr>
 <tr>
 <td>Day 22</td>
 <td>查询重写与语义增强</td>
 <td>查询重写、用户说的话不等于该搜的词</td>
 <td>原问题 -&gt; 重写问题 -&gt; 检索收益表</td>
-<td>待开始</td>
+<td><span style="color: #b7791f;"><strong>文档笔记已提前完成</strong></span></td>
 </tr>
 <tr>
 <td>Day 23</td>
 <td>意图树与多路由调度</td>
 <td>意图识别、意图树、节点打分、命中裁剪、歧义处理、查库策略</td>
 <td>意图树图；命中规则说明</td>
-<td>待开始</td>
+<td><span style="color: #b7791f;"><strong>文档笔记已提前完成</strong></span></td>
 </tr>
 <tr>
 <td>Day 24</td>
 <td>多通道并行检索、结果融合与 RAG 评估</td>
 <td>多通道检索、30 条变 5 条、RAG 评估</td>
 <td>多路召回 -&gt; 去重 -&gt; Rerank -&gt; TopK 流程图</td>
-<td>待开始</td>
+<td><span style="color: #b7791f;"><strong>文档笔记已提前完成</strong></span></td>
 </tr>
 <tr>
 <td>Day 25</td>
 <td>MCP 工具兜底与参数提取</td>
 <td>知识库答不了交给 MCP、参数从哪来、工具架构、安全保障</td>
 <td>MCP 工具调用链路图；安全清单</td>
-<td>待开始</td>
+<td><span style="color: #b7791f;"><strong>文档笔记已提前完成</strong></span></td>
 </tr>
 <tr>
 <td>Day 26</td>
@@ -340,9 +340,20 @@
 <li>Ragent学习笔记12：理解函数调用 Function Call</li>
 <li>Ragent学习笔记13：MCP 协议入门与实践</li>
 <li>Ragent学习笔记14：深入解析 MCP 中的 Resources 与 Prompts</li>
+<li>Ragent学习笔记15：MCP 官方 Java SDK 深度解析</li>
+<li>Ragent学习笔记16：多轮对话记忆设计</li>
+<li>Ragent学习笔记17：查询重写与语义增强机制</li>
+<li>Ragent学习笔记18：意图识别与多路由调度策略</li>
+<li>Ragent学习笔记19：RAG 模型检索生成评估与优化</li>
+<li>Ragent学习笔记20：SSE 协议与流式响应</li>
+<li>Ragent学习笔记21：SpringBoot SSE 服务端实战</li>
+<li>Ragent学习笔记22：JSON-RPC 2.0 标准说明</li>
+<li>Ragent学习笔记23：为什么 MCP 不使用 HTTP 或 gRPC</li>
+<li>Ragent学习笔记24：工具调用架构设计指南</li>
+<li>Ragent学习笔记25：工具调用稳定性与安全保障</li>
 </ul>
-<p>当前阶段：第一阶段 Day 5 进行中，已完成 MCP Resources&#x2F;Prompts。</p>
-<p>下一步：学习 MCP 官方 Java SDK、JSON-RPC 2.0 协议规范，以及 MCP 为什么不直接使用 HTTP 或 gRPC。</p>
+<p>当前阶段：已整理到本地已下载文档的最新位置，完成 Ragent 学习笔记 01-25。</p>
+<p>下一步：按 30 天计划回到项目落地部分，继续学习本地开发环境搭建、Docker 本地中间件部署、PostgreSQL 初始化和项目启动指南。</p>
 <hr>
 ]]></content>
       <categories>
@@ -11447,6 +11458,1772 @@
         <tag>Hot100</tag>
         <tag>算法</tag>
         <tag>双指针</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ragent学习笔记17：查询重写与语义增强机制</title>
+    <url>/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B017-%E6%9F%A5%E8%AF%A2%E9%87%8D%E5%86%99%E4%B8%8E%E8%AF%AD%E4%B9%89%E5%A2%9E%E5%BC%BA%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》——查询重写与语义增强机制</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》——查询重写与语义增强机制.html</code></li>
+</ul>
+<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>用户说的话，往往不是最适合检索的词。</p>
+<p>比如用户问：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">它支持退款吗？</span><br></pre></td></tr></table></figure>
+
+<p>人可以通过上下文知道“它”指的是某个商品或服务，但检索系统看到的可能只有“它”“退款”，缺少明确主体。直接拿这个问题去向量检索，很可能召回不到正确内容。</p>
+<p>Query Rewrite 的目标就是把用户问题改写成更适合检索的查询。</p>
+<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
+<thead>
+<tr>
+<th>策略</th>
+<th>解决的问题</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>指代消解</td>
+<td>“它”“这个”“刚才那个”指代不明</td>
+<td>“它怎么退货” -&gt; “iPhone 16 Pro 如何退货”</td>
+</tr>
+<tr>
+<td>上下文补全</td>
+<td>当前问题缺少上下文</td>
+<td>“保修多久” -&gt; “购买的空调保修多久”</td>
+</tr>
+<tr>
+<td>口语转正式</td>
+<td>用户表达太口语</td>
+<td>“坏了咋办” -&gt; “商品故障后的售后处理流程”</td>
+</tr>
+<tr>
+<td>多意图拆分</td>
+<td>一个问题包含多个子问题</td>
+<td>“能退吗，多久到款” -&gt; 退货政策 + 退款到账时间</td>
+</tr>
+<tr>
+<td>关键词扩展</td>
+<td>检索词太窄</td>
+<td>“退款” -&gt; 退款、退货、售后、原路返回</td>
+</tr>
+</tbody></table>
+<h2 id="查询重写在-RAG-中的位置"><a href="#查询重写在-RAG-中的位置" class="headerlink" title="查询重写在 RAG 中的位置"></a>查询重写在 RAG 中的位置</h2><p><img src="/blog/img/ragent-note-17-rag-position.png" alt="查询重写在 RAG 链路中的位置"></p>
+<p>查询重写位于“用户原始问题”和“检索召回”之间。它不是为了让最终回答更好听，而是为了让检索阶段更容易找到正确材料。</p>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="检索系统没有对话记忆"><a href="#检索系统没有对话记忆" class="headerlink" title="检索系统没有对话记忆"></a>检索系统没有对话记忆</h3><p>多轮对话里，模型可以通过 <code>messages</code> 看到历史上下文，但检索系统通常只拿当前 query 去查向量库。</p>
+<p>这会导致一个问题：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">模型有上下文，检索没有上下文。</span><br></pre></td></tr></table></figure>
+
+<p>所以用户第二轮问“那这个支持七天无理由吗”，模型也许知道“这个”指什么，但向量检索只看到一句不完整的话。</p>
+<p>Query Rewrite 的价值，就是把上下文补到检索 query 里。</p>
+<h3 id="指代消解"><a href="#指代消解" class="headerlink" title="指代消解"></a>指代消解</h3><p>指代消解是把代词还原成明确对象。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">原问题：它支持退货吗？</span><br><span class="line">上下文：用户前一轮问的是 iPhone 16 Pro。</span><br><span class="line">改写后：iPhone 16 Pro 支持退货吗？</span><br></pre></td></tr></table></figure>
+
+<p>这一步非常关键，因为向量库里不会存“它”的含义，只会存具体文档内容。</p>
+<h3 id="上下文补全"><a href="#上下文补全" class="headerlink" title="上下文补全"></a>上下文补全</h3><p>有些问题不是指代不明，而是省略了上下文。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">原问题：多久能到账？</span><br><span class="line">改写后：用户申请退款后，退款金额多久能到账？</span><br></pre></td></tr></table></figure>
+
+<p>补全后的 query 更像一条完整的搜索句，召回效果通常更稳定。</p>
+<h3 id="口语化转正式"><a href="#口语化转正式" class="headerlink" title="口语化转正式"></a>口语化转正式</h3><p>用户表达可能很口语：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">坏了咋整？</span><br></pre></td></tr></table></figure>
+
+<p>知识库文档里可能写的是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">商品出现质量问题后的售后处理流程</span><br></pre></td></tr></table></figure>
+
+<p>如果不做改写，口语表达和文档表达之间可能存在语义距离。口语转正式能让 query 更贴近知识库的表达方式。</p>
+<h3 id="多意图拆分"><a href="#多意图拆分" class="headerlink" title="多意图拆分"></a>多意图拆分</h3><p>一个用户问题可能包含多个意图：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">这个能退吗？退了多久能到账？</span><br></pre></td></tr></table></figure>
+
+<p>它实际上包含两个检索目标：</p>
+<ol>
+<li>退货条件。</li>
+<li>退款到账时间。</li>
+</ol>
+<p>如果只做一次检索，可能召回结果偏向其中一个子问题。拆分后可以分别检索，再融合结果。</p>
+<h3 id="关键词扩展"><a href="#关键词扩展" class="headerlink" title="关键词扩展"></a>关键词扩展</h3><p>关键词扩展适合解决“用户词太窄”的问题。</p>
+<p>比如用户说“退款”，知识库可能写“退货”“售后”“原路返回”“退款到账”。适当扩展关键词可以提升召回率。</p>
+<p>但扩展也要克制。扩展太多会引入噪声，让召回结果变散。</p>
+<h3 id="用大模型做-Query-Rewrite"><a href="#用大模型做-Query-Rewrite" class="headerlink" title="用大模型做 Query Rewrite"></a>用大模型做 Query Rewrite</h3><p><img src="/blog/img/ragent-note-17-query-rewrite-flow.png" alt="查询重写流程"></p>
+<p>用大模型改写 query 时，Prompt 要强调几点：</p>
+<table>
+<thead>
+<tr>
+<th>要求</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>不回答问题</td>
+<td>只改写，不生成最终答案</td>
+</tr>
+<tr>
+<td>保留用户意图</td>
+<td>不添加用户没问的新目标</td>
+</tr>
+<tr>
+<td>补全必要上下文</td>
+<td>从历史对话里提取主体和约束</td>
+</tr>
+<tr>
+<td>可拆分多意图</td>
+<td>多个问题拆成多个 query</td>
+</tr>
+<tr>
+<td>输出结构化</td>
+<td>方便后续程序解析</td>
+</tr>
+</tbody></table>
+<h3 id="成本与时机"><a href="#成本与时机" class="headerlink" title="成本与时机"></a>成本与时机</h3><p>Query Rewrite 需要额外调用一次模型，所以不是所有问题都必须改写。</p>
+<p>可以这样判断：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">单轮明确问题：可以直接检索。</span><br><span class="line">多轮指代问题：需要改写。</span><br><span class="line">口语表达明显：可以改写。</span><br><span class="line">复杂多意图问题：建议拆分改写。</span><br></pre></td></tr></table></figure>
+
+<p>为了降低成本，可以对改写结果做缓存，或者先用规则判断是否需要改写。</p>
+<h2 id="复习抓手"><a href="#复习抓手" class="headerlink" title="复习抓手"></a>复习抓手</h2><p>这篇重点记住：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">用户问题适合交流，不一定适合检索；查询重写就是把交流语言变成检索语言。</span><br></pre></td></tr></table></figure>
+
+<p>面试回答可以这样说：</p>
+<blockquote>
+<p>RAG 系统里，检索阶段通常只拿当前 query 去查知识库，因此多轮场景会出现指代不明、上下文缺失、口语表达和多意图混杂等问题。Query Rewrite 会在检索前对用户问题做指代消解、上下文补全、口语转正式、多意图拆分和关键词扩展，让检索 query 更完整、更贴近知识库表达，从而提升召回质量。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Ragent</category>
+      </categories>
+      <tags>
+        <tag>Ragent</tag>
+        <tag>RAG</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ragent学习笔记18：意图识别与多路由调度策略</title>
+    <url>/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B018-%E6%84%8F%E5%9B%BE%E8%AF%86%E5%88%AB%E4%B8%8E%E5%A4%9A%E8%B7%AF%E7%94%B1%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/</url>
+    <content><![CDATA[<h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》——意图识别与多路由调度策略</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》——意图识别与多路由调度策略.html</code></li>
+</ul>
+<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>不是所有用户问题都应该进入 RAG 检索。</p>
+<p>有些问题应该查知识库，有些应该调用工具，有些只是闲聊，还有些信息不完整，需要先追问。意图识别就是在问答链路前面加一个“分诊台”。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">用户问题 -&gt; 意图识别 -&gt; 路由到不同处理链路</span><br></pre></td></tr></table></figure>
+
+<p>如果没有意图识别，系统就会变成“一根筋”：所有问题都检索知识库，检索不到就乱答。</p>
+<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
+<thead>
+<tr>
+<th>意图类型</th>
+<th>含义</th>
+<th>处理方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>知识检索</td>
+<td>用户问知识库中已有信息</td>
+<td>走 RAG 检索生成</td>
+</tr>
+<tr>
+<td>工具调用</td>
+<td>用户需要实时数据或业务操作</td>
+<td>走 MCP&#x2F;Function Call</td>
+</tr>
+<tr>
+<td>闲聊对话</td>
+<td>普通寒暄、非业务问题</td>
+<td>直接模型回答或固定回复</td>
+</tr>
+<tr>
+<td>引导澄清</td>
+<td>信息不足，无法判断</td>
+<td>先追问用户补充信息</td>
+</tr>
+</tbody></table>
+<h2 id="四类意图"><a href="#四类意图" class="headerlink" title="四类意图"></a>四类意图</h2><p><img src="/blog/img/ragent-note-18-intent-types.png" alt="四类意图示意"></p>
+<p>意图识别不是为了炫技，而是为了让不同类型的问题走不同的系统链路。</p>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="为什么需要意图识别"><a href="#为什么需要意图识别" class="headerlink" title="为什么需要意图识别"></a>为什么需要意图识别</h3><p>假设用户问：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">我这个订单什么时候发货？</span><br></pre></td></tr></table></figure>
+
+<p>这不是一个纯知识库问题。知识库里可能有“发货规则”，但用户真正需要的是某个订单的实时状态。这个时候只做 RAG 检索就不够，需要调用订单工具。</p>
+<p>再比如用户问：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">你是谁？</span><br></pre></td></tr></table></figure>
+
+<p>这类问题没有必要查知识库，可以直接回答。</p>
+<p>所以意图识别解决的是“下一步该走哪条链路”的问题。</p>
+<h3 id="知识检索意图"><a href="#知识检索意图" class="headerlink" title="知识检索意图"></a>知识检索意图</h3><p>知识检索适合回答规则、制度、说明文档类问题。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">例子：退货政策是什么？</span><br><span class="line">例子：报销流程有哪些步骤？</span><br><span class="line">例子：会员等级怎么计算？</span><br></pre></td></tr></table></figure>
+
+<p>这类问题的答案通常在知识库中，可以走向量检索、Rerank、Prompt 组装和大模型生成。</p>
+<h3 id="工具调用意图"><a href="#工具调用意图" class="headerlink" title="工具调用意图"></a>工具调用意图</h3><p>工具调用适合实时数据查询或业务动作。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">例子：帮我查一下订单 123 的物流。</span><br><span class="line">例子：给我创建一个工单。</span><br><span class="line">例子：查询我的年假余额。</span><br></pre></td></tr></table></figure>
+
+<p>这类问题需要外部系统参与，适合走 MCP 工具或 Function Call。</p>
+<h3 id="闲聊意图"><a href="#闲聊意图" class="headerlink" title="闲聊意图"></a>闲聊意图</h3><p>闲聊不需要知识库，也不需要工具。可以直接由模型回答，或者走固定模板。</p>
+<p>这样做可以减少不必要的检索和模型调用成本。</p>
+<h3 id="引导澄清意图"><a href="#引导澄清意图" class="headerlink" title="引导澄清意图"></a>引导澄清意图</h3><p>当用户问题缺少必要信息时，不应该硬查硬答。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">用户：帮我查一下订单。</span><br><span class="line">系统：请提供订单号。</span><br></pre></td></tr></table></figure>
+
+<p>这类问题应该先追问，而不是盲目调用工具。</p>
+<h3 id="三种识别方案"><a href="#三种识别方案" class="headerlink" title="三种识别方案"></a>三种识别方案</h3><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>优点</th>
+<th>缺点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>规则匹配</td>
+<td>快、成本低、可控</td>
+<td>覆盖不全，维护成本高</td>
+<td>明确关键词场景</td>
+</tr>
+<tr>
+<td>大模型分类</td>
+<td>语义理解强</td>
+<td>成本高，结果可能不稳定</td>
+<td>复杂表达场景</td>
+</tr>
+<tr>
+<td>混合方案</td>
+<td>兼顾效率和准确率</td>
+<td>架构更复杂</td>
+<td>生产推荐</td>
+</tr>
+</tbody></table>
+<p>生产系统通常会先用规则处理强确定性问题，再用大模型处理复杂语义，最后加兜底策略。</p>
+<h3 id="路由器模式"><a href="#路由器模式" class="headerlink" title="路由器模式"></a>路由器模式</h3><p><img src="/blog/img/ragent-note-18-router-architecture.png" alt="意图路由架构"></p>
+<p>路由器的职责是根据意图分类结果分发请求：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Knowledge -&gt; RAG 检索链路</span><br><span class="line">Tool -&gt; MCP 工具链路</span><br><span class="line">Chitchat -&gt; 直接回答链路</span><br><span class="line">Clarification -&gt; 追问链路</span><br></pre></td></tr></table></figure>
+
+<p>这样问答系统不再是一条固定流水线，而是一个可扩展的多路由架构。</p>
+<h3 id="意图识别在-RAG-链路中的位置"><a href="#意图识别在-RAG-链路中的位置" class="headerlink" title="意图识别在 RAG 链路中的位置"></a>意图识别在 RAG 链路中的位置</h3><p><img src="/blog/img/ragent-note-18-routing-flow.png" alt="意图识别与路由流程"></p>
+<p>意图识别通常在查询重写之后或之前出现，具体取决于系统设计。</p>
+<p>一种常见方式是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">原始问题 -&gt; 上下文补全/查询重写 -&gt; 意图识别 -&gt; 路由调度 -&gt; 执行具体链路</span><br></pre></td></tr></table></figure>
+
+<p>如果原始问题里有明显指代，先改写会提高意图识别准确率。</p>
+<h3 id="生产环境注意事项"><a href="#生产环境注意事项" class="headerlink" title="生产环境注意事项"></a>生产环境注意事项</h3><p>意图识别上线后，需要持续观察：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>分类准确率</td>
+<td>是否把问题分到正确链路</td>
+</tr>
+<tr>
+<td>兜底率</td>
+<td>有多少问题无法判断</td>
+</tr>
+<tr>
+<td>工具误调用率</td>
+<td>是否把知识问题误判成工具调用</td>
+</tr>
+<tr>
+<td>检索误触发率</td>
+<td>是否不该查知识库却查了</td>
+</tr>
+<tr>
+<td>用户追问率</td>
+<td>澄清是否过多影响体验</td>
+</tr>
+</tbody></table>
+<p>意图边界不是一次设计就固定的，需要根据真实问题不断调整。</p>
+<h2 id="复习抓手"><a href="#复习抓手" class="headerlink" title="复习抓手"></a>复习抓手</h2><p>这篇可以记成一句话：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">意图识别决定问题走哪条路，RAG 只是其中一条路。</span><br></pre></td></tr></table></figure>
+
+<p>面试回答可以这样说：</p>
+<blockquote>
+<p>在 Agentic RAG 系统里，用户问题不一定都适合知识库检索。意图识别会先判断问题属于知识检索、工具调用、闲聊还是引导澄清，再由路由器分发到 RAG、MCP 工具、直接回复或追问链路。生产环境一般采用规则 + 大模型分类的混合方案，并通过准确率、兜底率、误调用率等指标持续优化。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Ragent</category>
+      </categories>
+      <tags>
+        <tag>Ragent</tag>
+        <tag>RAG</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ragent学习笔记16：多轮对话记忆设计</title>
+    <url>/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B016-%E5%A4%9A%E8%BD%AE%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BF%86%E8%AE%BE%E8%AE%A1/</url>
+    <content><![CDATA[<h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》——多轮对话记忆设计</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》——多轮对话记忆设计.html</code></li>
+</ul>
+<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>大模型本身并不会自动记住前面聊过什么。每次请求对模型来说都是一次新的调用，所谓“记忆”，本质上是应用层把历史消息重新塞进 <code>messages</code> 里。</p>
+<p>所以多轮对话设计的核心不是“让模型拥有记忆”，而是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">在有限 Token 窗口里，选择哪些历史信息继续带给模型。</span><br></pre></td></tr></table></figure>
+
+<p>这就会引出几个问题：历史消息全带会爆 Token，不带又会失忆；只保留最近几轮可能丢掉长期背景；摘要压缩能省 Token，但可能丢细节。</p>
+<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
+<thead>
+<tr>
+<th>记忆策略</th>
+<th>做法</th>
+<th>优点</th>
+<th>问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>完整历史</td>
+<td>每轮消息全部带上</td>
+<td>信息最完整</td>
+<td>Token 增长快，成本高</td>
+</tr>
+<tr>
+<td>滑动窗口</td>
+<td>只保留最近 N 轮</td>
+<td>简单稳定</td>
+<td>早期关键信息会丢</td>
+</tr>
+<tr>
+<td>Token 截断</td>
+<td>超过预算就裁剪</td>
+<td>能控制成本</td>
+<td>可能截断语义</td>
+</tr>
+<tr>
+<td>摘要压缩</td>
+<td>把历史压成摘要</td>
+<td>保留长期背景</td>
+<td>摘要质量影响效果</td>
+</tr>
+<tr>
+<td>摘要 + 最近 N 轮</td>
+<td>长期摘要 + 短期原文</td>
+<td>工程上更均衡</td>
+<td>实现复杂度更高</td>
+</tr>
+</tbody></table>
+<h2 id="Token-预算图"><a href="#Token-预算图" class="headerlink" title="Token 预算图"></a>Token 预算图</h2><p><img src="/blog/img/ragent-note-16-token-budget.jpg" alt="多轮对话 Token 预算"></p>
+<p>RAG 场景下的上下文窗口不只装历史消息，还要装系统 Prompt、用户当前问题、检索到的 chunks，以及预留给模型输出的空间。</p>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="大模型每次请求都是“失忆”的"><a href="#大模型每次请求都是“失忆”的" class="headerlink" title="大模型每次请求都是“失忆”的"></a>大模型每次请求都是“失忆”的</h3><p>一次 Chat API 请求通常长这样：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">messages = [</span><br><span class="line">  system prompt,</span><br><span class="line">  user message,</span><br><span class="line">  assistant message,</span><br><span class="line">  user message</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>模型并不知道数据库里有没有历史记录，也不会自动去读取之前的对话。它能“记住”，只是因为应用层把前面的消息一起传给了它。</p>
+<p>所以多轮记忆要从应用架构上设计，而不是指望模型天然保存上下文。</p>
+<h3 id="完整历史：最直观但最危险"><a href="#完整历史：最直观但最危险" class="headerlink" title="完整历史：最直观但最危险"></a>完整历史：最直观但最危险</h3><p>完整历史就是把从第一轮到当前轮的所有消息都传给模型。</p>
+<p>它的优点是简单，信息完整；缺点也明显：轮次越多，Token 越多，成本和延迟都会上升。对 RAG 系统来说更麻烦，因为检索结果也要占上下文。</p>
+<p>完整历史适合短对话、调试 Demo，不适合长会话生产系统。</p>
+<h3 id="滑动窗口：只保留最近-N-轮"><a href="#滑动窗口：只保留最近-N-轮" class="headerlink" title="滑动窗口：只保留最近 N 轮"></a>滑动窗口：只保留最近 N 轮</h3><p><img src="/blog/img/ragent-note-16-memory-window.png" alt="滑动窗口记忆策略"></p>
+<p>滑动窗口的思路是：只保留最近几轮对话，比如最近 5 轮或 10 轮。</p>
+<p>它适合绝大多数普通对话，因为用户当前问题通常和最近上下文关系更强。但它也有一个问题：如果用户一开始说明了身份、偏好、约束条件，后面窗口滑过去后，这些信息就会消失。</p>
+<h3 id="Token-截断：从预算角度控制历史"><a href="#Token-截断：从预算角度控制历史" class="headerlink" title="Token 截断：从预算角度控制历史"></a>Token 截断：从预算角度控制历史</h3><p>Token 截断不是按轮数，而是按 Token 预算裁剪历史。比如最多只允许历史消息占 4000 Token，超过就从更早的消息开始删除。</p>
+<p>它比固定轮数更精细，但要注意不能粗暴截断一条消息中间，否则可能破坏语义。</p>
+<h3 id="摘要压缩：把旧历史压成长期记忆"><a href="#摘要压缩：把旧历史压成长期记忆" class="headerlink" title="摘要压缩：把旧历史压成长期记忆"></a>摘要压缩：把旧历史压成长期记忆</h3><p>摘要压缩的做法是：当历史消息太长时，用大模型把旧对话总结成一段摘要，后续请求只携带摘要和最近几轮原始消息。</p>
+<p>比较稳的摘要内容应该包含：</p>
+<table>
+<thead>
+<tr>
+<th>摘要内容</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>用户目标</td>
+<td>用户到底想完成什么</td>
+</tr>
+<tr>
+<td>已确认事实</td>
+<td>已经明确过的业务信息</td>
+</tr>
+<tr>
+<td>关键约束</td>
+<td>时间、格式、范围、权限等限制</td>
+</tr>
+<tr>
+<td>未完成事项</td>
+<td>后续还要继续处理的问题</td>
+</tr>
+<tr>
+<td>用户偏好</td>
+<td>表达方式、技术栈、输出风格等</td>
+</tr>
+</tbody></table>
+<p>摘要不是越短越好，而是要保留后续推理需要的信息。</p>
+<h3 id="推荐策略：摘要-最近-N-轮"><a href="#推荐策略：摘要-最近-N-轮" class="headerlink" title="推荐策略：摘要 + 最近 N 轮"></a>推荐策略：摘要 + 最近 N 轮</h3><p><img src="/blog/img/ragent-note-16-memory-flow.png" alt="混合记忆流程"></p>
+<p>工程上更推荐混合策略：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">长期信息：用摘要保存</span><br><span class="line">短期上下文：保留最近 N 轮原文</span><br><span class="line">当前问题：完整保留</span><br><span class="line">检索结果：按相关性放入 Prompt</span><br></pre></td></tr></table></figure>
+
+<p>这样既能让模型知道长期背景，又不会让上下文窗口被历史消息挤满。</p>
+<h3 id="RAG-场景下的优先级"><a href="#RAG-场景下的优先级" class="headerlink" title="RAG 场景下的优先级"></a>RAG 场景下的优先级</h3><p>RAG 问答里，Token 预算要服务于最终回答质量。一般优先级可以这样排：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">系统约束 &gt; 当前问题 &gt; 高相关检索结果 &gt; 最近对话 &gt; 历史摘要 &gt; 低相关历史</span><br></pre></td></tr></table></figure>
+
+<p>当前问题和检索结果通常比很久以前的闲聊更重要。否则模型可能“记得聊天”，但忘了引用知识库。</p>
+<h3 id="记忆存储怎么选"><a href="#记忆存储怎么选" class="headerlink" title="记忆存储怎么选"></a>记忆存储怎么选</h3><table>
+<thead>
+<tr>
+<th>存储方式</th>
+<th>适合场景</th>
+<th>注意点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内存 Map</td>
+<td>本地 Demo、单机调试</td>
+<td>服务重启丢失，不适合集群</td>
+</tr>
+<tr>
+<td>Redis</td>
+<td>会话短期记忆</td>
+<td>要设置 TTL，避免无限增长</td>
+</tr>
+<tr>
+<td>MySQL&#x2F;PostgreSQL</td>
+<td>长期审计、历史回放</td>
+<td>查询和脱敏要设计好</td>
+</tr>
+</tbody></table>
+<p>生产系统通常会组合使用：Redis 保存活跃会话，数据库保存重要会话记录或审计数据。</p>
+<h2 id="复习抓手"><a href="#复习抓手" class="headerlink" title="复习抓手"></a>复习抓手</h2><p>这篇可以用一句话记住：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">多轮对话记忆不是模型能力，而是应用层上下文管理能力。</span><br></pre></td></tr></table></figure>
+
+<p>面试回答可以这样说：</p>
+<blockquote>
+<p>大模型 API 本身是无状态的，多轮记忆需要业务系统维护历史消息。简单方案可以保留完整历史或滑动窗口，生产环境更适合“摘要压缩 + 最近 N 轮”的混合策略。RAG 场景还要考虑 Token 预算分配，避免历史消息挤占检索上下文，影响答案的事实依据。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Ragent</category>
+      </categories>
+      <tags>
+        <tag>Ragent</tag>
+        <tag>RAG</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ragent学习笔记19：RAG 模型检索生成评估与优化</title>
+    <url>/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B019-RAG%E6%A8%A1%E5%9E%8B%E6%A3%80%E7%B4%A2%E7%94%9F%E6%88%90%E8%AF%84%E4%BC%B0%E4%B8%8E%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》——RAG模型检索生成评估与优化</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》——RAG模型检索生成评估与优化.html</code></li>
+</ul>
+<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>RAG 系统不能只靠“感觉还不错”来判断效果。因为答案不好时，问题可能出在很多地方：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">检索没召回正确文档；</span><br><span class="line">召回了但排序太靠后；</span><br><span class="line">Prompt 没把上下文组织好；</span><br><span class="line">模型没有忠实引用材料；</span><br><span class="line">用户问题本身缺少信息。</span><br></pre></td></tr></table></figure>
+
+<p>所以 RAG 评估要分层看：检索阶段看召回质量，生成阶段看答案质量，端到端看用户最终体验。</p>
+<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
+<thead>
+<tr>
+<th>层次</th>
+<th>指标</th>
+<th>关注点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>检索阶段</td>
+<td>Hit@K</td>
+<td>前 K 条里有没有命中答案材料</td>
+</tr>
+<tr>
+<td>检索阶段</td>
+<td>MRR</td>
+<td>正确材料排得靠不靠前</td>
+</tr>
+<tr>
+<td>检索阶段</td>
+<td>Recall &#x2F; Precision</td>
+<td>召回完整性和准确性</td>
+</tr>
+<tr>
+<td>生成阶段</td>
+<td>Faithfulness</td>
+<td>答案是否忠实于上下文</td>
+</tr>
+<tr>
+<td>生成阶段</td>
+<td>Answer Relevancy</td>
+<td>答案是否回答了问题</td>
+</tr>
+<tr>
+<td>端到端</td>
+<td>答案正确率</td>
+<td>用户最终拿到的答案对不对</td>
+</tr>
+<tr>
+<td>端到端</td>
+<td>兜底率</td>
+<td>系统不能回答时是否合理拒答</td>
+</tr>
+<tr>
+<td>端到端</td>
+<td>用户满意度</td>
+<td>真实用户反馈</td>
+</tr>
+</tbody></table>
+<h2 id="分层评估思路"><a href="#分层评估思路" class="headerlink" title="分层评估思路"></a>分层评估思路</h2><p><img src="/blog/img/ragent-note-19-eval-layers.png" alt="RAG 分层评估"></p>
+<p>评估时不能只看最终答案，否则很难定位问题。要把链路拆开看，才能知道应该优化切分、检索、重排序、Prompt 还是生成策略。</p>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="为什么不能靠感觉优化"><a href="#为什么不能靠感觉优化" class="headerlink" title="为什么不能靠感觉优化"></a>为什么不能靠感觉优化</h3><p>如果只靠人工感受，容易出现两个问题：</p>
+<ol>
+<li>样本太少，容易被少数好答案误导。</li>
+<li>无法定位问题，只知道“不好”，不知道坏在哪。</li>
+</ol>
+<p>比如一个答案错了，可能是检索阶段没找到材料，也可能是材料找到了但模型乱编。两种问题的优化方向完全不同。</p>
+<h3 id="检索阶段指标"><a href="#检索阶段指标" class="headerlink" title="检索阶段指标"></a>检索阶段指标</h3><p>检索阶段的目标是把正确材料找出来，并尽量排在前面。</p>
+<h4 id="Hit-K"><a href="#Hit-K" class="headerlink" title="Hit@K"></a>Hit@K</h4><p>Hit@K 表示前 K 条检索结果里是否包含正确答案材料。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Hit@5 = 前 5 条里有正确文档，就算命中。</span><br></pre></td></tr></table></figure>
+
+<p>它适合判断召回链路有没有把答案材料找出来。</p>
+<h4 id="MRR"><a href="#MRR" class="headerlink" title="MRR"></a>MRR</h4><p>MRR 关注正确答案排在第几位。正确文档排第 1 位，比排第 5 位更好。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">正确结果排第 1：得分 1</span><br><span class="line">正确结果排第 2：得分 1/2</span><br><span class="line">正确结果排第 5：得分 1/5</span><br></pre></td></tr></table></figure>
+
+<p>MRR 能反映排序质量。</p>
+<h4 id="Recall-与-Precision"><a href="#Recall-与-Precision" class="headerlink" title="Recall 与 Precision"></a>Recall 与 Precision</h4><p>Recall 看该找的有没有找全，Precision 看找出来的结果里有多少是有用的。</p>
+<p>在 RAG 里，召回率不足会导致模型没有依据；精确率不足会让 Prompt 混入噪声。</p>
+<h3 id="生成阶段指标"><a href="#生成阶段指标" class="headerlink" title="生成阶段指标"></a>生成阶段指标</h3><p>生成阶段关注模型有没有基于上下文回答。</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Faithfulness</td>
+<td>答案是否忠实于检索上下文</td>
+</tr>
+<tr>
+<td>Answer Relevancy</td>
+<td>答案是否和用户问题相关</td>
+</tr>
+</tbody></table>
+<p>一个答案可能看起来很流畅，但如果上下文里没有依据，就是幻觉风险。</p>
+<h3 id="端到端指标"><a href="#端到端指标" class="headerlink" title="端到端指标"></a>端到端指标</h3><p>端到端指标看最终用户体验：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">用户问了问题 -&gt; 系统检索 -&gt; 模型生成 -&gt; 用户看到答案</span><br></pre></td></tr></table></figure>
+
+<p>最终要看答案是否正确、是否完整、是否该拒答时拒答。</p>
+<h3 id="评测集构建"><a href="#评测集构建" class="headerlink" title="评测集构建"></a>评测集构建</h3><p>评测集通常包含这些字段：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>question</td>
+<td>用户问题</td>
+</tr>
+<tr>
+<td>expected_answer</td>
+<td>标准答案或参考答案</td>
+</tr>
+<tr>
+<td>expected_context</td>
+<td>应该命中的文档或 chunk</td>
+</tr>
+<tr>
+<td>category</td>
+<td>问题类型</td>
+</tr>
+<tr>
+<td>difficulty</td>
+<td>难度</td>
+</tr>
+</tbody></table>
+<p>评测集来源可以是人工标注、用户反馈，也可以由大模型辅助生成后再人工校验。</p>
+<h3 id="LLM-as-Judge"><a href="#LLM-as-Judge" class="headerlink" title="LLM-as-Judge"></a>LLM-as-Judge</h3><p><img src="/blog/img/ragent-note-19-eval-flow.png" alt="RAG 自动化评测流程"></p>
+<p>LLM-as-Judge 是用大模型给答案评分。它适合快速批量评估，但不能完全替代人工。</p>
+<p>需要注意：</p>
+<ol>
+<li>评分 Prompt 要稳定。</li>
+<li>要抽样人工校准。</li>
+<li>不能让评测模型和被测模型互相“自嗨”。</li>
+<li>对关键业务问题仍然要人工复核。</li>
+</ol>
+<h3 id="评估驱动优化"><a href="#评估驱动优化" class="headerlink" title="评估驱动优化"></a>评估驱动优化</h3><p>评估的价值在于指导优化：</p>
+<table>
+<thead>
+<tr>
+<th>评估现象</th>
+<th>可能原因</th>
+<th>优化方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hit@K 低</td>
+<td>分块差、Embedding 差、查询没改写</td>
+<td>优化 Chunk、Embedding、Query Rewrite</td>
+</tr>
+<tr>
+<td>MRR 低</td>
+<td>正确结果排太后</td>
+<td>加 Rerank、调排序策略</td>
+</tr>
+<tr>
+<td>Faithfulness 低</td>
+<td>模型乱编</td>
+<td>加引用约束、拒答策略</td>
+</tr>
+<tr>
+<td>Answer Relevancy 低</td>
+<td>Prompt 组织差</td>
+<td>优化 Prompt 模板</td>
+</tr>
+<tr>
+<td>兜底率异常</td>
+<td>阈值不合理</td>
+<td>调整相似度阈值和拒答条件</td>
+</tr>
+</tbody></table>
+<h2 id="复习抓手"><a href="#复习抓手" class="headerlink" title="复习抓手"></a>复习抓手</h2><p>这篇重点记住：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">RAG 评估要分层：检索看召回和排序，生成看忠实度和相关性，端到端看用户最终答案。</span><br></pre></td></tr></table></figure>
+
+<p>面试回答可以这样说：</p>
+<blockquote>
+<p>RAG 系统不能只看最终答案，需要分层评估。检索阶段用 Hit@K、MRR、Recall、Precision 判断是否召回正确材料以及排序质量；生成阶段用 Faithfulness 和 Answer Relevancy 判断答案是否忠实上下文、是否回答问题；端到端再看答案正确率、兜底率和用户满意度。通过评估结果定位问题，再针对 Chunk、Embedding、Query Rewrite、Rerank、Prompt 或拒答策略做优化。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Ragent</category>
+      </categories>
+      <tags>
+        <tag>Ragent</tag>
+        <tag>RAG</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ragent学习笔记20：SSE 协议与流式响应</title>
+    <url>/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B020-SSE%E5%8D%8F%E8%AE%AE%E4%B8%8E%E6%B5%81%E5%BC%8F%E5%93%8D%E5%BA%94/</url>
+    <content><![CDATA[<h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》——SSE协议与流式响应</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》——SSE协议与流式响应.html</code></li>
+</ul>
+<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>大模型流式输出看起来像“一个字一个字蹦出来”，背后常用的协议就是 SSE。</p>
+<p>SSE 的全称是 Server-Sent Events，本质是服务端通过一个 HTTP 长连接持续向客户端推送事件。它比 WebSocket 简单，特别适合“客户端发起请求，服务端持续返回结果”的场景。</p>
+<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>作用</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>data:</code></td>
+<td>事件数据</td>
+<td>最常用，承载返回内容</td>
+</tr>
+<tr>
+<td><code>event:</code></td>
+<td>事件类型</td>
+<td>可以区分 message、error、done 等</td>
+</tr>
+<tr>
+<td><code>id:</code></td>
+<td>事件 ID</td>
+<td>支持断线重连后续传</td>
+</tr>
+<tr>
+<td><code>retry:</code></td>
+<td>重连间隔</td>
+<td>告诉浏览器多久后重连</td>
+</tr>
+<tr>
+<td><code>:</code> 注释行</td>
+<td>心跳</td>
+<td>保持连接不被代理断开</td>
+</tr>
+</tbody></table>
+<h2 id="SSE-流程图"><a href="#SSE-流程图" class="headerlink" title="SSE 流程图"></a>SSE 流程图</h2><p><img src="/blog/img/ragent-note-20-sse-flow.png" alt="SSE 流式响应流程"></p>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="SSE-是什么"><a href="#SSE-是什么" class="headerlink" title="SSE 是什么"></a>SSE 是什么</h3><p>SSE 是一种基于 HTTP 的服务端推送机制。客户端建立连接后，服务端可以不断往连接里写数据。</p>
+<p>常见格式：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">event: message</span><br><span class="line">data: &#123;&quot;content&quot;:&quot;你&quot;&#125;</span><br><span class="line"></span><br><span class="line">event: message</span><br><span class="line">data: &#123;&quot;content&quot;:&quot;好&quot;&#125;</span><br><span class="line"></span><br><span class="line">event: done</span><br><span class="line">data: [DONE]</span><br></pre></td></tr></table></figure>
+
+<p>每个事件之间用空行分隔。</p>
+<h3 id="data-字段"><a href="#data-字段" class="headerlink" title="data: 字段"></a><code>data:</code> 字段</h3><p><code>data:</code> 是最核心的字段。大模型流式响应中，每个 chunk 通常都会放在 <code>data:</code> 后面。</p>
+<p>如果一个事件有多行 <code>data:</code>，客户端会把它们合并成一个事件数据。</p>
+<h3 id="event-字段"><a href="#event-字段" class="headerlink" title="event: 字段"></a><code>event:</code> 字段</h3><p><code>event:</code> 用来定义事件类型。默认类型是 <code>message</code>。</p>
+<p>在实际系统中，可以把事件分成：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">message：正常 token 内容</span><br><span class="line">error：异常信息</span><br><span class="line">done：生成结束</span><br><span class="line">heartbeat：心跳</span><br></pre></td></tr></table></figure>
+
+<p>这样前端处理起来更清晰。</p>
+<h3 id="id-和-retry"><a href="#id-和-retry" class="headerlink" title="id: 和 retry:"></a><code>id:</code> 和 <code>retry:</code></h3><p><code>id:</code> 可以让客户端记录最后收到的事件 ID。断线重连时，浏览器会带上 <code>Last-Event-ID</code>。</p>
+<p><code>retry:</code> 用来告诉浏览器重连间隔。</p>
+<p>不过大模型生成通常是一次性流，不一定需要严格续传；但在业务事件流里，<code>id</code> 很有价值。</p>
+<h3 id="SSE、WebSocket、长轮询对比"><a href="#SSE、WebSocket、长轮询对比" class="headerlink" title="SSE、WebSocket、长轮询对比"></a>SSE、WebSocket、长轮询对比</h3><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>通信方向</th>
+<th>优点</th>
+<th>适合场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SSE</td>
+<td>服务端 -&gt; 客户端</td>
+<td>简单，基于 HTTP，自动重连</td>
+<td>大模型流式输出、通知流</td>
+</tr>
+<tr>
+<td>WebSocket</td>
+<td>双向</td>
+<td>实时双向通信能力强</td>
+<td>IM、协作编辑、游戏</td>
+</tr>
+<tr>
+<td>长轮询</td>
+<td>伪实时</td>
+<td>兼容性好</td>
+<td>简单通知</td>
+</tr>
+</tbody></table>
+<p>大模型 API 选择 SSE 的原因很直接：用户发起一次请求后，主要是服务端持续返回内容，不需要频繁双向通信。</p>
+<h3 id="大模型流式-chunk"><a href="#大模型流式-chunk" class="headerlink" title="大模型流式 chunk"></a>大模型流式 chunk</h3><p>非流式响应是一次性返回完整答案；流式响应则是多次返回 chunk。</p>
+<p>每个 chunk 里可能包含：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">delta：本次增量内容</span><br><span class="line">finish_reason：是否结束</span><br><span class="line">usage：Token 统计，有些模型只在最后返回</span><br></pre></td></tr></table></figure>
+
+<p>解析时不能假设每个 chunk 都有内容，有些 chunk 可能只是角色信息、结束标记或统计信息。</p>
+<h3 id="Java-客户端要注意什么"><a href="#Java-客户端要注意什么" class="headerlink" title="Java 客户端要注意什么"></a>Java 客户端要注意什么</h3><p>生产级 SSE 客户端不能只做字符串 <code>split</code>。要考虑：</p>
+<ol>
+<li>网络超时。</li>
+<li>连接中断。</li>
+<li>空 delta。</li>
+<li>多行 data。</li>
+<li><code>[DONE]</code> 结束标记。</li>
+<li>异常事件。</li>
+<li>Token 统计可能只在最后返回。</li>
+</ol>
+<h3 id="粘包问题"><a href="#粘包问题" class="headerlink" title="粘包问题"></a>粘包问题</h3><p>SSE 是基于字节流的，底层读取时可能一次读到半个事件，也可能一次读到多个事件。</p>
+<p>所以客户端要按 SSE 的事件边界解析，也就是用空行作为事件结束，而不是简单认为“一次 read 就是一条消息”。</p>
+<h2 id="复习抓手"><a href="#复习抓手" class="headerlink" title="复习抓手"></a>复习抓手</h2><p>这篇可以这样记：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">SSE = HTTP 长连接 + 服务端持续推事件 + data/event/id/retry 字段格式。</span><br></pre></td></tr></table></figure>
+
+<p>面试回答可以这样说：</p>
+<blockquote>
+<p>大模型流式响应常用 SSE，因为它适合一次请求后服务端持续推送内容的场景，比 WebSocket 更轻量。SSE 每个事件由 data、event、id、retry 等字段组成，事件之间用空行分隔。后端解析模型流时要处理空 delta、结束标记、网络中断、超时、多行 data 和粘包问题，不能简单把一次网络读取当成一个完整事件。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Ragent</category>
+      </categories>
+      <tags>
+        <tag>Ragent</tag>
+        <tag>学习笔记</tag>
+        <tag>SSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ragent学习笔记15：MCP 官方 Java SDK 深度解析</title>
+    <url>/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015-MCP%E5%AE%98%E6%96%B9JavaSDK%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/</url>
+    <content><![CDATA[<h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》——MCP之官方Java-SDK深度解析</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》——MCP之官方Java-SDK深度解析.html</code></li>
+</ul>
+<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>前面已经学过 MCP 的概念、Tools、Resources、Prompts。这一篇开始从 Java 工程视角看 MCP：官方 Java SDK 并不是一个“自动帮你做智能体”的框架，而是一套把 MCP 协议落到 Java 代码里的基础设施。</p>
+<p>可以把它理解成四层：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Schema：定义 MCP 消息长什么样</span><br><span class="line">Transport：负责消息怎么传</span><br><span class="line">Session：维护连接生命周期、请求响应匹配</span><br><span class="line">Client/Server：开发者真正使用的 API</span><br></pre></td></tr></table></figure>
+
+<p>也就是说，SDK 解决的是“协议怎么稳定通信”的问题，不直接解决“模型怎么判断该调哪个工具”的问题。</p>
+<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
+<thead>
+<tr>
+<th>模块</th>
+<th>作用</th>
+<th>复习重点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>mcp-core</code></td>
+<td>MCP 核心协议实现</td>
+<td>Schema、Session、Client、Server</td>
+</tr>
+<tr>
+<td><code>mcp-json-jackson2</code></td>
+<td>Jackson 2 序列化支持</td>
+<td>兼容旧项目</td>
+</tr>
+<tr>
+<td><code>mcp-json-jackson3</code></td>
+<td>Jackson 3 序列化支持</td>
+<td>适合新版本生态</td>
+</tr>
+<tr>
+<td>Stdio Transport</td>
+<td>stdin&#x2F;stdout 本地进程通信</td>
+<td>Claude Desktop 本地 MCP 常见方式</td>
+</tr>
+<tr>
+<td>SSE Transport</td>
+<td>SSE 推送 + HTTP POST</td>
+<td>传统 Web 环境的远程通信方案</td>
+</tr>
+<tr>
+<td>Streamable HTTP</td>
+<td>双向 HTTP 流式通信</td>
+<td>新版协议推荐的远程传输方案</td>
+</tr>
+<tr>
+<td>Session</td>
+<td>管理初始化、状态、请求响应配对</td>
+<td>多请求并发时靠 <code>id</code> 对齐响应</td>
+</tr>
+<tr>
+<td>Sync API</td>
+<td>同步调用</td>
+<td>简单、易理解，适合普通业务</td>
+</tr>
+<tr>
+<td>Async API</td>
+<td>异步调用</td>
+<td>适合高并发和响应式链路</td>
+</tr>
+</tbody></table>
+<h2 id="SDK-架构图"><a href="#SDK-架构图" class="headerlink" title="SDK 架构图"></a>SDK 架构图</h2><p><img src="/blog/img/ragent-note-15-sdk-layers.png" alt="MCP Java SDK 四层架构"></p>
+<p>这张图可以帮助记住 SDK 的分层关系：最底层是协议数据结构，中间是传输和会话管理，最上层才是开发者调用的 Client&#x2F;Server API。</p>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="modelcontextprotocol-是官方大本营"><a href="#modelcontextprotocol-是官方大本营" class="headerlink" title="modelcontextprotocol 是官方大本营"></a>modelcontextprotocol 是官方大本营</h3><p>MCP 官方生态里有规范文档，也有不同语言的 SDK。Java SDK 的定位是让 Java 项目能够实现 MCP Client 或 MCP Server。</p>
+<p>这里要区分两件事：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">MCP 规范：规定 Host、Client、Server 怎么通信。</span><br><span class="line">MCP Java SDK：把规范里的对象、请求、响应、传输层封装成 Java API。</span><br></pre></td></tr></table></figure>
+
+<p>所以学习 SDK 时，不能只看怎么写工具注册代码，还要理解它背后是在处理 JSON-RPC 消息、连接生命周期和能力声明。</p>
+<h3 id="Schema-层：协议的字典"><a href="#Schema-层：协议的字典" class="headerlink" title="Schema 层：协议的字典"></a>Schema 层：协议的字典</h3><p><code>McpSchema</code> 可以理解成 MCP 协议在 Java 里的“字典”。协议中出现的工具、资源、Prompt、初始化请求、工具调用请求、工具调用响应，都会被映射成 Java 数据结构。</p>
+<p>常见对象可以这样记：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>对应场景</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Tool</code></td>
+<td>工具定义</td>
+<td>包含工具名、描述、参数 Schema</td>
+</tr>
+<tr>
+<td><code>CallToolRequest</code></td>
+<td><code>tools/call</code> 请求</td>
+<td>Client 请求 Server 执行某个工具</td>
+</tr>
+<tr>
+<td><code>CallToolResult</code></td>
+<td>工具执行结果</td>
+<td>Server 返回执行结果</td>
+</tr>
+<tr>
+<td><code>Resource</code></td>
+<td>资源定义</td>
+<td>包含 URI、名称、描述、MIME 类型</td>
+</tr>
+<tr>
+<td><code>Prompt</code></td>
+<td>Prompt 模板定义</td>
+<td>包含模板名称、描述和参数</td>
+</tr>
+<tr>
+<td><code>InitializeRequest</code></td>
+<td>初始化请求</td>
+<td>建立连接时进行能力协商</td>
+</tr>
+<tr>
+<td><code>InitializeResult</code></td>
+<td>初始化响应</td>
+<td>返回 Server 支持的能力</td>
+</tr>
+</tbody></table>
+<p>学习 MCP 时要注意：模型看到的“工具”只是上层表现，底层真正传输的是标准化的 JSON-RPC 消息。</p>
+<h3 id="Transport-层：消息怎么送"><a href="#Transport-层：消息怎么送" class="headerlink" title="Transport 层：消息怎么送"></a>Transport 层：消息怎么送</h3><p>Transport 只负责“送消息”，不负责理解消息。它不关心这是工具调用、资源读取还是 Prompt 获取，只负责把 JSON-RPC 从一端传到另一端。</p>
+<h4 id="Stdio-Transport"><a href="#Stdio-Transport" class="headerlink" title="Stdio Transport"></a>Stdio Transport</h4><p><img src="/blog/img/ragent-note-15-stdio-transport.png" alt="Stdio Transport 通信原理"></p>
+<p>Stdio 使用标准输入和标准输出通信。MCP Server 作为一个本地子进程启动，Client 往它的 stdin 写 JSON-RPC 请求，再从 stdout 读取响应。</p>
+<p>这种方式适合本地工具，比如 Claude Desktop 启动本地 Java MCP Server。优点是简单、没有网络依赖；缺点是只适合本地，不适合企业级远程部署。</p>
+<h4 id="SSE-Transport"><a href="#SSE-Transport" class="headerlink" title="SSE Transport"></a>SSE Transport</h4><p><img src="/blog/img/ragent-note-15-sse-transport.png" alt="SSE Transport 通信原理"></p>
+<p>SSE 本身是 Server 到 Client 的单向推送，所以 MCP SSE Transport 通常需要两条路径：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Server -&gt; Client：SSE 长连接推送响应和通知</span><br><span class="line">Client -&gt; Server：HTTP POST 发送请求</span><br></pre></td></tr></table></figure>
+
+<p>它比 Stdio 更适合远程通信，但链路会比纯本地进程复杂，需要考虑连接保持、断线重连、代理缓冲等问题。</p>
+<h4 id="Streamable-HTTP"><a href="#Streamable-HTTP" class="headerlink" title="Streamable HTTP"></a>Streamable HTTP</h4><p><img src="/blog/img/ragent-note-15-streamable-http.png" alt="Streamable HTTP Transport 通信原理"></p>
+<p>Streamable HTTP 是更适合远程 MCP 服务的方式。它让请求和响应都可以通过 HTTP 流式传输，不再依赖额外的 SSE 长连接。</p>
+<p>记忆方式：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">本地调试：Stdio</span><br><span class="line">兼容 Web：SSE</span><br><span class="line">生产远程：Streamable HTTP</span><br></pre></td></tr></table></figure>
+
+<h3 id="Session-层：维护一次-MCP-会话"><a href="#Session-层：维护一次-MCP-会话" class="headerlink" title="Session 层：维护一次 MCP 会话"></a>Session 层：维护一次 MCP 会话</h3><p>Transport 只负责传输，但一次 MCP 通信还需要管理状态。Session 主要负责三件事：</p>
+<ol>
+<li>连接初始化：通过 <code>initialize</code> 交换能力声明。</li>
+<li>请求响应配对：多个请求并发时，靠 JSON-RPC 的 <code>id</code> 找到对应响应。</li>
+<li>通知处理：处理工具列表变更、资源变更等不需要响应的消息。</li>
+</ol>
+<p>如果没有 Session 层，Client 发出多个请求后就很难知道哪个响应对应哪个请求。</p>
+<h3 id="Client-Server-层：开发者直接使用的-API"><a href="#Client-Server-层：开发者直接使用的-API" class="headerlink" title="Client&#x2F;Server 层：开发者直接使用的 API"></a>Client&#x2F;Server 层：开发者直接使用的 API</h3><p>SDK 最上层提供 <code>McpServer</code> 和 <code>McpClient</code>。开发者一般通过 Builder 模式配置服务信息、注册工具、注册资源、注册 Prompt，再启动 MCP Server。</p>
+<p>同步 API 更适合普通项目，写起来直观；异步 API 更适合高并发或响应式场景，但理解成本更高。</p>
+<h3 id="官方-SDK-和-Spring-AI-的关系"><a href="#官方-SDK-和-Spring-AI-的关系" class="headerlink" title="官方 SDK 和 Spring AI 的关系"></a>官方 SDK 和 Spring AI 的关系</h3><p>官方 SDK 更底层，负责协议实现；Spring AI MCP 集成更偏框架封装，负责和 Spring Boot 的自动配置、注解、Bean 生命周期结合。</p>
+<p>可以这样理解：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">官方 Java SDK：MCP 协议层基础能力。</span><br><span class="line">Spring AI MCP：基于 SDK 做 Spring 风格封装。</span><br></pre></td></tr></table></figure>
+
+<p>如果要理解 MCP 的底层通信，应该看官方 SDK；如果要快速在 Spring Boot 项目里暴露工具，Spring AI 会更方便。</p>
+<h2 id="复习抓手"><a href="#复习抓手" class="headerlink" title="复习抓手"></a>复习抓手</h2><p>这篇重点不是背类名，而是理解 MCP Java SDK 的分层：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Schema 定义消息</span><br><span class="line">Transport 传输消息</span><br><span class="line">Session 管理连接和请求响应关系</span><br><span class="line">Client/Server 提供开发接口</span><br></pre></td></tr></table></figure>
+
+<p>面试或项目讲解时可以这样说：</p>
+<blockquote>
+<p>MCP 官方 Java SDK 本质上是 MCP 协议在 Java 里的实现。它把 JSON-RPC 消息抽象成 Schema，把 stdin&#x2F;stdout、SSE、Streamable HTTP 抽象成 Transport，再通过 Session 管理初始化、能力协商和请求响应配对，最后提供 Client&#x2F;Server API 给业务系统注册工具、资源和 Prompt。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Ragent</category>
+      </categories>
+      <tags>
+        <tag>Ragent</tag>
+        <tag>学习笔记</tag>
+        <tag>MCP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ragent学习笔记21：SpringBoot SSE 服务端实战</title>
+    <url>/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B021-SpringBootSSE%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%AE%9E%E6%88%98/</url>
+    <content><![CDATA[<h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》——SpringBoot-SSE服务端实战</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》——SpringBoot-SSE服务端实战.html</code></li>
+</ul>
+<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>前面学习的是 SSE 协议本身，这一篇重点放在 Spring Boot 后端怎么把大模型流式响应转发给前端。</p>
+<p>一个常见问题是：为什么前端不直接连大模型 API？</p>
+<p>原因有三个：</p>
+<ol>
+<li>API Key 不能暴露给浏览器。</li>
+<li>后端需要统一鉴权、限流、日志和审计。</li>
+<li>RAG 场景要先做检索、Prompt 组装，再调用模型。</li>
+</ol>
+<p>因此后端需要充当流式中间层。</p>
+<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
+<thead>
+<tr>
+<th>能力</th>
+<th>说明</th>
+<th>关注点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SseEmitter</code></td>
+<td>Spring MVC 提供的 SSE 响应封装</td>
+<td>可以不断向客户端发送事件</td>
+</tr>
+<tr>
+<td><code>send()</code></td>
+<td>推送事件</td>
+<td>注意异常和断连</td>
+</tr>
+<tr>
+<td><code>complete()</code></td>
+<td>正常结束</td>
+<td>生成完成后关闭连接</td>
+</tr>
+<tr>
+<td><code>completeWithError()</code></td>
+<td>异常结束</td>
+<td>通知客户端失败</td>
+</tr>
+<tr>
+<td>心跳保活</td>
+<td>定期发送注释或心跳事件</td>
+<td>防止代理断开</td>
+</tr>
+<tr>
+<td>线程池</td>
+<td>流式转发不能占满 Tomcat 工作线程</td>
+<td>使用独立线程池</td>
+</tr>
+<tr>
+<td>Nginx 配置</td>
+<td>关闭代理缓冲</td>
+<td>否则前端看不到实时流</td>
+</tr>
+</tbody></table>
+<h2 id="服务端链路图"><a href="#服务端链路图" class="headerlink" title="服务端链路图"></a>服务端链路图</h2><p><img src="/blog/img/ragent-note-21-springboot-sse-flow.png" alt="SpringBoot SSE 服务端链路"></p>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="为什么需要后端中间层"><a href="#为什么需要后端中间层" class="headerlink" title="为什么需要后端中间层"></a>为什么需要后端中间层</h3><p>RAG 问答不是“前端直接调模型”这么简单。完整链路通常是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">前端提问</span><br><span class="line">-&gt; 后端鉴权</span><br><span class="line">-&gt; 会话上下文处理</span><br><span class="line">-&gt; Query Rewrite</span><br><span class="line">-&gt; 检索和 Rerank</span><br><span class="line">-&gt; Prompt 组装</span><br><span class="line">-&gt; 调用大模型流式 API</span><br><span class="line">-&gt; SSE 转发给前端</span><br></pre></td></tr></table></figure>
+
+<p>后端中间层能统一处理安全、观测和业务编排。</p>
+<h3 id="SseEmitter-是什么"><a href="#SseEmitter-是什么" class="headerlink" title="SseEmitter 是什么"></a>SseEmitter 是什么</h3><p><code>SseEmitter</code> 是 Spring MVC 里用于 SSE 响应的对象。Controller 返回它以后，请求不会马上结束，后端可以在另一个线程里持续调用 <code>send()</code> 推送事件。</p>
+<p>核心方法：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>send()</code></td>
+<td>发送一条 SSE 事件</td>
+</tr>
+<tr>
+<td><code>complete()</code></td>
+<td>正常完成</td>
+</tr>
+<tr>
+<td><code>completeWithError()</code></td>
+<td>异常完成</td>
+</tr>
+<tr>
+<td><code>onCompletion()</code></td>
+<td>客户端连接完成回调</td>
+</tr>
+<tr>
+<td><code>onTimeout()</code></td>
+<td>超时回调</td>
+</tr>
+<tr>
+<td><code>onError()</code></td>
+<td>异常回调</td>
+</tr>
+</tbody></table>
+<h3 id="最简版-Hello-SSE"><a href="#最简版-Hello-SSE" class="headerlink" title="最简版 Hello SSE"></a>最简版 Hello SSE</h3><p>最简版适合理解机制：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Controller 创建 SseEmitter</span><br><span class="line">后台线程循环 send</span><br><span class="line">发送完成后 complete</span><br></pre></td></tr></table></figure>
+
+<p>但这个版本不能直接上生产，因为还没有处理断连、超时、线程池和心跳。</p>
+<h3 id="接入大模型流式转发"><a href="#接入大模型流式转发" class="headerlink" title="接入大模型流式转发"></a>接入大模型流式转发</h3><p>实际业务中，后端要从大模型流式接口读取 chunk，然后转换成自己的 SSE 格式发送给前端。</p>
+<p>核心处理逻辑是：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">读取模型 chunk</span><br><span class="line">-&gt; 解析 delta</span><br><span class="line">-&gt; 封装业务事件</span><br><span class="line">-&gt; emitter.send()</span><br><span class="line">-&gt; 结束时 complete()</span><br></pre></td></tr></table></figure>
+
+<p>如果模型调用异常，要通过 error 事件或 <code>completeWithError()</code> 通知前端。</p>
+<h3 id="生产版要处理什么"><a href="#生产版要处理什么" class="headerlink" title="生产版要处理什么"></a>生产版要处理什么</h3><h4 id="超时设置"><a href="#超时设置" class="headerlink" title="超时设置"></a>超时设置</h4><p><code>SseEmitter</code> 默认超时可能不适合长回答，需要根据业务设置。</p>
+<p>但超时不能无限大，否则断开的连接可能长期占资源。</p>
+<h4 id="心跳保活"><a href="#心跳保活" class="headerlink" title="心跳保活"></a>心跳保活</h4><p>很多代理或网关会断开长时间无数据的连接。心跳可以定期发送：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">: ping</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>或者发送自定义 heartbeat 事件。</p>
+<h4 id="客户端断连检测"><a href="#客户端断连检测" class="headerlink" title="客户端断连检测"></a>客户端断连检测</h4><p>用户关闭页面或点击停止生成时，后端要能感知断连，并停止继续调用模型或写数据。</p>
+<p>否则模型还在生成，后端还在消费资源。</p>
+<h4 id="线程池管理"><a href="#线程池管理" class="headerlink" title="线程池管理"></a>线程池管理</h4><p>流式转发可能持续很久，不能把 Tomcat 请求线程一直占住。应该使用独立线程池执行模型调用和转发任务。</p>
+<h4 id="Nginx-代理缓冲"><a href="#Nginx-代理缓冲" class="headerlink" title="Nginx 代理缓冲"></a>Nginx 代理缓冲</h4><p>如果 Nginx 开了缓冲，后端虽然一直 send，前端可能还是等到缓冲区满或请求结束才看到内容。</p>
+<p>常见配置是关闭缓冲：</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="attribute">proxy_buffering</span> <span class="literal">off</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="前端-EventSource-的限制"><a href="#前端-EventSource-的限制" class="headerlink" title="前端 EventSource 的限制"></a>前端 EventSource 的限制</h3><p>原生 <code>EventSource</code> 简单好用，但它主要支持 GET 请求，自定义请求头和 POST body 不方便。</p>
+<p>如果问答接口需要 POST JSON，可以考虑：</p>
+<ol>
+<li>先 POST 创建任务，再用 EventSource 订阅任务流。</li>
+<li>使用 <code>fetch</code> 读取 <code>ReadableStream</code>。</li>
+<li>封装自定义 SSE 客户端。</li>
+</ol>
+<h2 id="复习抓手"><a href="#复习抓手" class="headerlink" title="复习抓手"></a>复习抓手</h2><p>这篇重点记住：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Spring Boot SSE 服务端不只是 send 数据，还要处理安全、断连、超时、心跳、线程池和代理缓冲。</span><br></pre></td></tr></table></figure>
+
+<p>面试回答可以这样说：</p>
+<blockquote>
+<p>在 Spring Boot 中可以用 SseEmitter 实现 SSE 流式响应。Controller 返回 SseEmitter 后，由独立线程调用大模型流式接口，解析 chunk 并通过 emitter.send 推送给前端，结束时 complete。生产环境需要处理超时、心跳保活、客户端断连、线程池隔离、异常事件和 Nginx 关闭代理缓冲，避免连接泄漏和前端收不到实时数据。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Ragent</category>
+      </categories>
+      <tags>
+        <tag>Ragent</tag>
+        <tag>学习笔记</tag>
+        <tag>SSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ragent学习笔记22：JSON-RPC 2.0 标准说明</title>
+    <url>/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B022-JSONRPC2%E6%A0%87%E5%87%86%E8%AF%B4%E6%98%8E/</url>
+    <content><![CDATA[<h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》——MCP协议规范：JSON-RPC 2.0标准说明</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》——MCP协议规范：JSON-RPC 2.0标准说明.html</code></li>
+</ul>
+<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>MCP 底层使用 JSON-RPC 2.0 作为消息协议。它不是 HTTP，也不是 gRPC，而是一种规定“请求、响应、错误应该长什么样”的 RPC 消息格式。</p>
+<p>最核心的对象有四个：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Request：需要响应的请求</span><br><span class="line">Notification：不需要响应的通知</span><br><span class="line">Response：正常响应</span><br><span class="line">Error：错误响应</span><br></pre></td></tr></table></figure>
+
+<p>理解 JSON-RPC 2.0，才能理解 MCP 的 <code>initialize</code>、<code>tools/call</code>、<code>resources/read</code> 这些操作为什么都是统一的消息结构。</p>
+<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
+<thead>
+<tr>
+<th>对象</th>
+<th>是否有 <code>id</code></th>
+<th>是否需要响应</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Request</td>
+<td>有</td>
+<td>需要</td>
+<td>调用方法并等待结果</td>
+</tr>
+<tr>
+<td>Notification</td>
+<td>无</td>
+<td>不需要</td>
+<td>单向通知</td>
+</tr>
+<tr>
+<td>Response</td>
+<td>有</td>
+<td>-</td>
+<td>返回 result 或 error</td>
+</tr>
+<tr>
+<td>Error</td>
+<td>有或 null</td>
+<td>-</td>
+<td>表示协议或调用失败</td>
+</tr>
+<tr>
+<td>Batch</td>
+<td>多个对象数组</td>
+<td>视内容而定</td>
+<td>一次发送多个请求&#x2F;通知</td>
+</tr>
+</tbody></table>
+<h2 id="调用流程图"><a href="#调用流程图" class="headerlink" title="调用流程图"></a>调用流程图</h2><p><img src="/blog/img/ragent-note-22-jsonrpc-flow.png" alt="JSON-RPC 调用流程"></p>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="Request-Object"><a href="#Request-Object" class="headerlink" title="Request Object"></a>Request Object</h3><p>Request 表示一次需要响应的调用。基本结构：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;jsonrpc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;tools/call&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;params&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;getUserAnnualLeave&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;arguments&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;employeeId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;E001&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>字段含义：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>jsonrpc</code></td>
+<td>必须是 <code>&quot;2.0&quot;</code></td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>请求 ID，用来匹配响应</td>
+</tr>
+<tr>
+<td><code>method</code></td>
+<td>调用的方法名</td>
+</tr>
+<tr>
+<td><code>params</code></td>
+<td>参数，可以是对象或数组</td>
+</tr>
+</tbody></table>
+<h3 id="Notification"><a href="#Notification" class="headerlink" title="Notification"></a>Notification</h3><p>Notification 和 Request 很像，但没有 <code>id</code>，因此服务端不能返回响应。</p>
+<p>适合状态变更通知：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;jsonrpc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;notifications/tools/list_changed&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：Notification 不应该返回 Response。否则客户端会误以为这是一条请求响应。</p>
+<h3 id="Response-Object"><a href="#Response-Object" class="headerlink" title="Response Object"></a>Response Object</h3><p>Response 必须带上对应请求的 <code>id</code>。</p>
+<p>成功响应：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;jsonrpc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;result&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>失败响应：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;jsonrpc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;error&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;code&quot;</span><span class="punctuation">:</span> <span class="number">-32602</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Invalid params&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>result</code> 和 <code>error</code> 不能同时存在。</p>
+<h3 id="Error-Object"><a href="#Error-Object" class="headerlink" title="Error Object"></a>Error Object</h3><p>JSON-RPC 预定义了一些协议错误码：</p>
+<table>
+<thead>
+<tr>
+<th>错误码</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-32700</code></td>
+<td>Parse error，JSON 解析失败</td>
+</tr>
+<tr>
+<td><code>-32600</code></td>
+<td>Invalid Request，请求对象不合法</td>
+</tr>
+<tr>
+<td><code>-32601</code></td>
+<td>Method not found，方法不存在</td>
+</tr>
+<tr>
+<td><code>-32602</code></td>
+<td>Invalid params，参数不合法</td>
+</tr>
+<tr>
+<td><code>-32603</code></td>
+<td>Internal error，内部错误</td>
+</tr>
+</tbody></table>
+<p>业务错误最好不要随便复用协议错误码，可以在业务错误码范围里单独设计。</p>
+<h3 id="Batch-批处理"><a href="#Batch-批处理" class="headerlink" title="Batch 批处理"></a>Batch 批处理</h3><p>Batch 允许一次发送多个 Request 或 Notification。</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;jsonrpc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;tools/list&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;jsonrpc&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;notifications/initialized&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+
+<p>如果 Batch 里全是 Notification，服务端不应该返回空数组，而是直接不返回响应。</p>
+<h3 id="常见实现错误"><a href="#常见实现错误" class="headerlink" title="常见实现错误"></a>常见实现错误</h3><table>
+<thead>
+<tr>
+<th>错误</th>
+<th>后果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>忘记 <code>jsonrpc: &quot;2.0&quot;</code></td>
+<td>协议不合法</td>
+</tr>
+<tr>
+<td>Notification 返回响应</td>
+<td>破坏通知语义</td>
+</tr>
+<tr>
+<td><code>result</code> 和 <code>error</code> 同时存在</td>
+<td>响应格式不合法</td>
+</tr>
+<tr>
+<td><code>method</code> 不是字符串</td>
+<td>请求不合法</td>
+</tr>
+<tr>
+<td><code>params</code> 类型不对</td>
+<td>参数解析失败</td>
+</tr>
+<tr>
+<td>命名参数大小写不一致</td>
+<td>服务端拿不到参数</td>
+</tr>
+<tr>
+<td>业务错误复用协议错误码</td>
+<td>排障困难</td>
+</tr>
+</tbody></table>
+<h3 id="工程落地建议"><a href="#工程落地建议" class="headerlink" title="工程落地建议"></a>工程落地建议</h3><p>协议规范只是基础，真正落地还要补上：</p>
+<ol>
+<li>参数校验。</li>
+<li>超时控制。</li>
+<li>重试策略。</li>
+<li>幂等去重。</li>
+<li>日志和 Trace。</li>
+<li>鉴权和签名。</li>
+<li>版本兼容。</li>
+<li>统一错误码映射。</li>
+</ol>
+<p>JSON-RPC 只规定消息格式，不负责解决这些工程问题。</p>
+<h2 id="复习抓手"><a href="#复习抓手" class="headerlink" title="复习抓手"></a>复习抓手</h2><p>这篇可以记住一句话：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">JSON-RPC 2.0 统一规定了方法调用的消息格式，MCP 在这个格式上定义工具、资源、Prompt 等能力。</span><br></pre></td></tr></table></figure>
+
+<p>面试回答可以这样说：</p>
+<blockquote>
+<p>MCP 底层使用 JSON-RPC 2.0 作为消息协议。JSON-RPC 定义了 Request、Notification、Response、Error 和 Batch 等对象，Request 通过 id 和 Response 配对，Notification 没有 id 且不需要响应。它只解决消息格式统一问题，不包含鉴权、超时、重试、幂等等工程能力，这些需要业务系统在 MCP 实现外补齐。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Ragent</category>
+      </categories>
+      <tags>
+        <tag>Ragent</tag>
+        <tag>学习笔记</tag>
+        <tag>MCP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ragent学习笔记23：为什么 MCP 不使用 HTTP 或 gRPC</title>
+    <url>/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B023-%E4%B8%BA%E4%BB%80%E4%B9%88MCP%E4%B8%8D%E4%BD%BF%E7%94%A8HTTP%E6%88%96gRPC/</url>
+    <content><![CDATA[<h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》——为什么MCP不使用HTTP或gRPC？</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》——为什么MCP不使用HTTP或gRPC？.html</code></li>
+</ul>
+<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>这个问题容易混淆：MCP 不是完全“不用 HTTP”，而是不把 HTTP 当成自己的调用协议。</p>
+<p>HTTP 可以作为传输层，负责把数据送过去；JSON-RPC 负责定义这条消息到底是请求、响应、通知还是错误。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">HTTP：怎么传</span><br><span class="line">JSON-RPC：传的消息怎么表示一次调用</span><br><span class="line">MCP：在 JSON-RPC 上定义工具、资源、Prompt 等能力</span><br></pre></td></tr></table></figure>
+
+<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
+<thead>
+<tr>
+<th>技术</th>
+<th>定位</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HTTP</td>
+<td>传输协议</td>
+<td>负责请求和响应的传输，不规定 RPC 消息语义</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td>强类型 RPC 框架</td>
+<td>性能强、IDL 清晰，但较重</td>
+</tr>
+<tr>
+<td>JSON-RPC 2.0</td>
+<td>轻量 RPC 消息协议</td>
+<td>人类可读、实现简单、传输无关</td>
+</tr>
+<tr>
+<td>MCP</td>
+<td>上下文协议</td>
+<td>基于 JSON-RPC 定义工具、资源、Prompt 等交互</td>
+</tr>
+</tbody></table>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="HTTP-是传输协议，不是调用协议"><a href="#HTTP-是传输协议，不是调用协议" class="headerlink" title="HTTP 是传输协议，不是调用协议"></a>HTTP 是传输协议，不是调用协议</h3><p>HTTP 规定了请求方法、Header、Body、状态码等，但它不直接规定：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">哪个字段表示方法名？</span><br><span class="line">哪个字段表示请求 ID？</span><br><span class="line">怎么区分通知和请求？</span><br><span class="line">响应怎么和请求配对？</span><br><span class="line">错误对象应该长什么样？</span><br></pre></td></tr></table></figure>
+
+<p>这些是 RPC 消息协议要解决的问题。</p>
+<p>所以 MCP 可以运行在 HTTP 之上，但仍然需要 JSON-RPC 来统一消息结构。</p>
+<h3 id="gRPC-为什么不适合-MCP"><a href="#gRPC-为什么不适合-MCP" class="headerlink" title="gRPC 为什么不适合 MCP"></a>gRPC 为什么不适合 MCP</h3><p>gRPC 是很成熟的 RPC 框架，性能强、类型清晰，但它对 MCP 来说偏重。</p>
+<p>主要问题：</p>
+<ol>
+<li>需要 <code>.proto</code> 文件和代码生成。</li>
+<li>对浏览器和轻量客户端不够友好。</li>
+<li>二进制协议不如 JSON 易读易调试。</li>
+<li>多语言生态虽然强，但接入门槛比 JSON-RPC 高。</li>
+<li>MCP 需要灵活暴露工具、资源和 Prompt，JSON 结构更轻便。</li>
+</ol>
+<p>MCP 的目标是让各种 Host 和工具服务快速互联，而不是先引入一套较重的 RPC 工程体系。</p>
+<h3 id="JSON-RPC-的优势"><a href="#JSON-RPC-的优势" class="headerlink" title="JSON-RPC 的优势"></a>JSON-RPC 的优势</h3><p>JSON-RPC 适合 MCP 的原因：</p>
+<table>
+<thead>
+<tr>
+<th>优势</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>统一消息格式</td>
+<td>Request、Response、Notification、Error 都有标准结构</td>
+</tr>
+<tr>
+<td>轻量易实现</td>
+<td>不依赖代码生成，普通 JSON 库即可处理</td>
+</tr>
+<tr>
+<td>人类可读</td>
+<td>排查问题时可以直接看消息内容</td>
+</tr>
+<tr>
+<td>传输无关</td>
+<td>可以跑在 Stdio、SSE、HTTP 等传输上</td>
+</tr>
+<tr>
+<td>支持通知</td>
+<td>能表达不需要响应的单向消息</td>
+</tr>
+<tr>
+<td>支持批量调用</td>
+<td>可以一次发送多个请求</td>
+</tr>
+</tbody></table>
+<p>这些特性和 MCP 的需求很契合。</p>
+<h3 id="JSON-RPC-也不是万能的"><a href="#JSON-RPC-也不是万能的" class="headerlink" title="JSON-RPC 也不是万能的"></a>JSON-RPC 也不是万能的</h3><p>JSON-RPC 只解决消息格式，不解决所有工程问题。</p>
+<p>它不包含：</p>
+<ol>
+<li>鉴权机制。</li>
+<li>传输层细节。</li>
+<li>类型系统。</li>
+<li>服务发现。</li>
+<li>限流熔断。</li>
+<li>链路追踪。</li>
+</ol>
+<p>所以企业级 MCP 服务仍然要自己补齐安全、稳定性和可观测性。</p>
+<h3 id="MCP、HTTP、JSON-RPC-的关系"><a href="#MCP、HTTP、JSON-RPC-的关系" class="headerlink" title="MCP、HTTP、JSON-RPC 的关系"></a>MCP、HTTP、JSON-RPC 的关系</h3><p>可以用一层一层的方式理解：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">业务能力层：Tools / Resources / Prompts</span><br><span class="line">协议消息层：JSON-RPC 2.0</span><br><span class="line">传输层：Stdio / SSE / Streamable HTTP</span><br><span class="line">网络层：HTTP / 进程管道等</span><br></pre></td></tr></table></figure>
+
+<p>这也是为什么说“MCP 不直接使用 HTTP 或 gRPC”，更准确地说是：MCP 选择 JSON-RPC 作为调用消息协议，HTTP 只是可选传输方式之一。</p>
+<h2 id="复习抓手"><a href="#复习抓手" class="headerlink" title="复习抓手"></a>复习抓手</h2><p>这篇可以记住：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">HTTP 负责传输，JSON-RPC 负责调用语义，MCP 负责定义 AI 工具上下文能力。</span><br></pre></td></tr></table></figure>
+
+<p>面试回答可以这样说：</p>
+<blockquote>
+<p>MCP 没有直接把 HTTP 当成调用协议，因为 HTTP 只规定传输，不规定 RPC 方法、请求 ID、通知、错误对象等调用语义。gRPC 虽然是完整 RPC 框架，但对 MCP 这种需要轻量、多语言、易调试、传输无关的协议来说偏重。JSON-RPC 2.0 用 JSON 定义 Request、Response、Notification、Error，简单可读、容易实现，还能运行在 Stdio、SSE、Streamable HTTP 等不同传输上，所以更适合作为 MCP 的消息协议。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Ragent</category>
+      </categories>
+      <tags>
+        <tag>Ragent</tag>
+        <tag>学习笔记</tag>
+        <tag>MCP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ragent学习笔记24：工具调用架构设计指南</title>
+    <url>/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B024-%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E6%8C%87%E5%8D%97/</url>
+    <content><![CDATA[<h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》——工具调用架构设计指南</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》——工具调用架构设计指南.html</code></li>
+</ul>
+<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>工具调用不是“把接口丢给模型”这么简单。工具定义得不好，模型就会选错工具、传错参数，甚至把本不该执行的操作执行掉。</p>
+<p>一个好的工具设计要让模型做到三件事：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">知道什么时候该用这个工具；</span><br><span class="line">知道需要哪些参数；</span><br><span class="line">知道工具返回结果该怎么理解。</span><br></pre></td></tr></table></figure>
+
+<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
+<thead>
+<tr>
+<th>设计点</th>
+<th>目标</th>
+<th>重点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单一职责</td>
+<td>一个工具只做一件事</td>
+<td>避免大而全工具</td>
+</tr>
+<tr>
+<td>参数最小化</td>
+<td>只暴露必要参数</td>
+<td>降低模型填参难度</td>
+</tr>
+<tr>
+<td>幂等性</td>
+<td>重复调用不造成严重副作用</td>
+<td>查询类天然幂等，写操作要谨慎</td>
+</tr>
+<tr>
+<td>结构化返回</td>
+<td>方便模型理解结果</td>
+<td>不要只返回一大段混乱文本</td>
+</tr>
+<tr>
+<td>清晰描述</td>
+<td>帮助模型选择工具</td>
+<td>描述要说明适用场景和边界</td>
+</tr>
+<tr>
+<td>错误规范</td>
+<td>失败也要可理解</td>
+<td>返回错误码和可读原因</td>
+</tr>
+</tbody></table>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="单一职责原则"><a href="#单一职责原则" class="headerlink" title="单一职责原则"></a>单一职责原则</h3><p>工具越大，模型越难正确使用。</p>
+<p>不推荐：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">orderTool：既能查订单，又能取消订单，还能修改地址。</span><br></pre></td></tr></table></figure>
+
+<p>更推荐：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">getOrderStatus</span><br><span class="line">cancelOrder</span><br><span class="line">updateOrderAddress</span><br></pre></td></tr></table></figure>
+
+<p>这样模型更容易根据用户意图选择工具，也方便权限控制和审计。</p>
+<h3 id="参数最小化原则"><a href="#参数最小化原则" class="headerlink" title="参数最小化原则"></a>参数最小化原则</h3><p>工具参数越多，模型填错的概率越高。</p>
+<p>设计参数时要问：</p>
+<ol>
+<li>这个参数是否必须由用户提供？</li>
+<li>能不能从上下文或登录态里拿到？</li>
+<li>能不能设置默认值？</li>
+<li>参数命名是否和业务含义一致？</li>
+</ol>
+<p>比如查询当前用户年假余额，不一定需要模型传 <code>userId</code>，后端可以从登录态获取。</p>
+<h3 id="幂等性原则"><a href="#幂等性原则" class="headerlink" title="幂等性原则"></a>幂等性原则</h3><p>查询类工具通常没有副作用，重复调用问题不大。</p>
+<p>但写操作要特别小心：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">创建订单</span><br><span class="line">提交退款申请</span><br><span class="line">发送邮件</span><br><span class="line">删除数据</span><br></pre></td></tr></table></figure>
+
+<p>这类工具要考虑幂等键、二次确认、权限校验和审计日志。</p>
+<h3 id="工具描述怎么写"><a href="#工具描述怎么写" class="headerlink" title="工具描述怎么写"></a>工具描述怎么写</h3><p>工具描述要告诉模型：</p>
+<table>
+<thead>
+<tr>
+<th>内容</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>工具做什么</td>
+<td>查询指定订单的物流状态</td>
+</tr>
+<tr>
+<td>什么时候用</td>
+<td>当用户询问具体订单配送进度时使用</td>
+</tr>
+<tr>
+<td>不适用场景</td>
+<td>不用于解释发货规则</td>
+</tr>
+<tr>
+<td>必要参数</td>
+<td>订单号</td>
+</tr>
+<tr>
+<td>返回内容</td>
+<td>当前状态、物流公司、更新时间</td>
+</tr>
+</tbody></table>
+<p>描述不能太含糊，比如“订单工具”这种描述对模型帮助不大。</p>
+<h3 id="多工具场景要避免歧义"><a href="#多工具场景要避免歧义" class="headerlink" title="多工具场景要避免歧义"></a>多工具场景要避免歧义</h3><p>如果有多个相似工具，要在描述里明确边界。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">getReturnPolicy：查询退货规则，回答制度类问题。</span><br><span class="line">getReturnStatus：查询某个退货申请的处理状态，需要退货单号。</span><br></pre></td></tr></table></figure>
+
+<p>这样模型遇到“我这个退货到哪了”时，更容易选择状态查询工具，而不是政策工具。</p>
+<h3 id="参数设计"><a href="#参数设计" class="headerlink" title="参数设计"></a>参数设计</h3><p>参数设计要尽量结构化：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;orderNo&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;订单号&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>常见原则：</p>
+<ol>
+<li>必填参数必须清晰。</li>
+<li>可选参数要有默认含义。</li>
+<li>枚举值要列全。</li>
+<li>时间参数要说明格式。</li>
+<li>参数名不要过度缩写。</li>
+</ol>
+<h3 id="返回值格式"><a href="#返回值格式" class="headerlink" title="返回值格式"></a>返回值格式</h3><p>工具返回值应该让模型能直接理解。</p>
+<p>推荐结构：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;success&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;data&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="string">&quot;已发货&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;carrier&quot;</span><span class="punctuation">:</span> <span class="string">&quot;顺丰&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;updatedAt&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2026-07-08 10:00:00&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="string">&quot;查询成功&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>失败时也要结构化：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;success&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;errorCode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ORDER_NOT_FOUND&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="string">&quot;未查询到该订单&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>不要只返回“失败了”，否则模型不知道该追问、拒答还是换工具。</p>
+<h3 id="工具调用和-RAG-的关系"><a href="#工具调用和-RAG-的关系" class="headerlink" title="工具调用和 RAG 的关系"></a>工具调用和 RAG 的关系</h3><p>RAG 适合回答知识库里的稳定知识，工具适合处理实时数据和外部动作。</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">问规则：走 RAG</span><br><span class="line">查状态：走工具</span><br><span class="line">规则 + 状态：RAG + 工具融合</span><br></pre></td></tr></table></figure>
+
+<p>Agentic RAG 的关键就在于：检索和工具不是互斥的，而是可以组合到最终 Prompt 里。</p>
+<h2 id="复习抓手"><a href="#复习抓手" class="headerlink" title="复习抓手"></a>复习抓手</h2><p>这篇重点记住：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">工具不是接口裸露，而是给模型设计的可理解、可选择、可校验的能力单元。</span><br></pre></td></tr></table></figure>
+
+<p>面试回答可以这样说：</p>
+<blockquote>
+<p>工具调用设计要遵循单一职责、参数最小化、幂等性和结构化返回原则。工具描述要明确适用场景、边界和必要参数，避免多个工具之间语义重叠。返回值要包含 success、data、errorCode、message 等结构，方便模型理解执行结果。对于写操作，还要做权限校验、幂等控制、二次确认和审计日志，避免模型误调用造成副作用。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Ragent</category>
+      </categories>
+      <tags>
+        <tag>Ragent</tag>
+        <tag>学习笔记</tag>
+        <tag>MCP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ragent学习笔记25：工具调用稳定性与安全保障</title>
+    <url>/blog/2026/07/08/Ragent%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B025-%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8%E7%A8%B3%E5%AE%9A%E6%80%A7%E4%B8%8E%E5%AE%89%E5%85%A8%E4%BF%9D%E9%9A%9C/</url>
+    <content><![CDATA[<h2 id="今日学习材料"><a href="#今日学习材料" class="headerlink" title="今日学习材料"></a>今日学习材料</h2><ul>
+<li>《AI大模型Ragent项目》——工具调用稳定性与安全保障</li>
+<li>本地文档路径：<code>C:\Users\ASUS\Desktop\项目代码\ragent\文档\《AI大模型Ragent项目》——工具调用稳定性与安全保障.html</code></li>
+</ul>
+<h2 id="学习导览"><a href="#学习导览" class="headerlink" title="学习导览"></a>学习导览</h2><p>工具调用让 Agent 能连接外部系统，但也把风险带进来了。</p>
+<p>如果工具没有稳定性保护，外部接口慢了会拖垮整个问答链路；如果没有安全边界，模型可能在错误参数、越权场景或提示注入影响下调用高风险操作。</p>
+<p>所以工具调用要同时考虑两件事：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">稳定性：调用失败、超时、下游异常时系统怎么活下来。</span><br><span class="line">安全性：哪些工具能被谁调用，参数是否合法，结果是否可审计。</span><br></pre></td></tr></table></figure>
+
+<h2 id="知识速览"><a href="#知识速览" class="headerlink" title="知识速览"></a>知识速览</h2><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>机制</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>超时</td>
+<td>每个工具设置最大等待时间</td>
+<td>防止长时间阻塞</td>
+</tr>
+<tr>
+<td>重试</td>
+<td>对短暂故障重新调用</td>
+<td>提升瞬时故障成功率</td>
+</tr>
+<tr>
+<td>降级</td>
+<td>工具不可用时返回替代结果</td>
+<td>保证用户体验</td>
+</tr>
+<tr>
+<td>熔断</td>
+<td>下游持续失败时暂时停止调用</td>
+<td>防止故障扩散</td>
+</tr>
+<tr>
+<td>权限控制</td>
+<td>用户&#x2F;角色&#x2F;工具级授权</td>
+<td>防止越权调用</td>
+</tr>
+<tr>
+<td>参数校验</td>
+<td>类型、范围、格式校验</td>
+<td>防止错误参数和注入</td>
+</tr>
+<tr>
+<td>脱敏</td>
+<td>隐藏敏感字段</td>
+<td>防止隐私泄露</td>
+</tr>
+<tr>
+<td>审计日志</td>
+<td>记录谁在何时调了什么</td>
+<td>方便追踪和追责</td>
+</tr>
+</tbody></table>
+<h2 id="稳定性与安全图"><a href="#稳定性与安全图" class="headerlink" title="稳定性与安全图"></a>稳定性与安全图</h2><p><img src="/blog/img/ragent-note-25-tool-stability.png" alt="工具调用稳定性与安全保障"></p>
+<h2 id="详细笔记"><a href="#详细笔记" class="headerlink" title="详细笔记"></a>详细笔记</h2><h3 id="超时控制"><a href="#超时控制" class="headerlink" title="超时控制"></a>超时控制</h3><p>工具调用不能无限等待。每个工具都应该配置超时时间。</p>
+<p>不同工具可以有不同超时：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">缓存查询：几十毫秒到几百毫秒</span><br><span class="line">数据库查询：几百毫秒到几秒</span><br><span class="line">外部 API：几秒</span><br><span class="line">复杂任务：异步化处理</span><br></pre></td></tr></table></figure>
+
+<p>超时后要给模型一个明确结果，而不是让链路卡死。</p>
+<h3 id="重试策略"><a href="#重试策略" class="headerlink" title="重试策略"></a>重试策略</h3><p>重试适合短暂故障，比如网络抖动、连接重置、临时限流。</p>
+<p>但不是所有操作都能重试：</p>
+<table>
+<thead>
+<tr>
+<th>工具类型</th>
+<th>是否适合重试</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查询类</td>
+<td>适合</td>
+<td>通常无副作用</td>
+</tr>
+<tr>
+<td>创建类</td>
+<td>谨慎</td>
+<td>可能重复创建</td>
+</tr>
+<tr>
+<td>支付&#x2F;退款类</td>
+<td>非常谨慎</td>
+<td>必须有幂等控制</td>
+</tr>
+<tr>
+<td>删除类</td>
+<td>不建议盲目重试</td>
+<td>风险高</td>
+</tr>
+</tbody></table>
+<p>写操作如果要重试，必须配合幂等键。</p>
+<h3 id="降级策略"><a href="#降级策略" class="headerlink" title="降级策略"></a>降级策略</h3><p>工具不可用时，系统不一定要直接失败。</p>
+<p>可以选择：</p>
+<ol>
+<li>返回“当前无法查询实时状态”。</li>
+<li>改用缓存结果。</li>
+<li>引导用户稍后再试。</li>
+<li>对非核心工具跳过调用。</li>
+</ol>
+<p>降级的目标是让系统可用性更高，但不能用编造结果替代真实工具结果。</p>
+<h3 id="熔断机制"><a href="#熔断机制" class="headerlink" title="熔断机制"></a>熔断机制</h3><p>当某个工具连续失败或响应极慢时，可以暂时熔断，避免每个请求都继续打到故障下游。</p>
+<p>熔断一般包括三种状态：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Closed：正常调用</span><br><span class="line">Open：熔断，直接失败或降级</span><br><span class="line">Half-Open：少量探测，判断是否恢复</span><br></pre></td></tr></table></figure>
+
+<p>这和大模型调度里的模型熔断思路类似。</p>
+<h3 id="权限控制"><a href="#权限控制" class="headerlink" title="权限控制"></a>权限控制</h3><p>不是所有用户都能调用所有工具。</p>
+<p>权限控制可以分几层：</p>
+<ol>
+<li>用户身份鉴权。</li>
+<li>角色权限控制。</li>
+<li>工具级白名单。</li>
+<li>参数级权限校验。</li>
+<li>高风险操作二次确认。</li>
+</ol>
+<p>比如普通员工可以查询自己的年假余额，但不能查询别人的薪资信息。</p>
+<h3 id="参数校验和防注入"><a href="#参数校验和防注入" class="headerlink" title="参数校验和防注入"></a>参数校验和防注入</h3><p>模型生成的参数不能直接信任。后端必须再次校验：</p>
+<table>
+<thead>
+<tr>
+<th>校验项</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>类型</td>
+<td><code>orderNo</code> 必须是字符串</td>
+</tr>
+<tr>
+<td>格式</td>
+<td>手机号、邮箱、日期格式</td>
+</tr>
+<tr>
+<td>范围</td>
+<td>金额不能为负数</td>
+</tr>
+<tr>
+<td>枚举</td>
+<td>状态只能是允许值</td>
+</tr>
+<tr>
+<td>权限</td>
+<td>用户只能操作自己的资源</td>
+</tr>
+</tbody></table>
+<p>如果工具会拼 SQL、调用 Shell 或生成 URL，更要防止注入风险。</p>
+<h3 id="敏感信息脱敏"><a href="#敏感信息脱敏" class="headerlink" title="敏感信息脱敏"></a>敏感信息脱敏</h3><p>工具返回结果可能包含手机号、身份证、邮箱、地址、Token 等敏感信息。</p>
+<p>返回给模型前要做脱敏：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">手机号：138****1234</span><br><span class="line">身份证：500***********1234</span><br><span class="line">邮箱：abc***@example.com</span><br></pre></td></tr></table></figure>
+
+<p>避免模型把敏感信息直接输出给无权限用户。</p>
+<h3 id="审计日志"><a href="#审计日志" class="headerlink" title="审计日志"></a>审计日志</h3><p>工具调用一定要记录审计日志：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>userId</td>
+<td>谁调用</td>
+</tr>
+<tr>
+<td>toolName</td>
+<td>调了哪个工具</td>
+</tr>
+<tr>
+<td>arguments</td>
+<td>参数，敏感字段脱敏</td>
+</tr>
+<tr>
+<td>resultStatus</td>
+<td>成功还是失败</td>
+</tr>
+<tr>
+<td>latency</td>
+<td>调用耗时</td>
+</tr>
+<tr>
+<td>traceId</td>
+<td>链路追踪 ID</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>调用时间</td>
+</tr>
+</tbody></table>
+<p>出了问题后，审计日志是定位和追责的基础。</p>
+<h3 id="监控与告警"><a href="#监控与告警" class="headerlink" title="监控与告警"></a>监控与告警</h3><p>工具调用要关注四类指标：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">调用量</span><br><span class="line">成功率</span><br><span class="line">延迟</span><br><span class="line">错误率</span><br></pre></td></tr></table></figure>
+
+<p>如果某个工具错误率突然升高，或者 P99 延迟变长，就要触发告警。</p>
+<h3 id="测试策略"><a href="#测试策略" class="headerlink" title="测试策略"></a>测试策略</h3><p>工具调用测试不能只测工具函数本身，还要测模型和工具的协作。</p>
+<table>
+<thead>
+<tr>
+<th>测试类型</th>
+<th>目标</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单元测试</td>
+<td>工具逻辑正确</td>
+</tr>
+<tr>
+<td>集成测试</td>
+<td>模型能选对工具、填对参数</td>
+</tr>
+<tr>
+<td>压力测试</td>
+<td>高并发下工具链路稳定</td>
+</tr>
+<tr>
+<td>安全测试</td>
+<td>越权、注入、敏感信息不泄露</td>
+</tr>
+<tr>
+<td>A&#x2F;B 测试</td>
+<td>新工具描述或参数设计是否更好</td>
+</tr>
+</tbody></table>
+<h2 id="复习抓手"><a href="#复习抓手" class="headerlink" title="复习抓手"></a>复习抓手</h2><p>这篇可以记成一句话：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">工具调用能力越强，越需要稳定性、安全和审计来兜底。</span><br></pre></td></tr></table></figure>
+
+<p>面试回答可以这样说：</p>
+<blockquote>
+<p>Agent 工具调用要同时做稳定性和安全保障。稳定性方面需要超时、重试、降级、熔断，避免外部工具故障拖垮主链路；安全方面要做权限控制、参数校验、防注入、敏感信息脱敏和审计日志。生产环境还要监控调用量、成功率、延迟和错误率，并通过单元测试、集成测试、压力测试和安全测试验证工具质量。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Ragent</category>
+      </categories>
+      <tags>
+        <tag>Ragent</tag>
+        <tag>学习笔记</tag>
+        <tag>MCP</tag>
       </tags>
   </entry>
 </search>
