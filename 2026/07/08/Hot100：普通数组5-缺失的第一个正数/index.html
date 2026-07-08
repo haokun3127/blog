@@ -1,0 +1,231 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hot100：普通数组5-缺失的第一个正数 | 好困的博客</title><meta name="author" content="好困3127"><meta name="copyright" content="好困3127"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="LeetCode Hot100 系列：缺失的第一个正数复习笔记，重点理解值放回对应下标、&#96;i&#96;、&#96;n&#96;和常见易错点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hot100：普通数组5-缺失的第一个正数">
+<meta property="og:url" content="https://haokun3127.github.io/blog/2026/07/08/Hot100%EF%BC%9A%E6%99%AE%E9%80%9A%E6%95%B0%E7%BB%845-%E7%BC%BA%E5%A4%B1%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A3%E6%95%B0/index.html">
+<meta property="og:site_name" content="好困的博客">
+<meta property="og:description" content="LeetCode Hot100 系列：缺失的第一个正数复习笔记，重点理解值放回对应下标、&#96;i&#96;、&#96;n&#96;和常见易错点。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.com/haokun3127.png">
+<meta property="article:published_time" content="2026-07-08T01:17:00.000Z">
+<meta property="article:modified_time" content="2026-07-08T05:02:21.363Z">
+<meta property="article:author" content="好困3127">
+<meta property="article:tag" content="LeetCode">
+<meta property="article:tag" content="Hot100">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="普通数组">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/haokun3127.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Hot100：普通数组5-缺失的第一个正数",
+  "url": "https://haokun3127.github.io/blog/2026/07/08/Hot100%EF%BC%9A%E6%99%AE%E9%80%9A%E6%95%B0%E7%BB%845-%E7%BC%BA%E5%A4%B1%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A3%E6%95%B0/",
+  "image": "https://github.com/haokun3127.png",
+  "datePublished": "2026-07-08T01:17:00.000Z",
+  "dateModified": "2026-07-08T05:02:21.363Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "好困3127",
+      "url": "https://haokun3127.github.io/blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/blog/img/favicon.svg"><link rel="canonical" href="https://haokun3127.github.io/blog/2026/07/08/Hot100%EF%BC%9A%E6%99%AE%E9%80%9A%E6%95%B0%E7%BB%845-%E7%BC%BA%E5%A4%B1%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A3%E6%95%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/blog/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0f172a')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/blog/',
+  algolia: undefined,
+  localSearch: {"path":"/blog/search.xml","preload":true,"top_n_per_article":2,"unescape":false,"pagination":{"enable":true,"hitsPerPage":10},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hot100：普通数组5-缺失的第一个正数',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/blog/css/custom-learning-ui.css"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/blog/atom.xml" title="好困的博客" type="application/atom+xml">
+</head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+btf.addGlobalFn('pjaxSend', () => {
+  Pace.restart()
+}, 'pace_restart')
+
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">133</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">65</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/"><i class="fa-fw fas fa-route"></i><span> 学习计划</span></a></div><div class="menus_item"><a class="site-page" href="/blog/ragent/"><i class="fa-fw fas fa-book-open"></i><span> Ragent笔记</span></a></div><div class="menus_item"><a class="site-page" href="/blog/hot100/"><i class="fa-fw fas fa-code"></i><span> Hot100</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/blog/"><span class="site-name">好困的博客</span></a><a class="nav-page-title" href="/blog/"><span class="site-name">Hot100：普通数组5-缺失的第一个正数</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/2025/10/13/Agent%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92-%E8%BF%9B%E5%BA%A6/"><i class="fa-fw fas fa-route"></i><span> 学习计划</span></a></div><div class="menus_item"><a class="site-page" href="/blog/ragent/"><i class="fa-fw fas fa-book-open"></i><span> Ragent笔记</span></a></div><div class="menus_item"><a class="site-page" href="/blog/hot100/"><i class="fa-fw fas fa-code"></i><span> Hot100</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/blog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/blog/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/blog/about/"><i class="fa-fw fas fa-user-circle"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Hot100：普通数组5-缺失的第一个正数</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-07-08T01:17:00.000Z" title="发表于 2026-07-08 09:17:00">2026-07-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-07-08T05:02:21.363Z" title="更新于 2026-07-08 13:02:21">2026-07-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/blog/categories/%E7%AE%97%E6%B3%95/">算法</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个未排序的整数数组 <code>nums</code>，请你找出其中没有出现的最小的正整数。</p>
+<p>参考入口：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/first-missing-positive/">力扣题目：41. 缺失的第一个正数</a></li>
+</ul>
+<h2 id="复习导览"><a href="#复习导览" class="headerlink" title="复习导览"></a>复习导览</h2><p>这道题要抓住一句话：<strong>如果数组长度是 <code>n</code>，那真正可能影响答案的只有 <code>1 ~ n</code>，并且值 <code>x</code> 最理想的位置是下标 <code>x - 1</code>。</strong></p>
+<table>
+<thead>
+<tr>
+<th>复习点</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>题型</td>
+<td>原地哈希</td>
+</tr>
+<tr>
+<td>推荐解法</td>
+<td>值放回对应下标</td>
+</tr>
+<tr>
+<td>关键变量</td>
+<td><code>i</code>、<code>n</code></td>
+</tr>
+<tr>
+<td>时间复杂度</td>
+<td><code>O(n)</code></td>
+</tr>
+<tr>
+<td>空间复杂度</td>
+<td><code>O(1)</code></td>
+</tr>
+<tr>
+<td>最容易错的点</td>
+<td>交换时一定要用 <code>while</code>，因为一次交换后当前位置可能还是不对。</td>
+</tr>
+</tbody></table>
+<h2 id="破题思路"><a href="#破题思路" class="headerlink" title="破题思路"></a>破题思路</h2><p>把值尽量放回它应该在的位置上：<code>1</code> 放到下标 <code>0</code>，<code>2</code> 放到下标 <code>1</code>，以此类推。经过原地交换后，第一次发现 <code>nums[i] != i + 1</code> 的位置，说明缺的就是 <code>i + 1</code>；如果都匹配，答案就是 <code>n + 1</code>。</p>
+<h3 id="核心流程"><a href="#核心流程" class="headerlink" title="核心流程"></a>核心流程</h3><ol>
+<li>遍历数组，尝试把每个值 <code>x</code> 放到下标 <code>x - 1</code> 上。</li>
+<li>只有 <code>1 &lt;= x &lt;= n</code> 时，它才值得被放回正确位置。</li>
+<li>如果目标位置上已经是同样的值，就停止交换，避免死循环。</li>
+<li>完成重排后，再从左到右检查第一个 <code>nums[i] != i + 1</code> 的位置。</li>
+<li>如果所有位置都匹配，说明 <code>1 ~ n</code> 都出现过，答案是 <code>n + 1</code>。</li>
+</ol>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">firstMissingPositive</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">while</span> (nums[i] &gt;= <span class="number">1</span> &amp;&amp; nums[i] &lt;= n &amp;&amp; nums[nums[i] - <span class="number">1</span>] != nums[i]) &#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> nums[i];</span><br><span class="line">                nums[i] = nums[temp - <span class="number">1</span>];</span><br><span class="line">                nums[temp - <span class="number">1</span>] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] != i + <span class="number">1</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> i + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> n + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><ul>
+<li>时间复杂度：<code>O(n)</code>。</li>
+<li>空间复杂度：<code>O(1)</code>。</li>
+</ul>
+<h2 id="易错点"><a href="#易错点" class="headerlink" title="易错点"></a>易错点</h2><ul>
+<li>交换时一定要用 <code>while</code>，因为一次交换后当前位置可能还是不对。</li>
+<li>条件里要加上 <code>nums[nums[i] - 1] != nums[i]</code>，否则重复数字会造成死循环。</li>
+</ul>
+<h2 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h2><p>缺失的第一个正数的核心不是死记代码，而是先抓住“如果数组长度是 n，那真正可能影响答案的只有 1 ~ n，并且值 x 最理想的位置是下标 x - 1。”这条主线，再把模板写稳。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog">好困3127</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://haokun3127.github.io/blog/2026/07/08/Hot100%EF%BC%9A%E6%99%AE%E9%80%9A%E6%95%B0%E7%BB%845-%E7%BC%BA%E5%A4%B1%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A3%E6%95%B0/">https://haokun3127.github.io/blog/2026/07/08/Hot100%EF%BC%9A%E6%99%AE%E9%80%9A%E6%95%B0%E7%BB%845-%E7%BC%BA%E5%A4%B1%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A3%E6%95%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://haokun3127.github.io/blog" target="_blank">好困的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/blog/tags/LeetCode/">LeetCode</a><a class="post-meta__tags" href="/blog/tags/Hot100/">Hot100</a><a class="post-meta__tags" href="/blog/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/blog/tags/%E6%99%AE%E9%80%9A%E6%95%B0%E7%BB%84/">普通数组</a></div><div class="post-share"><div class="social-share" data-image="https://github.com/haokun3127.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/blog/2026/07/08/Hot100%EF%BC%9A%E7%9F%A9%E9%98%B51-%E7%9F%A9%E9%98%B5%E7%BD%AE%E9%9B%B6/" title="Hot100：矩阵1-矩阵置零"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Hot100：矩阵1-矩阵置零</div></div><div class="info-2"><div class="info-item-1">LeetCode Hot100 系列：矩阵置零复习笔记，重点理解借第一行和第一列做标记、`firstRowZero`、`firstColZero`和常见易错点。</div></div></div></a><a class="pagination-related" href="/blog/2026/07/08/Hot100%EF%BC%9A%E6%99%AE%E9%80%9A%E6%95%B0%E7%BB%844-%E9%99%A4%E4%BA%86%E8%87%AA%E8%BA%AB%E4%BB%A5%E5%A4%96%E6%95%B0%E7%BB%84%E7%9A%84%E4%B9%98%E7%A7%AF/" title="Hot100：普通数组4-除了自身以外数组的乘积"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Hot100：普通数组4-除了自身以外数组的乘积</div></div><div class="info-2"><div class="info-item-1">LeetCode Hot100 系列：除了自身以外数组的乘积复习笔记，重点理解答案数组压缩辅助空间、`ans`、`prefix`、`suffix`和常见易错点。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/blog/2026/07/08/Hot100%EF%BC%9A%E6%99%AE%E9%80%9A%E6%95%B0%E7%BB%841-%E6%9C%80%E5%A4%A7%E5%AD%90%E6%95%B0%E7%BB%84%E5%92%8C/" title="Hot100：普通数组1-最大子数组和"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-08</div><div class="info-item-2">Hot100：普通数组1-最大子数组和</div></div><div class="info-2"><div class="info-item-1">LeetCode Hot100 系列：最大子数组和复习笔记，重点理解Kadane 算法、`current`、`ans`和常见易错点。</div></div></div></a><a class="pagination-related" href="/blog/2026/07/08/Hot100%EF%BC%9A%E6%99%AE%E9%80%9A%E6%95%B0%E7%BB%843-%E8%BD%AE%E8%BD%AC%E6%95%B0%E7%BB%84/" title="Hot100：普通数组3-轮转数组"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-08</div><div class="info-item-2">Hot100：普通数组3-轮转数组</div></div><div class="info-2"><div class="info-item-1">LeetCode Hot100 系列：轮转数组复习笔记，重点理解三次反转、`n`、`k`和常见易错点。</div></div></div></a><a class="pagination-related" href="/blog/2026/07/08/Hot100%EF%BC%9A%E6%99%AE%E9%80%9A%E6%95%B0%E7%BB%842-%E5%90%88%E5%B9%B6%E5%8C%BA%E9%97%B4/" title="Hot100：普通数组2-合并区间"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-08</div><div class="info-item-2">Hot100：普通数组2-合并区间</div></div><div class="info-2"><div class="info-item-1">LeetCode Hot100 系列：合并区间复习笔记，重点理解排序后线性合并、`intervals`、`list`、`current`和常见易错点。</div></div></div></a><a class="pagination-related" href="/blog/2026/07/08/Hot100%EF%BC%9A%E6%99%AE%E9%80%9A%E6%95%B0%E7%BB%844-%E9%99%A4%E4%BA%86%E8%87%AA%E8%BA%AB%E4%BB%A5%E5%A4%96%E6%95%B0%E7%BB%84%E7%9A%84%E4%B9%98%E7%A7%AF/" title="Hot100：普通数组4-除了自身以外数组的乘积"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-08</div><div class="info-item-2">Hot100：普通数组4-除了自身以外数组的乘积</div></div><div class="info-2"><div class="info-item-1">LeetCode Hot100 系列：除了自身以外数组的乘积复习笔记，重点理解答案数组压缩辅助空间、`ans`、`prefix`、`suffix`和常见易错点。</div></div></div></a><a class="pagination-related" href="/blog/2025/10/30/Hot100%EF%BC%9A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE1-%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE/" title="Hot100：二分查找1-搜索插入位置"><img class="cover" src="/blog/img/blog-cover-hot100-binary-search.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-30</div><div class="info-item-2">Hot100：二分查找1-搜索插入位置</div></div><div class="info-2"><div class="info-item-1">LeetCode Hot100 系列：搜索插入位置的二分查找复习</div></div></div></a><a class="pagination-related" href="/blog/2025/10/20/Hot100%EF%BC%9A%E5%93%88%E5%B8%8C1-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" title="Hot100：哈希1-两数之和"><img class="cover" src="/blog/img/blog-cover-hot100-two-sum.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-20</div><div class="info-item-2">Hot100：哈希1-两数之和</div></div><div class="info-2"><div class="info-item-1">LeetCode Hot100 系列 - 两数之和问题的哈希表解法复习</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://github.com/haokun3127.png" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">好困3127</div><div class="author-info-description">Java 后端 · Agent/RAG · 算法复盘</div><div class="site-data"><a href="/blog/archives/"><div class="headline">文章</div><div class="length-num">133</div></a><a href="/blog/tags/"><div class="headline">标签</div><div class="length-num">65</div></a><a href="/blog/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/haokun3127"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/haokun3127" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1039746386@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=1039746386" target="_blank" title="QQ"><i class="fab fa-qq" style="color: #12B7F5;"></i></a><a class="social-icon" href="/blog/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #ee802f;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这里主要放 Ragent 学习笔记、Agent 开发计划和算法复盘。右侧入口按主线和专题回看，搜索适合查具体知识点。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E4%B9%A0%E5%AF%BC%E8%A7%88"><span class="toc-number">2.</span> <span class="toc-text">复习导览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A0%B4%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="toc-number">3.</span> <span class="toc-text">破题思路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%B5%81%E7%A8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">核心流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="toc-number">5.</span> <span class="toc-text">复杂度分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%93%E9%94%99%E7%82%B9"><span class="toc-number">6.</span> <span class="toc-text">易错点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">一句话总结</span></a></li></ol></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 好困3127</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/blog/js/utils.js?v=5.5.1"></script><script src="/blog/js/main.js?v=5.5.1"></script><div class="js-pjax"></div><script src="/blog/js/learning-hub.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章、标签或关键词" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/blog/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>
